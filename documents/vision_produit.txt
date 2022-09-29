@@ -1,24 +1,33 @@
-Vision du produit :
+Vision du produit : (non exhaustive)
 
 L’objectif de ce projet est la réalisation d’un jeu de type RPG mono-utilisateur avec une interface graphique.
 Le jeu consiste à déplacer un personnage dans un labyrinthe. Ce personnage aura à découvrir un trésor en évitant des ennemis.
 Ces ennemis seront des monstres de différents types qui essayent d’attaquer le personnage.
 
-Le héros évolue au fil des niveaux grâce à l'acquisition d'armes ou d'expérience. Le but est 
+Le héros évoluera au fil des niveaux grâce à l'acquisition d'armes ou d'expérience.
+Le but est est de récupérer le trésor, puis de se diriger vers la porte de sortie.
+Le trésor agit comme une clé : sans lui impossible de sortir.
 
 La difficulté est progressive selon les niveaux mais il sera possible de choisir une difficulté au départ.
-
+La difficulté résidera dans les différents monstres qui attaquerons le héros.
+Pour équilibrer, ce dernier aura la possibilité de récupérer des armes. Elle pourront être de type simple ou à distance (exemple : arc)
 La fin du jeu dépend de la vie du joueur ou de sa réussite (nombre de niveaux défini).
 
+Le produit devrait avoir au moins ces fonctionnalités :
 
 I/ Héros
-1) Le héros est placé sur le plateau de jeu et peu s’y déplacer à l’intérieur.
+1) Le héros est placé sur le plateau de jeu et peu s’y déplacer à l’intérieur via les touches du clavier
+2) Le héros aura un petit inventaire et pourra utiliser des items (placés sur certaines cases)
+  a) Armes de proximité (armes simples)
+  b) Armes de distance (exemple : arc)
+  c) Eventuellement des potions de soin pour récupérer des points de vie
 
 II/ Labyrinthe
-1) Le labyrinthe est généré par défaut - le héros et les monstres ne peuvent pas traverser les murs.
-2) Le labyrinthe est généré à partir d’un fichier.
-3) Le labyrinthe est généré en fonction du niveau sélectionné.
-4) Certains cases du labyrinthe sont spéciales :
+1) Génération du labyrinthe :
+  a) Le labyrinthe est généré par défaut - le héros et les monstres ne peuvent pas traverser les murs.
+  b) Le labyrinthe est généré à partir d’un fichier.
+  c) Le labyrinthe est généré en fonction du niveau sélectionné.
+2) Certains cases du labyrinthe sont spéciales :
 • trésor : si le héros arrive sur la case il a gagné le jeu
 • pièges : quand un personnage arrive sur la case il subit des dégâts
 • magiques : si un personnage arrive sur la case un effet est déclenché
@@ -26,12 +35,13 @@ II/ Labyrinthe
 
 III/ Monstres
 1) Des monstres sont placés de manière aléatoire dans le labyrinthe.
-2) Les monstres se déplacent de manière aléatoire.
-3) Les monstres se déplacent de manière intelligente en essayant d’attraper le héros.
-4) Les fantômes sont des monstres qui peuvent traverser les murs.
+2) Déplacement des monstres :
+  a) Les monstres se déplacent de manière aléatoire.
+  b) Les monstres se déplacent de manière intelligente en essayant d’attraper le héros.
+3) Les fantômes sont des monstres qui peuvent traverser les murs.
 
 IV/ Attaques
 1) Le héros est tué au contact d’un monstre.
-2) Le héros peut attaquer les montres avec lequel il est en contact - les deux perdent
+2) Le héros peut attaquer les montres avec lequel il est en contact (armes simples) - les deux perdent
 des points de vie.
-3) Le héros peut attaquer les montres sur la case adjacente.s
+3) Le héros peut attaquer les montres sur les cases adjacentes (armes à distance)

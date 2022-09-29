@@ -1,4 +1,5 @@
-FONCTIONNALITE : Creation d'un labyrinthe par defaut
+1)
+FONCTIONNALITE : Création d'un labyrinthe par défaut
   - Initialisation du labyrinthe
   - Affichage en console
 
@@ -11,16 +12,17 @@ CRITERES DE VALIDATION :
 TESTS CORRESPONDANTS :
   - Bon format pour l'affichage
   - Initialisation des attributs (cases)
-  - Respect des dimensions donnees (carre)
+  - Respect des dimensions données (carré)
   - La case du milieu est vide
 
 RESPONSABLE :
   - Thomas RZEPKA
 
 TESTS :
-  - 
+  - Victor NOEL
 
 ---
+2)
 FONCTIONNALITE : Initialiser et deplacer un joueur
   - Le jeu construit un joueur
   - Commandes pour deplacer le joueur (commandes console)
@@ -47,8 +49,10 @@ RESPONSABLE :
   - Jérémy POIREL
 
 TESTS :
+  - Maxime RACOILLET
 
 ---
+3)
 FONCTIONNALITE : Collision avec les murs
   - Empêcher un joueur de se deplacer sur un mur
 
@@ -63,9 +67,10 @@ RESPONSABLE :
   - Maxime RACOILLET
 
 TESTS :
-  -
+  - Thomas RZEPKA
 
 ---
+4)
 FONCTIONNALITE : Gestion de la sortie
   - Lorsque le joueur passe sur la case de sortie, le niveau est complété
 
@@ -80,4 +85,4 @@ RESPONSABLE :
   - Victor NOEL
 
 TESTS :
-  -
+  - Jérémy POIREL

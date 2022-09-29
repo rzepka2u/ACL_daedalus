@@ -29,7 +29,7 @@ Planning détaillé
 
 Sprint 0 
   Objectifs: 
-    - mise en place git, build automatique du code 
+    - mise en place git OK, build automatique du code OK
     - donner la vision du produit final (l'objectif du produit et ce qui le rend différent) 
     - préparation du backlog 
     - réalisation d'une première version (éventuellement rudimentaire) du jeu 

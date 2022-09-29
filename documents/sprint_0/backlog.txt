@@ -1,0 +1,83 @@
+FONCTIONNALITE : Creation d'un labyrinthe par defaut
+  - Initialisation du labyrinthe
+  - Affichage en console
+
+CRITERES DE VALIDATION :
+  - Le labyrinthe s'affiche correctement dans la console
+  - Cases vides et de murs
+  - Respect des dimensions du labyrinthe
+
+
+TESTS CORRESPONDANTS :
+  - Bon format pour l'affichage
+  - Initialisation des attributs (cases)
+  - Respect des dimensions donnees (carre)
+  - La case du milieu est vide
+
+RESPONSABLE :
+  - Thomas RZEPKA
+
+TESTS :
+  - 
+
+---
+FONCTIONNALITE : Initialiser et deplacer un joueur
+  - Le jeu construit un joueur
+  - Commandes pour deplacer le joueur (commandes console)
+  - Modification des coordonnees
+
+CRITERES DE VALIDATION :
+  - Initialisation des coordonnees
+  - Affichage au centre du labyrinthe (a l'initialisation)
+  - Le joueur repond aux commandes (up, right, down, left)
+  - Le joueur change de coordonnees
+  - Affichage du joueur aux nouvelles coordonnees
+
+
+TESTS CORRESPONDANTS :
+  - Valeurs initiales du joueur
+  - Le joueur est bien au centre du labyrinthe
+  - Le joueur est bien sur une case vide
+  - Reactions aux commandes
+  - Les coordonnees ont bien ete modifiees apres une commande
+  - Raffraichissement de  l'affichage
+
+
+RESPONSABLE :
+  - Jérémy POIREL
+
+TESTS :
+
+---
+FONCTIONNALITE : Collision avec les murs
+  - Empêcher un joueur de se deplacer sur un mur
+
+CRITERES DE VALIDATION :
+  - Quand le joueur ne peut pas se deplacer sur un mur
+
+TESTS CORRESPONDANTS :
+  - Verifier que les coordonnees ne changent pas lorsqu'il se deplace sur un mur
+
+
+RESPONSABLE :
+  - Maxime RACOILLET
+
+TESTS :
+  -
+
+---
+FONCTIONNALITE : Gestion de la sortie
+  - Lorsque le joueur passe sur la case de sortie, le niveau est complété
+
+CRITERES DE VALIDATION :
+  - Quand le joueur marche sur la case de sortie, le niveau est complété
+
+TESTS CORRESPONDANTS :
+  - Verifier que lorsque le joueur marche sur la case de sortie, l'état du jeu est modifié
+
+
+RESPONSABLE :
+  - Victor NOEL
+
+TESTS :
+  -

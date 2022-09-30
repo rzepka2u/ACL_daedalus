@@ -1,0 +1,62 @@
+@startuml
+
+title Diagramme de Classe
+
+class Jeu {
++Jeu()
++deplacerJoueur(String direction) : void
++validerDeplacement(int px, int py): boolean
++getLabyrinthe() : Labyrinthe
++getJoueur() : Joueur
+}
+
+class Joueur {
+-x : int
+-y : int
++Joueur(int mx, int my)
++getX() : int
++getY() : int
++seDeplacer(int px, int py) : void
+
+}
+
+class Labyrinthe {
+-largeur : int
+-hauteur : int
++Labyrinthe()
++Labyrinthe(int largeur, int hauteur)
++initialiser() : void
++getCase(int x, int y) : Case
++getLargeur() : int
++getHauteur() : int
++getXMilieu() : int
++getYMilieu() : int
++ajouterMur(int px, int py) : void
++ajouterJoueur(Joueur j) : void
++ajouterSortie() : void
++terminerNiveau() : void
++toString() : String
+}
+
+interface Case {
++estTraversable() : boolean
+}
+
+class CaseVide implements Case {
++estTraversable() : boolean
+}
+
+class Mur implements Case {
++estTraversable() : boolean
+}
+
+class Sortie implements Case {
++estTraversable() : boolean
+}
+
+Jeu --> Labyrinthe : labyrinthe
+Jeu --> Joueur : joueur
+Labyrinthe --> Joueur : joueur
+Labyrinthe --> Case : cases
+
+@enduml

@@ -5,6 +5,15 @@ package model.cases;
  */
 public class CaseSortie implements Case {
 
+
+    /**
+    * Définit les cases sortie comme traversable
+    * @return un boolean toujours égal à true
+    */
+    public boolean estTraversable(){
+        return true;
+    }
+
     public String toString(){
         return "S";
     }

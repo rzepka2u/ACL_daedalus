@@ -5,6 +5,14 @@ package model.cases;
  */
 public class CaseMur implements Case {
 
+    /**
+    * Définit les cases mur comme non traversable
+    * @return un boolean toujours égal à false
+    */
+    public boolean estTraversable(){
+        return false;
+    }
+
     public String toString(){
         return "#";
     }

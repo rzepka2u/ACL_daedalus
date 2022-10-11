@@ -9,10 +9,19 @@ import model.objets.*;
 public class Jeu{
     
     private Labyrinthe labyrinthe; // Le labyrinthe en cours
-    private Joueur joueur; // Le joueur à l'intérieur du labyrinthe
+    private ArrayList<Entite> entites; // Liste des entites du jeu (dont le joueur)
 
     public Jeu(){
-        // TO DO
+        //Initialisation du labyrinthe via fichier texte 
+        try {
+			this.labyrinthe = new Labyrinthe("src/main/ressources/niveaux/niveau0.txt");
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+        //Initialisation de la liste des entités (dont fait partie le joueur)
+		this.entites = new ArrayList<Entite>();
+        //Initialisation du joueur au milieu de labyrinthe 
+		this.entites.add(new Joueur(this.labyrinthe.getXMilieu(), this.labyrinthe.getYMilieu()));
     }
 
     /**
@@ -21,8 +30,8 @@ public class Jeu{
     */
     public void deplacerJoueur(String direction){
         int px, py;
-        px = joueur.getX();
-        py = joueur.getY();
+        px = 0;
+        py = 0
 
         switch(direction){
             case "gauche":
@@ -38,9 +47,9 @@ public class Jeu{
                 py += 1;
                 break;
         }
-
+        //Si la la case sur laquelle veut aller le joueur est valide alors le déplacement est effectué
         if(validerDeplacement(px, py)){
-            // TO DO
+            joueur.seDeplacer(px, py);
         }
     }
 

@@ -64,7 +64,12 @@ public class Joueur {
      * @param py deplacement en y
      */
     public void seDeplacer(int px, int py) {
-      this.x += px;
-      this.y += py;
+      this.x = px;
+      this.y = py;
+    }
+
+    @Override
+    public String toString(){
+        return "J";
     }
 }

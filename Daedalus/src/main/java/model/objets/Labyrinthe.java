@@ -147,10 +147,14 @@ public class Labyrinthe {
      * @return case correspondante ou null si pas de case
      */
     public Case getCase(int x, int y) {
-        if ((x >= 0 && x <= this.hauteur) && (y >= 0 && y <= this.largeur)) {
-            return this.cases.get(y).get(x);
+        if ((x >= 0 && x <= this.largeur) && (y >= 0 && y <= this.hauteur)) {
+            return this.cases.get(x).get(y);
         }
         return null;
+    }
+
+    public ArrayList<ArrayList<Case>> getCases(){
+        return this.cases;
     }
 
     /**
@@ -195,6 +199,7 @@ public class Labyrinthe {
      *
      * @return labyrinthe sous forme de chaine de caracteres
      */
+    @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
 

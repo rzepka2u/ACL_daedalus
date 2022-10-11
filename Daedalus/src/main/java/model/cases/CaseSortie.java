@@ -14,6 +14,7 @@ public class CaseSortie implements Case {
         return true;
     }
 
+    @Override
     public String toString(){
         return "S";
     }

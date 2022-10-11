@@ -14,6 +14,7 @@ public class CaseVide implements Case {
         return true;
     }
 
+    @Override
     public String toString(){
         return ".";
     }

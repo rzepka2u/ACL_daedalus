@@ -1,5 +1,6 @@
 package model.objets;
 
+import java.io.IOException;
 import model.objets.*;
 
 /** 
@@ -9,7 +10,7 @@ import model.objets.*;
 public class Jeu{
     
     private Labyrinthe labyrinthe; // Le labyrinthe en cours
-    private ArrayList<Entite> entites; // Liste des entites du jeu (dont le joueur)
+    private Joueur joueur; // Liste des entites du jeu (dont le joueur)
 
     public Jeu(){
         //Initialisation du labyrinthe via fichier texte 
@@ -18,10 +19,8 @@ public class Jeu{
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-        //Initialisation de la liste des entités (dont fait partie le joueur)
-		this.entites = new ArrayList<Entite>();
-        //Initialisation du joueur au milieu de labyrinthe 
-		this.entites.add(new Joueur(this.labyrinthe.getXMilieu(), this.labyrinthe.getYMilieu()));
+        //Initialisation du joueur au centre du Labyrinthe 
+		this.joueur = new Joueur(this.labyrinthe.getXMilieu(), this.labyrinthe.getYMilieu());
     }
 
     /**
@@ -31,7 +30,7 @@ public class Jeu{
     public void deplacerJoueur(String direction){
         int px, py;
         px = 0;
-        py = 0
+        py = 0;
 
         switch(direction){
             case "gauche":

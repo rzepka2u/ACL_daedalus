@@ -3,7 +3,7 @@ Projet ACL Labyrinthe (RZEPKA Thomas, NOEL Victor, POIREL Jérémy, RACOILLET Ma
 
 Pour utiliser le jeu, vous devez:
 
-    1- Se placer dans le Daedalus avec votre terminal
+    1- Se placer dans le dossier Daedalus avec votre terminal
     2- Utiliser la commande mvn compile pour générer les fichiers .class
     3- Utiliser la commande mvn package pour générer l'archive du projet
 

@@ -38,7 +38,7 @@ public class Main {
 		Scanner scan = new Scanner(System.in);
 		Jeu jeu = new Jeu(args[0]);
 		String entree, direction;
-		boolean deplacement = true;
+		int deplacement = 0;
 
 
 		// BOUCLE DU JEU
@@ -47,7 +47,7 @@ public class Main {
 			System.out.println(jeu.toString()); // AFFICHAGE DE L'ETAT DU JEU
 
 			// SI LE PRECEDENT DEPLACEMENT ETAIT UNE COLISION, AFFICHAGE D'UN MESSAGE D'INFORMATIONS
-			if(!deplacement){
+			if(deplacement == 1){
 				System.out.println("Vous ne pouvez pas vous déplacer sur un mur!");
 			}
 			
@@ -70,6 +70,11 @@ public class Main {
 			// CLEAR DU TERMINAL
 			System.out.print("\033[H\033[2J");
 			System.out.flush();
+
+			if(deplacement == 2) {
+				System.out.println("Bravo, vous avez atteint la sortie !");
+				break;
+			}
 
 		}
 	}

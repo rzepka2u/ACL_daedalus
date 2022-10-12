@@ -3,6 +3,7 @@ package model.objets;
 import java.io.IOException;
 import model.objets.*;
 import model.cases.Case;
+import model.cases.CaseSortie;
 import java.util.ArrayList;
 
 /** 
@@ -30,8 +31,9 @@ public class Jeu{
     *   @param direction La direction dans laquelle on veut déplacer le joueur (gauche/droite/haut/bas)
     *   @return Un booléen qui indique si le déplacement a était effectuée ou non (si une collision est survenue ou pas)
     */
-    public boolean deplacerJoueur(String direction){
+    public int deplacerJoueur(String direction){
         int px, py;
+        int res = 1;
 
         // Récupération des coordonnées du joueur
         px = this.joueur.getX();
@@ -56,10 +58,11 @@ public class Jeu{
         //Si la la case sur laquelle veut aller le joueur est valide alors le déplacement est effectué
         if(validerDeplacement(px, py)){
             joueur.seDeplacer(px, py);
-            return true;
+            res = 0;
+            if (etreSurSortie(px,py)) res = 2;
         }
 
-        return false;
+        return res;
     }
 
     /**
@@ -72,7 +75,19 @@ public class Jeu{
         return labyrinthe.getCase(px,py).estTraversable();
     }
 
-    
+    /**
+     * Détermine si le joueur est sur la sortie ounon
+     * @param px la nouvelle position horizontale du joueur
+     * @param py la nouvelle position verticale du joueur
+     * @return un boolean à true si la case est la sortie, false sinon
+     */
+    public boolean etreSurSortie(int px, int py) {
+        // Récupération de la case sur laquelle sera le joueur après son déplacement
+        Case c = this.labyrinthe.getCase(px,py);
+        // true si c'est la sortie, false sinon
+        return c instanceof CaseSortie;
+    }
+
     @Override
     public String toString(){
 

@@ -31,7 +31,7 @@ public class Labyrinthe {
     /**
      * Constructeur par defaut du labyrinthe
      */
-    public Labyrinthe(String path) throws IOException {
+    public Labyrinthe(String path) {
         this.initialiserParFichier(path);
     }
 
@@ -83,33 +83,78 @@ public class Labyrinthe {
      * Initialise le labyrinthe selon un fichier
      * @param path Chemin vers le fichier de génération du labyrinthe
      */
-    public void initialiserParFichier(String path) throws IOException {
-        BufferedReader buffer = new BufferedReader(new FileReader(path));
+    public void initialiserParFichier(String path) {
+
         String fileLine = "";
 
         // definition des dimensions du labyrinthe
         int nbColonnes = 0;
         int nbLignes = 0;
 
-        while ((fileLine = buffer.readLine()) != null) {
-            nbColonnes = fileLine.length();
-            nbLignes++;
+        // Analyse de la taille du futur labyrinthe
+        try{
+            // Création d'un flux de caractère entrant provenant du fichier se trouvant au chemin path
+            FileReader fr = new FileReader(path);
+
+            // Création d'un tampon pour gérer ce flux et reduire le nombre d'opérations au niveau du système
+            BufferedReader buffer = new BufferedReader(fr);
+            
+            // Calcul du nombre de ligne et du nombre de colonne du futur labyrinthe en parcourant le fichier
+            while ((fileLine = buffer.readLine()) != null) {
+                if(nbColonnes == 0) { nbColonnes = fileLine.length(); }
+                nbLignes++;
+            }
+
+            // Fermeture du flux ainsi que du tampon
+            fr.close();
+            buffer.close();
+
+        } catch(FileNotFoundException e){
+
+            System.err.println("Impossible de trouver le fichier \""+path+"\".");
+            System.exit(-1);
+
+        } catch(IOException e){
+            System.err.println("Erreur lors de la lecture du fichier du labyrinthe: "+ e);
+            System.exit(-1);
         }
-        // initialisation du tableau de cases
+
+
+        // initialisation de la matrice de cases
         int[][] casesTemplate = new int[nbLignes][nbColonnes];
 
-        // lecture du contenu du fichier
-        buffer = new BufferedReader(new FileReader(path));
+        // Analyse du contenu réel du fichier (pas seulement les lignes et les colonnes)
+        try {
+            // Création d'un flux de caractère entrant provenant du fichier se trouvant au chemin path
+            FileReader fr = new FileReader(path);
 
-        // transposition de la lecture du fichier labyrinthe dans le tableau
-        int ligne = 0;
-        while ((fileLine = buffer.readLine()) != null) {
-            for (int colonne = 0; colonne < fileLine.length(); colonne++) {
-                casesTemplate[ligne][colonne] = Character.getNumericValue(fileLine.charAt(colonne));
+            // Création d'un tampon pour gérer ce flux et reduire le nombre d'opérations au niveau du système
+            BufferedReader buffer = new BufferedReader(fr);
+
+            // Transposition des cases du fichier labyrinthe dans la matrice
+            int ligne = 0;
+            while ((fileLine = buffer.readLine()) != null) {
+                for (int colonne = 0; colonne < fileLine.length(); colonne++) {
+                    casesTemplate[ligne][colonne] = Character.getNumericValue(fileLine.charAt(colonne));
+                }
+                ligne++;
             }
-            ligne++;
+
+            // Fermeture du flux ainsi que du tampon
+            fr.close();
+            buffer.close();
+        
+        } catch(FileNotFoundException e){
+
+            System.err.println("Impossible de trouver le fichier \""+path+"\".");
+            System.exit(-1);
+
+        } catch(IOException e){
+
+            System.err.println("Erreur lors de la lecture dans le fichier du labyrinthe: "+e);
+            System.exit(-1);
+
         }
-        buffer.close();
 
         this.generer(casesTemplate);
     }

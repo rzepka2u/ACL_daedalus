@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Classe de test des fonctions du joueur
  */
-public class TestJoueur {
+public class TestExemple {
 
     /**
      * Test verifiant qu'un joueur ne peut pas se deplacer lorsqu'un mur le bloque

@@ -8,14 +8,12 @@ import model.PacmanController;
 import model.PacmanGame;
 */
 
-
-import java.io.IOException;
 import model.objets.Jeu;
 import java.util.Scanner;
 
 
 /**
- * CLass permettant l'exécution du moteur de jeu
+ * Class permettant l'exécution du moteur de jeu
  */
 public class Main {
 
@@ -36,13 +34,18 @@ public class Main {
 		// DECLARATION ET INITIALISATION DES VARIABLES NECESSAIRES
 
 		Scanner scan = new Scanner(System.in);
-		Jeu jeu = new Jeu(args[0]);
+		Jeu jeu;
 		String entree, direction;
 		int deplacement = 0;
 
+		if(args.length == 1){
+			jeu =  new Jeu(args[0]);
+		} else {
+			jeu = new Jeu();
+		}
 
-		// BOUCLE DU JEU
-		while(true){
+		// BOUCLE DU JEU TANT QUE LE JOUEUR N'EST PAS SUR LA SORTIE
+		while(deplacement != 2){
 
 			System.out.println(jeu.toString()); // AFFICHAGE DE L'ETAT DU JEU
 
@@ -71,11 +74,15 @@ public class Main {
 			System.out.print("\033[H\033[2J");
 			System.out.flush();
 
+			// AFFICHAGE MESSAGE FINAL SI LE JOUEUR EST SUR LA SORTIE
 			if(deplacement == 2) {
 				System.out.println("Bravo, vous avez atteint la sortie !");
 				break;
 			}
 
 		}
+
+		// Fermeture de l'objet Scanner
+		scan.close(); 
 	}
 }

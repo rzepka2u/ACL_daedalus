@@ -15,6 +15,7 @@ public class Joueur {
      * Constructeur de la classe Joueur 
      * @param px coordonnées en x
      * @param py coordonnées en y 
+     * @return l'objet Joueur correctement instancié
      */
     public Joueur(int px, int py) {
       this.x = px;

@@ -1,62 +1,65 @@
 @startuml
 
-title Diagramme de Classe
-
+interface Case << interface >> {
+  + estTraversable(): boolean
+  + toString(): String
+}
+class CaseMur {
+  + CaseMur(): 
+  + toString(): String
+  + estTraversable(): boolean
+}
+class CaseSortie {
+  + CaseSortie(): 
+  + toString(): String
+  + estTraversable(): boolean
+}
+class CaseVide {
+  + CaseVide(): 
+  + estTraversable(): boolean
+  + toString(): String
+}
 class Jeu {
-+Jeu()
-+deplacerJoueur(String direction) : void
-+validerDeplacement(int px, int py): boolean
-+getLabyrinthe() : Labyrinthe
-+getJoueur() : Joueur
+  + Jeu(String): 
+  + Jeu(): 
+  - labyrinthe: Labyrinthe
+  - joueur: Joueur
+  + etreSurSortie(int, int): boolean
+  + deplacerJoueur(String): int
+  - determinerDepart(Labyrinthe): int[]
+  + toString(): String
+  + placerJoueurSurCase(int, int): void
+  + validerDeplacement(int, int): boolean
 }
-
 class Joueur {
--x : int
--y : int
-+Joueur(int mx, int my)
-+getX() : int
-+getY() : int
-+seDeplacer(int px, int py) : void
-
+  + Joueur(int, int): 
+  - y: int
+  - x: int
+  + toString(): String
+  + seDeplacer(int, int): void
 }
-
 class Labyrinthe {
--largeur : int
--hauteur : int
-+Labyrinthe()
-+Labyrinthe(int largeur, int hauteur)
-+initialiser() : void
-+getCase(int x, int y) : Case
-+getLargeur() : int
-+getHauteur() : int
-+getXMilieu() : int
-+getYMilieu() : int
-+ajouterMur(int px, int py) : void
-+ajouterJoueur(Joueur j) : void
-+ajouterSortie() : void
-+terminerNiveau() : void
-+toString() : String
+  + Labyrinthe(String): 
+  + Labyrinthe(int, int): 
+  + Labyrinthe(): 
+  - hauteur: int
+  - largeur: int
+  - cases: ArrayList<ArrayList<Case>>
+  + initialiserParGenerationAutomatique(): void
+  + initialiserParDefaut(): void
+  + generer(int[][]): void
+  + getCase(int, int): Case
+  + initialiserPourTest(): void
+  + toString(): String
+  + initialiserParFichier(String): void
 }
 
-interface Case {
-+estTraversable() : boolean
-}
+CaseMur     -[#008200,dashed]-^  Case       
+CaseSortie  -[#008200,dashed]-^  Case       
+CaseVide    -[#008200,dashed]-^  Case       
 
-class CaseVide implements Case {
-+estTraversable() : boolean
-}
-
-class Mur implements Case {
-+estTraversable() : boolean
-}
-
-class Sortie implements Case {
-+estTraversable() : boolean
-}
 
 Jeu --> Labyrinthe : labyrinthe
 Jeu --> Joueur : joueur
-Labyrinthe --> Joueur : joueur
 Labyrinthe --> Case : cases
-
 @enduml

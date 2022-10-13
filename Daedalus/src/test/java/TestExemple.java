@@ -3,15 +3,15 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Classe de test des fonctions du joueur
+ * Classe de test des fonctions du la classe EXEMPLE
  */
 public class TestExemple {
 
     /**
-     * Test verifiant qu'un joueur ne peut pas se deplacer lorsqu'un mur le bloque
+     * Test verifiant qu'un exemple ne peut pas faire cela
      */
     @Test
-    public void test_collisionMur() {
+    public void test_peutFaireCela() {
         // preparation des donnees
 
         // methodes testées
@@ -23,10 +23,10 @@ public class TestExemple {
 
 
     /**
-     * Test verifiant qu'un joueur peut se deplacer lorsqu'il n'y a pas de mur pour le bloquer
+     * Test verifiant qu'un exemple peut faire cela
      */
     @Test
-    public void test_nonCollisionMur() {
+    public void test_nonCela() {
         // preparation des donnees
 
         // methodes testées

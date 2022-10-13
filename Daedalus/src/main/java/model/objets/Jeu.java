@@ -11,11 +11,11 @@ import java.util.ArrayList;
 public class Jeu{
     
     private Labyrinthe labyrinthe; // Le labyrinthe en cours
+
     private Joueur joueur; // Le joueur du jeu
 
     /**
      * Constructeur par défaut d'un objet Jeu avec un labyrinthe par défaut
-     * @return le nouvel objet Jeu correctement instancié
      */
     public Jeu(){
 
@@ -34,7 +34,6 @@ public class Jeu{
     /** 
     * Constructeur par initialisation d'un objet Jeu avec un labyrinthe contenu dans un fichier
     * @param path Le chemin relatif ou absolu du fichier contenant le labyrinthe
-    * @return le nouvel objet Jeu correctement instancié
     */
     public Jeu(String path){
 
@@ -89,6 +88,15 @@ public class Jeu{
     }
 
     /**
+     * permet de placer sur joueur sur la case (x,y) en outrepassant son test de direction
+     * @param x coordonnee x
+     * @param y coordonnee y
+     */
+    public void placerJoueurSurCase(int x, int y) {
+        this.joueur.seDeplacer(x,y);
+    }
+
+    /**
     *   Déplace un joueur dans une direction souhaitée
     *   @param direction La direction dans laquelle on veut déplacer le joueur (gauche/droite/haut/bas)
     *   @return Un booléen qui indique si le déplacement a était effectuée ou non (si une collision est survenue ou pas)
@@ -102,19 +110,11 @@ public class Jeu{
         py = this.joueur.getY();
 
         // Modification de ses coordonnées suivant la direction
-        switch(direction){
-            case "gauche":
-                py -= 1;
-                break;
-            case "droite":
-                py += 1;
-                break;
-            case "haut":
-                px -= 1;
-                break;
-            case "bas":
-                px += 1;
-                break;
+        switch (direction) {
+            case "gauche" -> py -= 1;
+            case "droite" -> py += 1;
+            case "haut" -> px -= 1;
+            case "bas" -> px += 1;
         }
 
         //Si la la case sur laquelle veut aller le joueur est valide alors le déplacement est effectué
@@ -183,5 +183,21 @@ public class Jeu{
         }
         
         return res.toString();
+    }
+
+    /**
+     * getteur Labyrinthe
+     * @return renvoie le labyrinthe du jeu
+     */
+    public Labyrinthe getLabyrinthe() {
+        return this.labyrinthe;
+    }
+
+    /**
+     * getteur Joueur
+     * @return renvoie le joueur du jeu
+     */
+    public Joueur getJoueur() {
+        return this.joueur;
     }
 }

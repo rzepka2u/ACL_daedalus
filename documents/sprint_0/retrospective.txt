@@ -1,0 +1,27 @@
+SPRINT RETROSPECTIVE : ce qui s’est bien passé (ou pas) et les décision pour le sprint suivant
+
+Le sprint 0 a permis la mise en place de l'environnement du projet :
+  - Configuration de l'IDE
+  - Configuration du build
+  - Configuration du depot git
+  - Création d'un canal de communication (Discord)
+  - Création d'un Trello pour suivre l'avancée du projet
+
+Les fondations du projet ont été construites :
+  - Les fonctionnalités prévues pour le sprint 0 ont toutes été réalisées
+  - Tous les membres de l'équipe sont prêts pour poursuivre dans de bonnes conditions. Les outils ont été pris en main.
+  - La base du jeu fonctionne : pour le moment il est possible de lancer le jeu, faire déplacer le jour en évitant les murs,
+    se déplacer jusqu'à la sortie, ce qui occasionne la victoire.
+
+Pour le sprint suivant nous avons décider d'accélérer le développement afin de réaliser plus de fonctionnalités.
+L'objectif est tout d'abord d'avoir une véritable expérience de jeu.
+- Dans un premier temps, nous souhaitons avoir une génération pseudo-aléatoire des niveaux
+  (on partirait d'une base de labyrinthe défini dans un fichier, avec quelques modifications aléatoires des cases)
+
+- Dans un deuxième temps les monstres ajouteront de la difficulté pour joueur
+
+- Le jeu devra également avoir un système d'armes simples pour se défendre face aux monstre.
+
+- Des cases spéciales vont permettre d'ajouter de l'interaction au jeu
+
+- Le jeu devra être doté d'une interface graphique avec un menu de jeu

@@ -258,4 +258,22 @@ public class Labyrinthe {
         return res.toString();
     }
 
+    /**
+     * Initialise un labyrinthe minimisé pour réaliser des tests 
+     */
+    public void initialiserPourTest() {
+        /*
+         * LEGENDE :
+         * - 0 = case vide
+         * - 1 = mur
+         * - 2 = piege dans le futur, Case vide pout le moment TODO
+         * - 3 = sortie
+         */
+        int[][] casesTemplate = { 
+            { 0, 0, 0 },
+            { 1 ,0 ,3 }, 
+            { 0, 0, 0 } };
+        this.generer(casesTemplate);
+    }
+
 }

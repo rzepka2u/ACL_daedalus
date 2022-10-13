@@ -9,6 +9,8 @@ import model.PacmanGame;
 */
 
 import model.objets.Jeu;
+
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 
@@ -17,7 +19,7 @@ import java.util.Scanner;
  */
 public class Main {
 
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 		
 		/* MAIN FOURNI SUR ARCHE
 		

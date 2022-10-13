@@ -31,7 +31,7 @@ public class Labyrinthe {
     /**
      * Constructeur par defaut du labyrinthe
      */
-    public Labyrinthe(String path) {
+    public Labyrinthe(String path) throws FileNotFoundException {
         this.initialiserParFichier(path);
     }
 
@@ -83,7 +83,7 @@ public class Labyrinthe {
      * Initialise le labyrinthe selon un fichier
      * @param path Chemin vers le fichier de génération du labyrinthe
      */
-    public void initialiserParFichier(String path) {
+    public void initialiserParFichier(String path) throws FileNotFoundException {
 
         String fileLine = "";
 
@@ -110,13 +110,13 @@ public class Labyrinthe {
             buffer.close();
 
         } catch(FileNotFoundException e){
-
-            System.err.println("Impossible de trouver le fichier \""+path+"\".");
-            System.exit(-1);
+            throw new FileNotFoundException();
+            /*System.err.println("Impossible de trouver le fichier \""+path+"\".");
+            System.exit(-1);*/
 
         } catch(IOException e){
-            System.err.println("Erreur lors de la lecture du fichier du labyrinthe: "+ e);
-            System.exit(-1);
+            /*System.err.println("Erreur lors de la lecture du fichier du labyrinthe: "+ e);
+            System.exit(-1);*/
         }
 
 
@@ -145,9 +145,9 @@ public class Labyrinthe {
             buffer.close();
         
         } catch(FileNotFoundException e){
-
-            System.err.println("Impossible de trouver le fichier \""+path+"\".");
-            System.exit(-1);
+            throw new FileNotFoundException();
+            /*System.err.println("Impossible de trouver le fichier \""+path+"\".");*/
+            //System.exit(-1);
 
         } catch(IOException e){
 

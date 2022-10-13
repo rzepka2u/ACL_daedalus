@@ -2,6 +2,8 @@ package model.objets;
 
 import model.cases.Case;
 import model.cases.CaseSortie;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /** 
@@ -35,7 +37,7 @@ public class Jeu{
     * Constructeur par initialisation d'un objet Jeu avec un labyrinthe contenu dans un fichier
     * @param path Le chemin relatif ou absolu du fichier contenant le labyrinthe
     */
-    public Jeu(String path){
+    public Jeu(String path) throws FileNotFoundException {
 
         int[] positionDepart;
 
@@ -99,7 +101,7 @@ public class Jeu{
     /**
     *   Déplace un joueur dans une direction souhaitée
     *   @param direction La direction dans laquelle on veut déplacer le joueur (gauche/droite/haut/bas)
-    *   @return Un booléen qui indique si le déplacement a était effectuée ou non (si une collision est survenue ou pas)
+    *   @return Un entier qui indique le type de déplacement (0 : déplacement valide, 1 : collision, 2 : déplacement sur la sortie)
     */
     public int deplacerJoueur(String direction){
         int px, py;

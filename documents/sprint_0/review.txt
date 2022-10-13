@@ -1,0 +1,65 @@
+SPRINT REVIEW : fonctionnalités réalisées et validées (ou pas)
+
+1)
+FONCTIONNALITE : Création d'un labyrinthe par défaut
+
+PREVU :
+  - Initialisation du labyrinthe
+  - Affichage en console
+
+REALISE :
+  - Initialisation du labyrinthe via un tableau d'entier. Chaque entier (chiffre) représente une case du labyrinthe
+     . 0 = case vide
+     . 1 = mur
+     . 2 = piege dans le futur, Case vide pout le moment
+     . 3 = sortie
+    Ce tableau est prédéfini directement dans le code, ce qui permettra dans le futur d'avoir un labyrinthe,
+    même en cas d'erreur ne permettant pas la création d'un labyrinthe aléatoire ou depuis un fichier de génération
+  - Initialisation d'un labyrinthe à partir d'un fichier txt contenant des chiffres
+    Ce fichier est lu puis interprété pour créer des cases.
+
+  - Affichage en console : chaque case est représenté par un caractère :
+    les cases possèdent une methode toString permettant de récupérer ce caractère.
+      . . = case vide
+      . # = mur
+      . . = piege dans le futur, Case vide pout le moment
+      . S = sortie
+
+La fonctionnalité a été testée et est validée.
+
+---
+2)
+FONCTIONNALITE : Initialiser et deplacer un joueur
+
+PREVU :
+  - Le jeu construit un joueur
+  - Commandes pour deplacer le joueur (commandes console)
+  - Modification des coordonnees
+
+REALISE :
+  - ...
+
+La fonctionnalité a été testée et est validée.
+---
+3)
+FONCTIONNALITE : Collision avec les murs
+
+PREVU :
+  - Empêcher un joueur de se deplacer sur un mur
+
+REALISE :
+  - ...
+
+La fonctionnalité a été testée et est validée.
+
+---
+4)
+FONCTIONNALITE : Gestion de la sortie
+
+PREVU :
+  - Lorsque le joueur passe sur la case de sortie, le niveau est complété
+
+REALISE :
+  - ...
+
+La fonctionnalité a été testée et est validée.

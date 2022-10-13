@@ -48,7 +48,8 @@ REALISE :
     Le paramètre "direction" correspond à une chaîne de caractère indiquant vers ou on veut que le joueur se déplace. Direction prend les valeur "gauche", "droite", "haut", et "bas".
   - Jouabilité en console : 
     L'utilisateur indique en console une des 4 directions possibles pour faire déplacer son joueur, la méthode déplacerJoueur de la classe Jeu est ensuite appelé avec le paramètre adéquat.
-
+  
+  - La case de départ du joueur est choisi aléatoirement au lieu de ce qui était prévu au départ (voir retrospective)
 
 La fonctionnalité a été testée et est validée.
 ---

@@ -150,22 +150,6 @@ public class Jeu{
         return c instanceof CaseSortie;
     }
 
-    /**
-     * Méthode permettant de récupérer le joueur dans le jeu
-     * @return le joueur 
-     */
-    public Joueur getJoueur() {
-        return this.joueur;
-    }
-
-    /**
-     * Méthode permettant de récupérer le labyrinthe dans le jeu 
-     * @return le labyrinthe 
-     */
-    public Labyrinthe getLabyrinthe() {
-        return this.labyrinthe;
-    }
-
     @Override
     public String toString(){
 

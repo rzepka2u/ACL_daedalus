@@ -68,6 +68,13 @@ PREVU :
   - Lorsque le joueur passe sur la case de sortie, le niveau est complété
 
 REALISE :
-  - ...
+  - Méthode etreSurSortie dans la classe Jeu:
+	On récupère la case aux coordonnées x,y données en paramètres puis on regarde si cette case est une instance de la classe CaseSortie
+	On renvoie true si c'est le cas
+
+  - Changement dans le fonctionnement du déplacement et du jeu
+	La méthode deplacerJoueur renvoie désormais un int au lieu d'un boolean pour pouvoir dissocier les différents cas (0 si le déplacement est autorisé, 1 sinon et 2 si ce déplacement amène sur une sortie)
+	Le main va donc tester si la valeur renvoyée par deplacerJoueur, si c'est 2 le jeu s'arrête et on print un message de fin, si c'est 1 on indique qu'il y a une collision sinon on déplace le joueur
+	
 
 La fonctionnalité a été testée et est validée.

@@ -1,6 +1,8 @@
 # ACL_daedalus
 Projet ACL Labyrinthe (RZEPKA Thomas, NOEL Victor, POIREL Jérémy, RACOILLET Maxime)
 
+Dernier sprint effecté : sprint 0
+
 Pour utiliser le jeu, vous devez:
 
     1- Se placer dans le dossier Daedalus avec votre terminal

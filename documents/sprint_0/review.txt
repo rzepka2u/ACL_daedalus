@@ -48,7 +48,15 @@ PREVU :
   - Empêcher un joueur de se deplacer sur un mur
 
 REALISE :
-  - ...
+  - Méthode validerDeplacement dans la classe Jeu: 
+  On récupère la case voulu, on vérifie avant que la case est bien traversable (seul les murs ne sont pas traversable en l'état actuel).
+  On renvoie un booléen contenant l'information déterminé juste avant.
+
+  - Méthode déplacerJoueur dans la classe Jeu:
+  Avant de réaliser le déplacement, on doit tester que le déplacement est bien valide à l'aide de la méthode validerDeplacement (condition if).  
+
+  - Cette fonctionnalité nous a amené à l'utilisation et/ou la création de méthodes dans les classes Joueur (getteur sur les coordonnées 
+  du joueur), Labyrinthe (getter sur une case du labyrinthe), ainsi que les classes implémentent l'interface Case (méthode estTraversable).
 
 La fonctionnalité a été testée et est validée.
 

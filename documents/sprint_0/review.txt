@@ -14,30 +14,30 @@ REALISE :
      . 2 = piege dans le futur, Case vide pout le moment
      . 3 = sortie
     Ce tableau est prédéfini directement dans le code, ce qui permettra dans le futur d'avoir un labyrinthe,
-    même en cas d'erreur ne permettant pas la création d'un labyrinthe aléatoire ou depuis un fichier de génération
+    même en cas d'erreur générée lors de la création d'un labyrinthe aléatoire ou depuis un fichier de génération
   - Initialisation d'un labyrinthe à partir d'un fichier txt contenant des chiffres
     Ce fichier est lu puis interprété pour créer des cases.
 
-  - Affichage en console : chaque case est représenté par un caractère :
-    les cases possèdent une methode toString permettant de récupérer ce caractère.
+  - Affichage en console : chaque case est représentée par un caractère :
+    les cases possèdent une méthode toString permettant de récupérer ce caractère.
       . . = case vide
       . # = mur
-      . . = piege dans le futur, Case vide pout le moment
+      . . = piège dans le futur, Case vide pout le moment
       . S = sortie
 
-La fonctionnalité a été testée et est validée.
+La fonctionnalité a été testée et validée.
 
 ---
 2)
-FONCTIONNALITE : Initialiser et deplacer un joueur
+FONCTIONNALITE : Initialiser et déplacer un joueur
 
 PREVU :
   - Le jeu construit un joueur
-  - Commandes pour deplacer le joueur (commandes console)
-  - Modification des coordonnees
+  - Commandes pour déplacer le joueur (commandes console)
+  - Modification des coordonnées
 
 REALISE :
-  - Classe Joueur avec constructeur prenant en paramètre les coordonnées de départ du joueur 
+  - Classe Joueur avec constructeur prenant en paramètres les coordonnées de départ du joueur 
   - getteurs et setters afin de pouvoir récupérer et/ou fixer les coordonnées d'un joueur si besoin
   - Méthode seDéplacer(int px, int py) de la classe Joueur: 
     Cette méthode sert à faire déplacer le joueur dans une des 4 directions (gauche, droite, haut, bas). Ainsi, la valeur prise par px et py dépend de la direction 
@@ -45,32 +45,32 @@ REALISE :
     égale à 1 ou -1 en fonction du déplacement voulu.
   - Méthode déplacerJoueur(string direction) dans la classe Jeu:
     Cette méthode utilise notamment la méthode seDéplacer de la case Joueur afin de pouvoir appliquer les déplacements souhaités au joueur et ainsi changer ses coordonnées.
-    Le paramètre "direction" correspond à une chaîne de caractère indiquant vers ou on veut que le joueur se déplace. Direction prend les valeur "gauche", "droite", "haut", et "bas".
+    Le paramètre "direction" correspond à une chaîne de caractères indiquant vers où on veut que le joueur se déplace. Direction prend les valeur "gauche", "droite", "haut", et "bas".
   - Jouabilité en console : 
-    L'utilisateur indique en console une des 4 directions possibles pour faire déplacer son joueur, la méthode déplacerJoueur de la classe Jeu est ensuite appelé avec le paramètre adéquat.
+    L'utilisateur indique en console une des 4 directions possibles pour faire déplacer son joueur, la méthode déplacerJoueur de la classe Jeu est ensuite appelée avec le paramètre adéquat.
   
-  - La case de départ du joueur est choisi aléatoirement au lieu de ce qui était prévu au départ (voir retrospective)
+  - La case de départ du joueur est choisie aléatoirement au lieu de ce qui était prévu au départ (voir retrospective)
 
-La fonctionnalité a été testée et est validée.
+La fonctionnalité a été testée et validée.
 ---
 3)
 FONCTIONNALITE : Collision avec les murs
 
 PREVU :
-  - Empêcher un joueur de se deplacer sur un mur
+  - Empêcher un joueur de se déplacer sur un mur
 
 REALISE :
   - Méthode validerDeplacement dans la classe Jeu: 
-  On récupère la case voulu, on vérifie avant que la case est bien traversable (seul les murs ne sont pas traversable en l'état actuel).
-  On renvoie un booléen contenant l'information déterminé juste avant.
+  On récupère la case voulue, on vérifie avant que la case est bien traversable (seuls les murs ne sont pas traversable en l'état actuel).
+  On renvoie un booléen contenant l'information déterminée juste avant.
 
   - Méthode déplacerJoueur dans la classe Jeu:
   Avant de réaliser le déplacement, on doit tester que le déplacement est bien valide à l'aide de la méthode validerDeplacement (condition if).  
 
   - Cette fonctionnalité nous a amené à l'utilisation et/ou la création de méthodes dans les classes Joueur (getteur sur les coordonnées 
-  du joueur), Labyrinthe (getter sur une case du labyrinthe), ainsi que les classes implémentent l'interface Case (méthode estTraversable).
+  du joueur), Labyrinthe (getter sur une case du labyrinthe), ainsi que les classes implémentant l'interface Case (méthode estTraversable).
 
-La fonctionnalité a été testée et est validée.
+La fonctionnalité a été testée et validée.
 
 ---
 4)
@@ -89,4 +89,4 @@ REALISE :
 	Le main va donc tester si la valeur renvoyée par deplacerJoueur, si c'est 2 le jeu s'arrête et on print un message de fin, si c'est 1 on indique qu'il y a une collision sinon on déplace le joueur
 	
 
-La fonctionnalité a été testée et est validée.
+La fonctionnalité a été testée et validée.

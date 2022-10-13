@@ -11,13 +11,13 @@ Pour utiliser le jeu, vous devez:
 
         - Pour générer un jeu avec un labyrinthe défini dans un fichier .txt: 
             
-            java -cp target/Daedalus-1.0-SNAPSHOT.jar start.Main [chaîne de caractère contenant le lien du fichier (relatif ou absolu)]
+            java -cp target/Daedalus-1.0.jar start.Main [chaîne de caractère contenant le lien du fichier (relatif ou absolu)]
 
             Un fichier préfabriqué est déjà utilisable avec le lien "src/main/ressources/niveaux/niveau0.txt".
 
         - Pour générer un jeu avec un labyrinthe défini par défaut (toujours le même):
 
-            java -cp target/Daedalus-1.0-SNAPSHOT.jar start.Main 
+            java -cp target/Daedalus-1.0.jar start.Main 
 
 Pour exécuter les fichiers de test, vous devez entrer, dans l'ordre, les commandes:
 

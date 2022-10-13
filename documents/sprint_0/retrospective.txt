@@ -1,30 +1,32 @@
-SPRINT RETROSPECTIVE : ce qui s’est bien passé (ou pas) et les décision pour le sprint suivant
+SPRINT RETROSPECTIVE : ce qui s’est bien passé (ou pas) et les décisions pour le sprint suivant
 
 Le sprint 0 a permis la mise en place de l'environnement du projet :
   - Configuration de l'IDE
   - Installation, configuration et prise en main du build (maven)
-  - Configuration du depot git
+  - Configuration du dépôt git
   - Création d'un canal de communication (Discord)
   - Création d'un Trello pour suivre l'avancée du projet
 
 Les fondations du projet ont été construites :
   - Les fonctionnalités prévues pour le sprint 0 ont toutes été réalisées
   - Tous les membres de l'équipe sont prêts pour poursuivre dans de bonnes conditions. Les outils ont été pris en main.
-  - La base du jeu fonctionne : pour le moment il est possible de lancer le jeu, faire déplacer le jour en évitant les murs,
-    se déplacer jusqu'à la sortie, ce qui occasionne la victoire.
+  - La base du jeu fonctionne : pour le moment il est possible de lancer le jeu, faire déplacer le joueur en évitant les murs,
+    se déplacer jusqu'à la sortie, ce qui déclenche la victoire.
   
-  - Aucun problème particulier rencontré, sauf pour la fonctionnalité initialiser joueur, nous avons choisit de déterminer la case de départ
-    aléatoirement car si on fait démarrer le joueur au milieu du labyrinthe à tous les coups, il se peut qu'il soit sur un mur
-    ou sur la sortie, d'autant plus que nous avons pour but de générer des labyrinthe aléatoirement dans les autres sprints.
+  - Aucun problème particulier rencontré, sauf pour la fonctionnalité initialiser joueur, nous avons choisi de déterminer la case de départ
+    aléatoirement car si on fait apparaître le joueur au milieu du labyrinthe à tous les coups, il se peut qu'il soit dans un mur
+    ou sur la sortie, d'autant plus que nous avons pour but de générer des labyrinthes de manière aléatoire dans les autres sprints.
+    Les fonctionnalités étaient également dépendantes les unes des autres ce qui nous a demandé d'attendre la fin de certaines fonctionnalités pour en commencer d'autres 
+	(Avoir le déplacement du joueur mis en place pour ensuite s'occuper des collisions et avoir la génération du labyrinthe et le déplacement du joueur pour gérer la sortie)
 
-Pour le sprint suivant nous avons décider d'accélérer le développement afin de réaliser plus de fonctionnalités.
+Pour le sprint suivant nous avons décidé d'accélérer le développement afin de réaliser plus de fonctionnalités. Ceci sera permis grâce à l'indépendances des tâches à effectuer dans ce sprint.
 L'objectif est tout d'abord d'avoir une véritable expérience de jeu.
 - Dans un premier temps, nous souhaitons avoir une génération pseudo-aléatoire des niveaux
   (on partirait d'une base de labyrinthe défini dans un fichier, avec quelques modifications aléatoires des cases)
 
-- Dans un deuxième temps les monstres ajouteront de la difficulté pour joueur
+- Dans un deuxième temps les monstres ajouteront de la difficulté au joueur
 
-- Le jeu devra également avoir un système d'armes simples pour se défendre face aux monstre.
+- Le jeu devra également avoir un système d'armes simples pour se défendre face aux monstres.
 
 - Des cases spéciales vont permettre d'ajouter de l'interaction au jeu
 

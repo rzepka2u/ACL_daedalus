@@ -1,0 +1,95 @@
+@startuml
+
+interface Case << interface >> {
+  + estTraversable(): boolean
+  + toString(): String
+}
+class CaseMur {
+  + CaseMur(): 
+  + toString(): String
+  + estTraversable(): boolean
+}
+class CaseSortie {
+  + CaseSortie(): 
+  + toString(): String
+  + estTraversable(): boolean
+}
+
+abstract Entite {
++ Entite(int, int, int, boolean): 
+  - x : int
+  - y : int
+  - pv : int
+  - peutTraverser : boolean
+  + {abstract} attaquer()
+  + {abstract} seDeplacer()
+  + getX() : int
+  + getY() : int
+  + getPeutTraverser() : boolean
+  + getPv() : int
+  + setX() : void
+  + setY() : void
+  + setPeutTraverser() : void
+  + setPv() : void
+  
+  
+}
+
+class Gobelin {
+
+}
+
+class Fantome {
+
+}
+
+
+class CaseVide {
+  + CaseVide(): 
+  + estTraversable(): boolean
+  + toString(): String
+}
+class Jeu {
+  + Jeu(String): 
+  + Jeu(): 
+  - labyrinthe: Labyrinthe
+  - joueur: Joueur
+  + etreSurSortie(int, int): boolean
+  + deplacerJoueur(String): int
+  - determinerDepart(Labyrinthe): int[]
+  + toString(): String
+  + placerJoueurSurCase(int, int): void
+  + validerDeplacement(int, int): boolean
+}
+class Joueur {
+  + toString(): String
+  + seDeplacer(int, int): void
+}
+class Labyrinthe {
+  + Labyrinthe(String): 
+  + Labyrinthe(int, int): 
+  + Labyrinthe(): 
+  - hauteur: int
+  - largeur: int
+  - cases: ArrayList<ArrayList<Case>>
+  + initialiserParGenerationAutomatique(): void
+  + initialiserParDefaut(): void
+  + generer(int[][]): void
+  + getCase(int, int): Case
+  + initialiserPourTest(): void
+  + toString(): String
+  + initialiserParFichier(String): void
+}
+
+CaseMur     -[#008200,dashed]-^  Case       
+CaseSortie  -[#008200,dashed]-^  Case       
+CaseVide    -[#008200,dashed]-^  Case       
+
+
+Jeu --> Labyrinthe : labyrinthe
+Jeu --> Joueur : joueur
+Labyrinthe --> Case : cases
+Entite <|-- Joueur
+Entite <|-- Fantome
+Entite <|-- Gobelin
+@enduml

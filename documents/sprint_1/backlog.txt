@@ -1,105 +1,116 @@
 1)
 FONCTIONNALITE : Génération pseudo-aléatoire du labyrinthe / Création de niveaux / Gestion difficulté
-  -  Le jeu construit un labyrinthe pseudo-aléatoirement
-  - Gestion d'une suite de niveaux (qui montent en difficulté)
-  - La difficulté du niveau va avoir un impact sur le nombre de monstres, de pièges, d'armes etc..
+  - Le jeu construit un labyrinthe pseudo-aléatoirement
+  - La fin d'un niveau entraine la création d'un autre niveau (qui montent en difficulté)
+  - La difficulté du niveau va avoir un impact sur le nombre de monstres, de cases à effets et d'armes
+  - Définition d'un nombre de niveau maximum pour gagner la partie
 
 CRITERES DE VALIDATION :
-  - Il faut s'assurer qu'il y a un toujours un chemin vers la sortie
-  - S'assurer que la difficulté s'incrémente
-  - 
+  - S'assurer qu'il y a un toujours un chemin vers la sortie
+  - La difficulté doit s'incrémente au fûr et à mesure des niveaux
+  - Il faut que le joueur ne puisse pas sortir du labyrinthe
+  - Le jeu ne peut pas créer plus d'un certain nombre de niveau 
 
 
 TESTS CORRESPONDANTS :
-  - Test du chemin vers la sortie
-  - Test sur le nombre de monstres, de pièges, loot d'armes
-  - La case du milieu est vide
+  - Test prouvant qu'il existe un chemin vers la sortie
+  - Test sur le nombre de monstres, de cases a effets et d'armes par niveau (suivant la progression)
+  - Test qui vérifie que le labyrinthe est bien fermé (entouré de murs)
+  - Test qui certifie que le jeu ne pas pas créer plus de niveaux que le nombre maximum
 
 RESPONSABLE :
   - Thomas RZEPKA
 
 TESTS :
-  - 
+  - Jérémy POIREL
 
----
+
 2)
 FONCTIONNALITE : Création de l'interface graphique du jeu
   - Passage de l'affichage console à un affichage graphique
-  - Utilisation d'assets 
-  - HUD / Menu d'accueil / Menu échap / Ecran de victoire et de défaite
-  - Mise à jour du système d'intéraction avec le jeu via clavier/souris
+  - Utilisation d'assets pour améliorer l'expérience utilisateur
+  - Création d'un HUD, d'un menu d'accueil, d'un menu échap (pour quitter si besoin), ainsi que d'un écran de victoire et de défaite
+  - Mise à jour du système d'intéraction avec le jeu via les touches du clavier et la souris
 
 CRITERES DE VALIDATION :
   - Bonne actualisation de l'affichage lors d'une action
   - Boutons des menus fonctionnels
-  - Affichage cohérent du labyrinthe
-  - Affichage de l'écran de victoire et de défaite
-  - Contrôles fonctionnels
+  - Affichage cohérent et élégant du labyrinthe
+  - Affichage de l'écran de victoire ou de défaite à la fin d'une partie
+  - Le contrôle du jeux est fonctionnel et fluide (via les entrée souris et clavier)
 
 
 TESTS CORRESPONDANTS :
-  - Mise à jour des différentes valeurs affichée par le HUD
-  - Tests des différents boutons des menus
-  - Raffraichissement de  l'affichage
-  - Test de l'affichage de l'écran de victoire et de défaite
-  - Reactions aux commandes
+  - Test sur la mise à jour des différentes valeurs affichée dans le HUD lorsque quelque chose doit changer
+  - Test confirmant la bonne mise à jour des cases à effets lorsque qu'une action l'amène à être modifié
+  - Test du raffraichissement de l'affichage lors d'un déplacement du joueur (changement de sa position)
+  - Test certifiant que les différents boutons des menus sont fonctionnels
+  - Test de changement de position des monstres lorsque ceux-ci sont déplacés par le moteur du jeu 
+  - Test de l'affichage de l'écran de victoire et de défaite lors de la fin d'une partie
+  - Test de réactions actions réalisé avec les entrées (clavier et souris)
 
 
 RESPONSABLE :
   - Maxime RACOILLET
 
 TESTS :
-  - 
+  - Thomas RZEPKA
 
----
+
 3)
-FONCTIONNALITE : Création de monstres / cases avec effets / coffre d'équipement
-  - Fonctionnement (déplacements, attaques, vie...) des différents monstres (Gobelin, fantôme...)
-  - Fonctionnement des différentes cases (soin, poison, dégâts instantanés...) 
-  - Création de la case coffre (potions de soin, armes, armure...)
+FONCTIONNALITE : Création des monstres, des cases avec effets et des coffres dans le labyrinthe
+  - Gérer les déplacements, les attaques, la vie et l'armure des différents monstres (Gobelin, Fantôme...)
+  - S'occuper de la création et la réaction des différentes cases à éffets (soin, poison, dégâts instantanés...) 
+  - Création des coffres et de leur contenu (potions de soin, armes, armure...)
 
 CRITERES DE VALIDATION :
-  - Bon fonctionnement des monstres / pièges
-	- Déplacements cohérents des monstres
-	- Bonne application des effets sur le joueur
+  - Implémentation de l'apparation et du déplacement des monstres (haut/bas/droite/gauche)
+	- Faire en sorte que les monstres attaques le joueur 
+  - Création de points de vie et d'armures pour les monstres
+  - Ajout de cases a éffets dans le labyrinthe et implémentation des effets correspondants
+	- Pemettre la présence de coffres dans le labyrinthe, et ajout de leur contenu
 	
 
 TESTS CORRESPONDANTS :
-  - Test de déplacements
-  - Tests d'attaques
-  - Tests d'effets
-
+  - Test validant les déplacements des monstres (ceux-ci doivent être un minimum cohérent si un joueur est a proximité)
+	- Test prouvant le bon fonctionnement des attaques des monstres (cela entraine une perte de point de vie du joueur)
+  - Test qui certifie la bonne gestion de la vie des monstres (perte de point de vie et d'armure suite à une attaque reçue)
+  - Test sur les répercutions causés au joueur lorsqu'il se trouve sur une case à effets
+	- Test mettant en lumière la présence de coffres dans le labyrinthe et leur contenu
 
 RESPONSABLE :
   - Jérémy POIREL
 
 TESTS :
-  - 
+  - Victor NOEL
 
 ---
 4)
-FONCTIONNALITE : Gestion des attaques du joueur / armes (Joueur et Monstres)
-  - Création des différentes armes (épée, arc, hâche)
-	- Zone d'attaque, portée, dégâts, effets
-  - Gestion des coffres
-	- Apparition (tous les X niveaux)
-	- Ouverture du coffre avec une touche
-	- Gestion de l'équipement
-  - Gestion de l'attaque selon l'arme (Joueur et Monstres)
+FONCTIONNALITE : Gestion des attaques du joueur et des armes utilisés par les entités (Joueur et Monstres)
+  - Création des différentes armes et de leur effet dédié (épée, arc, hâche ...)
+    - Chaque arme doit avoir une zone d'attaque (arc de cercle ou juste la case en face)
+    - Les armes doivent être caractérisée par une portée (combien de cases l'attaque peut traverser),
+    - Un nombre de dégats infligé (sur armure et points de vie) doit être défini pour chaque arme (et un effet si on a le temps)
+  - Pouvoir récupérer les objets présent dans un coffre avec une touche (pour récupérer les armes)
+	- Pemttre le changement d'amre
 
 CRITERES DE VALIDATION :
-  - Bon fonctionnement des armes
-  - Bonne gestion des coffres
-  - Bon fonctionnement de l'attaque du joueurs et des monstres
+  - Différentes armes doivent être présentes dans le jeu
+  - Les armes doivent pouvoir être utilisée par une entité pour attaqué une autre entité (perte de points de vie et d'armure)
+  - Les armes doivent avoir des caractéristiques d'attaques (portée, effet, dégat, zone d'attaque)
+  - Le joueur peut récupérer les artéfacts présent dans un coffre
+  - Le joueur peut a tout moment poser une arme pour en ramassé une autre
 
 TESTS CORRESPONDANTS :
-  - Tests des armes
-  - Test des coffres
-  - Test de l'attaque
-
+  - Tests des effets des armes sur les points de vie et d'armures de l'adversaire (dégats)
+  - Test sur la portée des attaques en étant muni d'une arme (avec un ennemi proche et un ennemi loin)
+  - Test certifant la zone d'attaque des armes (mettre des ennemi de chaque côté et s'assurer que seul ceux dans la portée sont touchés)
+  - Test sur les effets d'une arme à l'ennemi (si implémenté suivant le temps qu'il nous restera)
+  - Test mettant en lumière la possibilité de récupérer un objet dans des coffres
+  - Test sur la possibilité de changer d'arme: poser l'arme et/ou la reprendre
 
 RESPONSABLE :
   - Victor NOEL
 
 TESTS :
-  - 
+  - RACOILLET Maxime

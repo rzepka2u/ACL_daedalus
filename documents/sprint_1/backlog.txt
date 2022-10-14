@@ -1,0 +1,105 @@
+1)
+FONCTIONNALITE : Génération pseudo-aléatoire du labyrinthe / Création de niveaux / Gestion difficulté
+  -  Le jeu construit un labyrinthe pseudo-aléatoirement
+  - Gestion d'une suite de niveaux (qui montent en difficulté)
+  - La difficulté du niveau va avoir un impact sur le nombre de monstres, de pièges, d'armes etc..
+
+CRITERES DE VALIDATION :
+  - Il faut s'assurer qu'il y a un toujours un chemin vers la sortie
+  - S'assurer que la difficulté s'incrémente
+  - 
+
+
+TESTS CORRESPONDANTS :
+  - Test du chemin vers la sortie
+  - Test sur le nombre de monstres, de pièges, loot d'armes
+  - La case du milieu est vide
+
+RESPONSABLE :
+  - Thomas RZEPKA
+
+TESTS :
+  - 
+
+---
+2)
+FONCTIONNALITE : Création de l'interface graphique du jeu
+  - Passage de l'affichage console à un affichage graphique
+  - Utilisation d'assets 
+  - HUD / Menu d'accueil / Menu échap / Ecran de victoire et de défaite
+  - Mise à jour du système d'intéraction avec le jeu via clavier/souris
+
+CRITERES DE VALIDATION :
+  - Bonne actualisation de l'affichage lors d'une action
+  - Boutons des menus fonctionnels
+  - Affichage cohérent du labyrinthe
+  - Affichage de l'écran de victoire et de défaite
+  - Contrôles fonctionnels
+
+
+TESTS CORRESPONDANTS :
+  - Mise à jour des différentes valeurs affichée par le HUD
+  - Tests des différents boutons des menus
+  - Raffraichissement de  l'affichage
+  - Test de l'affichage de l'écran de victoire et de défaite
+  - Reactions aux commandes
+
+
+RESPONSABLE :
+  - Maxime RACOILLET
+
+TESTS :
+  - 
+
+---
+3)
+FONCTIONNALITE : Création de monstres / cases avec effets / coffre d'équipement
+  - Fonctionnement (déplacements, attaques, vie...) des différents monstres (Gobelin, fantôme...)
+  - Fonctionnement des différentes cases (soin, poison, dégâts instantanés...) 
+  - Création de la case coffre (potions de soin, armes, armure...)
+
+CRITERES DE VALIDATION :
+  - Bon fonctionnement des monstres / pièges
+	- Déplacements cohérents des monstres
+	- Bonne application des effets sur le joueur
+	
+
+TESTS CORRESPONDANTS :
+  - Test de déplacements
+  - Tests d'attaques
+  - Tests d'effets
+
+
+RESPONSABLE :
+  - Jérémy POIREL
+
+TESTS :
+  - 
+
+---
+4)
+FONCTIONNALITE : Gestion des attaques du joueur / armes (Joueur et Monstres)
+  - Création des différentes armes (épée, arc, hâche)
+	- Zone d'attaque, portée, dégâts, effets
+  - Gestion des coffres
+	- Apparition (tous les X niveaux)
+	- Ouverture du coffre avec une touche
+	- Gestion de l'équipement
+  - Gestion de l'attaque selon l'arme (Joueur et Monstres)
+
+CRITERES DE VALIDATION :
+  - Bon fonctionnement des armes
+  - Bonne gestion des coffres
+  - Bon fonctionnement de l'attaque du joueurs et des monstres
+
+TESTS CORRESPONDANTS :
+  - Tests des armes
+  - Test des coffres
+  - Test de l'attaque
+
+
+RESPONSABLE :
+  - Victor NOEL
+
+TESTS :
+  - 

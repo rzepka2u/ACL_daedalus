@@ -5,61 +5,70 @@ interface Case << interface >> {
   + toString(): String
 }
 class CaseMur {
-  + CaseMur(): 
+  + CaseMur() 
   + toString(): String
   + estTraversable(): boolean
 }
 class CaseSortie {
-  + CaseSortie(): 
+  + CaseSortie() 
   + toString(): String
   + estTraversable(): boolean
 }
 class CaseVide {
-  + CaseVide(): 
+  + CaseVide() 
   + estTraversable(): boolean
   + toString(): String
 }
 class Jeu {
-  + Jeu(String): 
-  + Jeu(): 
   - labyrinthe: Labyrinthe
   - joueur: Joueur
-  + etreSurSortie(int, int): boolean
-  + deplacerJoueur(String): int
-  - determinerDepart(Labyrinthe): int[]
+  + Jeu()
+  + Jeu(path: String)
+  + getLabyrinthe(): Labyrinthe
+  + getJoueur(): Joueur 
+  - determinerDepart(l: Labyrinthe): int[]
+  + placerJoueurSurCase(x: int,y: int): void
+  + deplacerJoueur(direction: String): int
+  + validerDeplacement(px: int,py: int): boolean
+  + etreSurSortie(px: int,py: int): boolean
   + toString(): String
-  + placerJoueurSurCase(int, int): void
-  + validerDeplacement(int, int): boolean
 }
 class Joueur {
-  + Joueur(int, int): 
   - y: int
   - x: int
+  + Joueur(px: int, py: int) 
+  + getX(): int
+  + getY(): int
+  + setX(): int
+  + setY(): int
+  + seDeplacer(px: int, py: int): void
   + toString(): String
-  + seDeplacer(int, int): void
 }
 class Labyrinthe {
-  + Labyrinthe(String): 
-  + Labyrinthe(int, int): 
-  + Labyrinthe(): 
   - hauteur: int
   - largeur: int
   - cases: ArrayList<ArrayList<Case>>
-  + initialiserParGenerationAutomatique(): void
+  + Labyrinthe() 
+  + Labyrinthe(path: String) 
+  + Labyrinthe(largeur: int,hauteur: int)
   + initialiserParDefaut(): void
-  + generer(int[][]): void
-  + getCase(int, int): Case
+  + initialiserParFichier(path: String): void
+  + generer(casesTemplate: int[][]): void
+  + initialiserParGenerationAutomatique(): void
+  + getCase(x: int,y: int): Case
+  + getCases(): ArrayList<ArrayList<Case>>
+  + getLargeur(): int
+  + getHauteur(): int
+  + getXMilieu(): int
+  + getYMilieu(): int
   + initialiserPourTest(): void
   + toString(): String
-  + initialiserParFichier(String): void
 }
 
 CaseMur     -[#008200,dashed]-^  Case       
 CaseSortie  -[#008200,dashed]-^  Case       
 CaseVide    -[#008200,dashed]-^  Case       
-
-
-Jeu --> Labyrinthe : labyrinthe
-Jeu --> Joueur : joueur
+Jeu o-> Labyrinthe : labyrinthe
+Jeu o-> Joueur : joueur
 Labyrinthe --> Case : cases
 @enduml

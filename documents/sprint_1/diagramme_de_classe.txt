@@ -1,95 +1,218 @@
 @startuml
 
 interface Case << interface >> {
-  + estTraversable(): boolean
+  + estTraversableParJoueur(): boolean
+  + estTraversableParMonstre(): boolean
   + toString(): String
 }
-class CaseMur {
-  + CaseMur(): 
+
+interface Tresor << interface >> {
   + toString(): String
-  + estTraversable(): boolean
+}
+
+class CaseMur {
+  + CaseMur() 
+  + toString(): String
+  + estTraversableParJoueur(): boolean
+  + estTraversableParMonstre(): boolean
 }
 class CaseSortie {
-  + CaseSortie(): 
+  + CaseSortie() 
+  + estTraversableParJoueur(): boolean
+  + estTraversableParMonstre(): boolean
   + toString(): String
-  + estTraversable(): boolean
+}
+class CaseVide {
+  + CaseVide() 
+  + estTraversableParJoueur(): boolean
+  + estTraversableParMonstre(): boolean
+  + toString(): String
+}
+
+class CaseEffet{
+  - diminutionPV: int
+  - augmentationPV: int
+  + CaseEffet(diminution: int,augmentation: int)
+  + getType(): TypeEffet
+  + getDiminutionPV(): int
+  + getAugmentationPV(): int
+  + estTraversableParJoueur(): boolean
+  + estTraversableParMonstre(): boolean
+  + toString(): String
+}
+
+enum TypeEffet{
+  PROGRESSIF
+  UNIQUE
+}
+
+enum Direction{
+  HAUT
+  BAS
+  GAUCHE
+  DROIE
+}
+
+class CaseTresor{
+  + CaseTresor(contenu: Tresor)
+  + estTraversableParJoueur(): boolean
+  + estTraversableParMonstre(): boolean
+  + toString(): String
+}
+
+class PieceArmure{
+  - pointsArmure: int
+  + PieceArmure(pa: int)
+  + toString():String
+}
+
+class Potion{
+  - augmentationPV: int
+  + Potion(augmentation: int)
+  + toString(): String
+}
+
+class Jeu {
+  - nbMaxNiveau: int
+  + Jeu()
+  + Jeu(path: String)
+  + getLabyrinthe(): Labyrinthe
+  + getEntites(): ArrayList<Entite>
+  + getJoueur(): Joueur 
+  - determinerDepart(l: Labyrinthe): int[]
+  + placerJoueurSurCase(x: int,y: int): void
+  + deplacerJoueur(direction: Direction): int
+  + validerDeplacement(px: int,py: int): boolean
+  + etreSurSortie(px: int,py: int): boolean
+  + demarrerPartie(): void
+  + changerNiveau(): void
+  + toString(): String
+}
+
+class Labyrinthe {
+  - hauteur: int
+  - largeur: int
+  - difficultee: int
+  + Labyrinthe(difficultee: int) 
+  + Labyrinthe(path: String, difficultee: int) 
+  + Labyrinthe(largeur: int,hauteur: int, difficultee: int)
+  + initialiserParDefaut(): void
+  + initialiserParFichier(path: String): void
+  + generer(casesTemplate: int[][]): void
+  + initialiserParGenerationAutomatique(): void
+  + getCase(x: int,y: int): Case
+  + getCases(): ArrayList<ArrayList<Case>>
+  + getLargeur(): int
+  + getHauteur(): int
+  + getXMilieu(): int
+  + getYMilieu(): int
+  + initialiserPourTest(): void
+  + toString(): String
 }
 
 abstract Entite {
-+ Entite(int, int, int, boolean): 
   - x : int
   - y : int
-  - pv : int
-  - peutTraverser : boolean
-  + {abstract} attaquer()
-  + {abstract} seDeplacer()
+  - pointsVie : int
+  - pointsArmure: int
+  + Entite(x: int,y: int,pv: int,pa: int)
   + getX() : int
   + getY() : int
-  + getPeutTraverser() : boolean
-  + getPv() : int
-  + setX() : void
-  + setY() : void
-  + setPeutTraverser() : void
-  + setPv() : void
-  
-  
+  + getPointsVie(): int
+  + getPointsArmure(): int
+  + getArme(): Arme
+  + diminuerVie(retrait: int): void
+  + diminuerArmure(retrait: int): void
+  + {abstract} attaquer(ennemi: Entite): void
+  + {abstract} seDeplacer(direction: Direction): void
 }
 
 class Gobelin {
-
+  + Gobelin(x: int, y: int,pv: int,pa: int, arme: Arme)
+  + attaquer(ennemi: Entite): void
+  + seDeplacer(direction: Direction): void
+  + toString(): String
 }
 
 class Fantome {
-
-}
-
-
-class CaseVide {
-  + CaseVide(): 
-  + estTraversable(): boolean
+  + Fantome(x: int,y: int,pv: int,pa: int, arme: Arme)
+  + attaquer(ennemi: Entite): void
+  + seDeplacer(direction: Direction): void
   + toString(): String
 }
-class Jeu {
-  + Jeu(String): 
-  + Jeu(): 
-  - labyrinthe: Labyrinthe
-  - joueur: Joueur
-  + etreSurSortie(int, int): boolean
-  + deplacerJoueur(String): int
-  - determinerDepart(Labyrinthe): int[]
-  + toString(): String
-  + placerJoueurSurCase(int, int): void
-  + validerDeplacement(int, int): boolean
-}
+
 class Joueur {
+  + Joueur(px: int, py: int, pv: int, pa: int)
+  + getInventaire(): ArrayList<Potion>
+  + seDeplacer(direction: String): void
+  + attaquer(ennemi: Entite): void
+  + pouvoirEtreSurCaseSpecial(): boolean
+  + ramasserArme(a: Arme): void
+  + deposerArme(): void
+  + utiliserInventaire(position: int): void
+  + ramasserPotion(Potion): void
   + toString(): String
-  + seDeplacer(int, int): void
-}
-class Labyrinthe {
-  + Labyrinthe(String): 
-  + Labyrinthe(int, int): 
-  + Labyrinthe(): 
-  - hauteur: int
-  - largeur: int
-  - cases: ArrayList<ArrayList<Case>>
-  + initialiserParGenerationAutomatique(): void
-  + initialiserParDefaut(): void
-  + generer(int[][]): void
-  + getCase(int, int): Case
-  + initialiserPourTest(): void
-  + toString(): String
-  + initialiserParFichier(String): void
 }
 
-CaseMur     -[#008200,dashed]-^  Case       
-CaseSortie  -[#008200,dashed]-^  Case       
-CaseVide    -[#008200,dashed]-^  Case       
+class Arme {
+  - nom: String
+  - degat: int
+  - portee: int
+  + Arme(nom: String, degat: int, portee: int, zone: int)
+  + getNom(): String
+  + getDegat(): int
+  + getPortee(): int
+  + getZone(): ZoneAttaque
+}
 
+class Thread {}
 
-Jeu --> Labyrinthe : labyrinthe
-Jeu --> Joueur : joueur
-Labyrinthe --> Case : cases
+class ThreadMonstre{
+  - entite: Entite
+  + ThreadMonstre(e: Entite)
+  + run(): void
+}
+
+enum ZoneAttaque{
+  CASE_DEVANT
+  ARC_DE_CERCLE
+}
+
 Entite <|-- Joueur
 Entite <|-- Fantome
 Entite <|-- Gobelin
+
+CaseMur     -[#008200,dashed]-^  Case
+CaseSortie  -[#008200,dashed]-^  Case
+CaseVide    -[#008200,dashed]-^  Case
+CaseTresor  -[#008200,dashed]-^  Case
+CaseEffet   -[#008200,dashed]-^  Case
+
+Jeu "1" *-- "1*" Labyrinthe : - labyrinthe
+Jeu "1..*" *-- "1" Entite : - entites
+
+Jeu -[#356BF2,dashed]> Direction: "use"
+Entite -[#356BF2,dashed]> Direction: "use"
+Joueur -[#356BF2,dashed]> Direction: "use"
+Gobelin -[#356BF2,dashed]> Direction: "use"
+Fantome -[#356BF2,dashed]> Direction: "use"
+
+Labyrinthe "1..*" *--  "1" Case : - cases
+
+CaseTresor "1" o-- "0,1" Tresor: - contenu
+
+Potion       -[#F24F35,dashed]-^ Tresor
+PieceArmure  -[#F24F35,dashed]-^ Tresor
+Arme         -[#F24F35,dashed]-^ Tresor
+
+CaseEffet "1" --> "1" TypeEffet: - type
+Arme "1" --> "1" ZoneAttaque: - zone
+
+Entite "1" o-- "0,1" Arme: - arme
+
+Joueur "0.*" *-- "0,1" Potion: - inventaire
+
+ThreadMonstre --|> Thread
+
+Jeu -[dashed]-> ThreadMonstre: "use"
 @enduml

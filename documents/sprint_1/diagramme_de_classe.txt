@@ -121,22 +121,21 @@ abstract Entite {
   + getPointsVie(): int
   + getPointsArmure(): int
   + getArme(): Arme
-  + diminuerVie(retrait: int): void
-  + diminuerArmure(retrait: int): void
-  + {abstract} attaquer(ennemi: Entite): void
+  + prendreDegat(retrait : int) : boolean
+  + {abstract} attaquer(): void
   + {abstract} seDeplacer(direction: Direction): void
 }
 
 class Gobelin {
   + Gobelin(x: int, y: int,pv: int,pa: int, arme: Arme)
-  + attaquer(ennemi: Entite): void
+  + attaquer(): void
   + seDeplacer(direction: Direction): void
   + toString(): String
 }
 
 class Fantome {
   + Fantome(x: int,y: int,pv: int,pa: int, arme: Arme)
-  + attaquer(ennemi: Entite): void
+  + attaquer(): void
   + seDeplacer(direction: Direction): void
   + toString(): String
 }
@@ -145,7 +144,7 @@ class Joueur {
   + Joueur(px: int, py: int, pv: int, pa: int)
   + getInventaire(): ArrayList<Potion>
   + seDeplacer(direction: String): void
-  + attaquer(ennemi: Entite): void
+  + attaquer(): void
   + pouvoirEtreSurCaseSpecial(): boolean
   + ramasserArme(a: Arme): void
   + deposerArme(): void
@@ -176,6 +175,7 @@ class ThreadMonstre{
 enum ZoneAttaque{
   CASE_DEVANT
   ARC_DE_CERCLE
+  EN_CARRE
 }
 
 Entite <|-- Joueur

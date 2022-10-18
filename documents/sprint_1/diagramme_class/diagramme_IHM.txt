@@ -1,0 +1,160 @@
+@startuml
+
+class FenetreGraphique {
+  - jeu: Jeu
+  - menuBar: JMenuBar
+  - contentPane: JPanel
+  + FenetreGraphique()
+  + getJeu(): Jeu
+  + afficherPartie(): void
+  + afficherVueFin(): void
+  - ajouterPanel(panel: JPanel): void
+  - createKeyListener(): KeyListener
+}
+
+class Menu {
+  - control: JMenu
+  - aide: JMenu
+  - informations: JMenu
+  - redemarrerPartie: JMenuItem
+  - quitterPartie: JMenuItem
+  - regles: JMenuItem
+  - commandesJeu: JMenuItem
+  - copyright: JMenuItem
+  + Menu()
+  - createRedemarrerPartie(): JMenuItem
+  - createQuitterPartie(): JMenuItem
+  - createRegles(): JMenuItem
+  - createCommandes(): JMenuItem
+  - createCopyright(): JMenuItem
+  - createControl(): JMenu
+  - createAide(): JMenu
+  - createInformations(): JMenu
+  - createRedemarrerListener(): ActionListener
+  - createQuitterListener(): ActionListener
+  - createReglesListener(): ActionListener
+  - createCommandesListener(): ActionListener
+  - createCopyrightListener(): ActionListener
+}
+
+class PanelAccueil{
+  - textBienvenu: JLabel
+  - textNombreNiveau: JLabel
+  - nombreNiveau: JTextField
+  - startGame: JButton
+  - startGameFichier: JButton
+  + PanelAccueil()
+  - createTextBienvenu(): JLabel
+  - createNombreNiveau(): JLabel
+  - createNombreNiveau(): JTextField
+  - createStartGame(): JButton
+  - createStartGameFichier(): JButton
+  - createStartGameListener(): ActionListener
+  - createStartGameListenerFichier(): ActionListener
+  - createNombreNiveauListener(): KeyListener
+}
+
+class PanelFinJeu{
+  - type: int
+  - textFin: JLabel
+  - buttonRetourAccueil: JButton
+  + PanelFinJeu(type: int)
+  - createTextFin(): JLabel
+  - createButtonRetourAccuei()l: JButton
+  - createButtonListener(): ActionListener
+}
+
+class PanelPartie{
+  - hud: JPanel
+  - pointsVie: JLabel
+  - armure: JLabel
+  - arme: JLabel
+  - inventairePotion: JLabel
+  - labyrinthe: JPanel
+  - cases: ArrayList<ArrayList<CaseComponent>>
+  - caseJoueur: int[2]
+  - informations: JPanel
+  - textInformations: JLabel
+  + PanelPartie(dimension: int[2], positionJoueur: int[2], positionMontres: int[][], sante: int[2], arme: String, potions: int[5])
+  - createTextInfos(): JLabel
+  - createInformations(): JPanel
+  - createHud(): JPanel
+  - createPointsVie(pv: int): JLabel
+  - createArmure(armure: int): JLabel
+  - createArme(arme: String): JLabel
+  - createInventairePotion(potions: int[5]): JLabel
+  - createLabyrinthe(): JPanel
+  - createCases(hauteur:int, largeur: int, posJoueur: int[], posMontre: int[]): ArrayList<ArrayList<CaseComponent>>
+  - createCase(joueur: boolean, monstre:boolean): CaseComponent
+  - createHudMouseListener(): MouseListener
+  - createKeyListener(): KeyListener
+  + deplacerJoueur(x: int, y:int): void
+  + ajouterInfo(chaine: String): void
+  + recevoirDegats(nb: int): void
+  + augmenterVie(pv: int): void
+  + augmenterArmure(a: int): void
+  + retirerArme(): void
+  + ajouterArme(nom: String): void
+  + retirerPotion(position: int): void
+  + ajouterPotion(): void
+}
+
+interface KeyListener <<interface>> {}
+
+interface ActionListener <<interface>> {}
+
+class FenetreInfos{
+  - textHTML: JLabel
+  + FenetreInfos()
+  - createTextHTML(infos: String): JLabel
+}
+
+class CaseJComponent{
+  -  type: String
+  -  hasJoueur: boolean
+  + CaseJComponent()
+  + getType(): String
+  + getHasJoueur(): boolean
+  + ajouterJoueur(): void
+  + retirerJoeur(): void
+  + paintComponent(Graphics g): void
+}
+
+FenetreInfos --|> JFrame
+FenetreGraphique  --|>  JFrame
+Menu --|> JMenuBar
+PanelPartie --|> JPanel
+PanelAccueil --|> JPanel
+PanelFinJeu --|> JPanel
+CaseJComponent --|> JComponent
+
+
+
+FenetreGraphique -[dashed]> FenetreInfos: "use"
+FenetreGraphique -[dashed]> Menu: "use"
+FenetreGraphique -[dashed]> PanelAccueil: "use"
+FenetreGraphique -[dashed]> PanelPartie: "use"
+FenetreGraphique -[dashed]> PanelFinJeu: "use"
+FenetreGraphique -[dashed]> KeyListener: "use
+FenetreGraphique -[#008200,dashed]> BorderLayout: "use"
+FenetreGraphique "1" *-- "1" Jeu
+
+PanelAccueil -[#356BF2,dashed]> KeyListener: "use"
+PanelAccueil -[#356BF2,dashed]> ActionListener: "use"
+PanelAccueil -[#008200,dashed]> GridLayout: "use"
+
+PanelFinJeu -[#F24F35,dashed]> ActionListener: "use"
+PanelFinJeu -[#008200,dashed]> GridLayout: "use"
+
+PanelPartie -[#008200,dashed]> BorderLayout: "use"
+PanelPartie -[#008200,dashed]> GridLayout: "use"
+PanelPartie "1..*" *-- "1" CaseJComponent
+PanelPartie -[#F0F62C,dashed]> KeyListener: "use"
+PanelPartie -[#F0F62C,dashed]> MouseListener: "use"
+
+CaseJComponent -[dashed]> Graphics: "use"
+
+Menu -[dashed]> ActionListener: "use"
+Menu -[#008200,dashed]> FlowLayout: "use"
+
+@enduml

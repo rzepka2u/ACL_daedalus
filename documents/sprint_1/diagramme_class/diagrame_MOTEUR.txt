@@ -41,12 +41,12 @@ class CaseEffet{
   + toString(): String
 }
 
-enum TypeEffet{
+enum TypeEffet <<enumeration>>{
   PROGRESSIF
   UNIQUE
 }
 
-enum Direction{
+enum Direction <<enumeration>>{
   HAUT
   BAS
   GAUCHE
@@ -78,13 +78,15 @@ class Jeu {
   + Jeu(path: String)
   + getLabyrinthe(): Labyrinthe
   + getEntites(): ArrayList<Entite>
-  + getJoueur(): Joueur 
+  + getJoueur(): Joueur
+  + getThreadsMonstre(): ArrayList<ThreadMonstre>
   - determinerDepart(l: Labyrinthe): int[]
   + placerJoueurSurCase(x: int,y: int): void
   + deplacerJoueur(direction: Direction): int
   + validerDeplacement(px: int,py: int): boolean
   + etreSurSortie(px: int,py: int): boolean
   + demarrerPartie(): void
+  + controles(commandes: String): void
   + changerNiveau(): void
   + toString(): String
 }
@@ -110,7 +112,7 @@ class Labyrinthe {
   + toString(): String
 }
 
-abstract Entite {
+abstract Entite <<abstract>>{
   - x : int
   - y : int
   - pointsVie : int
@@ -172,7 +174,7 @@ class ThreadMonstre{
   + run(): void
 }
 
-enum ZoneAttaque{
+enum ZoneAttaque <<enumeration>> {
   CASE_DEVANT
   ARC_DE_CERCLE
   EN_CARRE
@@ -214,5 +216,6 @@ Joueur "0.*" *-- "0,1" Potion: - inventaire
 
 ThreadMonstre --|> Thread
 
-Jeu -[dashed]-> ThreadMonstre: "use"
+Jeu "1..*" *-- "1" ThreadMonstre: "- threadsMonstre"
+
 @enduml

@@ -4,7 +4,7 @@ title "Attaque joueur - Sequence Diagram"
 
 
 Main -> Jeu : demarrerPartie()
-Jeu -> Jeu : controles()
+Jeu -> Jeu : controles(cmd)
 Jeu -> Joueur : attaquer()
 Joueur -> Arme : getPortee()
 Arme --> Joueur : portee

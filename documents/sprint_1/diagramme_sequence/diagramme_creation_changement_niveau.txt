@@ -1,0 +1,67 @@
+@startuml
+
+title "Création/Changement Niveaux - Sequence Diagram"
+
+actor player as player
+
+create Jeu
+player -> Jeu: new
+player -> Jeu: demarrerPartie()
+activate Jeu 
+
+Jeu -> Jeu: nbLabyrinthe = 0
+Jeu -> Jeu: difficulte = 0
+create Joueur
+Jeu -> Joueur: new
+
+loop While nbLabyrinthe < nbMaxNiveau
+
+    create Labyrinthe
+    Jeu -> Labyrinthe: new Labyrinthe(difficulte)
+    Labyrinthe -> Labyrinthe: initialiserParGenerationAutomatique()
+    activate Labyrinthe
+    deactivate Labyrinthe
+    Jeu -> Jeu: nbLabyrinthe++
+
+    Jeu -> Jeu: determinerDepart(Labyrinthe)
+    note left: return [X, Y]
+    Jeu -> Joueur: setX(X)
+    activate Joueur
+    deactivate Joueur
+    Jeu -> Joueur: setY(Y)
+    activate Joueur
+    deactivate Joueur
+    player -> Jeu: controles(cmd)
+    opt cmd est un déplacement
+        Jeu -> Joueur: getX()
+        activate Joueur 
+        Jeu <-- Joueur: return X
+        deactivate Joueur
+        Jeu -> Joueur: getY()
+        activate Joueur
+        Jeu <-- Joueur: return Y
+        deactivate Joueur
+    end
+    Jeu -> Jeu: etreSurSortie(X, Y)
+    note left: return False or True
+    loop While etreSurSortie(X,Y) == False
+        player -> Jeu: controles(cmd)
+        opt cmd est un déplacement
+            Jeu -> Joueur: getX()
+            activate Joueur
+            Jeu <-- Joueur: return X
+            deactivate Joueur
+            Jeu -> Joueur: getY()
+            activate Joueur
+            Jeu <-- Joueur: return Y
+            deactivate Joueur
+        end
+        Jeu -> Jeu: etreSurSortie(X, Y)
+        note left: return False or True
+    end
+    destroy Labyrinthe
+    Jeu -> Jeu: difficulte++
+end
+deactivate Jeu
+
+@enduml

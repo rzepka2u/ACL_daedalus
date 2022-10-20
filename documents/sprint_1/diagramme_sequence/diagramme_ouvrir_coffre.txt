@@ -1,0 +1,30 @@
+@startuml
+
+title "Attaque joueur - Sequence Diagram"
+
+actor player as player
+== Au Préalable:\n Création et déroulement d'une partie ... ==
+player -> Jeu : controles(cmd)
+opt cmd est l'ouverture d'un coffre
+	activate Jeu
+		Jeu -> Jeu : etreSurCaseSpecial()
+		opt joueur sur une case tresor
+			Jeu -> Labyrinthe : getCase(x,y)
+			activate Labyrinthe
+				Labyrinthe --> Jeu : case
+			deactivate Labyrinthe
+			Jeu -> CaseTresor : getContenu()
+			activate CaseTresor
+				CaseTresor --> Jeu : contenu
+			deactivate CaseTresor
+			Jeu -> Jeu : spawnTresor(contenu)
+			
+			player -> Jeu : controles(cmd)
+			opt cmd est le ramassage d'une arme (même input)
+				Jeu -> Joueur : ramasserTresor(contenu)
+			end
+		end
+	deactivate Jeu
+	
+end
+@enduml

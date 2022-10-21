@@ -1,0 +1,105 @@
+@startuml Deplacement Monstre
+
+title "Déplacement d'un monstre - Sequence Diagram"
+
+== Au Préalable:\n Création et déroulement d'une partie ... ==
+
+activate ThreadMonstre
+loop boucle principal du thread (while joueur vivant & monstre vivant & labyrinthe non détruit)
+    ThreadMonstre -> Jeu : joueurAPortee(position)
+    note right: position = position du Monstre dans la collection Entite 
+    deactivate ThreadMonstre
+    activate Jeu
+    Jeu -> Monstre : getArme()
+    deactivate Jeu
+    activate Monstre
+    Jeu <-- Monstre: Arme a
+    deactivate Monstre
+    activate Jeu
+    Jeu -> Arme : getPortee()
+    deactivate Jeu
+    activate Arme
+    Arme --> Jeu : portee
+    deactivate Arme
+    activate Jeu
+    Jeu -> Arme : getZone()
+    deactivate Jeu
+    activate Arme
+    Arme --> Jeu : zone
+    deactivate Arme
+    activate Jeu
+    ThreadMonstre <-- Jeu : return True or False
+    deactivate Jeu
+    activate ThreadMonstre
+    opt le joueur n'est pas a portée d'attaque du monstre
+        ThreadMonstre -> ThreadMonstre: estTraversable = false
+        note right: Déclaration d'un booléen
+        ThreadMonstre -> Jeu: getEntite(position)
+        deactivate ThreadMonstre
+        activate Jeu
+        ThreadMonstre <-- Jeu: Monstre m
+        deactivate Jeu
+        activate ThreadMonstre
+        ThreadMonstre -> Monstre: getX()
+        deactivate ThreadMonstre
+        activate Monstre
+        ThreadMonstre <-- Monstre: ancienX
+        deactivate Monstre
+        activate ThreadMonstre
+        ThreadMonstre -> Monstre: getY()
+        deactivate ThreadMonstre
+        activate Monstre
+        ThreadMonstre <-- Monstre: ancienY
+        deactivate Monstre
+        activate ThreadMonstre
+        loop While estTraversable == False
+            ThreadMonstre -> ThreadMonstre: random()
+            note right: Tirage au sort entier entre 1 et 4
+            opt tirage == 1
+                ThreadMonstre -> ThreadMonstre: x = ancienX -1, y = ancienY
+            end
+            opt tirage == 2
+                ThreadMonstre -> ThreadMonstre: x = ancienX, y = ancienY +1
+            end
+            opt tirage == 3
+                ThreadMonstre -> ThreadMonstre: x = ancienX +1, y = ancienY
+            end
+            opt tirage = 4
+                ThreadMonstre -> ThreadMonstre: x = ancienX, y = ancienY-1
+            end
+            ThreadMonstre -> Jeu: getLabyrinthe()
+            deactivate ThreadMonstre
+            activate Jeu
+            ThreadMonstre <-- Jeu: Labyrinthe l
+            deactivate Jeu
+            activate ThreadMonstre
+            ThreadMonstre -> Labyrinthe: getCase(x,y)
+            deactivate ThreadMonstre
+            activate Labyrinthe
+            ThreadMonstre <-- Labyrinthe: Case c
+            deactivate Labyrinthe
+            activate ThreadMonstre
+            ThreadMonstre -> Monstre: estTraversable(c)
+            deactivate ThreadMonstre
+            activate Monstre
+            alt le monstre peut traverser la Case
+                ThreadMonstre <-- Monstre: True
+                activate ThreadMonstre
+                ThreadMonstre -> ThreadMonstre: estTraversable = True
+            else
+                ThreadMonstre <-- Monstre: False
+                deactivate Monstre
+                ThreadMonstre -> ThreadMonstre: estTraversable = False
+            end
+        end
+        ThreadMonstre -> Jeu: deplacerEntite(position, x, y)
+        note right: position = position du Monstre dans la collection Entite
+        deactivate ThreadMonstre
+        activate Jeu
+        Jeu -> Monstre: seDeplace(x,y)
+        deactivate Jeu
+        activate Monstre
+        deactivate Monstre
+    end
+end
+@enduml

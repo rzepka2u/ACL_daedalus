@@ -1,0 +1,40 @@
+@startuml
+title "Déplacement sur case à effet - Sequence Diagram"
+
+actor player as player
+== Au Préalable:\n Création et déroulement d'une partie ... ==
+loop While jeu non fini
+	player -> Jeu : controles(cmd)
+	opt cmd est un déplacement dans une des quatres directions
+		activate Jeu
+		Jeu -> Jeu : deplacerJoueur(direction)
+		activate Joueur
+                Jeu -> Joueur : seDeplacer(px, py)
+                deactivate Joueur
+		opt La case sur laquelle le joueur se déplace est une case à effet
+                        Jeu -> Case : getType()
+                        activate Case
+                        alt case à effet immédiat (non progressif)
+				Case --> Jeu : UNIQUE
+                                Jeu -> Joueur : AppliquerEffet()
+                                activate Joueur 
+                                Joueur -> Joueur : pv + effet case 
+			else
+				Case --> Jeu : PROGRESSIF
+                                Jeu -> ThreadCaseEffet : AppliquerEffet()
+                                activate ThreadCaseEffet
+                                loop Tant que la durée de l'effet n'est pas complètement appliqué
+                                      ThreadCaseEffet -> Joueur : AppliquerEffetProgressif(pv)
+                                      Joueur -> Joueur : pvActuels + pv
+                                      ThreadCaseEffet -> ThreadCaseEffet : sleep(x secondes)
+                                end
+				Jeu -> ThreadCaseEffet : kill(pidThread)
+				deactivate Joueur
+                                deactivate Case
+				destroy ThreadCaseEffet
+			end
+		end
+
+	end
+end
+@enduml

@@ -12,57 +12,84 @@ loop While jeu non fini
 		note right: return [-1,-1] si pas de trésor ou [x,y]: position du coffre 
 		opt joueur à proximité d'une case tresor
 			Jeu -> Labyrinthe : getCase(x,y)
+			deactivate Jeu
 			activate Labyrinthe
 			Labyrinthe --> Jeu : case
 			deactivate Labyrinthe
+			activate Jeu
 			Jeu -> CaseTresor : estOuvert()
+			deactivate Jeu
 			activate CaseTresor
 			CaseTresor --> Jeu: True or False 
 			deactivate CaseTresor
+			activate Jeu
 			alt le trésor est fermé
 				Jeu -> CaseTresor : ouvrirTresor()
 				activate CaseTresor
 				deactivate CaseTresor
 			else le trésor est ouvert
 				Jeu -> CaseTresor : getContenu()
+				deactivate Jeu
 				activate CaseTresor
 				Jeu <-- CaseTresor : Tresor t
 				deactivate CaseTresor
-				Jeu -> Jeu : ramasser = True
-				note right: déclaration d'un booléen
+				activate Jeu
 				alt t instance of Potion
 					Jeu -> Joueur: getInventaire()
+					deactivate Jeu
 					activate Joueur
 					Jeu <-- Joueur: arrayList<Potion> listPotion
 					deactivate Joueur
-					alt inventaire plein
-						Jeu -> Jeu: ramasser = False						
-					else inventaire non plein
+					activate Jeu
+					opt inventaire non plein
 						Jeu -> Joueur: ramasserPotion(t)
 						activate Joueur
 						deactivate Joueur
-					end
-				else t instance of Arme
-					Jeu -> Joueur : getArme()
-					activate Joueur
-					Jeu <-- Joueur: Arme ancienneArme
-					deactivate Joueur
-					Jeu -> Joueur: setArme(t)
-					activate Joueur
-					deactivate Joueur
-				end
-				opt ramasser == True
-					alt t instance of Arme		
-						Jeu -> CaseTresor: case.setContenu(ancienneArme)
-						activate CaseTresor
-						deactivate CaseTresor
-					else t instance of Potion 
 						create CaseVide
 						Jeu -> CaseVide: caseV = new CaseVide()
 						Jeu -> Labyrinthe: setCase(x, y, caseV)
 						activate Labyrinthe
 						deactivate Labyrinthe
-						destroy CaseTresor					
+						destroy CaseTresor	
+					end
+				else t not instance of Potion
+					alt t instance of Arme
+						Jeu -> Joueur : getArme()
+						deactivate Jeu
+						activate Joueur
+						Jeu <-- Joueur: Arme ancienneArme
+						deactivate Joueur
+						activate Jeu
+						Jeu -> Joueur: ramasserArme(t)
+						activate Joueur
+						deactivate Joueur
+						Jeu -> CaseTresor: case.setContenu(ancienneArme)
+						activate CaseTresor
+						deactivate CaseTresor
+					else t instance of PieceArmure 
+						Jeu -> Joueur: getPointsArmure()
+						deactivate Jeu
+						activate Joueur
+						Jeu <-- Joueur: pointsArmure
+						deactivate Joueur
+						activate Jeu
+						opt pointsArmure != max
+							Jeu -> PieceArmure: getPointsArmure()
+							deactivate Jeu
+							activate PieceArmure
+							Jeu <-- PieceArmure: pointsArmure
+							deactivate PieceArmure
+							activate Jeu
+							Jeu -> Joueur: ramasserArmure(pointsArmure)
+							activate Joueur
+							deactivate Joueur
+							create CaseVide
+							Jeu -> CaseVide: caseV = new CaseVide()
+							Jeu -> Labyrinthe: setCase(x, y, caseV)
+							activate Labyrinthe
+							deactivate Labyrinthe
+							destroy CaseTresor	
+						end
 					end
 				end
 			end 

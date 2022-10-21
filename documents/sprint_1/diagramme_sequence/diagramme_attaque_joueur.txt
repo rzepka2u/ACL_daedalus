@@ -4,53 +4,52 @@ title "Attaque joueur - Sequence Diagram"
 
 actor player as player
 == Au Préalable:\n Création et déroulement d'une partie ... ==
-player -> Jeu : controles(cmd)
-opt cmd est une attaque
-	activate Jeu
-	Jeu -> Joueur : attaquer()
-	deactivate Jeu
-	activate Joueur
-	Joueur -> Arme : getPortee()
-	activate Arme
-	Arme --> Joueur : portee
-	deactivate Arme
-	Joueur -> Arme : getZone()
-	activate Arme
-	Arme --> Joueur : zone
-	deactivate Arme
-	Joueur -> Arme : getDegats()
-	activate Arme
-	Arme --> Joueur : degats
-	deactivate Arme
-	Jeu <- Joueur: getEntites()
-	activate Jeu 
-	Jeu --> Joueur: return entites
-	deactivate Jeu
-	note left: retourne la liste des entités du Jeu
-	loop forEach Entite entites
-		opt Entite touchée par l'attaque
-			Joueur -> Joueur : ajout de l'entite dans la liste de retour
-		end
-	end
-		Joueur --> Jeu : ArrayList<Entite>
-		deactivate Joueur
+loop While jeu non fini
+	player -> Jeu : controles(cmd)
+	opt cmd est une attaque
 		activate Jeu
+		Jeu -> Joueur : attaquer(entites)
+		deactivate Jeu
+		activate Joueur
+		Joueur -> Arme : getPortee()
+		deactivate Joueur
+		activate Arme
+		Arme --> Joueur : portee
+		deactivate Arme
+		activate Joueur
+		Joueur -> Arme : getZone()
+		deactivate Joueur
+		activate Arme
+		Arme --> Joueur : zone
+		deactivate Arme
+		activate Joueur
+		Joueur -> Arme : getDegats()
+		deactivate Joueur
+		activate Arme
+		Arme --> Joueur : degats
+		deactivate Arme
+		activate Joueur
+		loop forEach Entite entites
+			opt Entite touchée par l'attaque
+				Joueur -> Joueur : ajout de l'entite dans la liste de celles touchées
+			end
+		end
 		opt liste non vide
 			loop forEach Entite e
-				Jeu -> Entite : prendreDegats(degats)
+				Joueur -> Entite : prendreDegats(degats)
 				activate Entite
 				alt degats < pv 
-					Entite --> Jeu : false
+					Entite --> Joueur : false
 					Entite -> Entite : pv - degats
 				else
-					Entite --> Jeu : true
+					Entite --> Joueur : true
 					destroy Entite
-					Jeu -> ThreadMonstre : kill(pidThread)
-					activate ThreadMonstre
+					Joueur -> ThreadMonstre : kill(pidThread)
+					deactivate Joueur
 					destroy ThreadMonstre
 				end
 			end
 		end
-		deactivate Jeu
+	end
 end
 @enduml

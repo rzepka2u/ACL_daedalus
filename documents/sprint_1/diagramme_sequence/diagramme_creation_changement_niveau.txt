@@ -23,13 +23,26 @@ loop While nbLabyrinthe < nbMaxNiveau
     Labyrinthe -> Labyrinthe: ajouterTresors()
     note left: le nombre de trésors par niveau est défini\npar une constante dans la classe Labyrinthe
     activate Labyrinthe
+    loop pour le nombre de case Trésor ajoutée
+        create CaseTresor
+        Labyrinthe -> CaseTresor: new
+    end
     deactivate Labyrinthe
     Labyrinthe -> Labyrinthe: ajouterCasesEffets()
     note left: + nbLabyrinthe est grand, + il y a de cases
     activate Labyrinthe
+    loop pour le nombre de case Effet ajoutée 
+        create CaseEffet
+        Labyrinthe -> CaseEffet: new
+    end
     deactivate Labyrinthe
     Jeu -> Jeu: creersMonstres(nbLabyrinthe)
     note right: + nbLabyrinthe est grand, + il y a de monstres
+    loop pour le nombre de monstres créé
+        create ThreadMonstre
+        Jeu -> ThreadMonstre: new
+        Jeu -> ThreadMonstre: run()
+    end
     Jeu -> Jeu: nbLabyrinthe++
     Jeu -> Jeu: determinerDepart(Labyrinthe)
     note left: return [x, y]

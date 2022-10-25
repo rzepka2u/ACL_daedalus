@@ -8,29 +8,55 @@ loop While jeu non fini
 	opt cmd est un déplacement dans une des quatres directions
 		activate Jeu
 		Jeu -> Jeu : deplacerJoueur(direction)
-		activate Joueur
                 Jeu -> Joueur : seDeplacer(px, py)
+                activate Joueur
                 deactivate Joueur
-		opt La case sur laquelle le joueur se déplace est une case à effet
-                        Jeu -> Case : getType()
-                        activate Case
+                Jeu -> Joueur: getX()
+                deactivate Jeu
+                activate Joueur
+                Jeu <-- Joueur: x
+                deactivate Joueur
+                activate Jeu
+                Jeu -> Joueur: getY()
+                deactivate Jeu
+                activate Joueur
+                Jeu <-- Joueur: y
+                deactivate Joueur
+                activate Jeu
+                Jeu -> Labyrinthe: getCase(x,y)
+                deactivate Jeu
+                activate Labyrinthe
+                Jeu <-- Labyrinthe: c
+                deactivate Labyrinthe
+                activate Jeu
+		opt c instance of CaseEffet
+                        Jeu -> CaseEffet : getType()
+                        deactivate Jeu
+                        activate CaseEffet
                         alt case à effet immédiat (non progressif)
-				Case --> Jeu : UNIQUE
-                                Jeu -> Joueur : AppliquerEffet()
+				CaseEffet --> Jeu : UNIQUE
+                                activate Jeu
+                                Jeu -> Joueur : modifierPV()
+                                deactivate Jeu
                                 activate Joueur 
                                 Joueur -> Joueur : pv + effet case 
-			else
-				Case --> Jeu : PROGRESSIF
-                                Jeu -> ThreadCaseEffet : AppliquerEffet()
+                                deactivate Joueur
+			else case à effet progressif
+				CaseEffet --> Jeu : PROGRESSIF
+                                deactivate CaseEffet
+                                activate Jeu
+                                create ThreadCaseEffet
+                                Jeu -> ThreadCaseEffet: new
+                                Jeu -> ThreadCaseEffet : run()
+                                deactivate Jeu
                                 activate ThreadCaseEffet
                                 loop Tant que la durée de l'effet n'est pas complètement appliqué
-                                      ThreadCaseEffet -> Joueur : AppliquerEffetProgressif(pv)
+                                      ThreadCaseEffet -> Joueur : modifierPV(pv)
+                                      activate Joueur
                                       Joueur -> Joueur : pvActuels + pv
-                                      ThreadCaseEffet -> ThreadCaseEffet : sleep(x secondes)
+                                      deactivate Joueur
+                                      ThreadCaseEffet -> Thread : sleep(x secondes)
                                 end
-				Jeu -> ThreadCaseEffet : kill(pidThread)
-				deactivate Joueur
-                                deactivate Case
 				destroy ThreadCaseEffet
 			end
 		end

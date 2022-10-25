@@ -1,8 +1,7 @@
 @startuml
 
 interface Case << interface >> {
-  + estTraversableParJoueur(): boolean
-  + estTraversableParMonstre(): boolean
+  + estTraversable(): boolean
   + toString(): String
 }
 
@@ -13,19 +12,17 @@ interface Tresor << interface >> {
 class CaseMur {
   + CaseMur() 
   + toString(): String
-  + estTraversableParJoueur(): boolean
-  + estTraversableParMonstre(): boolean
+  + estTraversable(): boolean
 }
+
 class CaseSortie {
   + CaseSortie() 
-  + estTraversableParJoueur(): boolean
-  + estTraversableParMonstre(): boolean
+  + estTraversable(): boolean
   + toString(): String
 }
 class CaseVide {
   + CaseVide() 
-  + estTraversableParJoueur(): boolean
-  + estTraversableParMonstre(): boolean
+  + estTraversable(): boolean
   + toString(): String
 }
 
@@ -36,8 +33,7 @@ class CaseEffet{
   + getType(): TypeEffet
   + getDiminutionPV(): int
   + getAugmentationPV(): int
-  + estTraversableParJoueur(): boolean
-  + estTraversableParMonstre(): boolean
+  + estTraversable(): boolean
   + toString(): String
 }
 
@@ -54,9 +50,12 @@ enum Direction <<enumeration>>{
 }
 
 class CaseTresor{
+  - ouvert: boolean
   + CaseTresor(contenu: Tresor)
-  + estTraversableParJoueur(): boolean
-  + estTraversableParMonstre(): boolean
+  + estTraversable(): boolean
+  + getContenu(): Tresor
+  + setContenu(t: Tresor): Tresor
+  + estOuvert(): boolean
   + toString(): String
 }
 
@@ -74,27 +73,36 @@ class Potion{
 
 class Jeu {
   - nbMaxNiveau: int
+  - verrousEntite: ArrayList<Object>
   + Jeu()
   + Jeu(path: String)
   + getLabyrinthe(): Labyrinthe
   + getEntites(): ArrayList<Entite>
   + getJoueur(): Joueur
+  + getEntite(position: int): Entite
   + getThreadsMonstre(): ArrayList<ThreadMonstre>
+  + getVerrousEntite(): ArrayList<Object>
   - determinerDepart(l: Labyrinthe): int[]
   + placerJoueurSurCase(x: int,y: int): void
   + deplacerJoueur(direction: Direction): int
+  + deplacerEntite(position: int, x: int, y: int): void
   + validerDeplacement(px: int,py: int): boolean
   + etreSurSortie(px: int,py: int): boolean
+  + etreProcheCaseTresor(): int[]
   + demarrerPartie(): void
   + controles(commandes: String): void
   + changerNiveau(): void
+  + joueurAPortee(position: int): boolean
+  + attaquerJoueur(position: int): void
+  + mortJoueur(): void
+  + creerMonstres(nbLabyrinthe: int): void
   + toString(): String
 }
 
 class Labyrinthe {
   - hauteur: int
   - largeur: int
-  - difficultee: int
+  - nbLabyrinthe: int
   + Labyrinthe(difficultee: int) 
   + Labyrinthe(path: String, difficultee: int) 
   + Labyrinthe(largeur: int,hauteur: int, difficultee: int)
@@ -104,11 +112,14 @@ class Labyrinthe {
   + initialiserParGenerationAutomatique(): void
   + getCase(x: int,y: int): Case
   + getCases(): ArrayList<ArrayList<Case>>
+  + setCase(x: int, y: int, c: Case): void
   + getLargeur(): int
   + getHauteur(): int
   + getXMilieu(): int
   + getYMilieu(): int
   + initialiserPourTest(): void
+  + creerTresors(): void
+  + creerCasesEffets(): void
   + toString(): String
 }
 
@@ -124,21 +135,23 @@ abstract Entite <<abstract>>{
   + getPointsArmure(): int
   + getArme(): Arme
   + prendreDegat(retrait : int) : boolean
-  + {abstract} attaquer(): void
+  + {abstract} attaquer(entites: ArrayList<Entite>): void
   + {abstract} seDeplacer(direction: Direction): void
 }
 
 class Gobelin {
   + Gobelin(x: int, y: int,pv: int,pa: int, arme: Arme)
-  + attaquer(): void
+  + attaquer(entites: ArrayList<Entite>): void
   + seDeplacer(direction: Direction): void
+  + estTraversable(c: Case): boolean
   + toString(): String
 }
 
 class Fantome {
   + Fantome(x: int,y: int,pv: int,pa: int, arme: Arme)
-  + attaquer(): void
+  + attaquer(entites: ArrayList<Entite>): void
   + seDeplacer(direction: Direction): void
+  + estTraversable(c: Case): void
   + toString(): String
 }
 
@@ -152,6 +165,8 @@ class Joueur {
   + deposerArme(): void
   + utiliserInventaire(position: int): void
   + ramasserPotion(Potion): void
+  + modifierPV(pv: int): void
+  + ramasserArmure(pointsArmure: int): void
   + toString(): String
 }
 
@@ -169,8 +184,8 @@ class Arme {
 class Thread {}
 
 class ThreadMonstre{
-  - entite: Entite
-  + ThreadMonstre(e: Entite)
+  - positionArray: int
+  + ThreadMonstre(position: int)
   + run(): void
 }
 
@@ -178,6 +193,20 @@ enum ZoneAttaque <<enumeration>> {
   CASE_DEVANT
   ARC_DE_CERCLE
   EN_CARRE
+}
+
+interface Monstre << interface >>{
+  + attaquer(entites: ArrayList<Entite>): void
+  + seDeplacer(direction: Direction): void
+  + estTraversable(c: Case)
+  + toString(): String
+}
+
+class ThreadCaseEffet {
+  - {static} TempsAttente: int
+  - pv: int
+  + ThreadCaseEffet(pv: int)
+  + run(): void
 }
 
 Entite <|-- Joueur
@@ -215,7 +244,12 @@ Entite "1" o-- "0,1" Arme: - arme
 Joueur "0.*" *-- "0,1" Potion: - inventaire
 
 ThreadMonstre --|> Thread
+ThreadCaseEffet --|> Thread
 
 Jeu "1..*" *-- "1" ThreadMonstre: "- threadsMonstre"
+Jeu -[dashed]> ThreadCaseEffet: "use"
+
+Gobelin   -[#008200,dashed]-^  Monstre
+Fantome   -[#008200,dashed]-^  Monstre
 
 @enduml

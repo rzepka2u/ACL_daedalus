@@ -40,7 +40,8 @@ loop While nbLabyrinthe < nbMaxNiveau
     note right: + nbLabyrinthe est grand, + il y a de monstres
     loop pour le nombre de monstres créé
         create ThreadMonstre
-        Jeu -> ThreadMonstre: new
+        Jeu -> ThreadMonstre: new ThreadMonstre(position)
+        note left: position = position dans ArrayList
         Jeu -> ThreadMonstre: run()
     end
     Jeu -> Jeu: nbLabyrinthe++

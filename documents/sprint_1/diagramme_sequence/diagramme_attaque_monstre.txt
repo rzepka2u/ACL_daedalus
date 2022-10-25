@@ -36,7 +36,7 @@ loop boucle principal du thread (while joueur vivant & monstre vivant & labyrint
         note right: position = position du Monstre dans la collection Entite 
         deactivate ThreadMonstre
         activate Jeu
-        Jeu -> Monstre : attaquer()
+        Jeu -> Monstre : attaquer(joueur)
         deactivate Jeu
         activate Monstre
         Monstre -> Arme : getDegats()

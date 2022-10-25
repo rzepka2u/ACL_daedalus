@@ -86,20 +86,18 @@ loop boucle principal du thread (while joueur vivant & monstre vivant & labyrint
                 ThreadMonstre <-- Monstre: True
                 activate ThreadMonstre
                 ThreadMonstre -> ThreadMonstre: estTraversable = True
+                ThreadMonstre -> Jeu: deplacerEntite(position, x, y)
+                note right: position = position du Monstre dans la collection Entite
+                deactivate ThreadMonstre
+                activate Jeu
+                Jeu -> Monstre: seDeplace(x,y)
+                deactivate Jeu
             else
                 ThreadMonstre <-- Monstre: False
                 deactivate Monstre
                 ThreadMonstre -> ThreadMonstre: estTraversable = False
             end
         end
-        ThreadMonstre -> Jeu: deplacerEntite(position, x, y)
-        note right: position = position du Monstre dans la collection Entite
-        deactivate ThreadMonstre
-        activate Jeu
-        Jeu -> Monstre: seDeplace(x,y)
-        deactivate Jeu
-        activate Monstre
-        deactivate Monstre
     end
 end
 @enduml

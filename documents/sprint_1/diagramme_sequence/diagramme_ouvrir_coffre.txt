@@ -72,13 +72,7 @@ loop While jeu non fini
 						activate Joueur
 						Jeu <-- Joueur: pointsArmure
 						deactivate Joueur
-						activate Jeu
 						opt pointsArmure != max
-							Jeu -> PieceArmure: getPointsArmure()
-							deactivate Jeu
-							activate PieceArmure
-							Jeu <-- PieceArmure: pointsArmure
-							deactivate PieceArmure
 							activate Jeu
 							Jeu -> Joueur: ramasserArmure(pointsArmure)
 							activate Joueur

@@ -1,7 +1,6 @@
-@startuml
+@startuml "diagramme partie IHM"
 
 class FenetreGraphique {
-  - jeu: Jeu
   - menuBar: JMenuBar
   - contentPane: JPanel
   + FenetreGraphique()
@@ -9,7 +8,6 @@ class FenetreGraphique {
   + afficherPartie(): void
   + afficherVueFin(): void
   - ajouterPanel(panel: JPanel): void
-  - createKeyListener(): KeyListener
 }
 
 class Menu {
@@ -88,15 +86,6 @@ class PanelPartie{
   - createCase(joueur: boolean, monstre:boolean): CaseComponent
   - createHudMouseListener(): MouseListener
   - createKeyListener(): KeyListener
-  + deplacerJoueur(x: int, y:int): void
-  + ajouterInfo(chaine: String): void
-  + recevoirDegats(nb: int): void
-  + augmenterVie(pv: int): void
-  + augmenterArmure(a: int): void
-  + retirerArme(): void
-  + ajouterArme(nom: String): void
-  + retirerPotion(position: int): void
-  + ajouterPotion(): void
 }
 
 interface KeyListener <<interface>> {}
@@ -120,6 +109,15 @@ class CaseJComponent{
   + paintComponent(Graphics g): void
 }
 
+class Thread{}
+
+class ThreadRaffraichirAffichage{
+  - {static} {final} temps: int
+  - panel: JPanel
+  + ThreadRaffraichirAffichage(panel: JPanel)
+  + run(): void 
+}
+
 FenetreInfos --|> JFrame
 FenetreGraphique  --|>  JFrame
 Menu --|> JMenuBar
@@ -127,7 +125,7 @@ PanelPartie --|> JPanel
 PanelAccueil --|> JPanel
 PanelFinJeu --|> JPanel
 CaseJComponent --|> JComponent
-
+ThreadRaffraichirAffichage --|> Thread
 
 
 FenetreGraphique -[dashed]> FenetreInfos: "use"
@@ -135,9 +133,9 @@ FenetreGraphique -[dashed]> Menu: "use"
 FenetreGraphique -[dashed]> PanelAccueil: "use"
 FenetreGraphique -[dashed]> PanelPartie: "use"
 FenetreGraphique -[dashed]> PanelFinJeu: "use"
-FenetreGraphique -[dashed]> KeyListener: "use
 FenetreGraphique -[#008200,dashed]> BorderLayout: "use"
-FenetreGraphique "1" *-- "1" Jeu
+FenetreGraphique "1" *-- "1" Jeu: "- jeu"
+FenetreGraphique "1" *-- "1" ThreadRaffraichirAffichage: "- thread"
 
 PanelAccueil -[#356BF2,dashed]> KeyListener: "use"
 PanelAccueil -[#356BF2,dashed]> ActionListener: "use"

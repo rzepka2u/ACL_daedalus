@@ -1,15 +1,20 @@
 package model.objets;
 
+import java.util.ArrayList;
+
+import model.enums.Direction;
+
 /**
 * La classe qui représente le joueur dans le labyrinthe
 */
 
-public class Joueur {
+public class Joueur extends Entite{
 
-    /**
-     * Coordonnees du joueur
-     */
-    private int x, y;
+    private static final int NB_PV_START = 100;
+    private static final int NB_PA_START = 50;
+
+    private Direction regard;
+    private ArrayList<Potion> inventaire;
 
     /**
      * Constructeur de la classe Joueur 
@@ -18,44 +23,21 @@ public class Joueur {
      * @return l'objet Joueur correctement instancié
      */
     public Joueur(int px, int py) {
-      this.x = px;
-      this.y = py;
+        super(px, py, NB_PV_START, NB_PA_START);
+        inventaire = new ArrayList<Potion>();
+        regard = Direction.BAS;
     }
 
-    /**
-     * Renvoit les coordonnees en x du joueur 
-     * 
-     * @return l'attribut x
-     */
-    public int getX() {
-      return this.x;
+    public ArrayList<Potion> getInventaire(){
+        return inventaire;
     }
 
-    /**
-     * Renvoit les coordonnees en y du joueur
-     * 
-     * @return l'attribut y
-     */
-    public int getY() {
-      return this.y;
+    public Direction getRegard(){
+        return regard;
     }
 
-    /**
-     * Definit les coordonnees en x du joueur
-     * 
-     * @param nx coordonnee en x
-     */
-    public void setX(int nx) {
-      this.x = nx;
-    }
-
-    /**
-     * Definit les coordonnees en y du joueur
-     * 
-     * @param ny coordonnee en y
-     */
-    public void setY(int ny) {
-      this.y = ny;
+    public void setRegard(Direction sens){
+        regard = sens;
     }
 
     /**
@@ -65,8 +47,8 @@ public class Joueur {
      * @param py deplacement en y
      */
     public void seDeplacer(int px, int py) {
-      this.x = px;
-      this.y = py;
+      this.setX(px);
+      this.setY(py);
     }
 
     @Override

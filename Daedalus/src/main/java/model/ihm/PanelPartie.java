@@ -6,12 +6,18 @@ import model.cases.Case;
 import model.cases.CaseMur;
 import model.cases.CaseTresor;
 import model.cases.CaseEffet;
+import model.cases.CaseDepart;
+import model.cases.CaseSortie;
+
 import model.enums.Direction;
+import model.enums.Ordre;
+
 import model.objets.Entite;
 import model.objets.Joueur;
 import model.objets.Gobelin;
 import model.objets.Potion;
 import model.objets.Arme;
+import model.objets.Commande;
 
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
@@ -25,6 +31,9 @@ import java.awt.GridBagConstraints;
 import java.awt.Color;
 import java.awt.Insets;
 import java.awt.Dimension;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 /**
@@ -44,12 +53,13 @@ public class PanelPartie extends JPanel{
     private JLabel armeLabel; // Le texte et l'icône de l'arme du joueur
     private JLabel potionTitreLabel; // Le texte et l'icône du titre de la partie potions
     private JLabel[] potionLabels; // Les cinqs icônes de l'inventaire des potions
+    private JLabel descriptionPotionLabel; // Le texte de la description d'une potion (nombre pv gagnés)
     private JLabel infosTitreLabel; // Le titre et l'îcone de titre des informations
     private JLabel[] infosLabels; // Les cinqs derniers textes des informations
 
     /**
-     * Unique constructeur de la classe PanelPartie
-     * @para f l'objet FenetreGraphique dans lequelle sera affiché le panel
+     * Constructeur par défaut de la classe PanelPartie
+     * @param f l'objet FenetreGraphique dans lequelle sera affiché le panel
      */
     public PanelPartie(FenetreGraphique f){
 
@@ -58,6 +68,7 @@ public class PanelPartie extends JPanel{
         
         int i; // Pour la boucle for
         fenetre = f; // Sauvegarde le paramètre f dans l'attribut fenetre
+        descriptionPotionLabel = null; // Pas de description de potion pour le moment
 
         // Crée une nouvelle collection pour les icônes des cases
         caseLabels = new ArrayList<ArrayList<JLabel>>();
@@ -76,7 +87,7 @@ public class PanelPartie extends JPanel{
         this.add(labyPanel, BorderLayout.CENTER); // Ajout du panel de labyrinthe dans le panel de partie au centre
 
         // Création et initialisation de l'attribut hudPanel correspondant au panel pour le hud
-        hudPanel = createHudPanel();
+        hudPanel = createHudPanel(null);
         this.add(hudPanel, BorderLayout.EAST); // Ajout du panel pour le hud dans le panel de partie à droite
 
         // CRéation et initialisation de l'attribut infosPanel correspondant au panel des informations
@@ -86,11 +97,59 @@ public class PanelPartie extends JPanel{
     }
 
     /**
+     * Constructeur pour le rafraichissement de la classe PanelPartie
+     * @param f l'objet FenetreGraphique dans lequelle sera affiché le panel
+     * @param descriptionPotion l'objet JLabel représentant la description de potion qui était affiché dans l'ancien panel
+     */
+    public PanelPartie(FenetreGraphique f, JLabel descriptionPotion){
+
+        // Appel au constructeur de JPanel et défini BorderLayout en stratégie de positionnement
+        super(new BorderLayout());
+        
+        int i; // Pour la boucle for
+        fenetre = f; // Sauvegarde le paramètre f dans l'attribut fenetre
+        descriptionPotionLabel = descriptionPotion; // Pas de description de potion pour le moment
+
+        // Crée une nouvelle collection pour les icônes des cases
+        caseLabels = new ArrayList<ArrayList<JLabel>>();
+
+        // Récupération des cases du labyrinthe du jeu
+        ArrayList<ArrayList<Case>> casesLaby = f.getJeu().getLabyrinthe().getCases(); 
+
+        // Pour chaque ligne de la matrice des cases du labyrinthe
+        for(i=0; i<casesLaby.size(); i++){
+            // Création d'une nouvelle collection dans la collections des îcones de cases
+            caseLabels.add(new ArrayList<JLabel>()); 
+        }
+
+        // Création et initialisation de l'attribut labyPanel correspondant au panel du labyrinthe
+        labyPanel = createLabyPanel(casesLaby);
+        this.add(labyPanel, BorderLayout.CENTER); // Ajout du panel de labyrinthe dans le panel de partie au centre
+
+        // Création et initialisation de l'attribut hudPanel correspondant au panel pour le hud
+        hudPanel = createHudPanel(descriptionPotion);
+        this.add(hudPanel, BorderLayout.EAST); // Ajout du panel pour le hud dans le panel de partie à droite
+
+        // Création et initialisation de l'attribut infosPanel correspondant au panel des informations
+        infosPanel = createInfosPanel();
+        this.add(infosPanel, BorderLayout.SOUTH); // Ajout du panel des informations dans le panel de partie en bas
+
+    }
+
+    /** 
+     * Getter sur l'attribut descriptionPotionLabel
+     * @return objet JLabel contenant la valeur de l'attribut (null possible)
+     */
+    public JLabel getDescriptionPotion(){
+        return descriptionPotionLabel;
+    }
+
+    /**
      * Méthode qui crée et initialise le panel du labyrinthe
      * @param cases objet ArrayList<ArrayList<Case>> représentant les cases du labyrinthe
      * @return objet JPanel représentant le labyrinthe
      */
-    private JPanel createLabyPanel( ArrayList<ArrayList<Case>> cases){
+    private JPanel createLabyPanel(ArrayList<ArrayList<Case>> cases){
         
         // Déclaration des variables nécessaires pour les boucles
         int i, j;
@@ -124,6 +183,12 @@ public class PanelPartie extends JPanel{
                 if(cases.get(i).get(j) instanceof CaseMur){
                     // Création d'une nouvelle icône mur
                     tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/mur.png")));
+                } else if(cases.get(i).get(j) instanceof CaseSortie){ // Si la case est la case de sortie
+                    // Création d'une nouvelle icône escalier montant
+                    tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/sortie.png")));
+                } else if(cases.get(i).get(j) instanceof CaseDepart){ // Si la case est la case de départ
+                    // Création d'un nouvelle icône escalier descendant
+                    tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/depart.png")));
                 } else if(cases.get(i).get(j) instanceof CaseTresor){ //Si la case est un trésor
 
                     // Si le trésor est fermé
@@ -221,9 +286,10 @@ public class PanelPartie extends JPanel{
 
     /**
      * Méthode qui crée et inittialise le panel pour le hud
+     * @param descriptionPotion valeur de l'attribut au sein de l'ancien objet PanelPartie ou null (pour le rafraîchissement)
      * @return objet JPanel représentant le hud
      */
-    private JPanel createHudPanel(){
+    private JPanel createHudPanel(JLabel descriptionPotion){
 
         // Création d'un nouveau panel avec la stratégie de positionnement GridBagLayout
         JPanel panel = new JPanel(new GridBagLayout());
@@ -287,7 +353,21 @@ public class PanelPartie extends JPanel{
             Création et initialisation de l'attribut potionsLabels pour le titre du tableau de potions
             + Ajout de l'attribut dans le panel pour le hud avec les contraintes
         */
-        potionLabels = createPotionLabels(panel, gc); 
+        potionLabels = createPotionLabels(panel, gc);
+        
+
+        // Si une description de potion était en place dans l'ancien objet PanelPartie
+        if(descriptionPotion != null){
+            
+            // Initialisation des contraintes pour la description de potion
+            gc.gridx = 0; // Sa position x dans le tableau (abscisses)
+            gc.gridy = 8; // Sa position y dans le tableau (ordonnées)
+            gc.gridwidth = 5; // L'élément doit prendre 5 cases en largeur
+            gc.ipady = 10; // Une marge verticale de 10 pixels à l'intérieure des cases 
+
+            // Ajout de l'ancienne description dans le nouveau panel
+            panel.add(descriptionPotion, gc);
+        }
 
         return panel;
     }
@@ -493,9 +573,87 @@ public class PanelPartie extends JPanel{
         // Pour chaque potions possédées par le joueur
         for(i=0; i<potions.size() && i<5; i++){
 
+            // Déclaration et initialisation des variables nécessaire dans l'écouteur
+            int augmentation = potions.get(i).getAugmentation();
+            int indice = i;
+
             // On crée une nouvelle icône symbolysant une potion contenu dans une case
             labels[i] = new JLabel(new ImageIcon(getClass().getResource("/assets/potion_plein.png")));
             labels[i].setHorizontalAlignment(SwingConstants.CENTER); // On centre l'îcone horizontalement dans le label
+
+            // Ajout d'un écouteur sur la sourie
+            labels[i].addMouseListener(new MouseAdapter(){
+
+                /**
+                 * Méthode qui sera appelée lorsque la souris entrera sur le composant
+                 * @param e objet MouseEvent représentant l'événement qui vient de se produire
+                 */
+                @Override
+                public void mouseEntered(MouseEvent e){
+
+                    // Déclaration et initalisation de la variable nécessaire à stocker la précédente position en abscisse du tableau
+                    int ancienX = gc.gridx;
+                    
+                    // Initialisation des contraintes pour la description de la potion
+                    gc.gridx = 0; // Sa position x dans le tableau (abscisses)
+                    gc.gridy = 8; // Sa position y dans le tableau (ordonnées)
+                    gc.gridwidth = 5; // La description doit faire la taille de 5 cases en largeur
+                    gc.ipady = 10; // Il doit y avoir une marge verticale de 10 pixels dans la case
+
+                    // Création d'un nouveau texte contenant les informations de la potion
+                    descriptionPotionLabel = new JLabel ("Augmentation points de vie de "+augmentation);
+
+                    // On passe la couleur de fond du texte en bleu
+                    descriptionPotionLabel.setBackground(new Color(55,45,212));
+                    
+                    // On ajout une bordure de 5 pixels en bleu (pour créer une marge interne au label)
+                    descriptionPotionLabel.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(55,45,212)));
+                    descriptionPotionLabel.setOpaque(true); // On rend le label opaque
+                    descriptionPotionLabel.setForeground(new Color(255,255,255)); // On passe la couleur du texte en blanc
+                    
+                    // Le texte doit être centré horizontalement dans le label
+                    descriptionPotionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+                    // Le texte doit être centré verticalement dans le label
+                    descriptionPotionLabel.setVerticalAlignment(SwingConstants.CENTER);
+
+                    // Ajout de la description dans le panel du HUD avec les contraintes
+                    panel.add(descriptionPotionLabel, gc);
+
+                    // Remise des valeurs des contrainte comme elles étaient pour la suite de la boucle
+                    gc.gridy = 7;
+                    gc.gridx = ancienX;
+                    gc.ipady = 0;
+                }
+
+                /**
+                 * Méthode qui sera appelée lorsque la souris sortira du composant
+                 * @param e objet MouseEvent représentant l'événement qui vient de se produire
+                 */
+                @Override
+                public void mouseExited(MouseEvent e){
+                    // On retire la description de potion qui a était créé lorsque la souris est entrée sur le composant
+                    // (voir méthode juste au-dessus)
+                    panel.remove(descriptionPotionLabel); 
+
+                    // On passe l'attribut correspondant à la description à null pour signaler qu'il n'y a plus de description
+                    descriptionPotionLabel = null;
+                } 
+
+                /**
+                 * Méthode qui sera appelée lorsque la souris cliquera sur le composant
+                 * @param e objet MouseEvent représentant l'événement qui vient de se produire
+                 */
+                @Override
+                public void mouseClicked(MouseEvent e){
+
+                    // On crée une commande qui fera boire au joueur la potion présente  à l'indice cliqué
+                    Commande c = new Commande(Ordre.BOIRE, indice);
+                    fenetre.getJeu().controles(c); // Exécution de la commande dans le moteur du jeu (l'objet Jeu)
+                }
+
+            });
+
             
             panel.add(labels[i], gc); // on ajoute l'icône dans le panel avec les contraintes souhaitées
             gc.gridx++; // On se décalle d'une case vers la droite dans le tableau
@@ -509,7 +667,7 @@ public class PanelPartie extends JPanel{
             labels[i].setHorizontalAlignment(SwingConstants.CENTER); // On centre l'icône horizontalement dans le label
             // On ajout une bordure de 12 pixels à gauche et à droite (pour crée une marge horizontale interne)
             labels[i].setBorder(BorderFactory.createMatteBorder(0, 12, 0, 12, new Color(33,32,30)));
-            
+
             panel.add(labels[i], gc); // on ajoute l'icône dans le panel avec les contraintes souhaitées
             gc.gridx++; // On se décale d'une case à droite dans le tableau
             i++; // On passe au composant suivant

@@ -3,13 +3,8 @@ package start;
 
 import model.ihm.FenetreGraphique;
 
-/*
-import model.PacmanPainter;
-import engine.GameEngineGraphical;
-import model.PacmanController;
-import model.PacmanGame;
-*/
-
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import javax.swing.UIManager;
 import model.objets.Jeu;
 
 import java.io.FileNotFoundException;
@@ -82,6 +77,12 @@ public class Main {
 
 
 		*/
+
+		try{
+            UIManager.setLookAndFeel(new NimbusLookAndFeel());
+        } catch( Exception exception ) { 
+            exception.printStackTrace(); 
+        }
 
 		new FenetreGraphique();
 	}

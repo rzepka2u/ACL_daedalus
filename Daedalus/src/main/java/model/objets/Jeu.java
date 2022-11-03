@@ -5,6 +5,7 @@ import model.cases.CaseSortie;
 
 import model.enums.Direction;
 import model.enums.Ordre;
+import model.ihm.FenetreGraphique;
 import model.threads.ThreadMonstre;
 
 import java.io.FileNotFoundException;
@@ -15,7 +16,8 @@ import java.util.ArrayList;
 */
 
 public class Jeu{
-    
+
+    private FenetreGraphique fenetre;
     private Labyrinthe labyrinthe; // Le labyrinthe en cours
     private ArrayList<Entite> entites;
     private ArrayList<Object> verrousEntites;
@@ -26,11 +28,12 @@ public class Jeu{
     /**
      * Constructeur par défaut d'un objet Jeu avec un labyrinthe par défaut
      */
-    public Jeu(int nbMax){
+    public Jeu(FenetreGraphique f, int nbMax){
 
         int[] positionDepart; 
         this.nbMaxNiveau = nbMax;
         this.nbNiveau = 0;
+        this.fenetre = f;
 
         //Initialisation du labyrinthe avec le labyrinthe par défaut
         this.labyrinthe = new Labyrinthe();
@@ -53,11 +56,12 @@ public class Jeu{
     * Constructeur par initialisation d'un objet Jeu avec un labyrinthe contenu dans un fichier
     * @param path Le chemin relatif ou absolu du fichier contenant le labyrinthe
     */
-    public Jeu(String path, int nbMax) throws FileNotFoundException {
+    public Jeu(FenetreGraphique f, String path, int nbMax) throws FileNotFoundException {
 
         int[] positionDepart;
         this.nbNiveau = 0;
         this.nbMaxNiveau = nbMax;
+        this.fenetre = f;
 
         //Initialisation du labyrinthe via fichier texte 
 		this.labyrinthe = new Labyrinthe(path);
@@ -209,18 +213,39 @@ public class Jeu{
             if(deplacerJoueur(cmd.getDirection()) == 2){
                 changerNiveau();
             }
+
+            //TO DO: SI CASE ET PIEGE A EFFET, PRENDRE EFFET
+
         } else if(cmd.getOrdre() == Ordre.ATTAQUE){ // cmd.getOrdre() == Ordre.ATTAQUE 
             // TO DO: ATTAQUE DU JOUEUR
         } else if(cmd.getOrdre() == Ordre.OUVRIR){
             // TO DO: OUVERTURE D'UN COFFRE A PROXIMITE
         } else if(cmd.getOrdre() == Ordre.RAMASSER){
             // TO DO: RAMMASER UN TRESOR A PROXIMITE
+        } else if(cmd.getOrdre() == Ordre.BOIRE){
+            // TO DO: BOIRE LA POTION A L'indice cmd.getIndice() dans la collection du joueur 
         }
     }
 
     // Methode appelée lorsque qu'un niveau est fini
     public void changerNiveau(){
-        // TO DO CREATION NOUVEAU LABYRINTHE
+
+        if(nbNiveau < nbMaxNiveau){
+            
+            // TO DO:
+            // 1- KILLS LES THREADS MONSTRES
+            // 2- CREATION NOUVEAU LABYRINTHE 
+            // 3- CREATION NOUVELLES ENTITES (object + threads)
+            
+            nbNiveau++;
+        } else {
+            fenetre.afficherVueFin(true);
+        }
+    }
+
+    // Méthode appelée lorsque le joueur est mort
+    public void mortJoueur(){
+        fenetre.afficherVueFin(false);
     }
 
     @Override

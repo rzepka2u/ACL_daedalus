@@ -8,6 +8,10 @@ public class Potion implements Tresor{
         augmentationPV = aug;
     }
 
+    public int getAugmentation(){
+        return augmentationPV;
+    }
+
     
 }
 

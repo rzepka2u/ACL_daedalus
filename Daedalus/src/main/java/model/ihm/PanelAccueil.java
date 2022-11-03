@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
@@ -149,9 +150,12 @@ public class PanelAccueil extends JPanel {
     private JLabel createtopLabel(){
 
         JLabel label = new JLabel(); // Création d'un nouveau JLabel
-        label.setText("<html><br>TEST TEXT BIENVENUE<br><br></html>");// AJOUT TEXT BIENVENU (A MODFIEIR)
+        label.setText("<html><br><i><b>DAEDALUS</b></i><br><br></html>");// Ajout du texte de bienvenue
+        label.setIcon(new ImageIcon(getClass().getResource("/assets/laby.png"))); // Ajout de l'icône prévue au texte
         label.setHorizontalAlignment(SwingConstants.CENTER); // Centrer le texte horizontalement dans le JLabel
         label.setForeground(new Color(0,0,0)); // Changement de la couleur d'écriture
+        // Ajout d'une bordure de 10 pixels avec la même couleur de fond (pour créer des marges internes)
+        label.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(162,158,150)));
         
         return label;
     }
@@ -162,9 +166,12 @@ public class PanelAccueil extends JPanel {
      */
     private JLabel createNbNiveauLabel(){
 
-        JLabel label = new JLabel("Choissiez un nombre de niveau:"); // Création d'un nouveau JLabel avec le texte
+        JLabel label = new JLabel("  Choissiez un nombre de niveau:  "); // Création d'un nouveau JLabel avec le texte
+        
         //Ajout d'une bordure blanche (pour créer une marge intérieure)
         label.setBorder(BorderFactory.createMatteBorder(7,  10,  7,  10, new Color(255,255,255)));
+
+        label.setIcon(new ImageIcon(getClass().getResource("/assets/niveaux.png"))); // Ajout de l'icône prévue à l'étiquette
         label.setOpaque(true); // Rend le JLabel opaque
         label.setBackground(new Color(255,255,255)); // Change la couleur de fond du JLabel en blanc
 
@@ -212,14 +219,16 @@ public class PanelAccueil extends JPanel {
     }
 
     /**
-     * Méthode qui crée et initialise le texte comportant le chemon dans la selction de dossier 
+     * Méthode qui crée et initialise le texte comportant le chemin dans la selction de dossier 
      * @return objet JLabel représentant le chemin sous la forme d'un texte
      */
     private JLabel createLabelFichier(){
 
-        JLabel label = new JLabel("Chossisez un fichier.."); // Création d'un nouveau JLabel avec le texte
+        JLabel label = new JLabel("  Chossisez un fichier.."); // Création d'un nouveau JLabel avec le texte
         // Ajout d'une bordure blanche (pour créer une marge intérieure)
         label.setBorder(BorderFactory.createMatteBorder(7,  10,  7,  10, new Color(255,255,255)));
+
+        label.setIcon(new ImageIcon(getClass().getResource("/assets/dossier.png"))); // Ajout de l'icône prévue au texte 
         label.setOpaque(true); // Défini le texte comme opaque
         label.setBackground(new Color(255,255,255)); // Modifie la couleur de fond du texte en blanc
 
@@ -256,8 +265,8 @@ public class PanelAccueil extends JPanel {
              */
             @Override
             public void actionPerformed(ActionEvent e){
-                // Si j'ai bien un nombre de niveau renseigné dans le champ prévu
-                if(nbNiveauField.getText().length() != 0){ 
+                // Si j'ai bien un nombre de niveau renseigné dans le champ prévu et qu'il est > 0
+                if(nbNiveauField.getText().length() != 0 && Integer.valueOf(nbNiveauField.getText()) > 0){ 
                     // J'affiche le panel de partie (et commencement de la partie)
                     fenetre.afficherPartie(Integer.valueOf(nbNiveauField.getText())); 
                 }

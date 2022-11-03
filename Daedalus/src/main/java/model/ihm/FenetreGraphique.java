@@ -69,7 +69,7 @@ public class FenetreGraphique extends JFrame {
     public void afficherPartie(int nbNiveau){
 
         // Création et intialisation du moteur de la partie, l'attribut jeu
-        this.jeu = new Jeu(nbNiveau);
+        this.jeu = new Jeu(this, nbNiveau);
 
         // Initialisation d'un nouveau panel de partie, et ajout de celui-ci dans la fenêtre
         contentPane = new PanelPartie(this);
@@ -117,6 +117,11 @@ public class FenetreGraphique extends JFrame {
                     // Création de la nouvelle commande associée puis réalisation de celle-ci
                     c = new Commande(Ordre.OUVRIR, null); // Ouvrir un trésor à proximité
                     jeu.controles(c);
+                } else if(e.getKeyCode() >= KeyEvent.VK_NUMPAD1 && e.getKeyCode() <= KeyEvent.VK_NUMPAD5){ 
+                    // Si la touche est entre 1 et 5 inclus du clavier numérique
+                    // Création de la nouvelle commande associée puis réalisation de celle-ci
+                    c = new Commande(Ordre.BOIRE, e.getKeyCode()-KeyEvent.VK_NUMPAD1);
+                    jeu.controles(c);
                 }
             }
         });
@@ -135,7 +140,7 @@ public class FenetreGraphique extends JFrame {
     public void raffraichirPartie(){
 
         // Création d'un nouveau panel de partie et écrassement de l'ancien
-        contentPane = new PanelPartie(this);
+        contentPane = new PanelPartie(this, ((PanelPartie) contentPane).getDescriptionPotion());
         this.setContentPane(contentPane);
 
         // Mise à jour de la fenêtre
@@ -147,6 +152,9 @@ public class FenetreGraphique extends JFrame {
      * @param result le résultat de la partie: true = victoire, false = defaite
      */
     public void afficherVueFin(boolean result){
+
+        // TO DO: ARRET ThreadPartie
+
         // Création d'un panel de fin de partie, et remplacement du panel de partie
         contentPane = new PanelFinJeu(result);
         this.setContentPane(contentPane);
@@ -167,7 +175,6 @@ public class FenetreGraphique extends JFrame {
 
         // CREATE NEW FENETRE 
         new FenetreGraphique();
-
     }
 
 }

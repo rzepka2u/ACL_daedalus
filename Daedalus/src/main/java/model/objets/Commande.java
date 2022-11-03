@@ -7,10 +7,18 @@ public class Commande {
 
     private Ordre ordre;
     private Direction sens;
+    private int indice; 
 
     public Commande(Ordre ordre, Direction sens){
         this.ordre = ordre;
         this.sens = sens;
+        this.indice = -1;
+    }
+
+    public Commande(Ordre ordre, int indice){
+        this.ordre = ordre;
+        this.indice = indice;
+        this.sens = null;
     }
 
     public Ordre getOrdre(){
@@ -19,6 +27,10 @@ public class Commande {
 
     public Direction getDirection(){
         return sens;
+    }
+
+    public int getIndice(){
+        return indice;
     }
     
 }

@@ -17,13 +17,16 @@ import java.util.ArrayList;
 
 public class Jeu{
 
+    private final int nbMaxNiveau;
+
     private FenetreGraphique fenetre;
     private Labyrinthe labyrinthe; // Le labyrinthe en cours
     private ArrayList<Entite> entites;
     private ArrayList<Object> verrousEntites;
-    private final int nbMaxNiveau;
-    private int nbNiveau;
     private ArrayList<ThreadMonstre> threads;
+    private int nbNiveau;
+    private ArrayList<String> informations;
+    private Object verrouInformations;
 
     /**
      * Constructeur par défaut d'un objet Jeu avec un labyrinthe par défaut
@@ -34,6 +37,8 @@ public class Jeu{
         this.nbMaxNiveau = nbMax;
         this.nbNiveau = 0;
         this.fenetre = f;
+        this.informations = new ArrayList<String>();
+        this.verrouInformations = new Object();
 
         //Initialisation du labyrinthe avec le labyrinthe par défaut
         this.labyrinthe = new Labyrinthe();
@@ -62,6 +67,9 @@ public class Jeu{
         this.nbNiveau = 0;
         this.nbMaxNiveau = nbMax;
         this.fenetre = f;
+
+        this.informations = new ArrayList<String>();
+        this.verrouInformations = new Object();
 
         //Initialisation du labyrinthe via fichier texte 
 		this.labyrinthe = new Labyrinthe(path);
@@ -92,7 +100,9 @@ public class Jeu{
      * @return renvoie le joueur du jeu
      */
     public Joueur getJoueur() {
-        return (Joueur) this.entites.get(0);
+        synchronized(verrousEntites.get(0)){
+            return (Joueur) this.entites.get(0);    
+        }
     }
 
     /**
@@ -101,6 +111,18 @@ public class Jeu{
      */
     public ArrayList<Entite> getEntites(){
         return this.entites;
+    }
+
+    public ArrayList<Object> getVerrousEntites(){
+        return this.verrousEntites;
+    }
+
+    public ArrayList<String> getInformations(){
+        return this.informations;
+    }
+
+    public Object getVerrouInformations(){
+        return this.verrouInformations;
     }
 
     /**
@@ -147,7 +169,9 @@ public class Jeu{
      * @param y coordonnee y
      */
     public void placerJoueurSurCase(int x, int y) {
-        ((Joueur)this.entites.get(0)).seDeplacer(x,y);
+        synchronized(verrousEntites.get(0)){
+            ((Joueur)this.entites.get(0)).seDeplacer(x,y);
+        }
     }
 
     /**
@@ -159,24 +183,27 @@ public class Jeu{
         int px, py;
         int res = 1;
 
-        // Récupération des coordonnées du joueur
-        px = this.entites.get(0).getX();
-        py = this.entites.get(0).getY();
+        synchronized(verrousEntites.get(0)){
 
-        // Modification de ses coordonnées suivant la direction
-        switch (sens) {
-            case GAUCHE -> py -= 1;
-            case DROITE -> py += 1;
-            case HAUT -> px -= 1;
-            case BAS -> px += 1;
-        }
+            // Récupération des coordonnées du joueur
+            px = this.entites.get(0).getX();
+            py = this.entites.get(0).getY();
 
-        //Si la la case sur laquelle veut aller le joueur est valide alors le déplacement est effectué
-        if(validerDeplacement(px, py)){
-            this.entites.get(0).seDeplacer(px,py);
-            ((Joueur) this.entites.get(0)).setRegard(sens);
-            res = 0;
-            if (etreSurSortie(px,py)) res = 2;
+            // Modification de ses coordonnées suivant la direction
+            switch (sens) {
+                case GAUCHE -> py -= 1;
+                case DROITE -> py += 1;
+                case HAUT -> px -= 1;
+                case BAS -> px += 1;
+            }
+
+            //Si la la case sur laquelle veut aller le joueur est valide alors le déplacement est effectué
+            if(validerDeplacement(px, py)){
+                this.entites.get(0).seDeplacer(px,py);
+                ((Joueur) this.entites.get(0)).setRegard(sens);
+                res = 0;
+                if (etreSurSortie(px,py)) res = 2;
+            }
         }
 
         return res;
@@ -189,7 +216,9 @@ public class Jeu{
     *   @return un boolean à true si le déplacement est réalisable, false sinon
     */
     public boolean validerDeplacement(int px, int py){
-        return labyrinthe.getCase(px,py).estTraversable();
+        synchronized(labyrinthe.getVerrousCases().get(px).get(py)){
+            return labyrinthe.getCase(px,py).estTraversable();
+        }
     }
 
     /**
@@ -199,14 +228,16 @@ public class Jeu{
      * @return un boolean à true si la case est la sortie, false sinon
      */
     public boolean etreSurSortie(int px, int py) {
-        // Récupération de la case sur laquelle sera le joueur après son déplacement
-        Case c = this.labyrinthe.getCase(px,py);
-        // true si c'est la sortie, false sinon
-        return c instanceof CaseSortie;
+
+        synchronized(labyrinthe.getVerrousCases().get(px).get(py)){
+            // Récupération de la case sur laquelle sera le joueur après son déplacement
+            Case c = this.labyrinthe.getCase(px,py);
+            // true si c'est la sortie, false sinon
+            return c instanceof CaseSortie;
+        }
     }
 
     // Méthode appeler a chaque evenement de controle 
-    // TO DO: REMONTER ORDRE UTILISER POTION DEPUIS LA FENETRE
     public void controles(Commande cmd){
 
         if(cmd.getOrdre() == Ordre.DEPLACEMENT){
@@ -230,12 +261,13 @@ public class Jeu{
     // Methode appelée lorsque qu'un niveau est fini
     public void changerNiveau(){
 
+        // TO DO:
+        // - INTERRUPT LES THREADS MONSTRES
+
         if(nbNiveau < nbMaxNiveau){
             
-            // TO DO:
-            // 1- KILLS LES THREADS MONSTRES
-            // 2- CREATION NOUVEAU LABYRINTHE 
-            // 3- CREATION NOUVELLES ENTITES (object + threads)
+            // 1- CREATION NOUVEAU LABYRINTHE 
+            // 2- CREATION NOUVELLES ENTITES (object + threads)
             
             nbNiveau++;
         } else {
@@ -246,6 +278,13 @@ public class Jeu{
     // Méthode appelée lorsque le joueur est mort
     public void mortJoueur(){
         fenetre.afficherVueFin(false);
+    }
+
+    // Méthode pour ajouter une informations dans le tableau des informations
+    public void ajouterInfos(String infos){
+        synchronized(verrouInformations){
+            informations.add(infos);
+        }
     }
 
     @Override

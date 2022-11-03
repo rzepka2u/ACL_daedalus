@@ -153,7 +153,8 @@ public class FenetreGraphique extends JFrame {
      */
     public void afficherVueFin(boolean result){
 
-        // TO DO: ARRET ThreadPartie
+        // Attente de la fin du thread d'affichage
+        this.thread.interrupt();
 
         // Création d'un panel de fin de partie, et remplacement du panel de partie
         contentPane = new PanelFinJeu(result);

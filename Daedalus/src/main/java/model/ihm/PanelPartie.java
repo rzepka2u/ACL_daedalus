@@ -154,6 +154,9 @@ public class PanelPartie extends JPanel{
         // Déclaration des variables nécessaires pour les boucles
         int i, j;
 
+        // Récupération de la collection des verrous pour la synchronisation des cases entre les threads
+        ArrayList<ArrayList<Object>> verrous = fenetre.getJeu().getLabyrinthe().getVerrousCases();
+
         // Création du nouveau panel et définition de stratégie de positionnement GridBagLayout
         JPanel panel = new JPanel(new GridBagLayout());
         panel.setBackground(new Color(45,78,95)); // Modifie la couleur de fond
@@ -178,52 +181,58 @@ public class PanelPartie extends JPanel{
             // Boucles sur les colonnes des cases du labyrinthe
             for(j=0; j<cases.get(i).size(); j++){
 
+                // Déclaration d'une variable temporaire de label
                 JLabel tmp;
-                // Si la case est un mur
-                if(cases.get(i).get(j) instanceof CaseMur){
-                    // Création d'une nouvelle icône mur
-                    tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/mur.png")));
-                } else if(cases.get(i).get(j) instanceof CaseSortie){ // Si la case est la case de sortie
-                    // Création d'une nouvelle icône escalier montant
-                    tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/sortie.png")));
-                } else if(cases.get(i).get(j) instanceof CaseDepart){ // Si la case est la case de départ
-                    // Création d'un nouvelle icône escalier descendant
-                    tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/depart.png")));
-                } else if(cases.get(i).get(j) instanceof CaseTresor){ //Si la case est un trésor
 
-                    // Si le trésor est fermé
-                    if(((CaseTresor)cases.get(i).get(j)).getOuvert() == false){
-                        // Création d'une nouvelle îcone trésor
-                        tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/tresor.png")));
-                    } else { // Si le trésor est ouvert
+                // SECTION CRITIQUE, verrouillage du verrou de la case en question
+                synchronized(verrous.get(i).get(j)){
 
-                        // Si le trésor est une potion
-                        if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Potion){
-                            // Création d'une nouvelle icône potion
-                            tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/potion.png")));
-                        } else if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Arme){ // Si le trésor est une Arme
-                            // Création d'une nouvelle icône arme 
-                            tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/arme.png")));
-                        } else { // Si le trésor est une pièce d'armure
-                            // Création d'une nouvelle icône armure 
-                            tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/armure.png")));
+                    // Si la case est un mur
+                    if(cases.get(i).get(j) instanceof CaseMur){
+                        // Création d'une nouvelle icône mur
+                        tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/mur.png")));
+                    } else if(cases.get(i).get(j) instanceof CaseSortie){ // Si la case est la case de sortie
+                        // Création d'une nouvelle icône escalier montant
+                        tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/sortie.png")));
+                    } else if(cases.get(i).get(j) instanceof CaseDepart){ // Si la case est la case de départ
+                        // Création d'un nouvelle icône escalier descendant
+                        tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/depart.png")));
+                    } else if(cases.get(i).get(j) instanceof CaseTresor){ //Si la case est un trésor
+
+                        // Si le trésor est fermé
+                        if(((CaseTresor)cases.get(i).get(j)).getOuvert() == false){
+                            // Création d'une nouvelle îcone trésor
+                            tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/tresor.png")));
+                        } else { // Si le trésor est ouvert
+
+                            // Si le trésor est une potion
+                            if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Potion){
+                                // Création d'une nouvelle icône potion
+                                tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/potion.png")));
+                            } else if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Arme){ // Si le trésor est une Arme
+                                // Création d'une nouvelle icône arme 
+                                tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/arme.png")));
+                            } else { // Si le trésor est une pièce d'armure
+                                // Création d'une nouvelle icône armure 
+                                tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/armure.png")));
+                            }
+
+                        }
+                    
+                    } else if(cases.get(i).get(j) instanceof CaseEffet){ // Si la case est une case à effet
+
+                        if(((CaseEffet) cases.get(i).get(j)).getAugmentation() > 0){ // Si elle effectue une augmentation 
+                            // Création d'une nouvelle icône soin
+                            tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/soin.png")));
+                        } else { // Si elle effectue une diminution
+                            // Création d'une nouvelle icône poison
+                            tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/poison.png")));
                         }
 
+                    } else { // La case est une case vide
+                        // Création d'une nouvelle icône sol
+                        tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/sol.png")));
                     }
-                
-                } else if(cases.get(i).get(j) instanceof CaseEffet){ // Si la case est une case à effet
-
-                    if(((CaseEffet) cases.get(i).get(j)).getAugmentation() > 0){ // Si elle effectue une augmentation 
-                        // Création d'une nouvelle icône soin
-                        tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/soin.png")));
-                    } else { // Si elle effectue une diminution
-                        // Création d'une nouvelle icône poison
-                        tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/poison.png")));
-                    }
-
-                } else { // La case est une case vide
-                    // Création d'une nouvelle icône sol
-                    tmp = new JLabel(new ImageIcon(getClass().getResource("/assets/sol.png")));
                 }
 
                 caseLabels.get(i).add(tmp); // Ajout de la nouvelle icônes dans l'attribut de la collection des icônes
@@ -238,46 +247,50 @@ public class PanelPartie extends JPanel{
         // Boucle sur les entites du jeu
         for(i=0; i<fenetre.getJeu().getEntites().size(); i++){
 
-            // Définition des variables nécessaires
-            Entite e = fenetre.getJeu().getEntites().get(i);
-            ImageIcon image;
+            // SECTION CRITIQUE, vérouillage du vérrou de l'entitée en question
+            synchronized(fenetre.getJeu().getVerrousEntites().get(i)){
+                
+                // Définition des variables nécessaires
+                Entite e = fenetre.getJeu().getEntites().get(i);
+                ImageIcon image;
 
-            // Si l'entitée est le joueur
-            if(e instanceof Joueur){
+                // Si l'entitée est le joueur
+                if(e instanceof Joueur){
 
-                // Si il regarde vers le haut
-                if(((Joueur) e).getRegard() == Direction.HAUT){
-                    // Création d'une nouvelle icône joueur vers le haut
-                    image = new ImageIcon(getClass().getResource("/assets/joueur_haut.png")); 
-                } else if (((Joueur) e).getRegard() == Direction.BAS){ // Si il regarde vers le bas
-                    // Création d'un nouvelle icône joueur vers le bas
-                    image = new ImageIcon(getClass().getResource("/assets/joueur_bas.png")); 
-                } else if (((Joueur) e).getRegard() == Direction.GAUCHE){ // SI il regarde vers la gauche
-                    // Création d'une nouvelle icône joueur vers la gauche
-                    image = new ImageIcon(getClass().getResource("/assets/joueur_gauche.png")); 
-                } else { // Si il regarde vers la droite
-                    // Création d'une nouvelle icône joueur vers la droite
-                    image = new ImageIcon(getClass().getResource("/assets/joueur_droite.png")); 
+                    // Si il regarde vers le haut
+                    if(((Joueur) e).getRegard() == Direction.HAUT){
+                        // Création d'une nouvelle icône joueur vers le haut
+                        image = new ImageIcon(getClass().getResource("/assets/joueur_haut.png")); 
+                    } else if (((Joueur) e).getRegard() == Direction.BAS){ // Si il regarde vers le bas
+                        // Création d'un nouvelle icône joueur vers le bas
+                        image = new ImageIcon(getClass().getResource("/assets/joueur_bas.png")); 
+                    } else if (((Joueur) e).getRegard() == Direction.GAUCHE){ // SI il regarde vers la gauche
+                        // Création d'une nouvelle icône joueur vers la gauche
+                        image = new ImageIcon(getClass().getResource("/assets/joueur_gauche.png")); 
+                    } else { // Si il regarde vers la droite
+                        // Création d'une nouvelle icône joueur vers la droite
+                        image = new ImageIcon(getClass().getResource("/assets/joueur_droite.png")); 
+                    }
+
+                } else if(e instanceof Gobelin){ // Si l'entitée est un Gobelin
+                    // Création d'une nouvelle icône gobelin
+                    image = new ImageIcon(getClass().getResource("/assets/goblin.png"));
+                } else{ // Si l'enittée est un fantome
+                    // Création d'une nouvelle icône fantome
+                    image = new ImageIcon(getClass().getResource("/assets/fantome.png"));
                 }
 
-            } else if(e instanceof Gobelin){ // Si l'entitée est un Gobelin
-                // Création d'une nouvelle icône gobelin
-                image = new ImageIcon(getClass().getResource("/assets/goblin.png"));
-            } else{ // Si l'enittée est un fantome
-                // Création d'une nouvelle icône fantome
-                image = new ImageIcon(getClass().getResource("/assets/fantome.png"));
+                // Ajout de l'icône dans un champ de texte (pour pouvoir l'afficher)
+                JLabel label = new JLabel(image);
+                
+                gc.gridx = e.getY(); // La position de l'icône en ordonnée doit être celle de l'entitée
+                gc.gridy = e.getX(); // La position de l'icône en abscisse doit être celle de l'entitée
+
+                // On retire l'icône qui a était mise dans cette case lors de la boucle précédente
+                panel.remove(caseLabels.get(e.getX()).get(e.getY()));
+                caseLabels.get(e.getX()).set(e.getY(), label); // modification de l'icône dans la collections des icônes de cases
+                panel.add(label, gc); // On ajoute la nouvelle icône dans le panel avec les contraintes
             }
-
-            // Ajout de l'icône dans un champ de texte (pour pouvoir l'afficher)
-            JLabel label = new JLabel(image);
-            
-            gc.gridx = e.getY(); // La position de l'icône en ordonnée doit être celle de l'entitée
-            gc.gridy = e.getX(); // La position de l'icône en abscisse doit être celle de l'entitée
-
-            // On retire l'icône qui a était mise dans cette case lors de la boucle précédente
-            panel.remove(caseLabels.get(e.getX()).get(e.getY()));
-            caseLabels.get(e.getX()).set(e.getY(), label); // modification de l'icône dans la collections des icônes de cases
-            panel.add(label, gc); // On ajoute la nouvelle icône dans le panel avec les contraintes
         }
 
         return panel;
@@ -418,10 +431,6 @@ public class PanelPartie extends JPanel{
             panel.add(infosLabels[i], gc); // On ajout le texte dans le panel des inforamtions
         }
 
-        /*
-            TO DO: REMONTER LES INFORMATIONS DU JEU     
-       */
-
         return panel;
 
     }
@@ -465,9 +474,15 @@ public class PanelPartie extends JPanel{
      */
     private JLabel createVieLabel(){
 
-        // Création d'un nouveau texte indiquant le nombre de points de vie du joueur
-        JLabel label = new JLabel("  Points de vie: "+fenetre.getJeu().getJoueur().getPointsVie());
-        
+        // Déclaration d'une variable pour le retour
+        JLabel label;
+
+        // SECTION CRITIQUE, verrouillage du verrou de l'entité joueur (en position 0 dans la collection, toujours)
+        synchronized(fenetre.getJeu().getVerrousEntites().get(0)){
+            // Création d'un nouveau texte indiquant le nombre de points de vie du joueur
+            label = new JLabel("  Points de vie: "+fenetre.getJeu().getJoueur().getPointsVie());
+        }
+
         // Ajout d'une icône prévu pour les points de vie au texte
         label.setIcon(new ImageIcon(getClass().getResource("/assets/pointsVie.png")));
 
@@ -487,7 +502,12 @@ public class PanelPartie extends JPanel{
     private JLabel createArmureLabel(){
 
         // Création d'un nouveau texte indiquant le nombre de points d'armures du joueur
-        JLabel label = new JLabel("  Points d'armure: "+fenetre.getJeu().getJoueur().getPointsArmures());
+        JLabel label;
+        
+        // SECTION CRITIQUE, verrouillage du verrou de l'entité joueur (en position 0 dans la collection, toujours)
+        synchronized(fenetre.getJeu().getVerrousEntites().get(0)){
+            label = new JLabel("  Points d'armure: "+fenetre.getJeu().getJoueur().getPointsArmures());
+        }
 
         // Ajout d'une icône prévu pour les points d'armure au texte
         label.setIcon(new ImageIcon(getClass().getResource("/assets/armure_hud.png")));
@@ -510,12 +530,15 @@ public class PanelPartie extends JPanel{
         // Definition d'une nouvelle chaîne de caractères
         String nomArme;
 
-        // Si le joueur n'a pas d'arme
-        if(fenetre.getJeu().getJoueur().getArme() == null){
-            nomArme = "vide"; // Le texte indique que l'emplacement pour l'arme est vide
-        } else { // Si le joueur à une arme
-            nomArme = fenetre.getJeu().getJoueur().getArme().getNom(); // Le texte indique son noms
-        } 
+        // SECTION CRITIQUE, verrouillage du verrou de l'entité joueur (en position 0 dans la collection, toujours)
+        synchronized(fenetre.getJeu().getVerrousEntites().get(0)){
+            // Si le joueur n'a pas d'arme
+            if(fenetre.getJeu().getJoueur().getArme() == null){
+                nomArme = "vide"; // Le texte indique que l'emplacement pour l'arme est vide
+            } else { // Si le joueur à une arme
+                nomArme = fenetre.getJeu().getJoueur().getArme().getNom(); // Le texte indique son noms
+            } 
+        }
 
         // Création d'un nouveau texte indiquant la chaîne de caractère obtenue
         JLabel label = new JLabel("  Arme: "+nomArme);
@@ -567,96 +590,99 @@ public class PanelPartie extends JPanel{
         // Déclaration et intialisation d'un tableau de 5 labels
         JLabel[] labels = new JLabel[5];
 
-        // On récupère l'inventaire du joueur (son tableau de potion possédées)
-        ArrayList<Potion> potions = fenetre.getJeu().getJoueur().getInventaire();
+        // SECTION CRITIQUE, verrouillage du verrou de l'entité joueur (en position 0 dans la collection, toujours)
+        synchronized(fenetre.getJeu().getVerrousEntites().get(0)){
+            // On récupère l'inventaire du joueur (son tableau de potion possédées)
+            ArrayList<Potion> potions = fenetre.getJeu().getJoueur().getInventaire();
 
-        // Pour chaque potions possédées par le joueur
-        for(i=0; i<potions.size() && i<5; i++){
+            // Pour chaque potions possédées par le joueur
+            for(i=0; i<potions.size() && i<5; i++){
 
-            // Déclaration et initialisation des variables nécessaire dans l'écouteur
-            int augmentation = potions.get(i).getAugmentation();
-            int indice = i;
+                // Déclaration et initialisation des variables nécessaire dans l'écouteur
+                int augmentation = potions.get(i).getAugmentation();
+                int indice = i;
 
-            // On crée une nouvelle icône symbolysant une potion contenu dans une case
-            labels[i] = new JLabel(new ImageIcon(getClass().getResource("/assets/potion_plein.png")));
-            labels[i].setHorizontalAlignment(SwingConstants.CENTER); // On centre l'îcone horizontalement dans le label
+                // On crée une nouvelle icône symbolysant une potion contenu dans une case
+                labels[i] = new JLabel(new ImageIcon(getClass().getResource("/assets/potion_plein.png")));
+                labels[i].setHorizontalAlignment(SwingConstants.CENTER); // On centre l'îcone horizontalement dans le label
 
-            // Ajout d'un écouteur sur la sourie
-            labels[i].addMouseListener(new MouseAdapter(){
+                // Ajout d'un écouteur sur la sourie
+                labels[i].addMouseListener(new MouseAdapter(){
 
-                /**
-                 * Méthode qui sera appelée lorsque la souris entrera sur le composant
-                 * @param e objet MouseEvent représentant l'événement qui vient de se produire
-                 */
-                @Override
-                public void mouseEntered(MouseEvent e){
+                    /**
+                     * Méthode qui sera appelée lorsque la souris entrera sur le composant
+                     * @param e objet MouseEvent représentant l'événement qui vient de se produire
+                     */
+                    @Override
+                    public void mouseEntered(MouseEvent e){
 
-                    // Déclaration et initalisation de la variable nécessaire à stocker la précédente position en abscisse du tableau
-                    int ancienX = gc.gridx;
-                    
-                    // Initialisation des contraintes pour la description de la potion
-                    gc.gridx = 0; // Sa position x dans le tableau (abscisses)
-                    gc.gridy = 8; // Sa position y dans le tableau (ordonnées)
-                    gc.gridwidth = 5; // La description doit faire la taille de 5 cases en largeur
-                    gc.ipady = 10; // Il doit y avoir une marge verticale de 10 pixels dans la case
+                        // Déclaration et initalisation de la variable nécessaire à stocker la précédente position en abscisse du tableau
+                        int ancienX = gc.gridx;
+                        
+                        // Initialisation des contraintes pour la description de la potion
+                        gc.gridx = 0; // Sa position x dans le tableau (abscisses)
+                        gc.gridy = 8; // Sa position y dans le tableau (ordonnées)
+                        gc.gridwidth = 5; // La description doit faire la taille de 5 cases en largeur
+                        gc.ipady = 10; // Il doit y avoir une marge verticale de 10 pixels dans la case
 
-                    // Création d'un nouveau texte contenant les informations de la potion
-                    descriptionPotionLabel = new JLabel ("Augmentation points de vie de "+augmentation);
+                        // Création d'un nouveau texte contenant les informations de la potion
+                        descriptionPotionLabel = new JLabel ("Augmentation points de vie de "+augmentation);
 
-                    // On passe la couleur de fond du texte en bleu
-                    descriptionPotionLabel.setBackground(new Color(55,45,212));
-                    
-                    // On ajout une bordure de 5 pixels en bleu (pour créer une marge interne au label)
-                    descriptionPotionLabel.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(55,45,212)));
-                    descriptionPotionLabel.setOpaque(true); // On rend le label opaque
-                    descriptionPotionLabel.setForeground(new Color(255,255,255)); // On passe la couleur du texte en blanc
-                    
-                    // Le texte doit être centré horizontalement dans le label
-                    descriptionPotionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                        // On passe la couleur de fond du texte en bleu
+                        descriptionPotionLabel.setBackground(new Color(55,45,212));
+                        
+                        // On ajout une bordure de 5 pixels en bleu (pour créer une marge interne au label)
+                        descriptionPotionLabel.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(55,45,212)));
+                        descriptionPotionLabel.setOpaque(true); // On rend le label opaque
+                        descriptionPotionLabel.setForeground(new Color(255,255,255)); // On passe la couleur du texte en blanc
+                        
+                        // Le texte doit être centré horizontalement dans le label
+                        descriptionPotionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-                    // Le texte doit être centré verticalement dans le label
-                    descriptionPotionLabel.setVerticalAlignment(SwingConstants.CENTER);
+                        // Le texte doit être centré verticalement dans le label
+                        descriptionPotionLabel.setVerticalAlignment(SwingConstants.CENTER);
 
-                    // Ajout de la description dans le panel du HUD avec les contraintes
-                    panel.add(descriptionPotionLabel, gc);
+                        // Ajout de la description dans le panel du HUD avec les contraintes
+                        panel.add(descriptionPotionLabel, gc);
 
-                    // Remise des valeurs des contrainte comme elles étaient pour la suite de la boucle
-                    gc.gridy = 7;
-                    gc.gridx = ancienX;
-                    gc.ipady = 0;
-                }
+                        // Remise des valeurs des contrainte comme elles étaient pour la suite de la boucle
+                        gc.gridy = 7;
+                        gc.gridx = ancienX;
+                        gc.ipady = 0;
+                    }
 
-                /**
-                 * Méthode qui sera appelée lorsque la souris sortira du composant
-                 * @param e objet MouseEvent représentant l'événement qui vient de se produire
-                 */
-                @Override
-                public void mouseExited(MouseEvent e){
-                    // On retire la description de potion qui a était créé lorsque la souris est entrée sur le composant
-                    // (voir méthode juste au-dessus)
-                    panel.remove(descriptionPotionLabel); 
+                    /**
+                     * Méthode qui sera appelée lorsque la souris sortira du composant
+                     * @param e objet MouseEvent représentant l'événement qui vient de se produire
+                     */
+                    @Override
+                    public void mouseExited(MouseEvent e){
+                        // On retire la description de potion qui a était créé lorsque la souris est entrée sur le composant
+                        // (voir méthode juste au-dessus)
+                        panel.remove(descriptionPotionLabel); 
 
-                    // On passe l'attribut correspondant à la description à null pour signaler qu'il n'y a plus de description
-                    descriptionPotionLabel = null;
-                } 
+                        // On passe l'attribut correspondant à la description à null pour signaler qu'il n'y a plus de description
+                        descriptionPotionLabel = null;
+                    } 
 
-                /**
-                 * Méthode qui sera appelée lorsque la souris cliquera sur le composant
-                 * @param e objet MouseEvent représentant l'événement qui vient de se produire
-                 */
-                @Override
-                public void mouseClicked(MouseEvent e){
+                    /**
+                     * Méthode qui sera appelée lorsque la souris cliquera sur le composant
+                     * @param e objet MouseEvent représentant l'événement qui vient de se produire
+                     */
+                    @Override
+                    public void mouseClicked(MouseEvent e){
 
-                    // On crée une commande qui fera boire au joueur la potion présente  à l'indice cliqué
-                    Commande c = new Commande(Ordre.BOIRE, indice);
-                    fenetre.getJeu().controles(c); // Exécution de la commande dans le moteur du jeu (l'objet Jeu)
-                }
+                        // On crée une commande qui fera boire au joueur la potion présente  à l'indice cliqué
+                        Commande c = new Commande(Ordre.BOIRE, indice);
+                        fenetre.getJeu().controles(c); // Exécution de la commande dans le moteur du jeu (l'objet Jeu)
+                    }
 
-            });
+                });
 
-            
-            panel.add(labels[i], gc); // on ajoute l'icône dans le panel avec les contraintes souhaitées
-            gc.gridx++; // On se décalle d'une case vers la droite dans le tableau
+                
+                panel.add(labels[i], gc); // on ajoute l'icône dans le panel avec les contraintes souhaitées
+                gc.gridx++; // On se décalle d'une case vers la droite dans le tableau
+            }
         }
 
         // Si le joueur n'avais pas 5 potions, tant que nous avons pas 5 composants dans le tableau
@@ -716,20 +742,54 @@ public class PanelPartie extends JPanel{
         // Déclaration et initialisation d'un tableau de cinqs cases pour les textes
         JLabel[] labels = new JLabel[5];
 
-        // Déclaration de la varaibale nécessaire pour parcourir le tableau
-        int i;
+        // Déclaration et initialisation de la varaibale nécessaire pour parcourir le tableau
+        int i = 0;
 
-        //Pour chaque case du tableau
-        for(i=0; i<labels.length; i++){
-            
-            // Création d'un nouveau texte (TO DO)
-            labels[i] = new JLabel("INFOS"+i);
+        // Récupération de la collection contenant les informations ainsi que de son verrou pour lires les données
+        ArrayList<String> informations = fenetre.getJeu().getInformations();
+        Object verrou = fenetre.getJeu().getVerrouInformations();
+
+        // SECTION CRITIQUE, verrouillage du verrou des informations
+        synchronized(verrou){
+
+            // Si la taille de la collection des informations est > 5
+            if(informations.size() > 5){
+                // On change le i de départ à la cinquième position en partant de la fin
+                i = informations.size()-6; 
+            }
+        
+            //Pour les cinqs dernières informations de la collection
+            for(i=i; i<informations.size(); i++){
+                
+                // Création d'un nouveau texte (TO DO)
+                labels[i] = new JLabel("> "+informations.get(i));
+
+                // Changement de la couleur du texte
+                labels[i].setForeground(new Color(224,226,225));
+
+                // Ajout d'une bordure de 5 pixel à l'horizontale, et de 3 pixels en haut (pour créer des marges internes)
+                labels[i].setBorder(BorderFactory.createMatteBorder(3, 5, 0, 5, new Color(33,32,30)));
+            }
+        }
+         
+        // Si on avait moins de cinqs informations, tant qu'il n'y a pas cinq texte d'inséré dans le panel
+        while(i<5){
+
+            if(i==0){ // Si c'est le premier texte crée (il y avait aucune information)
+                labels[i] = new JLabel("> Aucune information pour le moment");
+            } else { // Si ce n'est pas le premier texte crée 
+                // Création d'un nouveau texte (TO DO)
+                labels[i] = new JLabel("");
+
+            }
 
             // Changement de la couleur du texte
             labels[i].setForeground(new Color(224,226,225));
 
             // Ajout d'une bordure de 5 pixel à l'horizontale, et de 3 pixels en haut (pour créer des marges internes)
             labels[i].setBorder(BorderFactory.createMatteBorder(3, 5, 0, 5, new Color(33,32,30)));
+            
+            i++; // Passage à la case de potion suivante
         }
 
         return labels;

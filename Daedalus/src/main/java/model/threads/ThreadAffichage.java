@@ -1,6 +1,7 @@
 package model.threads;
 
 import model.ihm.FenetreGraphique;
+import model.ihm.PanelPartie;
 
 /**
  * Classe représentant un thread dont le but est de rafraîchir régulièrement l'affichage de la partie
@@ -16,6 +17,7 @@ public class ThreadAffichage extends Thread{
      * @param f objet FenetreGraphique qui doit être stoqué dans l'attribut
      */
     public ThreadAffichage(FenetreGraphique f){
+        super();
         fenetre = f;
     }
 
@@ -26,7 +28,7 @@ public class ThreadAffichage extends Thread{
     public void run(){
 
         // Boucle infinie
-        while(true){
+        while(fenetre.getContentPane() instanceof PanelPartie){
             
             // Attente de 300 milisecondes
             try{

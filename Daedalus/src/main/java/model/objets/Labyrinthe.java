@@ -18,7 +18,7 @@ public class Labyrinthe {
      * Cases du labyrinthe
      */
     private ArrayList<ArrayList<Case>> cases;
-
+    private ArrayList<ArrayList<Object>> verrousCases;
     private int hauteur, largeur;
 
     /**
@@ -161,10 +161,12 @@ public class Labyrinthe {
 
     public void generer(int[][] casesTemplate) {
         this.cases = new ArrayList<ArrayList<Case>>();
+        this.verrousCases = new ArrayList<ArrayList<Object>>();
         for (int i = 0; i < casesTemplate.length; i++) {
             this.cases.add(new ArrayList<Case>());
-
+            this.verrousCases.add(new ArrayList<Object>());
             for (int j = 0; j < casesTemplate[i].length; j++)  {
+                verrousCases.get(i).add(new Object());
                 switch (casesTemplate[i][j]) {
                     case 1 -> this.cases.get(i).add(new CaseMur());
                     case 2 -> this.cases.get(i).add(new CaseVide()); // TODO
@@ -192,7 +194,7 @@ public class Labyrinthe {
      * @return case correspondante ou null si pas de case
      */
     public Case getCase(int x, int y) {
-        if ((x >= 0 && x <= this.largeur) && (y >= 0 && y <= this.hauteur)) {
+        if ((x >= 0 && x <= this.largeur) && (y >= 0 && y <= this.hauteur)) {    
             return this.cases.get(x).get(y);
         }
         return null;
@@ -200,6 +202,10 @@ public class Labyrinthe {
 
     public ArrayList<ArrayList<Case>> getCases(){
         return this.cases;
+    }
+
+    public ArrayList<ArrayList<Object>> getVerrousCases(){
+        return this.verrousCases;
     }
 
     /**

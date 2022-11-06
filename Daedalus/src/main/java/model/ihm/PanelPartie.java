@@ -506,7 +506,7 @@ public class PanelPartie extends JPanel{
         
         // SECTION CRITIQUE, verrouillage du verrou de l'entité joueur (en position 0 dans la collection, toujours)
         synchronized(fenetre.getJeu().getVerrousEntites().get(0)){
-            label = new JLabel("  Points d'armure: "+fenetre.getJeu().getJoueur().getPointsArmures());
+            label = new JLabel("  Points d'armure: "+fenetre.getJeu().getJoueur().getPointsArmure());
         }
 
         // Ajout d'une icône prévu pour les points d'armure au texte

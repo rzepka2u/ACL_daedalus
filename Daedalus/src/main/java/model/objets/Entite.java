@@ -129,7 +129,15 @@ public abstract class Entite {
     }
 
     /**
-     * Definit les coordonnées en y de l'entité
+     * Défini l'arme de l'entité
+     * @param a arme à ajouter
+     */
+    public void setArme(Arme a){
+        this.arme = a;
+    }
+
+    /**
+     * Défini les coordonnées en y de l'entité
      * @param y coordonnée en y
      */
     public void setY(int y){

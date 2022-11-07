@@ -1,10 +1,59 @@
 package model.cases;
 
+import model.objets.Coordonnee;
+
 /**
  * Represente la case de départ dans la labyrinthe
  */
-public class CaseDepart implements Case {
+public class CaseDepart extends Case {
 
+    /**
+     * id de la case vide (utile pour la génération aléatoire)
+     */
+    private int id;
+
+    /**
+     * charactere qui représente la case
+     */
+    private char c;
+
+    /**
+     * constructeur de CaseDepart
+     * @param id id
+     * @param coord coordonnee de la case
+     */
+    public CaseDepart(int id, Coordonnee coord) {
+        super(coord.getX(), coord.getY());
+        this.id = id;
+        this.c = 'D';
+
+    }
+
+    /**
+     * methode get id
+     * @return this.id
+     */
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * methode set id
+     * @param id id voulu
+     */
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * methode get type (ici CaseDepart)
+     */
+    @Override
+    public String getType() {
+        return "CaseDepart";
+    }
 
     /**
     * Définit les cases départ comme traversable
@@ -14,8 +63,20 @@ public class CaseDepart implements Case {
         return true;
     }
 
+    /**
+     * methode pour changer provisoirement le caractère associé à la case (pour la génération aléatoire)
+     * @param a charactere
+     */
     @Override
-    public String toString(){
-        return "D";
+    public void setChar(char a) {
+        this.c = a;
+    }
+
+    /**
+     * methode get charactere
+     */
+    @Override
+    public char getChar() {
+        return this.c;
     }
 }

@@ -36,6 +36,13 @@ public class CaseTresor implements Case {
     }
 
     /**
+     * Méthode qui permet d'ouvrir un coffre à trésor
+     */
+    public void ouvrirTresor() {
+        this.ouvert = true;
+    }
+
+    /**
      * Méthode qui défini si la case est traversable pour le joueur
      * @return false ou true suivant si le coffre est ouvert ou non 
      */

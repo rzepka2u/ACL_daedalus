@@ -112,6 +112,10 @@ public abstract class Entite {
         return this.pointsVie;
     }
 
+    public void setPointsVie(int pointsVie) {
+        this.pointsVie = pointsVie;
+    }
+
     /**
      * Renvoie les points d'armure de l'entité
      * @return l'attribut pointsArmure

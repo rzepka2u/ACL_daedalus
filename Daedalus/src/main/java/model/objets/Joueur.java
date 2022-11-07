@@ -34,6 +34,23 @@ public class Joueur extends Entite {
         return inventaire;
     }
 
+    public void ajouterPotion() {
+        if(this.inventaire.size() < 5) {
+            this.inventaire.add(new Potion(10));
+        }
+    }
+
+    public void boirePotion() {
+        if(!this.inventaire.isEmpty()) {
+            if(this.getPointsVie()+this.inventaire.get(0).getAugmentation() > NB_PV_START) {
+                this.setPointsVie(NB_PV_START);
+            } else {
+                this.setPointsVie(this.getPointsVie()+this.inventaire.get(0).getAugmentation());
+            }
+            this.inventaire.remove(0);
+        }
+    }
+
     public Direction getRegard(){
         return regard;
     }
@@ -247,6 +264,7 @@ public class Joueur extends Entite {
         }
         return entitesTouchees;
     }
+
 
     @Override
     public String toString(){

@@ -1,5 +1,6 @@
 package model.cases;
 
+import model.objets.Arme;
 import model.objets.Tresor;
 
 /**
@@ -45,5 +46,9 @@ public class CaseTresor implements Case {
         } else {
             return false;
         }
+    }
+
+    public void setContenu(Tresor contenu) {
+        this.contenu = contenu;
     }
 }

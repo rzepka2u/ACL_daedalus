@@ -3,6 +3,7 @@ package model.objets;
 import model.cases.Case;
 import model.cases.CaseSortie;
 
+import model.cases.CaseTresor;
 import model.enums.Direction;
 import model.enums.Ordre;
 import model.ihm.FenetreGraphique;
@@ -176,7 +177,7 @@ public class Jeu{
 
     /**
     *   Déplace un joueur dans une direction souhaitée
-    *   @param direction La direction dans laquelle on veut déplacer le joueur (gauche/droite/haut/bas)
+    *   @param sens La direction dans laquelle on veut déplacer le joueur (gauche/droite/haut/bas)
     *   @return Un entier qui indique le type de déplacement (0 : déplacement valide, 1 : collision, 2 : déplacement sur la sortie)
     */
     public int deplacerJoueur(Direction sens){
@@ -249,12 +250,42 @@ public class Jeu{
 
         } else if(cmd.getOrdre() == Ordre.ATTAQUE){ // cmd.getOrdre() == Ordre.ATTAQUE 
             // TO DO: ATTAQUE DU JOUEUR
+            ArrayList<Entite> lEntites = new ArrayList<Entite>(this.entites);
+            lEntites.remove(this.getEntites().get(0));
+            ArrayList<Entite> lAttaquees = this.getEntites().get(0).attaquer(lEntites);
+            int dgts = this.getEntites().get(0).getArme().getDegats();
+            for(Entite ent : lAttaquees) {
+                if(ent.prendreDegat(dgts)) {
+                    // kill thread
+                }
+            }
         } else if(cmd.getOrdre() == Ordre.OUVRIR){
             // TO DO: OUVERTURE D'UN COFFRE A PROXIMITE
         } else if(cmd.getOrdre() == Ordre.RAMASSER){
+            // on teste si le joueur se trouve sur une case d'un trésor (et non d'un coffre)
+            if(this.getLabyrinthe().getCase(this.getJoueur().getX(), this.getJoueur().getY()) instanceof CaseTresor) {
+                CaseTresor ct = (CaseTresor) this.getLabyrinthe().getCase(this.getJoueur().getX(), this.getJoueur().getY());
+                if(ct.getOuvert()) {
+                    // on teste si ce trésor est une arme
+                    if(ct.getContenu() instanceof Arme) {
+                        Arme temp_a = this.getJoueur().getArme();
+                        Arme nov_a = ((Arme) ct.getContenu());
+                        // pose l'arme par terre
+                        ct.setContenu(temp_a);
+
+                        // switch avec la nouvelle
+                        this.getJoueur().setArme(nov_a);
+                    } else if(ct.getContenu() instanceof PieceArmure) {
+                        // on ajoute de l'armure
+                    } else if(ct.getContenu() instanceof Potion) {
+                        this.getJoueur().ajouterPotion();
+                    }
+                }
+            }
             // TO DO: RAMMASER UN TRESOR A PROXIMITE
         } else if(cmd.getOrdre() == Ordre.BOIRE){
-            // TO DO: BOIRE LA POTION A L'indice cmd.getIndice() dans la collection du joueur 
+            // TO DO: BOIRE LA POTION A L'indice cmd.getIndice() dans la collection du joueur
+            this.getJoueur().boirePotion();
         }
     }
 

@@ -10,9 +10,6 @@ import model.enums.Direction;
 
 public class Joueur extends Entite {
 
-    private static final int NB_PV_START = 100;
-    private static final int NB_PA_START = 50;
-
     // indique où regarde le joueur (vers le haut, bas,..)
     private Direction regard;
     private ArrayList<Potion> inventaire;

@@ -198,6 +198,9 @@ public class Labyrinthe {
         }
         this.largeur = this.cases.get(0).size();
         this.hauteur = this.cases.size();
+
+        this.cases.get(this.hauteur-2).set(1, new CaseDepart(-1, new Coordonnee(hauteur-1, 0)));
+        this.cases.get(1).set(this.largeur-2, new CaseSortie(-1, new Coordonnee(0, hauteur-1)));
     }
 
     /**

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Fantome extends Entite {
     
+    public Fantome(int x, int y){
+        super(x, y, NB_PV_START, NB_PA_START);
+    }
+
     public Fantome(int x, int y, int pv, int pa){
         super(x,y,pv,pa);
     }

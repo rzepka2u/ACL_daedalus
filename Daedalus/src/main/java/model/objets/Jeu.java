@@ -1,6 +1,7 @@
 package model.objets;
 
 import model.cases.Case;
+import model.cases.CaseVide;
 import model.cases.CaseEffet;
 import model.cases.CaseSortie;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class Jeu{
 
     private final int nbMaxNiveau;
+    private final int DIMENSION_LABYRINTHE = 15;
 
     private FenetreGraphique fenetre;
     private Labyrinthe labyrinthe; // Le labyrinthe en cours
@@ -30,12 +32,12 @@ public class Jeu{
     private ArrayList<String> informations;
     private Object verrouInformations;
 
-    /**
+
+   /**
      * Constructeur par défaut d'un objet Jeu avec un labyrinthe par défaut
      */
     public Jeu(FenetreGraphique f, int nbMax){
 
-        int[] positionDepart; 
         this.nbMaxNiveau = nbMax;
         this.nbNiveau = 0;
         this.fenetre = f;
@@ -43,19 +45,19 @@ public class Jeu{
         this.verrouInformations = new Object();
 
         //Initialisation du labyrinthe avec le labyrinthe par défaut
-        this.labyrinthe = new Labyrinthe();
-
-        //Récupération de la position de départ
-        positionDepart = determinerDepart(this.labyrinthe);
+        this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
 
         this.entites = new ArrayList<Entite>();
         this.verrousEntites = new ArrayList<Object>();
 
         //Initialisation du joueur à la postion de départ
-		this.entites.add(new Joueur(positionDepart[0], positionDepart[1]));
+		this.entites.add(new Joueur(labyrinthe.getHauteur()-2, 1));
         this.verrousEntites.add(new Object());
 
-        // TO DO: CREATION DES MONSTRES (Object Monstre + ThreadMonstres)
+        this.threads = new ArrayList<ThreadMonstre>();
+
+        // CREATION DES MONSTRES (Object Monstre + ThreadMonstres + start)
+        createNewEntites();
 
     }
 
@@ -132,7 +134,6 @@ public class Jeu{
      * @param l le labyrithne sur lequel va se dérouler la partie
      * @return un tableau d'entier de deux cases ou la case 0 est la position x du joueur, et la case 1 la position y du joueur
      */
-
     private int[] determinerDepart(Labyrinthe l){
 
         // Déclaration des variables nécessaires
@@ -146,7 +147,7 @@ public class Jeu{
         c = l.getCase(positionDepart[0], positionDepart[1]);
 
         // Tant que la case n'est pas traversable ou que la case est la sortie
-        while(!c.estTraversable() || c instanceof CaseSortie){
+        while(!c.estTraversable() ||  !(c instanceof CaseVide) || emplacementOccupe(positionDepart[0], positionDepart[1])){
 
             // Tirage au sort d'une ligne du labyrinthe
             positionDepart[0] = (int) (Math.random() * l.getHauteur());
@@ -163,6 +164,26 @@ public class Jeu{
 
         return positionDepart;
         
+    }
+
+    public boolean emplacementOccupe(int x, int y){
+        
+        boolean res = false;
+        int i;
+        
+        if(this.entites != null){
+
+            for(i=0; i<entites.size() && res == false; i++){
+                if(entites.get(i).getX() == x){
+                    if(entites.get(i).getY() == y){
+                        res = true;
+                    }
+                }        
+            }
+
+        }
+
+        return res;
     }
 
     /**
@@ -315,11 +336,13 @@ public class Jeu{
     public void controles(Commande cmd){
 
         if(cmd.getOrdre() == Ordre.DEPLACEMENT){
-            if(deplacerJoueur(cmd.getDirection()) == 2){
-                changerNiveau();
-            }
-            if(deplacerJoueur(cmd.getDirection()) == 3){
-                appliquerEffetCase(cmd.getDirection());
+            switch(deplacerJoueur(cmd.getDirection())){
+                case 2: 
+                    changerNiveau();
+                    break;
+                case 3:
+                    appliquerEffetCase(cmd.getDirection());
+                    break;
             }
 
         } else if(cmd.getOrdre() == Ordre.ATTAQUE){ // cmd.getOrdre() == Ordre.ATTAQUE 
@@ -370,22 +393,81 @@ public class Jeu{
     // Methode appelée lorsque qu'un niveau est fini
     public void changerNiveau(){
 
-        // TO DO:
         // - INTERRUPT LES THREADS MONSTRES
+        int i;
+
+        for(i=0; i<threads.size(); i++){
+            threads.get(i).interrupt();
+        }
+
+        // - INTERUPT LES THREADS EFFETS PROGRESSIF
+        // TO DO:
 
         if(nbNiveau < nbMaxNiveau){
             
             // 1- CREATION NOUVEAU LABYRINTHE 
+
+            this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
+            nbNiveau++;
+            placerJoueurSurCase(labyrinthe.getHauteur()-2, i);
+
             // 2- CREATION NOUVELLES ENTITES (object + threads)
             
-            nbNiveau++;
+            createNewEntites();
+
         } else {
             fenetre.afficherVueFin(true);
         }
     }
 
+    public void createNewEntites(){
+
+        long nombreEntite =  Math.round(nbNiveau * 0.80 + 2);
+        int i;
+
+
+        if(threads != null){
+            while(threads.size() > 0){
+                threads.remove(0);
+                verrousEntites.remove(1);
+                entites.remove(1);
+            }
+        }
+
+
+        for(i=0; i<nombreEntite; i++){
+            
+            int[] determinerDepart = determinerDepart(this.labyrinthe);
+
+            if(i%2 == 0){
+                entites.add(new Fantome(determinerDepart[0], determinerDepart[1]));
+                verrousEntites.add(new Object());
+            } else {
+                entites.add(new Gobelin(determinerDepart[0], determinerDepart[1]));
+                verrousEntites.add(new Object());
+            }
+        }
+
+        for(i=0; i<nombreEntite; i++){
+            threads.add(new ThreadMonstre(this, i));
+            threads.get(i).start();
+        }
+
+    }
+
     // Méthode appelée lorsque le joueur est mort
     public void mortJoueur(){
+        
+        // - INTERRUPT LES THREADS MONSTRES
+        int i;
+
+        for(i=0; i<threads.size(); i++){
+            threads.get(i).interrupt();
+        }
+
+        // - INTERUPT LES THREADS EFFETS PROGRESSIF
+        // TO DO:
+
         fenetre.afficherVueFin(false);
     }
 

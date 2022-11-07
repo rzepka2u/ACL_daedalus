@@ -1,6 +1,7 @@
 package model.objets;
 
 import model.cases.Case;
+import model.cases.CaseEffet;
 import model.cases.CaseSortie;
 
 import model.cases.CaseTresor;
@@ -203,6 +204,7 @@ public class Jeu{
                 this.entites.get(0).seDeplacer(px,py);
                 ((Joueur) this.entites.get(0)).setRegard(sens);
                 res = 0;
+                if (etreSurCaseEffet(px, py)) res = 3;
                 if (etreSurSortie(px,py)) res = 2;
             }
         }
@@ -238,15 +240,87 @@ public class Jeu{
         }
     }
 
-    // Méthode appeler a chaque evenement de controle 
+     /**
+     * Détermine si le joueur est sur une case à effet ou non 
+     * @param px la nouvelle position horizontale du joueur
+     * @param py la nouvelle position verticale du joueur
+     * @return un boolean à true si la case est une case à effet, false sinon
+     */
+    public boolean etreSurCaseEffet(int px, int py) {
+        synchronized(labyrinthe.getVerrousCases().get(px).get(py)){
+            // Récupération de la case sur laquelle sera le joueur après son déplacement
+            Case c = this.labyrinthe.getCase(px,py);
+            // true si c'est une case à effet, false sinon
+            return c instanceof CaseEffet;
+        }
+    }
+
+    public void appliquerEffetCase(Direction sens) {
+        int px, py;
+        px = this.entites.get(0).getX();
+        py = this.entites.get(0).getY();
+        switch (sens) {
+            case GAUCHE -> py -= 1;
+            case DROITE -> py += 1;
+            case HAUT -> px -= 1;
+            case BAS -> px += 1;
+        }
+        CaseEffet ce = (CaseEffet) labyrinthe.getCase(px, py);
+        boolean progressif = ce.getProgressif();
+        if(progressif) {
+            //TO DO : EFFET PROGRESSIF
+        } else {
+            this.getJoueur().modifierPV(ce.getAugmentation());
+            this.getJoueur().modifierPV(- ce.getDiminutionPV());
+        }
+    }
+
+    public int[] etreProcheCaseTresor() {
+        int[] pos = {-1, -1};
+        Case c;
+        switch(getJoueur().getRegard()) {
+            case HAUT : 
+                c = this.labyrinthe.getCase(this.getJoueur().getX(), this.getJoueur().getY() + 1);
+                if(c instanceof CaseTresor) {
+                    pos[0] = this.getJoueur().getX();
+                    pos[1] = this.getJoueur().getY() + 1;
+                }
+            break;
+            case BAS : 
+                c = this.labyrinthe.getCase(this.getJoueur().getX(), this.getJoueur().getY() - 1);
+                if(c instanceof CaseTresor) {
+                    pos[0] = this.getJoueur().getX();
+                    pos[1] = this.getJoueur().getY() - 1;
+                }
+            break;
+            case GAUCHE : 
+                c = this.labyrinthe.getCase(this.getJoueur().getX() - 1, this.getJoueur().getY());
+                if(c instanceof CaseTresor) {
+                    pos[0] = this.getJoueur().getX() - 1;
+                    pos[1] = this.getJoueur().getY() ;
+                }
+            break;
+            case DROITE : 
+                c = this.labyrinthe.getCase(this.getJoueur().getX() + 1, this.getJoueur().getY());
+                if(c instanceof CaseTresor) {
+                    pos[0] = this.getJoueur().getX() + 1;
+                    pos[1] = this.getJoueur().getY();
+                }
+            break;
+        }
+        return pos;
+    }
+
+    // Méthode appelé a chaque evenement de controle 
     public void controles(Commande cmd){
 
         if(cmd.getOrdre() == Ordre.DEPLACEMENT){
             if(deplacerJoueur(cmd.getDirection()) == 2){
                 changerNiveau();
             }
-
-            //TO DO: SI CASE ET PIEGE A EFFET, PRENDRE EFFET
+            if(deplacerJoueur(cmd.getDirection()) == 3){
+                appliquerEffetCase(cmd.getDirection());
+            }
 
         } else if(cmd.getOrdre() == Ordre.ATTAQUE){ // cmd.getOrdre() == Ordre.ATTAQUE 
             // TO DO: ATTAQUE DU JOUEUR
@@ -260,7 +334,11 @@ public class Jeu{
                 }
             }
         } else if(cmd.getOrdre() == Ordre.OUVRIR){
-            // TO DO: OUVERTURE D'UN COFFRE A PROXIMITE
+            int[] poscoffre = etreProcheCaseTresor();
+            if(poscoffre[0] != -1 && poscoffre[1] != -1) {
+                CaseTresor ct = (CaseTresor) labyrinthe.getCase(poscoffre[0], poscoffre[1]);
+                if(!ct.getOuvert()) ct.ouvrirTresor();
+            }
         } else if(cmd.getOrdre() == Ordre.RAMASSER){
             // on teste si le joueur se trouve sur une case d'un trésor (et non d'un coffre)
             if(this.getLabyrinthe().getCase(this.getJoueur().getX(), this.getJoueur().getY()) instanceof CaseTresor) {

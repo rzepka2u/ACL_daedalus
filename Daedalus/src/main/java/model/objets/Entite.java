@@ -156,5 +156,12 @@ public abstract class Entite {
         this.x = x;
     }
 
+    public void modifierPV(int effet) {
+        pointsVie += effet;
+    }
 
+    public boolean etreMort() {
+        if(this.pointsVie > 0) return true;
+        else return false;
+    }
 }

@@ -236,6 +236,7 @@ public class Labyrinthe {
                 }
             }
         }
+
     }
 
     /**
@@ -255,11 +256,11 @@ public class Labyrinthe {
         int decoupes = 0;
 
         // Le chemin obtenu est unique lorsque le nombre de murs ouverts est égal au carré de la moitié de la taille du côté, moins 1.
-        while (decoupes < ((this.taille / 2) * (this.taille / 2)) - 1) {
-            nombreAleatoire = (int) (Math.random() * ((((this.taille / 2) * (this.taille / 2)) * 2) - ((this.taille / 2) * 2))) + 1;
+        while (decoupes < ((taille/2)*(taille/2))-1) {
+            nombreAleatoire = (int)(Math.random()*((((taille/2)*(taille/2))*2)-((taille/2)*2)))+1;
 
             // On récupère les coordonnées d'une CaseMure ayant comme identifiant nombreAléatoire
-            coord = rechercherCoordonner("CaseMur", nombreAleatoire);
+            coord = rechercherCoordonnee("CaseMur", nombreAleatoire);
 
             // Si c'est bien un Objet CaseMur d'identifiant différent de -1 (par défaut), alors
             if ((this.grilleAlea[coord.getX()][coord.getY()] instanceof CaseMur) && (this.grilleAlea[coord.getX()][coord.getY()].getId() != -1)) {
@@ -279,10 +280,10 @@ public class Labyrinthe {
                         // On récupère les coordonnées des CaseVides ayant comme identifiant celui de la case enregistrée dans tmp2.
                         coordonnees = obtenirGroupeDeCasesVides(this.grilleAlea[coord.getX()][tmp2].getId());
 
+
                         // On parcourt les cases obtenues
-                        for (Coordonnee c : coordonnees) {
-                            // On modifie l'identifiant des cases voisines
-                            this.grilleAlea[c.getX()][c.getY()].setId(this.grilleAlea[c.getX()][tmp].getId());
+                        for (int i = 0; i<coordonnees.size(); i++) {
+                            this.grilleAlea[coordonnees.get(i).getX()][coordonnees.get(i).getY()].setId(this.grilleAlea[coord.getX()][tmp].getId());
                         }
 
                         // On incrémente le nombre de découpes faites jusqu'à maintenant et on remet à 0 la liste des coordonnées utilisées juste avant.
@@ -291,6 +292,7 @@ public class Labyrinthe {
                     }
                 // Si le modulo de l'ordonnée ne vaut pas 0, on va faire les mêmes étapes, mais pour les cases dans l'autre direction.
                 } else {
+
                     // On enregistre les cases au-dessus et en dessous.
                     tmp = coord.getX() + 1;
                     tmp2 = coord.getX() - 1;
@@ -304,8 +306,8 @@ public class Labyrinthe {
                         coordonnees = obtenirGroupeDeCasesVides(this.grilleAlea[tmp2][coord.getY()].getId());
 
                         // On parcourt les cases obtenues
-                        for (Coordonnee c : coordonnees) {
-                            this.grilleAlea[c.getX()][c.getY()].setId(this.grilleAlea[tmp][c.getY()].getId());
+                        for (int i = 0; i<coordonnees.size(); i++) {
+                            this.grilleAlea[coordonnees.get(i).getX()][coordonnees.get(i).getY()].setId(this.grilleAlea[tmp][coord.getY()].getId());
                         }
 
                         // On incrémente le nombre de découpes faites jusqu'à maintenant et on remet à 0 la liste des coordonnées utilisées juste avant.
@@ -325,7 +327,7 @@ public class Labyrinthe {
      * @return les coordonnées de la case recherchée
      */
 
-    public Coordonnee rechercherCoordonner(String type, int id) {
+    public Coordonnee rechercherCoordonnee(String type, int id) {
         // Coordonnee de la case trouvée (par défaut (-1;-1))
         Coordonnee coordonnee = new Coordonnee(-1, -1);
 
@@ -361,6 +363,7 @@ public class Labyrinthe {
         }
         return groupe;
     }
+
 
     /**
      * Permet de convertir la grille du labyrinthe aléatoire dans la structure de donnée utilisée précédemment (avec des entiers)

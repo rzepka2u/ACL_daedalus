@@ -455,4 +455,9 @@ public class Labyrinthe {
                 {0, 0, 0}};
         this.genererDepuisEntiers(casesTemplate);
     }
+
+    public static void main(String[] args) {
+        Labyrinthe l = new Labyrinthe(20);
+        System.out.println(l);
+    }
 }

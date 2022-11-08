@@ -3,12 +3,12 @@ package model.cases;
 import model.objets.Coordonnee;
 
 /**
- * Represente un mur dans le labyrinthe
+ * Represente la case de départ dans la labyrinthe
  */
-public class CaseMur extends Case {
+public class CaseDepart extends Case {
 
     /**
-     * id de la case (utile pour la génération aléatoire)
+     * id de la case vide (utile pour la génération aléatoire)
      */
     private int id;
 
@@ -18,14 +18,14 @@ public class CaseMur extends Case {
     private char c;
 
     /**
-     * constructeur de CaseMur
+     * constructeur de CaseDepart
      * @param id id
      * @param coord coordonnee de la case
      */
-    public CaseMur(int id, Coordonnee coord) {
+    public CaseDepart(int id, Coordonnee coord) {
         super(coord.getX(), coord.getY());
         this.id = id;
-        this.c = '#';
+        this.c = 'D';
 
     }
 
@@ -47,21 +47,20 @@ public class CaseMur extends Case {
         this.id = id;
     }
 
-
     /**
-     * methode get type (ici CaseMur)
+     * methode get type (ici CaseDepart)
      */
     @Override
     public String getType() {
-        return "CaseMur";
+        return "CaseDepart";
     }
 
     /**
-    * Définit les cases mur comme non traversable
-    * @return un boolean toujours égal à false
+    * Définit les cases départ comme traversable
+    * @return un boolean toujours égal à true
     */
     public boolean estTraversable(){
-        return false;
+        return true;
     }
 
     /**
@@ -80,5 +79,4 @@ public class CaseMur extends Case {
     public char getChar() {
         return this.c;
     }
-
 }

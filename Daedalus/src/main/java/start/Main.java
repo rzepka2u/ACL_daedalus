@@ -1,13 +1,10 @@
 package start;
 
 
-/*
-import model.PacmanPainter;
-import engine.GameEngineGraphical;
-import model.PacmanController;
-import model.PacmanGame;
-*/
+import model.ihm.FenetreGraphique;
 
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import javax.swing.UIManager;
 import model.objets.Jeu;
 
 import java.io.FileNotFoundException;
@@ -21,19 +18,10 @@ public class Main {
 
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 		
-		/* MAIN FOURNI SUR ARCHE
-		
-		// creation du jeu particulier et de son afficheur
-		PacmanGame game = new PacmanGame("helpFilePacman.txt");
-		PacmanPainter painter = new PacmanPainter();
-		PacmanController controller = new PacmanController();
-
-		// classe qui lance le moteur de jeu generique
-		GameEngineGraphical engine = new GameEngineGraphical(game, painter, controller);
-		engine.run();
-		*/
+		/* ANCIEN MAIN
 
 		// DECLARATION ET INITIALISATION DES VARIABLES NECESSAIRES
+
 
 		Scanner scan = new Scanner(System.in);
 		Jeu jeu;
@@ -86,5 +74,16 @@ public class Main {
 
 		// Fermeture de l'objet Scanner
 		scan.close(); 
+
+
+		*/
+
+		try{
+            UIManager.setLookAndFeel(new NimbusLookAndFeel());
+        } catch( Exception exception ) { 
+            exception.printStackTrace(); 
+        }
+
+		new FenetreGraphique();
 	}
 }

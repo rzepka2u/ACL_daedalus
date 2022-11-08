@@ -1,0 +1,32 @@
+SPRINT RETROSPECTIVE : ce qui s’est bien passé (ou pas) et les décisions pour le sprint suivant
+
+Le sprint 1 a permis la modification de la méthode de travail :
+  - Meilleure synchronisation lorsque plusieurs personnes devaient travailler sur les mêmes classes
+  - Bonne gestion des conflits sur les fichiers 
+  - Meilleure communication sur l'avancée, du fait du nombre plus important de fonctionnalités à effectuer durant ce sprint
+
+
+Les fondations du projet ont été construites :
+  - Les fonctionnalités prévues pour le sprint 0 ont toutes été réalisées
+  - Tous les membres de l'équipe sont prêts pour poursuivre dans de bonnes conditions. Les outils ont été pris en main.
+  - .
+  - Quelques difficultés pour réaliser toutes les fonctionnalités et leurs tests puisque 3 personnes du groupe ont été malades durant ce sprint
+ 
+- Aucun problème particulier rencontré, sauf pour la fonctionnalité initialiser joueur, nous avons choisi de déterminer la case de départ
+    aléatoirement car si on fait apparaître le joueur au milieu du labyrinthe à tous les coups, il se peut qu'il soit dans un mur
+    ou sur la sortie, d'autant plus que nous avons pour but de générer des labyrinthes de manière aléatoire dans les autres sprints.
+    Les fonctionnalités étaient également dépendantes les unes des autres ce qui nous a demandé d'attendre la fin de certaines fonctionnalités pour en commencer d'autres 
+	(Avoir le déplacement du joueur mis en place pour ensuite s'occuper des collisions et avoir la génération du labyrinthe et le déplacement du joueur pour gérer la sortie)
+
+Pour le sprint suivant nous avons décidé d'accélérer le développement afin de réaliser plus de fonctionnalités. Ceci sera permis grâce à l'indépendances des tâches à effectuer dans ce sprint.
+L'objectif est tout d'abord d'avoir une véritable expérience de jeu.
+- Dans un premier temps, nous souhaitons avoir une génération pseudo-aléatoire des niveaux
+  (on partirait d'une base de labyrinthe défini dans un fichier, avec quelques modifications aléatoires des cases)
+
+- Dans un deuxième temps les monstres ajouteront de la difficulté au joueur
+
+- Le jeu devra également avoir un système d'armes simples pour se défendre face aux monstres.
+
+- Des cases spéciales vont permettre d'ajouter de l'interaction au jeu
+
+- Le jeu devra être doté d'une interface graphique avec un menu de jeu

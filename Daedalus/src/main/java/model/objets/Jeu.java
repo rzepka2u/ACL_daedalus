@@ -62,6 +62,8 @@ public class Jeu{
 
         this.threads = new ArrayList<ThreadMonstre>();
 
+        this.threadsEffet = new ArrayList<ThreadEffet>();
+
         if(!test){
             // CREATION DES MONSTRES (Object Monstre + ThreadMonstres + start)
             createNewEntites();
@@ -99,6 +101,8 @@ public class Jeu{
         this.verrousEntites.add(new Object());
 
         this.threads = new ArrayList<ThreadMonstre>();
+        this.threadsEffet = new ArrayList<ThreadEffet>();
+
 
         if(!test){
             // CREATION DES MONSTRES (Object Monstre + ThreadMonstres + start)
@@ -304,9 +308,9 @@ public class Jeu{
         CaseEffet ce = (CaseEffet) labyrinthe.getCase(px, py);
         boolean progressif = ce.getProgressif();
         if(progressif) {
-            ThreadEffet te = new ThreadEffet(this, threadsEffet.size(), ce.getAugmentation(), ce.getDiminutionPV(), 10);
+            ThreadEffet te = new ThreadEffet(this, ce.getAugmentation(), ce.getDiminutionPV(), 10);
             threadsEffet.add(te);
-            te.run();
+            te.start();
         } else {
             this.getJoueur().modifierPV(ce.getAugmentation());
             this.getJoueur().modifierPV(- ce.getDiminutionPV());
@@ -419,7 +423,7 @@ public class Jeu{
 
         // - INTERUPT LES THREADS EFFETS PROGRESSIF
         for(i=0; i<threadsEffet.size(); i++){
-            threads.get(i).interrupt();
+            threadsEffet.get(i).interrupt();
         }
 
         if(nbNiveau < nbMaxNiveau){
@@ -430,8 +434,8 @@ public class Jeu{
             nbNiveau++;
             placerJoueurSurCase(labyrinthe.getHauteur()-2, i);
 
+
             // 2- CREATION NOUVELLES ENTITES (object + threads)
-            
             createNewEntites();
 
         } else {
@@ -485,7 +489,9 @@ public class Jeu{
         }
 
         // - INTERUPT LES THREADS EFFETS PROGRESSIF
-        // TO DO:
+        for(i=0; i<threadsEffet.size(); i++){
+            threadsEffet.get(i).interrupt();
+        }
 
         fenetre.afficherVueFin(false);
     }

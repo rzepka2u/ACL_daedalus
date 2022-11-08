@@ -7,13 +7,12 @@ import java.lang.Thread;
 
 public class ThreadEffet extends Thread {
 
-    private int positionInList;
     private Jeu jeu;
     private int augmentation;
     private int diminution;
     private int nb_coups;
 
-    public ThreadEffet(Jeu j, int pos, int aug, int dim, int nbc){
+    public ThreadEffet(Jeu j, int aug, int dim, int nbc){
         super();
         jeu = j;
         augmentation = aug;
@@ -23,6 +22,7 @@ public class ThreadEffet extends Thread {
 
     public void run(){
         for(int i = 0; i <= nb_coups-1; i++) {
+            
             Joueur j = jeu.getJoueur();
             j.modifierPV(augmentation);
             j.modifierPV(-diminution);

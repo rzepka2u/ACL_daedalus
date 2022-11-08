@@ -176,7 +176,7 @@ public class FenetreGraphique extends JFrame {
 
     // Fonction de test pour la phase de développement de l'IHM  (à retirer au final)
     public static void main(String[] args){
-
+        
         // SET LOOK AN FEEL NIMBUS
         try{
             UIManager.setLookAndFeel(new NimbusLookAndFeel());

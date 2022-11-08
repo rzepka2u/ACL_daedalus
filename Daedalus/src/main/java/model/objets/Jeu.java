@@ -298,25 +298,39 @@ public class Jeu{
         }
     }
 
-    public void appliquerEffetCase(Direction sens) {
+    public void appliquerEffetCase() {
         int px, py;
+        boolean test = false;
         px = this.entites.get(0).getX();
         py = this.entites.get(0).getY();
-        switch (sens) {
-            case GAUCHE -> py -= 1;
-            case DROITE -> py += 1;
-            case HAUT -> px -= 1;
-            case BAS -> px += 1;
+
+        synchronized(labyrinthe.getVerrousCases().get(px).get(py)){
+            CaseEffet ce = (CaseEffet) labyrinthe.getCase(px, py);
+            boolean progressif = ce.getProgressif();
+            
+            if(progressif) {
+                ThreadEffet te = new ThreadEffet(this, ce.getAugmentation(), ce.getDiminutionPV(), 10);
+                threadsEffet.add(te);
+                te.start();
+            } else {
+
+                synchronized(verrousEntites.get(0)){
+                    this.getJoueur().modifierPV(ce.getAugmentation());
+                    this.getJoueur().modifierPV(- ce.getDiminutionPV());
+                    if(getJoueur().getPointsVie()<=0){
+                        test = true;
+                    }
+                }
+
+            }
+
+            synchronized(verrouInformations){
+                ajouterInfos("Vous avez déclencher une case a éffets "+(ce.getProgressif()? "progressif" : "unique")+" "+(ce.getDiminutionPV()>0?"infligant "+ce.getDiminutionPV():"augmantenant "+ce.getAugmentation())+" points de vie!");
+            }
         }
-        CaseEffet ce = (CaseEffet) labyrinthe.getCase(px, py);
-        boolean progressif = ce.getProgressif();
-        if(progressif) {
-            ThreadEffet te = new ThreadEffet(this, ce.getAugmentation(), ce.getDiminutionPV(), 10);
-            threadsEffet.add(te);
-            te.start();
-        } else {
-            this.getJoueur().modifierPV(ce.getAugmentation());
-            this.getJoueur().modifierPV(- ce.getDiminutionPV());
+
+        if(test){
+            mortJoueur();
         }
     }
 
@@ -365,7 +379,7 @@ public class Jeu{
                     changerNiveau();
                     break;
                 case 3:
-                    appliquerEffetCase(cmd.getDirection());
+                    appliquerEffetCase();
                     break;
             }
 

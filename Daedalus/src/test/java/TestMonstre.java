@@ -41,6 +41,7 @@ public class TestMonstre extends TestCase {
      * Test qui vérifie que le déplacement du monstre s'effectue bien
      * @throws FileNotFoundException
      */
+    /*
     @Test
     public void test_priseDegatsMonstre() throws FileNotFoundException{
 
@@ -70,7 +71,8 @@ public class TestMonstre extends TestCase {
         assertTrue("Le monstre devrait avoir reçu un coup", e.getPointsArmure() < pa);
 
     }
-
+    */
 
 }
+
 

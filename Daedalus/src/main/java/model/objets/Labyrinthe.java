@@ -490,9 +490,9 @@ public class Labyrinthe {
             xAlea = (int) (Math.random() * this.hauteur);
             yAlea = (int) (Math.random() * this.largeur);
 
-            if (this.cases.get(yAlea).get(xAlea) instanceof CaseVide) {
-                if (!casesConcernees.contains(this.cases.get(yAlea).get(xAlea))) {
-                    casesConcernees.add(this.cases.get(yAlea).get(xAlea));
+            if (this.cases.get(xAlea).get(yAlea) instanceof CaseVide) {
+                if (!casesConcernees.contains(this.cases.get(xAlea).get(yAlea))) {
+                    casesConcernees.add(this.cases.get(xAlea).get(yAlea));
                     //System.out.println("CaseVide en X="+ xAlea+ " Y="+yAlea);
                     nbAjoutes++;
                 }
@@ -531,9 +531,9 @@ public class Labyrinthe {
             xAlea = (int) (Math.random() * this.hauteur);
             yAlea = (int) (Math.random() * this.largeur);
 
-            if (this.cases.get(yAlea).get(xAlea) instanceof CaseVide) {
-                if (!casesConcernees.contains(this.cases.get(yAlea).get(xAlea))) {
-                    casesConcernees.add(this.cases.get(yAlea).get(xAlea));
+            if (this.cases.get(xAlea).get(yAlea) instanceof CaseVide) {
+                if (!casesConcernees.contains(this.cases.get(xAlea).get(yAlea))) {
+                    casesConcernees.add(this.cases.get(xAlea).get(yAlea));
                     nbAjoutes++;
                 }
             }

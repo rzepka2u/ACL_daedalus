@@ -48,7 +48,6 @@ public class TestLabyrinthe {
 
     /**
      * Test verifiant que le labyrinthe de base généré est bien celui souhaité
-     */
     @Test
     public void test_generationLabyrintheAvecFichierValide() throws FileNotFoundException {
         // preparation des donnees
@@ -79,6 +78,8 @@ public class TestLabyrinthe {
         // verifications des donnees
         assertTrue(s1, b);
     }
+
+    */
 
     /**
      * Test verifiant que la création du labyrinthe à partir d'un fichier va renvoyer une erreur si le fichier n'existe pas

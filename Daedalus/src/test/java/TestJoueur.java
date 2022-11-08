@@ -1,5 +1,7 @@
 import model.cases.*;
 import model.enums.Direction;
+import model.enums.Ordre;
+import model.objets.Commande;
 import model.objets.Jeu;
 
 import java.io.FileNotFoundException;
@@ -180,5 +182,37 @@ public class TestJoueur extends TestCase {
         assertEquals("Le joueur devrait avoir bougé en X = 1", 1, posx);
         assertEquals("Le joueur devrait avoir bougé en Y = 2", 2, posy);
     }
+
+    /**
+     * Test vérifiant que le joueur peux bien boire une potion
+     */
+    @Test 
+    public void testBoirePotion(){
+        Jeu j = new Jeu(null, 1, true);
+
+        j.getJoueur().setPointsVie(10);
+        j.getJoueur().ajouterPotion();// Ajoute une potion dans l'inventaire de 10pv
+        j.controles(new Commande(Ordre.BOIRE, 0));// Boire la potion
+
+        assertTrue("Le nombre de points de vie doit être de 20.", j.getJoueur().getPointsVie() == 20);
+    }
+
+
+    /**
+     * Test vérifiant la présence d'un trésor dans les labyrinthes
+     */
+    @Test
+    public void testTresor(){
+
+        Jeu j = new Jeu(null, 2, true);
+
+        assertTrue("Le premier labyrinthe doit contenir un trésor",  j.toString().contains("T"));
+
+        j.changerNiveau();
+
+        assertTrue("Le second labyrinthe doit contenir un trésor",  j.toString().contains("T"));
+
+    }
+
 
 }

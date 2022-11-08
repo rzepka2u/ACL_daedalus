@@ -2,6 +2,8 @@ package model.cases;
 
 import model.objets.Coordonnee;
 
+import java.util.Objects;
+
 /**
  * Represente une case dans le labyrinthe
  */
@@ -73,4 +75,17 @@ public abstract class Case {
         */
         public abstract boolean estTraversable();
 
+
+        @Override
+        public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Case aCase = (Case) o;
+                return Objects.equals(coord, aCase.coord);
+        }
+
+        @Override
+        public int hashCode() {
+                return Objects.hash(coord);
+        }
 }

@@ -1,6 +1,7 @@
 package model.cases;
 
 import model.objets.Coordonnee;
+import model.objets.Potion;
 import model.objets.Tresor;
 
 /**
@@ -27,10 +28,12 @@ public class CaseTresor extends Case {
      * @param coord coordonnee de la case
      * @param t le contenu du trésor (Potion, Arme ou PieceArmure)
      */
+
+
     public CaseTresor(int id, Coordonnee coord, Tresor t) {
         super(coord.getX(), coord.getY());
         this.id = id;
-        this.c = 'T';
+        this.c = '?';
         ouvert = false;
         contenu = t;
     }

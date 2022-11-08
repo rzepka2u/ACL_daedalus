@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -179,7 +180,8 @@ public class Labyrinthe {
                 // Pour chaque entier, on ajoute dans la liste des cases un objet correspondant à l'entier
                 switch (casesTemplate[i][j]) {
                     case 1 -> this.cases.get(i).add(new CaseMur(-1, new Coordonnee(i, j)));
-                    //case 2 -> this.cases.get(i).add(new CaseVide(-1, new Coordonnee(i,j))); // TODO
+                    //case 2 -> this.cases.get(i).add(new CaseEffet(-1, new Coordonnee(i,j))); // TODO
+
                     case 3 -> this.cases.get(i).add(new CaseSortie(-1, new Coordonnee(i, j)));
                     default -> this.cases.get(i).add(new CaseVide(-1, new Coordonnee(i, j)));
                 }
@@ -465,6 +467,54 @@ public class Labyrinthe {
         this.genererDepuisEntiers(casesTemplate);
     }
 
+    public void ajouterCaseAEffets(int noNiveau) {
+        int nbAAjouter = (int) (Math.random() * (((this.compterCasesVides() * 0.9) * noNiveau) / 10) + 1);
+        ArrayList<Case> casesConcernees = new ArrayList<>();
+        int nbAjoutes = 0;
+        int xAlea, yAlea;
+        while (nbAjoutes < nbAAjouter) {
+            xAlea = (int) (Math.random() * this.hauteur);
+            yAlea = (int) (Math.random() * this.largeur);
+
+            if (this.cases.get(yAlea).get(xAlea) instanceof CaseVide) {
+                if (!casesConcernees.contains(this.cases.get(yAlea).get(xAlea))) {
+                    casesConcernees.add(this.cases.get(yAlea).get(xAlea));
+                    //System.out.println("CaseVide en X="+ xAlea+ " Y="+yAlea);
+                    nbAjoutes++;
+                }
+            }
+        }
+        int pvA, pvD;
+        for (Case c : casesConcernees) {
+            if (((int) (Math.random() * 2) == 0)) {
+                pvA = (int) (Math.random() * 10);
+                pvD = 0;
+            } else {
+                pvD = (int) (Math.random() * 10);
+                pvA = 0;
+            }
+
+            this.cases.get(c.getX()).set(c.getY(), new CaseEffet(0, new Coordonnee(c.getX(), c.getY()), pvA, pvD, ((int) (Math.random() * 2) == 0)));
+
+            // verifications utiles pour le moment
+            //CaseEffet caseEffet = (CaseEffet) this.cases.get(c.getX()).get(c.getY());
+            //System.out.println(caseEffet.getAugmentation());
+            //System.out.println(caseEffet.getDiminutionPV());
+            //System.out.println(caseEffet.getProgressif());
+
+        }
+    }
+
+    public int compterCasesVides() {
+        int compteur=0;
+        for (ArrayList<Case> ligne: this.cases) {
+            for (Case c : ligne) {
+                if (c instanceof CaseVide) compteur++;
+            }
+        }
+        return compteur;
+    }
+
     /**
      * Main voué à disparaitre ayant pour seul but de tester la génération aléatoire d'un labyrinthe
      *
@@ -475,5 +525,11 @@ public class Labyrinthe {
         System.out.println(l);
         System.out.println(l.getHauteur());
         System.out.println(l.getLargeur());
+
+        l.ajouterCaseAEffets(4);
+
+        System.out.println(l.compterCasesVides());
+        System.out.println(l);
+
     }
 }

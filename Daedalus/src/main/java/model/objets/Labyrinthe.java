@@ -403,6 +403,10 @@ public class Labyrinthe {
         return this.cases;
     }
 
+    public void setCaseXY(int x, int y, Case c) {
+        this.cases.get(y).set(x, c);
+    }
+
     /**
      * Méthode get VerrousCases
      *
@@ -529,6 +533,7 @@ public class Labyrinthe {
         l.ajouterCaseAEffets(4);
 
         System.out.println(l.compterCasesVides());
+        //l.setCaseXY(1,2, new CaseEffet(0, new Coordonnee(1, 2), 0, 0, false));
         System.out.println(l);
 
     }

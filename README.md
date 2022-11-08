@@ -1,7 +1,7 @@
 # ACL_daedalus
 Projet ACL Labyrinthe (RZEPKA Thomas, NOEL Victor, POIREL Jérémy, RACOILLET Maxime)
 
-Dernier sprint effecté : sprint 0
+Dernier sprint effecté : sprint 1
 
 Pour utiliser le jeu, vous devez:
 

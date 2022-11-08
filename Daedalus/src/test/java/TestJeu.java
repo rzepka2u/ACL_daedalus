@@ -11,12 +11,13 @@ public class TestJeu extends TestCase{
 
     /**
      * Test qui vérifie que le joueur est bien affiché dans le jeu
+     * @throws FileNotFoundException
      */
     @Test
-    public void test_affichageJoueurDansJeu(){
+    public void test_affichageJoueurDansJeu() throws FileNotFoundException{
 
         //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, 1);
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true);
 
         //Récupération du toString du Jeu (méthode appeler lorsque l'on veut l'afficher)
         String chaine = j.toString();
@@ -32,12 +33,10 @@ public class TestJeu extends TestCase{
     public void test_raffraichissmentAffichageLorsqueDeplacementJoueur() throws FileNotFoundException {
 
         //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1);
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true);
 
         //Position sur la case dans le coin haut gauche pour être sûr qu'on essaye pas de se déplacer sur un mur
         j.placerJoueurSurCase(1, 1);
-
-        
         //Récupération du toString du Jeu (méthode appeler lorsque l'on veut l'afficher) et récupération de la position du joueur (le symbole J)
         String chaine = j.toString();
         int positionJ = chaine.indexOf("J");

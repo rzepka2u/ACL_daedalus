@@ -22,7 +22,7 @@ public class TestLabyrinthe {
     @Test
     public void test_respectDimension() {
         // preparation des donnees
-        Jeu j = new Jeu(null, 1);
+        Jeu j = new Jeu(null, 1, true);
         Labyrinthe l = j.getLabyrinthe();
 
         // récupération des données à tester
@@ -61,7 +61,7 @@ public class TestLabyrinthe {
             };
 
         // Initialisation du jeu pour créer le labyrinthe à partir du fichier niveauTestLabyrinthe
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1);
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true);
 
         // Création du labyrinthe
         Labyrinthe l = new Labyrinthe();
@@ -85,7 +85,7 @@ public class TestLabyrinthe {
     public void test_generationLabyrintheAvecFichierInexistant() throws FileNotFoundException {
         // methodes testée
         // Ici on doit avoir une exception FileNotFound en créant le jeu
-        Jeu j = new Jeu(null, "fichierInexistant.txt", 1);
+        Jeu j = new Jeu(null, "fichierInexistant.txt", 1, true);
 
     }
 

@@ -34,11 +34,15 @@ public class Jeu{
     private ArrayList<String> informations;
     private Object verrouInformations;
 
+    public Jeu(FenetreGraphique f, int nbMax){
+        this(f, nbMax, false);
+    }
+
 
    /**
      * Constructeur par défaut d'un objet Jeu avec un labyrinthe par défaut
      */
-    public Jeu(FenetreGraphique f, int nbMax){
+    public Jeu(FenetreGraphique f, int nbMax, boolean test){
 
         this.nbMaxNiveau = nbMax;
         this.nbNiveau = 0;
@@ -58,16 +62,22 @@ public class Jeu{
 
         this.threads = new ArrayList<ThreadMonstre>();
 
-        // CREATION DES MONSTRES (Object Monstre + ThreadMonstres + start)
-        createNewEntites();
+        if(!test){
+            // CREATION DES MONSTRES (Object Monstre + ThreadMonstres + start)
+            createNewEntites();
+        }
 
+    }
+
+    public Jeu(FenetreGraphique f, String path, int nbMax) throws FileNotFoundException{
+        this(f,path, nbMax, false);
     }
 
     /** 
     * Constructeur par initialisation d'un objet Jeu avec un labyrinthe contenu dans un fichier
     * @param path Le chemin relatif ou absolu du fichier contenant le labyrinthe
     */
-    public Jeu(FenetreGraphique f, String path, int nbMax) throws FileNotFoundException {
+    public Jeu(FenetreGraphique f, String path, int nbMax, boolean test) throws FileNotFoundException {
 
         this.nbNiveau = 0;
         this.nbMaxNiveau = nbMax;
@@ -90,8 +100,10 @@ public class Jeu{
 
         this.threads = new ArrayList<ThreadMonstre>();
 
-        // CREATION DES MONSTRES (Object Monstre + ThreadMonstres + start)
-        createNewEntites();
+        if(!test){
+            // CREATION DES MONSTRES (Object Monstre + ThreadMonstres + start)
+            createNewEntites();
+        }
     }
     
     /**

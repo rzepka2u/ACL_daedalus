@@ -20,7 +20,7 @@ public class TestJoueur extends TestCase {
     public void test_initialisationJoueurDansLabyrinthe(){
 
         //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, 1);
+        Jeu j = new Jeu(null, 1, true);
 
         //Récupération des coordonnées de l'objet Joueur créé par l'objet Jeu
         int x = j.getJoueur().getX();
@@ -44,7 +44,7 @@ public class TestJoueur extends TestCase {
     public void test_initialisationJoueurSurCaseDepart(){
 
         //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, 1);
+        Jeu j = new Jeu(null, 1, true);
 
         //Récupération des coordonnées de l'objet Joueur dans le labyrinthe
         int x = j.getJoueur().getX();
@@ -65,7 +65,7 @@ public class TestJoueur extends TestCase {
     public void test_deplacementJoueurBas() throws FileNotFoundException{
 
         //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1);
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true);
 
         //Position sur la case dans le coin haut gauche pour être sûr qu'on essaye pas de se déplacer sur un mur
         j.placerJoueurSurCase(1, 1);
@@ -85,7 +85,7 @@ public class TestJoueur extends TestCase {
     public void test_deplacementJoueurHaut() throws FileNotFoundException{
 
         //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1);
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true);
 
         //Position sur la case dans le coin haut gauche pour être sûr qu'on essaye pas de se déplacer sur un mur
         j.placerJoueurSurCase(2, 1);
@@ -105,7 +105,7 @@ public class TestJoueur extends TestCase {
     public void test_deplacementJoueurDroite() throws FileNotFoundException{
 
         //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1);
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true);
 
         //Position sur la case dans le coin haut gauche pour être sûr qu'on essaye pas de se déplacer sur un mur
         j.placerJoueurSurCase(1, 1);
@@ -125,7 +125,7 @@ public class TestJoueur extends TestCase {
     public void test_deplacementJoueurGauche() throws FileNotFoundException{
 
         //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1);
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true);
 
         //Position sur la case dans le coin haut gauche pour être sûr qu'on essaye pas de se déplacer sur un mur
         j.placerJoueurSurCase(1, 2);
@@ -143,7 +143,7 @@ public class TestJoueur extends TestCase {
     @Test
     public void test_collisionMur() {
         // preparation des donnees
-        Jeu j = new Jeu(null, 1);// jeu avec labyrinthe par défaut
+        Jeu j = new Jeu(null, 1, true);// jeu avec labyrinthe par défaut
 
         int ancienx = j.getJoueur().getX();
         int ancieny = j.getJoueur().getY();
@@ -167,7 +167,7 @@ public class TestJoueur extends TestCase {
     @Test
     public void test_nonCollisionMur() throws FileNotFoundException {
         // preparation des donnees
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1);// jeu avec labyrinthe par défaut
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true);// jeu avec labyrinthe par défaut
         j.placerJoueurSurCase(2,1);
 
         // methodes testées

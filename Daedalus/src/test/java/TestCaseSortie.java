@@ -19,13 +19,11 @@ public class TestCaseSortie {
     @Test
     public void test_CollisionCaseSortie() throws FileNotFoundException {
         // preparation des donnees
-        Jeu jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1);
-        Joueur joueur = jeu.getJoueur();
-        Labyrinthe labyrinthe = jeu.getLabyrinthe();
-        labyrinthe.initialiserPourTest();
-        joueur.setX(jeu.getLabyrinthe().getLargeur()-2);
-        joueur.setY(1);
+        Jeu jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true);
+
+        jeu.placerJoueurSurCase(1, jeu.getLabyrinthe().getLargeur()-3);
         // methodes testées
+        
         int res = jeu.deplacerJoueur(Direction.DROITE);
         // verifications des donnees
         assertEquals("Le joueur devrait se trouver sur la case de sortie en se déplaçant en bas donc res devrait être égal à 2", 2, res);
@@ -42,7 +40,7 @@ public class TestCaseSortie {
         Jeu jeu;
 
         // preparation des donnees
-        jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1); 
+        jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true); 
         
 
         // methodes testées

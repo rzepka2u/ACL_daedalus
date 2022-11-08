@@ -53,7 +53,7 @@ public class Labyrinthe {
      * @param dimension taille du côté du labyrinthe
      */
     public Labyrinthe(int dimension) {
-        if (dimension % 2 != 0) dimension--; // Le labyrinthe sera carré de côté impaire
+        if (dimension % 2 != 0) dimension--; // Le labyrinthe sera carré de côté impair
         this.taille = dimension;
         this.initialiserGrillePourLabyrintheAleatoire();
         this.creerCheminLabyrintheAleatoire();

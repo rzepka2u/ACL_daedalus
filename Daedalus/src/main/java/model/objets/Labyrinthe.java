@@ -53,7 +53,7 @@ public class Labyrinthe {
      * @param dimension taille du côté du labyrinthe
      */
     public Labyrinthe(int dimension) {
-        if (dimension % 2 != 0) dimension++; // Le labyrinthe sera carré de côté paire
+        if (dimension % 2 != 0) dimension--; // Le labyrinthe sera carré de côté impaire
         this.taille = dimension;
         this.initialiserGrillePourLabyrintheAleatoire();
         this.creerCheminLabyrintheAleatoire();
@@ -485,7 +485,9 @@ public class Labyrinthe {
      * @param args args
      */
     public static void main(String[] args) {
-        Labyrinthe l = new Labyrinthe(20);
+        Labyrinthe l = new Labyrinthe(9);
         System.out.println(l);
+        System.out.println(l.getHauteur());
+        System.out.println(l.getLargeur());
     }
 }

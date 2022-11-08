@@ -52,6 +52,7 @@ public class Jeu{
 
         //Initialisation du labyrinthe avec le labyrinthe par défaut
         this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
+        labyrinthe.ajouterCaseAEffets(nbNiveau);
 
         this.entites = new ArrayList<Entite>();
         this.verrousEntites = new ArrayList<Object>();
@@ -90,6 +91,7 @@ public class Jeu{
 
         //Initialisation du labyrinthe via fichier texte 
 		this.labyrinthe = new Labyrinthe(path);
+        labyrinthe.ajouterCaseAEffets(nbNiveau);
 
         //Récupération de la position de départ
 
@@ -444,6 +446,7 @@ public class Jeu{
 
             this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
             nbNiveau++;
+            labyrinthe.ajouterCaseAEffets(nbMaxNiveau);
             placerJoueurSurCase(labyrinthe.getHauteur()-2, 1);
 
 

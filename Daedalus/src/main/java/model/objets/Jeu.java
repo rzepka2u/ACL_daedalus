@@ -52,7 +52,8 @@ public class Jeu{
 
         //Initialisation du labyrinthe avec le labyrinthe par défaut
         this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
-        labyrinthe.ajouterCaseAEffets(nbNiveau);
+        labyrinthe.ajouterCasesEffet(nbNiveau);
+        labyrinthe.ajouterCasesTresor(nbNiveau);
 
         this.entites = new ArrayList<Entite>();
         this.verrousEntites = new ArrayList<Object>();
@@ -91,7 +92,8 @@ public class Jeu{
 
         //Initialisation du labyrinthe via fichier texte 
 		this.labyrinthe = new Labyrinthe(path);
-        labyrinthe.ajouterCaseAEffets(nbNiveau);
+        labyrinthe.ajouterCasesEffet(nbNiveau);
+        labyrinthe.ajouterCasesTresor(nbNiveau/3);
 
         //Récupération de la position de départ
 
@@ -459,7 +461,8 @@ public class Jeu{
 
             this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
             nbNiveau++;
-            labyrinthe.ajouterCaseAEffets(nbMaxNiveau);
+            labyrinthe.ajouterCasesEffet(nbNiveau);
+            labyrinthe.ajouterCasesTresor(nbNiveau/3);
             placerJoueurSurCase(labyrinthe.getHauteur()-2, 1);
 
 
@@ -503,7 +506,6 @@ public class Jeu{
             threads.add(new ThreadMonstre(this, i));
             threads.get(i).start();
         }
-        System.out.println(threads);
 
     }
 

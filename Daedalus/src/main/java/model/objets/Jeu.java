@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class Jeu{
 
     private final int nbMaxNiveau;
-    private final int DIMENSION_LABYRINTHE = 15;
+    public final int DIMENSION_LABYRINTHE = 20;
 
     private FenetreGraphique fenetre;
     private Labyrinthe labyrinthe; // Le labyrinthe en cours
@@ -69,7 +69,6 @@ public class Jeu{
     */
     public Jeu(FenetreGraphique f, String path, int nbMax) throws FileNotFoundException {
 
-        int[] positionDepart;
         this.nbNiveau = 0;
         this.nbMaxNiveau = nbMax;
         this.fenetre = f;
@@ -81,16 +80,18 @@ public class Jeu{
 		this.labyrinthe = new Labyrinthe(path);
 
         //Récupération de la position de départ
-        positionDepart = determinerDepart(this.labyrinthe);
 
         this.entites = new ArrayList<Entite>();
         this.verrousEntites = new ArrayList<Object>();
 
         //Initialisation du joueur à la position de départ
-		this.entites.add(new Joueur(positionDepart[0], positionDepart[1]));
+		this.entites.add(new Joueur(labyrinthe.getHauteur()-2, 1));
         this.verrousEntites.add(new Object());
 
-        // TO DO: CREATION DES MONSTRES (Object Monstre + ThreadMonstres)
+        this.threads = new ArrayList<ThreadMonstre>();
+
+        // CREATION DES MONSTRES (Object Monstre + ThreadMonstres + start)
+        createNewEntites();
     }
     
     /**

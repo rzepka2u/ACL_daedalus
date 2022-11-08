@@ -20,11 +20,11 @@ public class ThreadMonstre extends Thread {
         positionInList = pos;
     }
 
-    public void run(){
+    /*public void run(){
         int px,py;
         px = 0;
         py = 0;
-        Entite m =  jeu.getEntites().get(positionInList + 1);
+        Entite m =  jeu.getEntites().get(positionInList+1);
         Random r = new Random();
         int random = r.nextInt(4);
         random = random+1;
@@ -60,6 +60,6 @@ public class ThreadMonstre extends Thread {
         } catch (InterruptedException e){
             System.out.println("SLEEP INTERROMPU");
         }
-    }
+    }*/
     
 }

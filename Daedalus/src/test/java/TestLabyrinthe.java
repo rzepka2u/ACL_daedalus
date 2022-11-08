@@ -22,18 +22,25 @@ public class TestLabyrinthe {
     @Test
     public void test_respectDimension() {
         // preparation des donnees
-        Jeu j = new Jeu();
+        Jeu j = new Jeu(null, 1);
         Labyrinthe l = j.getLabyrinthe();
 
         // récupération des données à tester
         int h = l.getHauteur();
         int la = l.getLargeur();
+        int dim;
 
+        if(j.DIMENSION_LABYRINTHE%2==0){
+            dim = j.DIMENSION_LABYRINTHE+1;
+        } else {
+            dim = j.DIMENSION_LABYRINTHE;
+        }
+        
         // verifications des données
         // test sur la hauteur
-        assertEquals("La hauteur devrait être de 15", 15, h);
+        assertEquals("La hauteur devrait être de "+dim, dim, h);
         // test sur la largeur
-        assertEquals("La largeur devrait être de 15", 15, la);
+        assertEquals("La largeur devrait être de "+dim, dim, la);
     }
 
 
@@ -44,38 +51,31 @@ public class TestLabyrinthe {
     public void test_generationLabyrintheAvecFichierValide() throws FileNotFoundException {
         // preparation des donnees
         int[][] casesTest = {
-                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-                {1,0,0,1,1,0,0,1,0,0,0,0,1,0,1},
-                {1,1,2,1,0,1,0,0,0,0,1,0,0,3,1},
-                {1,0,1,1,0,0,0,1,1,1,1,0,0,1,1},
-                {1,0,1,1,1,0,0,1,0,0,0,0,0,0,1},
-                {1,0,0,0,0,1,0,0,0,0,1,0,1,0,1},
-                {1,0,1,1,0,1,0,1,1,0,1,2,1,0,1},
-                {1,0,0,1,0,0,0,0,1,0,0,0,0,1,1},
-                {1,0,0,0,1,1,0,0,0,0,1,0,0,0,1},
-                {1,0,1,1,0,0,1,1,1,0,1,1,0,0,1},
-                {1,0,0,0,0,0,1,0,1,0,1,0,0,0,1},
-                {1,0,1,1,0,2,0,0,1,0,0,0,1,1,1},
-                {1,0,1,0,0,1,0,0,1,0,0,0,1,0,1},
-                {1,0,1,1,1,1,0,1,0,0,1,0,0,0,1},
-                {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+                {1,1,1,1,1,1},
+                {1,0,0,0,0,1},
+                {1,0,0,1,0,1},
+                {1,0,1,1,1,1},
+                {1,0,1,1,0,1},
+                {1,0,0,0,0,1},
+                {1,1,1,1,1,1},
+            };
 
         // Initialisation du jeu pour créer le labyrinthe à partir du fichier niveauTestLabyrinthe
-        Jeu j = new Jeu("src/main/ressources/niveaux/niveauTestLabyrinthe.txt");
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1);
 
         // Création du labyrinthe
         Labyrinthe l = new Labyrinthe();
 
         // Génération du labyrinthe à partir du tableau créé précédemment
-        l.generer(casesTest);
+        l.genererDepuisEntiers(casesTest);
 
-        String s1 = l.getCases().toString();
-        String s2 = j.getLabyrinthe().getCases().toString();
+        String s1 = l.toString();
+        String s2 = j.getLabyrinthe().toString();
 
         // On compare si on obtient la même chose après le toString des deux labyrinthes
         boolean b = s1.equals(s2);
         // verifications des donnees
-        assertTrue("Les deux labyrinthes devraient être égaux ", b);
+        assertTrue(s1, b);
     }
 
     /**
@@ -85,7 +85,7 @@ public class TestLabyrinthe {
     public void test_generationLabyrintheAvecFichierInexistant() throws FileNotFoundException {
         // methodes testée
         // Ici on doit avoir une exception FileNotFound en créant le jeu
-        Jeu j = new Jeu("fichierInexistant.txt");
+        Jeu j = new Jeu(null, "fichierInexistant.txt", 1);
 
     }
 

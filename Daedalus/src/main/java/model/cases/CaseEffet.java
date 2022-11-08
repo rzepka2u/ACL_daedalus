@@ -34,7 +34,7 @@ public class CaseEffet extends Case {
         this.id = id;
         this.augmentationPV = a;
         this.diminutionPV = d;
-        this.c = '°';
+        this.c = '£';
         progressif = p;
     }
 

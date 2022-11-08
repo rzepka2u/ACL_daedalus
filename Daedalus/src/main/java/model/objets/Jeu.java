@@ -378,7 +378,6 @@ public class Jeu{
                     synchronized (this.verrousEntites.get(index)) {
                         ent.prendreDegat(dgts);
                     }
-
                 }
             }
         } else if(cmd.getOrdre() == Ordre.OUVRIR){

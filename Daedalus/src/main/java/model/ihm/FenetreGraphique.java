@@ -24,6 +24,7 @@ public class FenetreGraphique extends JFrame {
     
     private JMenuBar menuBar; // La barre de menu située en haut
     private JPanel contentPane; // Le panel affichée dans la fenetre
+    private Object verrouContent;
     private ThreadAffichage thread; // Le thread pour rafraîchir l'affichage
     private Jeu jeu; // Le moteur du jeu
 
@@ -62,6 +63,10 @@ public class FenetreGraphique extends JFrame {
         return this.jeu;
     }
 
+    public Object getVerrouContent(){
+        return this.verrouContent;
+    }
+
     /**
      * Méthode qui permet de créer et d'afficher le panel de partie
      * @param nbNiveau Le nombre Maximum de niveau pour finir la partie
@@ -74,6 +79,7 @@ public class FenetreGraphique extends JFrame {
         // Initialisation d'un nouveau panel de partie, et ajout de celui-ci dans la fenêtre
         contentPane = new PanelPartie(this);
         this.setContentPane(contentPane);
+
 
         // Permettre à la fenêtre de pouvoir obtenir le focus et le demander
         this.setFocusable(true);
@@ -126,6 +132,8 @@ public class FenetreGraphique extends JFrame {
             }
         });
 
+        verrouContent = new Object();
+
         // Création et démarrage du thread qui s'occupe de rafraîchir l'affichage
         thread = new ThreadAffichage(this);
         thread.start();
@@ -156,9 +164,11 @@ public class FenetreGraphique extends JFrame {
         // Attente de la fin du thread d'affichage
         this.thread.interrupt();
 
-        // Création d'un panel de fin de partie, et remplacement du panel de partie
-        contentPane = new PanelFinJeu(result);
-        this.setContentPane(contentPane);
+        synchronized(verrouContent){
+            // Création d'un panel de fin de partie, et remplacement du panel de partie
+            contentPane = new PanelFinJeu(result);
+            this.setContentPane(contentPane);
+        }
 
         // Mise à jour de la fenêtre
         this.validate();

@@ -22,10 +22,12 @@ public class ThreadEffet extends Thread {
 
     public void run(){
         for(int i = 0; i <= nb_coups-1; i++) {
-            
-            Joueur j = jeu.getJoueur();
-            j.modifierPV(augmentation);
-            j.modifierPV(-diminution);
+
+            synchronized(jeu.getVerrousEntites().get(0)){
+                Joueur j = jeu.getJoueur();
+                j.modifierPV(augmentation);
+                j.modifierPV(-diminution);
+            }
 
             try{
                 sleep(300);

@@ -32,7 +32,7 @@ public class Arme implements Tresor {
      */
     public Arme() {
         this.nom = "Epée en bois";
-        this.degats = 1;
+        this.degats = 10;
         this.portee = 1;
         this.zone = ZoneAttaque.CASE_DEVANT;
     }

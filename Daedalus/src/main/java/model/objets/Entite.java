@@ -1,6 +1,7 @@
 package model.objets;
 
 import java.util.ArrayList;
+import model.enums.Direction;
 
 public abstract class Entite {
 
@@ -20,6 +21,7 @@ public abstract class Entite {
     private int pointsArmure;
 
     private Arme arme;
+    private Direction regard;
 
 
     /**
@@ -30,12 +32,21 @@ public abstract class Entite {
      * @param pa points d'armure
      * @return l'objet Entité correctement instancié
      */
-    public Entite(int x, int y, int pv, int pa){
+    public Entite(int x, int y, int pv, int pa, Direction regard){
         this.x = x;
         this.y = y;
         this.pointsVie = pv;
         this.pointsArmure = pa;
+        this.regard = regard;
         this.arme = null;
+    }
+
+    public Direction getRegard(){
+        return regard;
+    }
+
+    public void setRegard(Direction sens){
+        regard = sens;
     }
 
     /**
@@ -88,7 +99,7 @@ public abstract class Entite {
      * @param entites liste des entités présentes dans le labyrinthe
      * @return la liste des entités touchées par l'attaque
      */
-    public abstract ArrayList<Entite> attaquer(ArrayList<Entite> entites);
+    public abstract ArrayList<Entite> attaquer(ArrayList<Entite> entites, ArrayList<Object> verrous);
 
     /**
      * Renvoie les coordonnees en x de l'entité

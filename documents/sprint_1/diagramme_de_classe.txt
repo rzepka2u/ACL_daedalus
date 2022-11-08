@@ -1,0 +1,332 @@
+@startuml
+
+class Arme {
+  + Arme(String, int, int, ZoneAttaque): 
+  + Arme(): 
+  - portee: int
+  - degats: int
+  - nom: String
+  - zone: ZoneAttaque
+  - degats: int
+  - portee: int
+}
+class Case {
+  + Case(int, int): 
+  + estTraversable(): boolean
+  + hashCode(): int
+  + equals(Object): boolean
+  - x: int
+  - type: String
+  - char: char
+  - y: int
+  - id: int
+}
+class CaseDepart {
+  + CaseDepart(int, Coordonnee): 
+  - id: int
+  + estTraversable(): boolean
+  - char: char
+  - type: String
+
+}
+class CaseEffet {
+  + CaseEffet(int, Coordonnee, int, int, boolean): 
+  - progressif: boolean
+  - id: int
+  - diminutionPV: int
+  + estTraversable(): boolean
+  - type: String
+  - augmentation: int
+  - char: char
+}
+class CaseMur {
+  + CaseMur(int, Coordonnee): 
+  - id: int
+  + estTraversable(): boolean
+  - char: char
+  - type: String
+}
+class CaseSortie {
+  + CaseSortie(int, Coordonnee): 
+  - id: int
+  + estTraversable(): boolean
+  - char: char
+  - type: String
+}
+class CaseTresor {
+  + CaseTresor(int, Coordonnee, Tresor): 
+  - ouvert: boolean
+  - id: int
+  - contenu: Tresor
+  + ouvrirTresor(): void
+  + estTraversable(): boolean
+  - type: String
+  - char: char
+
+}
+class CaseVide {
+  + CaseVide(int, Coordonnee): 
+  - id: int
+  + estTraversable(): boolean
+  - char: char
+  - type: String
+}
+class Commande {
+  + Commande(Ordre, Direction): 
+  + Commande(Ordre, int): 
+  - indice: int
+  - ordre: Ordre
+  - direction: Direction
+}
+class Coordonnee {
+  + Coordonnee(int, int): 
+  - y: int
+  - x: int
+  + toString(): String
+}
+enum Direction << enumeration >> {
+  + Direction(): 
+  + values(): Direction[]
+  + valueOf(String): Direction
+}
+class Entite {
+  + Entite(int, int, int, int, Direction): 
+  - regard: Direction
+  - y: int
+  - pointsVie: int
+  - arme: Arme
+  - x: int
+  - pointsArmure: int
+  + modifierPV(int): void
+  + seDeplacer(int, int): void
+  + attaquer(ArrayList<Entite>, ArrayList<Object>): ArrayList<Entite>
+  + prendreDegat(int): boolean
+  + etreMort(): boolean
+}
+class Fantome {
+  + Fantome(int, int, int, int): 
+  + Fantome(int, int): 
+  + seDeplacer(int, int): void
+  + attaquer(ArrayList<Entite>, ArrayList<Object>): ArrayList<Entite>
+}
+class FenetreGraphique {
+  + FenetreGraphique(): 
+  - jeu: Jeu
+  - verrouContent: Object
+  + afficherPartie(int): void
+  + afficherVueFin(boolean): void
+  + raffraichirPartie(): void
+  + main(String[]): void
+}
+class Gobelin {
+  + Gobelin(int, int, int, int): 
+  + Gobelin(int, int): 
+  + seDeplacer(int, int): void
+  + attaquer(ArrayList<Entite>, ArrayList<Object>): ArrayList<Entite>
+}
+class Jeu {
+  + Jeu(FenetreGraphique, int, boolean): 
+  + Jeu(FenetreGraphique, String, int, boolean): 
+  + Jeu(FenetreGraphique, String, int): 
+  + Jeu(FenetreGraphique, int): 
+  - entites: ArrayList<Entite>
+  - labyrinthe: Labyrinthe
+  - verrousEntites: ArrayList<Object>
+  - verrouInformations: Object
+  - informations: ArrayList<String>
+  + placerJoueurSurCase(int, int): void
+  + deplacerJoueur(Direction): int
+  + etreSurSortie(int, int): boolean
+  + ajouterInfos(String): void
+  + toString(): String
+  + appliquerEffetCase(): void
+  + etreProcheCaseTresor(): int[]
+  + mortJoueur(): void
+  + validerDeplacement(int, int): boolean
+  + etreSurCaseEffet(int, int): boolean
+  + controles(Commande): void
+  + createNewEntites(): void
+  + changerNiveau(): void
+  + emplacementOccupe(int, int): boolean
+  + getNbNiveau(): int
+  - determinerDepart(Labyrinthe): int[]
+  - joueur: Joueur
+}
+class Joueur {
+  + Joueur(int, int): 
+  - inventaire: ArrayList<Potion>
+  + ajouterPotion(): void
+  + seDeplacer(int, int): void
+  + toString(): String
+  + attaquer(ArrayList<Entite>, ArrayList<Object>): ArrayList<Entite>
+  + boirePotion(): void
+}
+class Labyrinthe {
+  + Labyrinthe(int): 
+  + Labyrinthe(): 
+  + Labyrinthe(String): 
+  - cases: ArrayList<ArrayList<Case>>
+  - hauteur: int
+  - largeur: int
+  - verrousCases: ArrayList<ArrayList<Object>>
+  - obtenirGroupeDeCasesVides(int): ArrayList<Coordonnee>
+  - convertirFormatAleaEnInt(): int[][]
+  + toString(): String
+  + ajouterCasesEffet(int): void
+  + ajouterCasesTresor(int): void
+  + setCaseXY(int, int, Case): void
+  + compterCasesVides(): int
+  - creerCheminLabyrintheAleatoire(): void
+  + initialiserPourTest(): void
+  + getCase(int, int): Case
+  - rechercherCoordonnee(String, int): Coordonnee
+  - initialiserGrillePourLabyrintheAleatoire(): void
+  + genererDepuisEntiers(int[][]): void
+}
+class Menu {
+  + Menu(): 
+  - createAide(): JMenu
+  - createRedemarrer(): JMenuItem
+  - createCopyright(): JMenuItem
+  - createInformations(): JMenu
+  - createCommandes(): JMenuItem
+  - createQuitter(): JMenuItem
+  - createRegles(): JMenuItem
+  - createControl(): JMenu
+}
+enum Ordre << enumeration >> {
+  + Ordre(): 
+  + values(): Ordre[]
+  + valueOf(String): Ordre
+}
+class PanelAccueil {
+  + PanelAccueil(FenetreGraphique): 
+  - createCenterPanel(): JPanel
+  - createstartButton(): JButton
+  - createNbNiveau(): JTextField
+  - createCheckBox(): JCheckBox
+  - createLabelFichier(): JLabel
+  - createtopLabel(): JLabel
+  - createButtonFichier(): JButton
+  - createTextBottom(): JLabel
+  - createNbNiveauLabel(): JLabel
+}
+class PanelFinJeu {
+  + PanelFinJeu(boolean): 
+  - createBoutton(): JButton
+  - createTexte(): JLabel
+  - createIcone(): JLabel
+}
+class PanelPartie {
+  + PanelPartie(FenetreGraphique, JLabel): 
+  + PanelPartie(FenetreGraphique): 
+  - createInfosPanel(): JPanel
+  - createNameJeuLabel(): JLabel
+  - createArmureLabel(): JLabel
+  - createHudLabel(): JLabel
+  - createPotionTitreLabel(): JLabel
+  - createArmeLabel(): JLabel
+  - createHudPanel(JLabel): JPanel
+  - createVieLabel(): JLabel
+  - createInfosLabels(): JLabel[]
+  - createInfosTitreLabel(): JLabel
+  - createLabyPanel(ArrayList<ArrayList<Case>>): JPanel
+  - createPotionLabels(JPanel, GridBagConstraints): JLabel[]
+   descriptionPotion: JLabel
+}
+class PieceArmure {
+  + PieceArmure(): 
+}
+class Potion {
+  + Potion(int): 
+   augmentation: int
+}
+class ThreadAffichage {
+  + ThreadAffichage(FenetreGraphique): 
+  + run(): void
+}
+class ThreadEffet {
+  + ThreadEffet(Jeu, int, int, int): 
+  + run(): void
+}
+class ThreadMonstre {
+  + ThreadMonstre(Jeu, int): 
+  + run(): void
+}
+interface Tresor << interface >> {
+  + toString(): String
+}
+enum TypeEffet << enumeration >> {
+  + TypeEffet(): 
+  + values(): TypeEffet[]
+  + valueOf(String): TypeEffet
+}
+enum ZoneAttaque << enumeration >> {
+  + ZoneAttaque(): 
+  + values(): ZoneAttaque[]
+  + valueOf(String): ZoneAttaque
+}
+
+Arme              -[#008200,dashed]-^  Tresor           
+Arme             "1" *-[#595959,plain]-> "zone\n1" ZoneAttaque      
+Case              -[#595959,dashed]->  Coordonnee       : "«create»"
+Case             "1" *-[#595959,plain]-> "coord\n1" Coordonnee       
+CaseDepart        -[#000082,plain]-^  Case             
+CaseEffet         -[#000082,plain]-^  Case             
+CaseMur           -[#000082,plain]-^  Case             
+CaseSortie        -[#000082,plain]-^  Case             
+CaseTresor        -[#000082,plain]-^  Case             
+CaseTresor       "1" *-[#595959,plain]-> "contenu\n1" Tresor           
+CaseVide          -[#000082,plain]-^  Case             
+Commande         "1" *-[#595959,plain]-> "sens\n1" Direction        
+Commande         "1" *-[#595959,plain]-> "ordre\n1" Ordre            
+Entite           "1" *-[#595959,plain]-> "arme\n1" Arme             
+Entite           "1" *-[#595959,plain]-> "regard\n1" Direction        
+Fantome           -[#595959,dashed]->  Arme             : "«create»"
+Fantome           -[#000082,plain]-^  Entite           
+FenetreGraphique  -[#595959,dashed]->  Commande         : "«create»"
+FenetreGraphique "1" *-[#595959,plain]-> "jeu\n1" Jeu              
+FenetreGraphique  -[#595959,dashed]->  Jeu              : "«create»"
+FenetreGraphique  -[#595959,dashed]->  Menu             : "«create»"
+FenetreGraphique  -[#595959,dashed]->  PanelAccueil     : "«create»"
+FenetreGraphique  -[#595959,dashed]->  PanelFinJeu      : "«create»"
+FenetreGraphique  -[#595959,dashed]->  PanelPartie      : "«create»"
+FenetreGraphique  -[#595959,dashed]->  ThreadAffichage  : "«create»"
+FenetreGraphique "1" *-[#595959,plain]-> "thread\n1" ThreadAffichage  
+Gobelin           -[#595959,dashed]->  Arme             : "«create»"
+Gobelin           -[#000082,plain]-^  Entite           
+Jeu              "1" *-[#595959,plain]-> "entites\n*" Entite           
+Jeu               -[#595959,dashed]->  Fantome          : "«create»"
+Jeu              "1" *-[#595959,plain]-> "fenetre\n1" FenetreGraphique 
+Jeu               -[#595959,dashed]->  Gobelin          : "«create»"
+Jeu               -[#595959,dashed]->  Joueur           : "«create»"
+Jeu              "1" *-[#595959,plain]-> "labyrinthe\n1" Labyrinthe       
+Jeu               -[#595959,dashed]->  Labyrinthe       : "«create»"
+Jeu               -[#595959,dashed]->  ThreadEffet      : "«create»"
+Jeu              "1" *-[#595959,plain]-> "threadsEffet\n*" ThreadEffet      
+Jeu              "1" *-[#595959,plain]-> "threads\n*" ThreadMonstre    
+Jeu               -[#595959,dashed]->  ThreadMonstre    : "«create»"
+Joueur            -[#595959,dashed]->  Arme             : "«create»"
+Joueur            -[#000082,plain]-^  Entite           
+Joueur            -[#595959,dashed]->  Potion           : "«create»"
+Joueur           "1" *-[#595959,plain]-> "inventaire\n*" Potion           
+Labyrinthe        -[#595959,dashed]->  Arme             : "«create»"
+Labyrinthe        -[#595959,dashed]->  Case             : "«create»"
+Labyrinthe       "1" *-[#595959,plain]-> "grilleAlea\n*" Case             
+Labyrinthe        -[#595959,dashed]->  CaseDepart       : "«create»"
+Labyrinthe        -[#595959,dashed]->  CaseEffet        : "«create»"
+Labyrinthe        -[#595959,dashed]->  CaseMur          : "«create»"
+Labyrinthe        -[#595959,dashed]->  CaseSortie       : "«create»"
+Labyrinthe        -[#595959,dashed]->  CaseTresor       : "«create»"
+Labyrinthe        -[#595959,dashed]->  CaseVide         : "«create»"
+Labyrinthe        -[#595959,dashed]->  Coordonnee       : "«create»"
+Labyrinthe        -[#595959,dashed]->  Potion           : "«create»"
+PanelAccueil     "1" *-[#595959,plain]-> "fenetre\n1" FenetreGraphique 
+PanelPartie       -[#595959,dashed]->  Commande         : "«create»"
+PanelPartie      "1" *-[#595959,plain]-> "fenetre\n1" FenetreGraphique 
+PieceArmure       -[#008200,dashed]-^  Tresor           
+Potion            -[#008200,dashed]-^  Tresor           
+ThreadAffichage  "1" *-[#595959,plain]-> "fenetre\n1" FenetreGraphique 
+ThreadEffet      "1" *-[#595959,plain]-> "jeu\n1" Jeu              
+ThreadMonstre    "1" *-[#595959,plain]-> "jeu\n1" Jeu              
+@enduml

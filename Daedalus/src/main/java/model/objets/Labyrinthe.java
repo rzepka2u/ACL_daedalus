@@ -403,6 +403,12 @@ public class Labyrinthe {
         return this.cases;
     }
 
+    /**
+     * Permet de définir la case X, Y à une autre Case
+     * @param x position X de la case à remplacer
+     * @param y position Y de la case à remplacer
+     * @param c nouvelle Case
+     */
     public void setCaseXY(int x, int y, Case c) {
         this.cases.get(y).set(x, c);
     }
@@ -471,7 +477,11 @@ public class Labyrinthe {
         this.genererDepuisEntiers(casesTemplate);
     }
 
-    public void ajouterCaseAEffets(int noNiveau) {
+    /**
+     * Méthode qui ajoute les cases à effet dans le labyrinthe, de manière aléatoire
+     * @param noNiveau numéro du niveau
+     */
+    public void ajouterCasesEffet(int noNiveau) {
         int nbAAjouter = (int) (Math.random() * (((this.compterCasesVides() * 0.9) * noNiveau) / 10) + 1);
         ArrayList<Case> casesConcernees = new ArrayList<>();
         int nbAjoutes = 0;
@@ -500,7 +510,7 @@ public class Labyrinthe {
 
             this.cases.get(c.getX()).set(c.getY(), new CaseEffet(0, new Coordonnee(c.getX(), c.getY()), pvA, pvD, ((int) (Math.random() * 2) == 0)));
 
-            // verifications utiles pour le moment
+            // verifications utiles pour le moment (fonctionnalité répartie sur 2 sprints)
             //CaseEffet caseEffet = (CaseEffet) this.cases.get(c.getX()).get(c.getY());
             //System.out.println(caseEffet.getAugmentation());
             //System.out.println(caseEffet.getDiminutionPV());
@@ -509,6 +519,44 @@ public class Labyrinthe {
         }
     }
 
+    /**
+     * Méthode qui ajoute les trésors dans le labyrinthe, de manière aléatoire
+     * @param nbAAjouter nombre de trésors à ajouter
+     */
+    public void ajouterCasesTresor(int nbAAjouter) {
+        ArrayList<Case> casesConcernees = new ArrayList<>();
+        int nbAjoutes = 0;
+        int xAlea, yAlea;
+        while (nbAjoutes < nbAAjouter) {
+            xAlea = (int) (Math.random() * this.hauteur);
+            yAlea = (int) (Math.random() * this.largeur);
+
+            if (this.cases.get(yAlea).get(xAlea) instanceof CaseVide) {
+                if (!casesConcernees.contains(this.cases.get(yAlea).get(xAlea))) {
+                    casesConcernees.add(this.cases.get(yAlea).get(xAlea));
+                    nbAjoutes++;
+                }
+            }
+        }
+       Tresor tresor;
+        for (Case c : casesConcernees) {
+            if (((int) (Math.random() * 2) == 0)) {
+                tresor = new Potion((int) (Math.random() * 10));
+            } else {
+                tresor = new Arme();
+            }
+            this.cases.get(c.getX()).set(c.getY(), new CaseTresor(0, new Coordonnee(c.getX(), c.getY()), tresor));
+
+            // verifications utiles pour le moment (fonctionnalité répartie sur 2 sprints)
+            //CaseTresor caseTresor = (CaseTresor) this.cases.get(c.getX()).get(c.getY());
+            //System.out.println(caseTresor.getContenu().getClass());
+        }
+    }
+
+    /**
+     * Méthode qui permet de compter le nombre de cases vides
+     * @return le nombre de cases vides
+     */
     public int compterCasesVides() {
         int compteur=0;
         for (ArrayList<Case> ligne: this.cases) {
@@ -519,22 +567,19 @@ public class Labyrinthe {
         return compteur;
     }
 
-    /**
-     * Main voué à disparaitre ayant pour seul but de tester la génération aléatoire d'un labyrinthe
-     *
-     * @param args args
-     */
+    /*
     public static void main(String[] args) {
         Labyrinthe l = new Labyrinthe(9);
         System.out.println(l);
-        System.out.println(l.getHauteur());
-        System.out.println(l.getLargeur());
+        //System.out.println(l.getHauteur());
+        //System.out.println(l.getLargeur());
 
-        l.ajouterCaseAEffets(4);
+        System.out.println("Ajout des cases à effet et des trésors\n");
 
-        System.out.println(l.compterCasesVides());
-        //l.setCaseXY(1,2, new CaseEffet(0, new Coordonnee(1, 2), 0, 0, false));
+        l.ajouterCasesEffet(4);
+        l.ajouterCasesTresor(4);
+
         System.out.println(l);
+    }*/
 
-    }
 }

@@ -397,7 +397,6 @@ public class Jeu{
                             ent.setPointsVie(0);
                         };
                     }
-
                 }
                 if(lAttaquees.size()>0){
                     synchronized(getVerrouInformations()){

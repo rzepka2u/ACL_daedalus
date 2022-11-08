@@ -1,0 +1,125 @@
+SPRINT REVIEW : fonctionnalités réalisées et validées (ou pas)
+
+1)
+FONCTIONNALITE : Création d'un labyrinthe par défaut
+
+PREVU :
+  - Initialisation du labyrinthe
+  - Affichage en console
+
+REALISE :
+  - Initialisation du labyrinthe via un tableau d'entier. Chaque entier (chiffre) représente une case du labyrinthe
+     . 0 = case vide
+     . 1 = mur
+     . 2 = piege dans le futur, Case vide pout le moment
+     . 3 = sortie
+    Ce tableau est prédéfini directement dans le code, ce qui permettra dans le futur d'avoir un labyrinthe,
+    même en cas d'erreur générée lors de la création d'un labyrinthe aléatoire ou depuis un fichier de génération
+  - Initialisation d'un labyrinthe à partir d'un fichier txt contenant des chiffres
+    Ce fichier est lu puis interprété pour créer des cases.
+
+  - Affichage en console : chaque case est représentée par un caractère :
+    les cases possèdent une méthode toString permettant de récupérer ce caractère.
+      . . = case vide
+      . # = mur
+      . . = piège dans le futur, Case vide pout le moment
+      . S = sortie
+
+La fonctionnalité a été testée et validée.
+
+---
+2)
+FONCTIONNALITE : Initialiser et déplacer un joueur
+
+PREVU :
+  - Le jeu construit un joueur
+  - Commandes pour déplacer le joueur (commandes console)
+  - Modification des coordonnées
+
+REALISE :
+  - Classe Joueur avec constructeur prenant en paramètres les coordonnées de départ du joueur 
+  - getteurs et setters afin de pouvoir récupérer et/ou fixer les coordonnées d'un joueur si besoin
+  - Méthode seDéplacer(int px, int py) de la classe Joueur: 
+    Cette méthode sert à faire déplacer le joueur dans une des 4 directions (gauche, droite, haut, bas). Ainsi, la valeur prise par px et py dépend de la direction 
+    vers laquelle le joueur se déplace. L'un de px ou py est nécessairement égal à 0, le joueur ne pouvant pas se déplacer en diagonale, l'autre valeur est ensuite
+    égale à 1 ou -1 en fonction du déplacement voulu.
+  - Méthode déplacerJoueur(string direction) dans la classe Jeu:
+    Cette méthode utilise notamment la méthode seDéplacer de la case Joueur afin de pouvoir appliquer les déplacements souhaités au joueur et ainsi changer ses coordonnées.
+    Le paramètre "direction" correspond à une chaîne de caractères indiquant vers où on veut que le joueur se déplace. Direction prend les valeur "gauche", "droite", "haut", et "bas".
+  - Jouabilité en console : 
+    L'utilisateur indique en console une des 4 directions possibles pour faire déplacer son joueur, la méthode déplacerJoueur de la classe Jeu est ensuite appelée avec le paramètre adéquat.
+  
+  - La case de départ du joueur est choisie aléatoirement au lieu de ce qui était prévu au départ (voir retrospective)
+
+La fonctionnalité a été testée et validée.
+---
+3)
+FONCTIONNALITE : Collision avec les murs
+
+PREVU :
+  - Empêcher un joueur de se déplacer sur un mur
+
+REALISE :
+  - Méthode validerDeplacement dans la classe Jeu: 
+  On récupère la case voulue, on vérifie avant que la case est bien traversable (seuls les murs ne sont pas traversable en l'état actuel).
+  On renvoie un booléen contenant l'information déterminée juste avant.
+
+  - Méthode déplacerJoueur dans la classe Jeu:
+  Avant de réaliser le déplacement, on doit tester que le déplacement est bien valide à l'aide de la méthode validerDeplacement (condition if).  
+
+  - Cette fonctionnalité nous a amené à l'utilisation et/ou la création de méthodes dans les classes Joueur (getteur sur les coordonnées 
+  du joueur), Labyrinthe (getter sur une case du labyrinthe), ainsi que les classes implémentant l'interface Case (méthode estTraversable).
+
+La fonctionnalité a été testée et validée.
+
+---
+4)
+FONCTIONNALITE : Gestion des attaques du joueur et des trésors (armes, potions)
+
+PREVU :
+  - Lorsque l'utilisateur appuie sur espace, le joueur attaque
+  - Lorsque l'utilisateur appuie sur r, il ramasse un objet
+  - Lorsque l'utilisateur appuie sur o, il boit une potion
+
+REALISE :
+
+ATTAQUE :
+  	- Méthode attaquer dans la classe Joueur:
+		Prend en paramètre les entités présentes dans le labyrinthe
+		Teste pour chaque entité si elle est touchée par l'attaque (attaque qui peut avoir une zone différente : les cases devant soi, en arc de cercle, en carré),
+		si oui elle l'ajoute à une liste d'entité qui sera ensuite renvoyée au Jeu
+
+	- Méthode prendreDegats dans la classe Entité :
+		Renvoie un booleen "mort" qui indique si l'entité meurt à la suite du retrait de pv
+		Prend en paramètre le nombre de pv à retirer, 
+			si les dégâts sont supérieurs au cumul d'armure et de vie l'entité est morte
+			si les dégâts sont inférieurs au cumul d'armure et de vie
+				s'il n'a pas d'armure on retire des pv
+				s'il a une armure, si l'armure peut encaisser tous les dégâts on retire des points d'armure
+				sinon on inflige le retrait à l'armure puis le restant du retrait aux pv
+				
+
+	- Prise en charge de la commande d'attaque dans la classe Jeu :
+		Appelle attaque en lui transmettant la liste des entités présentes dans le labyrinthe, reçoit celle avec les monstres touchés, si des monstres sont touchés on appelle prendreDegats
+
+RAMASSER TRESOR :
+	- Méthode ajouterPotion dans la classe Joueur :
+		Si l'inventaire n'est pas rempli (5 potions max) on ajoute la potion à ce dernier
+
+	- Prise en charge de la commande de ramassage dans Jeu :
+		On teste si le joueur se trouve sur une case d'un trésor (arme ou potion)
+		Si oui, on regarde le type du trésor :
+			si c'est une arme on pose l'ancienne au sol et on récupère la nouvelle
+			si c'est une potion on appelle ajouterPotion
+
+BOIRE POTION :
+	- Méthode boirePotion dans la classe Joueur :
+		Si l'inventaire n'est pas vide :
+			si les pv + l'ajout de la potion dépasse les pv max, on n'ajoute que ce qu'il manque pour atteindre le max
+			sinon on ajoute
+			on retire la potion consommée de l'inventaire 
+
+	- Prise en charge de la commande boire dans la classe Jeu :
+		Appel de la méthode boirePotion
+
+La fonctionnalité a été testée et validée.

@@ -33,44 +33,14 @@ public class Labyrinthe {
 
     /**
      * Constructeur par defaut du labyrinthe
-     */
-    public Labyrinthe() {
-        this.initialiserParDefaut();
-    }
-
-    /**
-     * Constructeur par du labyrinthe par fichier
-     *
-     * @param path chemin vers le fichier de génération
-     */
-    public Labyrinthe(String path) throws FileNotFoundException {
-        this.initialiserParFichier(path);
-    }
-
-    /**
-     * Constructeur du labyrinthe généré automatiquement
-     *
-     * @param dimension taille du côté du labyrinthe
-     */
-    public Labyrinthe(int dimension) {
-        if (dimension % 2 != 0) dimension--; // Le labyrinthe sera carré de côté impair
-        this.taille = dimension;
-        this.initialiserGrillePourLabyrintheAleatoire();
-        this.creerCheminLabyrintheAleatoire();
-        this.cases = new ArrayList<>();
-        int[][] tab = convertirFormatAleaEnInt();
-        this.genererDepuisEntiers(tab);
-    }
-
-    /**
      * Initialise le labyrinthe avec un plateau par défaut
      */
-    public void initialiserParDefaut() {
+    public Labyrinthe() {
         /*
          * LEGENDE :
          * - 0 = case vide
          * - 1 = mur
-         * - 2 = piege dans le futur
+         * - 2 = piege
          * - 3 = sortie
          */
         int[][] casesTemplate = {
@@ -94,11 +64,27 @@ public class Labyrinthe {
     }
 
     /**
+     * Constructeur du labyrinthe généré automatiquement
+     *
+     * @param dimension taille du côté du labyrinthe
+     */
+    public Labyrinthe(int dimension) {
+        if (dimension % 2 != 0) dimension--; // Le labyrinthe sera carré de côté impair
+        this.taille = dimension;
+        this.initialiserGrillePourLabyrintheAleatoire();
+        this.creerCheminLabyrintheAleatoire();
+        this.cases = new ArrayList<>();
+        int[][] tab = convertirFormatAleaEnInt();
+        this.genererDepuisEntiers(tab);
+    }
+
+    /**
+     * Constructeur par du labyrinthe par fichier
      * Initialise le labyrinthe selon un fichier
      *
      * @param path Chemin vers le fichier de génération du labyrinthe
      */
-    public void initialiserParFichier(String path) throws FileNotFoundException {
+    public Labyrinthe(String path) throws FileNotFoundException {
         String fileLine = "";
 
         // definition des dimensions du labyrinthe
@@ -210,7 +196,7 @@ public class Labyrinthe {
      * Initialise le labyrinthe pour la génération aléatoire
      * Algorithme inspiré de <a href="https://fr.m.wikipedia.org/wiki/Modélisation_mathématique_d%27un_labyrinthe#Fusion_aléatoire_de_chemins">Article Modélisation Mathématique d'un Labyrinthe sur Wikipédia</a>
      */
-    public void initialiserGrillePourLabyrintheAleatoire() {
+    private void initialiserGrillePourLabyrintheAleatoire() {
         this.grilleAlea = new Case[this.taille + 2][this.taille + 2];
 
         // Dans un premier temps, l'algorithme ajoute des murs sur le tour de la grille
@@ -253,7 +239,7 @@ public class Labyrinthe {
      * L'algorithme implémenté est celui de la "Fusion aléatoire de chemins"
      * (pour la création d'un Labyrinthe aléatoire)
      */
-    public void creerCheminLabyrintheAleatoire() {
+    private void creerCheminLabyrintheAleatoire() {
         // Liste de coordonnées qui va à plusieurs reprises être utilisée puis clear. (elle va contenir des groupes de cases vides que l'algo va utiliser pour faire les couloirs)
         ArrayList<Coordonnee> coordonnees;
         Coordonnee coord;
@@ -336,7 +322,7 @@ public class Labyrinthe {
      * @param id   l'ID de la case
      * @return les coordonnées de la case recherchée
      */
-    public Coordonnee rechercherCoordonnee(String type, int id) {
+    private Coordonnee rechercherCoordonnee(String type, int id) {
         // Coordonnee de la case trouvée (par défaut (-1;-1))
         Coordonnee coordonnee = new Coordonnee(-1, -1);
 
@@ -359,7 +345,7 @@ public class Labyrinthe {
      * @param id l'identifiant du groupe de cases souhaitées
      * @return retourne une ArrayList de coordonnées qui possèdent l'ID demandé
      */
-    public ArrayList<Coordonnee> obtenirGroupeDeCasesVides(int id) {
+    private ArrayList<Coordonnee> obtenirGroupeDeCasesVides(int id) {
         // Initialisation de la liste
         ArrayList<Coordonnee> groupe = new ArrayList<>();
         // On parcourt la grille
@@ -380,7 +366,7 @@ public class Labyrinthe {
      *
      * @return un tableau d'entier à double entrée représentant la grille du labyrinthe sous forme d'entiers.
      */
-    public int[][] convertirFormatAleaEnInt() {
+    private int[][] convertirFormatAleaEnInt() {
         int[][] casesTemplate = new int[this.taille + 1][this.taille + 1];
 
         for (int i = 0; i <= this.taille; i++) {

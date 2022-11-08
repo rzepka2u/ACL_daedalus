@@ -1,74 +1,50 @@
 SPRINT REVIEW : fonctionnalités réalisées et validées (ou pas)
 
 1)
-FONCTIONNALITE : Création d'un labyrinthe par défaut
+FONCTIONNALITE : Génération pseudo-aléatoire du labyrinthe / Création de niveaux / Gestion difficulté
 
 PREVU :
-  - Initialisation du labyrinthe
-  - Affichage en console
+  - Le jeu construit un labyrinthe pseudo-aléatoirement
+  - La fin d'un niveau entraine la création d'un autre niveau (qui montent en difficulté)
+  - La difficulté du niveau va avoir un impact sur le nombre de monstres, de cases à effets et d'armes
+  - Définition d'un nombre de niveau maximum pour gagner la partie
 
 REALISE :
-  - Initialisation du labyrinthe via un tableau d'entier. Chaque entier (chiffre) représente une case du labyrinthe
-     . 0 = case vide
-     . 1 = mur
-     . 2 = piege dans le futur, Case vide pout le moment
-     . 3 = sortie
-    Ce tableau est prédéfini directement dans le code, ce qui permettra dans le futur d'avoir un labyrinthe,
-    même en cas d'erreur générée lors de la création d'un labyrinthe aléatoire ou depuis un fichier de génération
-  - Initialisation d'un labyrinthe à partir d'un fichier txt contenant des chiffres
-    Ce fichier est lu puis interprété pour créer des cases.
-
-  - Affichage en console : chaque case est représentée par un caractère :
-    les cases possèdent une méthode toString permettant de récupérer ce caractère.
-      . . = case vide
-      . # = mur
-      . . = piège dans le futur, Case vide pout le moment
-      . S = sortie
+  - La succession des niveaux se fait dans la classe Jeu et non pas dans le Labyrinthe.
+  - Le nombre maximal de niveaux est décidé par l'utilisateur au lancement de l'application.
+  - La difficulté est décidée aléatoirement en lien avec le numéro du niveau en cours. Elle se caractérise par un nombre croissant de cases à effets et un nombre défini de trésors.
+  - Le Labyrinthe construit une grille de jeu pseudo-aléatoirement : la grille est toujours différente mais suit un algorithme de génération.
+  - L'algorithme implémenté est le suivant : https://fr.m.wikipedia.org/wiki/Modélisation_mathématique_d%27un_labyrinthe#Fusion_aléatoire_de_chemins
+  - Par conséquent, le labyrinthe évolue au fur et à mesure du jeu, de manière aléatoire
 
 La fonctionnalité a été testée et validée.
 
 ---
 2)
-FONCTIONNALITE : Initialiser et déplacer un joueur
+FONCTIONNALITE : Création de l'interface graphique du jeu
 
 PREVU :
-  - Le jeu construit un joueur
-  - Commandes pour déplacer le joueur (commandes console)
-  - Modification des coordonnées
+  - Passage de l'affichage console à un affichage graphique
+  - Utilisation d'assets pour améliorer l'expérience utilisateur
+  - Création d'un HUD, d'un menu d'accueil, d'un menu échap (pour quitter si besoin), ainsi que d'un écran de victoire et de défaite
+  - Mise à jour du système d'intéraction avec le jeu via les touches du clavier et la souris
 
 REALISE :
-  - Classe Joueur avec constructeur prenant en paramètres les coordonnées de départ du joueur 
-  - getteurs et setters afin de pouvoir récupérer et/ou fixer les coordonnées d'un joueur si besoin
-  - Méthode seDéplacer(int px, int py) de la classe Joueur: 
-    Cette méthode sert à faire déplacer le joueur dans une des 4 directions (gauche, droite, haut, bas). Ainsi, la valeur prise par px et py dépend de la direction 
-    vers laquelle le joueur se déplace. L'un de px ou py est nécessairement égal à 0, le joueur ne pouvant pas se déplacer en diagonale, l'autre valeur est ensuite
-    égale à 1 ou -1 en fonction du déplacement voulu.
-  - Méthode déplacerJoueur(string direction) dans la classe Jeu:
-    Cette méthode utilise notamment la méthode seDéplacer de la case Joueur afin de pouvoir appliquer les déplacements souhaités au joueur et ainsi changer ses coordonnées.
-    Le paramètre "direction" correspond à une chaîne de caractères indiquant vers où on veut que le joueur se déplace. Direction prend les valeur "gauche", "droite", "haut", et "bas".
-  - Jouabilité en console : 
-    L'utilisateur indique en console une des 4 directions possibles pour faire déplacer son joueur, la méthode déplacerJoueur de la classe Jeu est ensuite appelée avec le paramètre adéquat.
-  
-  - La case de départ du joueur est choisie aléatoirement au lieu de ce qui était prévu au départ (voir retrospective)
+  - ...
 
-La fonctionnalité a été testée et validée.
+La fonctionnalité a été validée.
+
 ---
 3)
-FONCTIONNALITE : Collision avec les murs
+FONCTIONNALITE : Création des monstres, des cases avec effets et des coffres dans le labyrinthe
 
 PREVU :
-  - Empêcher un joueur de se déplacer sur un mur
+  - Gérer les déplacements, les attaques, la vie et l'armure des différents monstres (Gobelin, Fantôme...)
+  - S'occuper de la création et la réaction des différentes cases à effets (soin, poison, dégâts instantanés...) 
+  - Création des coffres et de leur contenu (potions de soin, armes, armure...)
 
 REALISE :
-  - Méthode validerDeplacement dans la classe Jeu: 
-  On récupère la case voulue, on vérifie avant que la case est bien traversable (seuls les murs ne sont pas traversable en l'état actuel).
-  On renvoie un booléen contenant l'information déterminée juste avant.
-
-  - Méthode déplacerJoueur dans la classe Jeu:
-  Avant de réaliser le déplacement, on doit tester que le déplacement est bien valide à l'aide de la méthode validerDeplacement (condition if).  
-
-  - Cette fonctionnalité nous a amené à l'utilisation et/ou la création de méthodes dans les classes Joueur (getteur sur les coordonnées 
-  du joueur), Labyrinthe (getter sur une case du labyrinthe), ainsi que les classes implémentant l'interface Case (méthode estTraversable).
+ - ...
 
 La fonctionnalité a été testée et validée.
 
@@ -79,7 +55,7 @@ FONCTIONNALITE : Gestion des attaques du joueur et des trésors (armes, potions)
 PREVU :
   - Lorsque l'utilisateur appuie sur espace, le joueur attaque
   - Lorsque l'utilisateur appuie sur r, il ramasse un objet
-  - Lorsque l'utilisateur appuie sur o, il boit une potion
+  - Lorsque l'utilisateur clique sur une potion, il la boit
 
 REALISE :
 

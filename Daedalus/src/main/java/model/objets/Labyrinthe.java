@@ -12,7 +12,6 @@ import java.util.Objects;
 /**
  * La classe qui représente le labyrinthe du jeu
  */
-
 public class Labyrinthe {
 
     /**
@@ -21,10 +20,14 @@ public class Labyrinthe {
     private ArrayList<ArrayList<Case>> cases;
     private ArrayList<ArrayList<Object>> verrousCases;
 
+    /**
+     * Grille représentant le labyrinthe
+     * Utile seulement pour la génération d'un labyrinthe aléatoire
+     */
     private Case[][] grilleAlea;
 
     /**
-     * Dimensions du labyrinthe (taille est utilisé pour la génération aléatoire du labyrinthe)
+     * Dimensions du labyrinthe (la taille est seulement utilisée pour la génération aléatoire du labyrinthe)
      */
     private int hauteur, largeur, taille;
 
@@ -50,17 +53,17 @@ public class Labyrinthe {
      * @param dimension taille du côté du labyrinthe
      */
     public Labyrinthe(int dimension) {
-        if (dimension % 2 != 0) dimension++;
-        this.cases = new ArrayList<>();
+        if (dimension % 2 != 0) dimension++; // Le labyrinthe sera carré de côté paire
         this.taille = dimension;
-        this.initialiserPourGenerationAleatoire();
+        this.initialiserGrillePourLabyrintheAleatoire();
         this.creerCheminLabyrintheAleatoire();
+        this.cases = new ArrayList<>();
         int[][] tab = convertirFormatAleaEnInt();
         this.genererDepuisEntiers(tab);
     }
 
     /**
-     * Initialise le labyrinthe
+     * Initialise le labyrinthe avec un plateau par défaut
      */
     public void initialiserParDefaut() {
         /*
@@ -199,17 +202,18 @@ public class Labyrinthe {
         this.largeur = this.cases.get(0).size();
         this.hauteur = this.cases.size();
 
-        this.cases.get(this.hauteur-2).set(1, new CaseDepart(-1, new Coordonnee(hauteur-1, 0)));
-        this.cases.get(1).set(this.largeur-2, new CaseSortie(-1, new Coordonnee(0, hauteur-1)));
+        this.cases.get(this.hauteur - 2).set(1, new CaseDepart(-1, new Coordonnee(hauteur - 1, 0)));
+        this.cases.get(1).set(this.largeur - 2, new CaseSortie(-1, new Coordonnee(0, hauteur - 1)));
     }
 
     /**
      * Initialise le labyrinthe pour la génération aléatoire
+     * Algorithme inspiré de <a href="https://fr.m.wikipedia.org/wiki/Modélisation_mathématique_d%27un_labyrinthe#Fusion_aléatoire_de_chemins">Article Modélisation Mathématique d'un Labyrinthe sur Wikipédia</a>
      */
-    public void initialiserPourGenerationAleatoire() {
+    public void initialiserGrillePourLabyrintheAleatoire() {
         this.grilleAlea = new Case[this.taille + 2][this.taille + 2];
 
-        // L'algorithme associe une valeur unique à chaque cellule et part d'un labyrinthe où tous les murs sont fermés.
+        // Dans un premier temps, l'algorithme ajoute des murs sur le tour de la grille
         for (int i = 0; i < this.taille + 2; i++) {
             this.grilleAlea[i][0] = new CaseMur(-1, new Coordonnee(i, 0));
             this.grilleAlea[0][i] = new CaseMur(-1, new Coordonnee(0, i));
@@ -217,16 +221,18 @@ public class Labyrinthe {
             this.grilleAlea[i][this.taille] = new CaseMur(-1, new Coordonnee(i, this.taille));
         }
 
+        // Dans un second temps, l'algorithme associe une valeur unique à chaque cellule et part d'un labyrinthe où tous les murs sont fermés.
+        // Chaque case vide sera donc isolée
         int nbPassages = 0;
-        int nbIteration = 0;
+        int nbIterations = 0;
 
         for (int i = 1; i < this.taille; i++) {
             for (int j = 1; j < this.taille; j++) {
                 nbPassages++;
                 if (i % 2 == 1) {
                     if (j % 2 == 1) {
-                        nbIteration++;
-                        this.grilleAlea[j][i] = new CaseVide(nbIteration, new Coordonnee(j, i));
+                        nbIterations++;
+                        this.grilleAlea[j][i] = new CaseVide(nbIterations, new Coordonnee(j, i));
                     } else {
                         this.grilleAlea[j][i] = new CaseMur(nbPassages / 2, new Coordonnee(j, i));
                     }
@@ -259,8 +265,8 @@ public class Labyrinthe {
         int decoupes = 0;
 
         // Le chemin obtenu est unique lorsque le nombre de murs ouverts est égal au carré de la moitié de la taille du côté, moins 1.
-        while (decoupes < ((taille/2)*(taille/2))-1) {
-            nombreAleatoire = (int)(Math.random()*((((taille/2)*(taille/2))*2)-((taille/2)*2)))+1;
+        while (decoupes < ((taille / 2) * (taille / 2)) - 1) {
+            nombreAleatoire = (int) (Math.random() * ((((taille / 2) * (taille / 2)) * 2) - ((taille / 2) * 2))) + 1;
 
             // On récupère les coordonnées d'une CaseMure ayant comme identifiant nombreAléatoire
             coord = rechercherCoordonnee("CaseMur", nombreAleatoire);
@@ -285,7 +291,7 @@ public class Labyrinthe {
 
 
                         // On parcourt les cases obtenues
-                        for (int i = 0; i<coordonnees.size(); i++) {
+                        for (int i = 0; i < coordonnees.size(); i++) {
                             this.grilleAlea[coordonnees.get(i).getX()][coordonnees.get(i).getY()].setId(this.grilleAlea[coord.getX()][tmp].getId());
                         }
 
@@ -293,7 +299,7 @@ public class Labyrinthe {
                         decoupes++;
                         coordonnees.clear();
                     }
-                // Si le modulo de l'ordonnée ne vaut pas 0, on va faire les mêmes étapes, mais pour les cases dans l'autre direction.
+                    // Si le modulo de l'ordonnée ne vaut pas 0, on va faire les mêmes étapes, mais pour les cases dans l'autre direction.
                 } else {
 
                     // On enregistre les cases au-dessus et en dessous.
@@ -309,7 +315,7 @@ public class Labyrinthe {
                         coordonnees = obtenirGroupeDeCasesVides(this.grilleAlea[tmp2][coord.getY()].getId());
 
                         // On parcourt les cases obtenues
-                        for (int i = 0; i<coordonnees.size(); i++) {
+                        for (int i = 0; i < coordonnees.size(); i++) {
                             this.grilleAlea[coordonnees.get(i).getX()][coordonnees.get(i).getY()].setId(this.grilleAlea[tmp][coord.getY()].getId());
                         }
 
@@ -323,13 +329,13 @@ public class Labyrinthe {
     }
 
     /**
-     * Méthode qui permet de récupérer les coordonnées d'une case d'un type particulier dans la grille pour la création d'un Labyrinthe aléatoire
+     * Méthode qui permet de récupérer les coordonnées d'une case d'un type particulier dans la grille des cases
+     * (pour la création d'un Labyrinthe aléatoire)
      *
      * @param type le type de case à chercher (CaseMur ou CaseVide)
      * @param id   l'ID de la case
      * @return les coordonnées de la case recherchée
      */
-
     public Coordonnee rechercherCoordonnee(String type, int id) {
         // Coordonnee de la case trouvée (par défaut (-1;-1))
         Coordonnee coordonnee = new Coordonnee(-1, -1);
@@ -347,9 +353,10 @@ public class Labyrinthe {
     }
 
     /**
-     * Méthode qui permet de regrouper toutes les CasesVides qui ont le meme ID (pour étape de Fusion de l'algorithme) (pour la création d'un Labyrinthe aléatoire)
+     * Méthode qui permet de regrouper toutes les CasesVides qui ont le meme ID (pour étape de Fusion de l'algorithme)
+     * (pour la création d'un Labyrinthe aléatoire)
      *
-     * @param id l'ID du groupe de cases souhaitées
+     * @param id l'identifiant du groupe de cases souhaitées
      * @return retourne une ArrayList de coordonnées qui possèdent l'ID demandé
      */
     public ArrayList<Coordonnee> obtenirGroupeDeCasesVides(int id) {
@@ -367,10 +374,10 @@ public class Labyrinthe {
         return groupe;
     }
 
-
     /**
      * Permet de convertir la grille du labyrinthe aléatoire dans la structure de donnée utilisée précédemment (avec des entiers)
      * (pour la création d'un Labyrinthe aléatoire)
+     *
      * @return un tableau d'entier à double entrée représentant la grille du labyrinthe sous forme d'entiers.
      */
     public int[][] convertirFormatAleaEnInt() {
@@ -399,16 +406,26 @@ public class Labyrinthe {
         return null;
     }
 
+    /**
+     * Méthode get Cases
+     *
+     * @return l'arraylist des cases
+     */
     public ArrayList<ArrayList<Case>> getCases() {
         return this.cases;
     }
 
+    /**
+     * Méthode get VerrousCases
+     *
+     * @return l'arraylist des verrous des cases
+     */
     public ArrayList<ArrayList<Object>> getVerrousCases() {
         return this.verrousCases;
     }
 
     /**
-     * Recupere la largeur du labyrinthe
+     * Retourne la largeur du labyrinthe
      *
      * @return largeur du labyrinthe
      */
@@ -417,7 +434,7 @@ public class Labyrinthe {
     }
 
     /**
-     * Récupère la hauteur du labyrinthe
+     * Retourne la hauteur du labyrinthe
      *
      * @return hauteur du labyrinthe
      */
@@ -426,7 +443,7 @@ public class Labyrinthe {
     }
 
     /**
-     * Representation du labyrinthe sous forme de chaine de caracteres
+     * Representation du labyrinthe sous forme de chaine de caractères
      *
      * @return labyrinthe sous forme de chaine de caractères
      */
@@ -462,6 +479,11 @@ public class Labyrinthe {
         this.genererDepuisEntiers(casesTemplate);
     }
 
+    /**
+     * Main voué à disparaitre ayant pour seul but de tester la génération aléatoire d'un labyrinthe
+     *
+     * @param args args
+     */
     public static void main(String[] args) {
         Labyrinthe l = new Labyrinthe(20);
         System.out.println(l);

@@ -1,19 +1,18 @@
 SPRINT RETROSPECTIVE : ce qui s’est bien passé (ou pas) et les décisions pour le sprint suivant
 
-Le sprint 0 a permis la mise en place de l'environnement du projet :
-  - Configuration de l'IDE
-  - Installation, configuration et prise en main du build (maven)
-  - Configuration du dépôt git
-  - Création d'un canal de communication (Discord)
-  - Création d'un Trello pour suivre l'avancée du projet
+Le sprint 1 a permis la modification de la méthode de travail :
+  - Meilleure synchronisation lorsque plusieurs personnes devaient travailler sur les mêmes classes
+  - Bonne gestion des conflits sur les fichiers 
+  - Meilleure communication sur l'avancée, du fait du nombre plus important de fonctionnalités à effectuer durant ce sprint
+
 
 Les fondations du projet ont été construites :
   - Les fonctionnalités prévues pour le sprint 0 ont toutes été réalisées
   - Tous les membres de l'équipe sont prêts pour poursuivre dans de bonnes conditions. Les outils ont été pris en main.
-  - La base du jeu fonctionne : pour le moment il est possible de lancer le jeu, faire déplacer le joueur en évitant les murs,
-    se déplacer jusqu'à la sortie, ce qui déclenche la victoire.
-  
-  - Aucun problème particulier rencontré, sauf pour la fonctionnalité initialiser joueur, nous avons choisi de déterminer la case de départ
+  - .
+  - Quelques difficultés pour réaliser toutes les fonctionnalités et leurs tests puisque 3 personnes du groupe ont été malades durant ce sprint
+ 
+- Aucun problème particulier rencontré, sauf pour la fonctionnalité initialiser joueur, nous avons choisi de déterminer la case de départ
     aléatoirement car si on fait apparaître le joueur au milieu du labyrinthe à tous les coups, il se peut qu'il soit dans un mur
     ou sur la sortie, d'autant plus que nous avons pour but de générer des labyrinthes de manière aléatoire dans les autres sprints.
     Les fonctionnalités étaient également dépendantes les unes des autres ce qui nous a demandé d'attendre la fin de certaines fonctionnalités pour en commencer d'autres 

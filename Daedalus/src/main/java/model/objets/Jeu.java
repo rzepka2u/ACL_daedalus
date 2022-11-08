@@ -372,9 +372,13 @@ public class Jeu{
             lEntites.remove(this.getEntites().get(0));
             ArrayList<Entite> lAttaquees = this.getEntites().get(0).attaquer(lEntites);
             int dgts = this.getEntites().get(0).getArme().getDegats();
-            for(Entite ent : lAttaquees) {
-                if(ent.prendreDegat(dgts)) {
-                    // kill thread
+            if(lAttaquees != null) {
+                for(Entite ent : lAttaquees) {
+                    int index = this.entites.indexOf(ent);
+                    synchronized (this.verrousEntites.get(index)) {
+                        ent.prendreDegat(dgts);
+                    }
+
                 }
             }
         } else if(cmd.getOrdre() == Ordre.OUVRIR){
@@ -475,6 +479,7 @@ public class Jeu{
             threads.add(new ThreadMonstre(this, i));
             threads.get(i).start();
         }
+        System.out.println(threads);
 
     }
 

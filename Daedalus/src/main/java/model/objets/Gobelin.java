@@ -12,8 +12,9 @@ public class Gobelin extends Entite{
         super(x,y,pv,pa);
     }
 
-    public void seDeplacer(int x, int y){
-        //TO DO
+    public void seDeplacer(int px, int py){
+        this.setX(px);
+        this.setY(py);
     }
 
     @Override

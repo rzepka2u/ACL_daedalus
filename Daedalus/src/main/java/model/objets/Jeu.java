@@ -9,6 +9,7 @@ import model.cases.CaseTresor;
 import model.enums.Direction;
 import model.enums.Ordre;
 import model.ihm.FenetreGraphique;
+import model.threads.ThreadEffet;
 import model.threads.ThreadMonstre;
 
 import java.io.FileNotFoundException;
@@ -28,6 +29,7 @@ public class Jeu{
     private ArrayList<Entite> entites;
     private ArrayList<Object> verrousEntites;
     private ArrayList<ThreadMonstre> threads;
+    private ArrayList<ThreadEffet> threadsEffet;
     private int nbNiveau;
     private ArrayList<String> informations;
     private Object verrouInformations;
@@ -289,7 +291,9 @@ public class Jeu{
         CaseEffet ce = (CaseEffet) labyrinthe.getCase(px, py);
         boolean progressif = ce.getProgressif();
         if(progressif) {
-            //TO DO : EFFET PROGRESSIF
+            ThreadEffet te = new ThreadEffet(this, threadsEffet.size(), ce.getAugmentation(), ce.getDiminutionPV(), 10);
+            threadsEffet.add(te);
+            te.run();
         } else {
             this.getJoueur().modifierPV(ce.getAugmentation());
             this.getJoueur().modifierPV(- ce.getDiminutionPV());
@@ -401,7 +405,9 @@ public class Jeu{
         }
 
         // - INTERUPT LES THREADS EFFETS PROGRESSIF
-        // TO DO:
+        for(i=0; i<threadsEffet.size(); i++){
+            threads.get(i).interrupt();
+        }
 
         if(nbNiveau < nbMaxNiveau){
             

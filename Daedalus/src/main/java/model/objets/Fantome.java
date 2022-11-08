@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public class Fantome extends Entite {
     
+    /**
+     * @param x
+     * @param y
+     */
     public Fantome(int x, int y){
         super(x, y, NB_PV_START, NB_PA_START);
     }
@@ -12,8 +16,9 @@ public class Fantome extends Entite {
         super(x,y,pv,pa);
     }
 
-    public void seDeplacer(int x, int y){
-        //TO DO
+    public void seDeplacer(int px, int py){
+        this.setX(px);
+        this.setY(py);
     }
 
     @Override

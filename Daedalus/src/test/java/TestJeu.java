@@ -89,6 +89,7 @@ public class TestJeu extends TestCase{
         assertNotSame("Le nombre de cases à effets devrait avoir augmenté avec la difficulté du niveau", nbcasesEffet1, nbcasesEffet2);
     }
 
+    
     @Test
     public void test_nombreMaximumNiveauxJeu() {
         Jeu j = new Jeu(null, 1, true);

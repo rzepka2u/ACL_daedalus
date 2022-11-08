@@ -112,5 +112,6 @@ public class TestLabyrinthe {
 
         assertEquals("Le labyrinthe devrait être entouré de mur", true, entoure);
     }
+    
 
 }

@@ -38,7 +38,6 @@ public class Jeu{
         this(f, nbMax, false);
     }
 
-
    /**
      * Constructeur par défaut d'un objet Jeu avec un labyrinthe par défaut
      */

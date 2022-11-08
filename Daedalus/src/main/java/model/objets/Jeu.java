@@ -53,7 +53,7 @@ public class Jeu{
         //Initialisation du labyrinthe avec le labyrinthe par défaut
         this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
         labyrinthe.ajouterCasesEffet(nbNiveau);
-        labyrinthe.ajouterCasesTresor(nbNiveau);
+        labyrinthe.ajouterCasesTresor(nbNiveau/3+1);
 
         this.entites = new ArrayList<Entite>();
         this.verrousEntites = new ArrayList<Object>();
@@ -93,7 +93,7 @@ public class Jeu{
         //Initialisation du labyrinthe via fichier texte 
 		this.labyrinthe = new Labyrinthe(path);
         labyrinthe.ajouterCasesEffet(nbNiveau);
-        labyrinthe.ajouterCasesTresor(nbNiveau/3);
+        labyrinthe.ajouterCasesTresor(nbNiveau/3+1);
 
         //Récupération de la position de départ
 
@@ -341,31 +341,31 @@ public class Jeu{
         Case c;
         switch(getJoueur().getRegard()) {
             case HAUT : 
-                c = this.labyrinthe.getCase(this.getJoueur().getX(), this.getJoueur().getY() + 1);
+                c = this.labyrinthe.getCase(this.getJoueur().getX()-1, this.getJoueur().getY());
                 if(c instanceof CaseTresor) {
-                    pos[0] = this.getJoueur().getX();
-                    pos[1] = this.getJoueur().getY() + 1;
+                    pos[0] = this.getJoueur().getX()-1;
+                    pos[1] = this.getJoueur().getY();
                 }
             break;
             case BAS : 
-                c = this.labyrinthe.getCase(this.getJoueur().getX(), this.getJoueur().getY() - 1);
+                c = this.labyrinthe.getCase(this.getJoueur().getX()+1, this.getJoueur().getY());
                 if(c instanceof CaseTresor) {
-                    pos[0] = this.getJoueur().getX();
-                    pos[1] = this.getJoueur().getY() - 1;
+                    pos[0] = this.getJoueur().getX()+1;
+                    pos[1] = this.getJoueur().getY();
                 }
             break;
             case GAUCHE : 
-                c = this.labyrinthe.getCase(this.getJoueur().getX() - 1, this.getJoueur().getY());
+                c = this.labyrinthe.getCase(this.getJoueur().getX(), this.getJoueur().getY()-1);
                 if(c instanceof CaseTresor) {
-                    pos[0] = this.getJoueur().getX() - 1;
-                    pos[1] = this.getJoueur().getY() ;
+                    pos[0] = this.getJoueur().getX();
+                    pos[1] = this.getJoueur().getY()-1;
                 }
             break;
             case DROITE : 
-                c = this.labyrinthe.getCase(this.getJoueur().getX() + 1, this.getJoueur().getY());
+                c = this.labyrinthe.getCase(this.getJoueur().getX(), this.getJoueur().getY()+1);
                 if(c instanceof CaseTresor) {
-                    pos[0] = this.getJoueur().getX() + 1;
-                    pos[1] = this.getJoueur().getY();
+                    pos[0] = this.getJoueur().getX();
+                    pos[1] = this.getJoueur().getY()+1;
                 }
             break;
         }
@@ -462,7 +462,7 @@ public class Jeu{
             this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
             nbNiveau++;
             labyrinthe.ajouterCasesEffet(nbNiveau);
-            labyrinthe.ajouterCasesTresor(nbNiveau/3);
+            labyrinthe.ajouterCasesTresor(nbNiveau/3+1);
             placerJoueurSurCase(labyrinthe.getHauteur()-2, 1);
 
 

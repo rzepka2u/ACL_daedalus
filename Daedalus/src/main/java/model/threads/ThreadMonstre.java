@@ -29,38 +29,34 @@ public class ThreadMonstre extends Thread {
 
         while(true){
 
-            px = 0;
-            py = 0;
             m =  jeu.getEntites().get(positionInList+1);
+            px = m.getX();
+            py = m.getY();
             random = r.nextInt(4);
             random = random+1;
 
             switch(random) {
                 case 1:
-                    px = 1;
-                    py = 0;
+                    px += 1;
                 break;
                 case 2:
-                    px = 0;
-                    py = 1;
+                    py += 1;
                 break;
                 case 3:
-                    px = -1;
-                    py = 0;
+                    px += -1;
                 break;
                 case 4:
-                    px = 0;
-                    py = -1;
+                    py += -1;
                 break;
             }
 
             if(m instanceof Fantome) {
-                if(m.getX() >= 0 && m.getY() >= 0 && m.getX() <= hauteur-1 && m.getY() <= largeur-1){
-                    m.seDeplacer(m.getX() + px, m.getY() + py);
+                if(px >= 0 && py >= 0 && px <= hauteur-1 && py <= largeur-1){
+                    m.seDeplacer(px, py);
                 }
             } else {
-                if(jeu.validerDeplacement(m.getX() + px, m.getY() + py)) {
-                    m.seDeplacer(m.getX() + px, m.getY() + py);
+                if(jeu.validerDeplacement(px, py)) {
+                    m.seDeplacer(px, py);
                 }
             }
 

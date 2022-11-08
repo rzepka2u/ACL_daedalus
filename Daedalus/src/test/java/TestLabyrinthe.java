@@ -1,10 +1,12 @@
+import model.cases.Case;
+import model.cases.CaseMur;
 import model.objets.Jeu;
 
 import model.objets.Labyrinthe;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
-
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -87,6 +89,28 @@ public class TestLabyrinthe {
         // Ici on doit avoir une exception FileNotFound en créant le jeu
         Jeu j = new Jeu(null, "fichierInexistant.txt", 1, true);
 
+    }
+
+    @Test
+    public void test_labyrintheEntoureMur() {
+        //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
+        Jeu j = new Jeu(null, 1, true);
+
+        Labyrinthe l = j.getLabyrinthe();
+        boolean entoure = true;
+        ArrayList<ArrayList<Case>> lab = l.getCases();
+        for (int i = 0; i < lab.size(); i++) {
+            for(int k = 0; k < lab.get(i).size(); k++) {
+                if(i == 0 || i == lab.size()) {
+                    if(!(lab.get(i).get(k) instanceof CaseMur)) entoure = false;
+                }
+                if(k == 0 || k == lab.get(i).size()) {
+                    if(!(lab.get(i).get(k) instanceof CaseMur)) entoure = false;
+                }
+            }
+        }
+
+        assertEquals("Le labyrinthe devrait être entouré de mur", true, entoure);
     }
 
 }

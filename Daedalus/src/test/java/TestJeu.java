@@ -1,7 +1,11 @@
+import model.cases.Case;
+import model.cases.CaseEffet;
 import model.enums.Direction;
 import model.objets.Jeu;
+import model.objets.Labyrinthe;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
@@ -50,6 +54,51 @@ public class TestJeu extends TestCase{
 
         assertNotSame("La position du jouer doit être différente après un déplacement", positionJ, newPositionJ);
 
+    }
+
+    @Test
+    public void test_incrementationDifficulteJeu() throws FileNotFoundException {
+         //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
+         Jeu j = new Jeu(null, 1, true);
+
+        Labyrinthe l = j.getLabyrinthe();
+        ArrayList<ArrayList<Case>> lab = l.getCases();
+        int nbcasesEffet1 = 0;
+        for(int i = 0; i < lab.size(); i++) {
+            int s = lab.get(i).size();
+            for(int k = 0; k < s; k++) {
+                if(lab.get(i).get(k) instanceof CaseEffet) nbcasesEffet1++;
+            }
+        }
+        int nbMonstres1 = j.getEntites().size() - 1;
+
+        j.changerNiveau();
+
+        l = j.getLabyrinthe();
+        lab = l.getCases();
+        int nbcasesEffet2 = 0;
+        for(int i = 0; i < lab.size(); i++) {
+            int s = lab.get(i).size();
+            for(int k = 0; k < s; k++) {
+                if(lab.get(i).get(k) instanceof CaseEffet) nbcasesEffet2++;
+            }
+        }
+        int nbMonstres2 = j.getEntites().size() - 1;
+
+        assertNotSame("Le nombre de monstre devrait avoir augmenté avec la difficulté du niveau", nbMonstres1, nbMonstres2);
+        assertNotSame("Le nombre de cases à effets devrait avoir augmenté avec la difficulté du niveau", nbcasesEffet1, nbcasesEffet2);
+    }
+
+    @Test
+    public void test_nombreMaximumNiveauxJeu() {
+        Jeu j = new Jeu(null, 1, true);
+
+        j.changerNiveau();
+        j.changerNiveau();
+
+        int nbniveau = j.getNbNiveau();
+
+        assertEquals("Le numéro de niveau ne devrait pas dépasser le nombre maximum de niveau du jeu", 1, nbniveau);
     }
     
 }

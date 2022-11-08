@@ -534,6 +534,10 @@ public class Jeu{
         }
     }
 
+    public int getNbNiveau() {
+        return this.nbNiveau;
+    }
+
     @Override
     public String toString(){
 

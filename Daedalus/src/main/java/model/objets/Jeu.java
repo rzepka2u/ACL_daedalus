@@ -239,10 +239,11 @@ public class Jeu{
                 case BAS -> px += 1;
             }
 
+            ((Joueur) this.entites.get(0)).setRegard(sens);
+
             //Si la la case sur laquelle veut aller le joueur est valide alors le déplacement est effectué
             if(validerDeplacement(px, py)){
                 this.entites.get(0).seDeplacer(px,py);
-                ((Joueur) this.entites.get(0)).setRegard(sens);
                 res = 0;
                 if (etreSurCaseEffet(px, py)) res = 3;
                 if (etreSurSortie(px,py)) res = 2;
@@ -370,15 +371,22 @@ public class Jeu{
             // TO DO: ATTAQUE DU JOUEUR
             ArrayList<Entite> lEntites = new ArrayList<Entite>(this.entites);
             lEntites.remove(this.getEntites().get(0));
-            ArrayList<Entite> lAttaquees = this.getEntites().get(0).attaquer(lEntites);
+            ArrayList<Entite> lAttaquees = this.getEntites().get(0).attaquer(lEntites, verrousEntites);
             int dgts = this.getEntites().get(0).getArme().getDegats();
             if(lAttaquees != null) {
                 for(Entite ent : lAttaquees) {
                     int index = this.entites.indexOf(ent);
                     synchronized (this.verrousEntites.get(index)) {
-                        ent.prendreDegat(dgts);
+                        if(ent.prendreDegat(dgts)){
+                            ent.setPointsVie(0);
+                        };
                     }
 
+                }
+                if(lAttaquees.size()>0){
+                    synchronized(getVerrouInformations()){
+                        ajouterInfos("Vous avez touchez "+lAttaquees.size()+" monstres avec votre attaque!" );
+                    }
                 }
             }
         } else if(cmd.getOrdre() == Ordre.OUVRIR){
@@ -436,7 +444,7 @@ public class Jeu{
 
             this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
             nbNiveau++;
-            placerJoueurSurCase(labyrinthe.getHauteur()-2, i);
+            placerJoueurSurCase(labyrinthe.getHauteur()-2, 1);
 
 
             // 2- CREATION NOUVELLES ENTITES (object + threads)

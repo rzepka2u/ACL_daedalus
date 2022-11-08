@@ -27,8 +27,10 @@ public class ThreadAffichage extends Thread{
     @Override
     public void run(){
 
-        // Boucle infinie
-        while(fenetre.getContentPane() instanceof PanelPartie){
+        boolean condition = true;
+
+        
+        while(condition){
             
             // Attente de 300 milisecondes
             try{
@@ -36,9 +38,14 @@ public class ThreadAffichage extends Thread{
             } catch (InterruptedException e){
                 System.out.println("SLEEP INTERROMPU");
             }
+
+            synchronized(fenetre.getVerrouContent()){
+                condition = fenetre.getContentPane() instanceof PanelPartie;
+                if(condition)
+                // Rafraîchissent du panel de partie dans la fenêtre
+                fenetre.raffraichirPartie();
+            }
             
-            // Rafraîchissent du panel de partie dans la fenêtre
-            fenetre.raffraichirPartie();
         }
     }
 }

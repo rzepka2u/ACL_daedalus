@@ -744,6 +744,7 @@ public class PanelPartie extends JPanel{
 
         // Déclaration et initialisation de la varaibale nécessaire pour parcourir le tableau
         int i = 0;
+        int j = 0;
 
         // Récupération de la collection contenant les informations ainsi que de son verrou pour lires les données
         ArrayList<String> informations = fenetre.getJeu().getInformations();
@@ -755,20 +756,20 @@ public class PanelPartie extends JPanel{
             // Si la taille de la collection des informations est > 5
             if(informations.size() > 5){
                 // On change le i de départ à la cinquième position en partant de la fin
-                i = informations.size()-6; 
+                i = informations.size()-5; 
             }
         
             //Pour les cinqs dernières informations de la collection
-            for(i=i; i<informations.size(); i++){
+            for(i=i, j=0; i<informations.size(); i++, j++){
                 
                 // Création d'un nouveau texte (TO DO)
-                labels[i] = new JLabel("> "+informations.get(i));
+                labels[j] = new JLabel("> "+informations.get(i));
 
                 // Changement de la couleur du texte
-                labels[i].setForeground(new Color(224,226,225));
+                labels[j].setForeground(new Color(224,226,225));
 
                 // Ajout d'une bordure de 5 pixel à l'horizontale, et de 3 pixels en haut (pour créer des marges internes)
-                labels[i].setBorder(BorderFactory.createMatteBorder(3, 5, 0, 5, new Color(33,32,30)));
+                labels[j].setBorder(BorderFactory.createMatteBorder(3, 5, 0, 5, new Color(33,32,30)));
             }
         }
          

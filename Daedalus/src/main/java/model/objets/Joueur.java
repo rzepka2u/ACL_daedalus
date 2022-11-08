@@ -11,7 +11,6 @@ import model.enums.Direction;
 public class Joueur extends Entite {
 
     // indique où regarde le joueur (vers le haut, bas,..)
-    private Direction regard;
     private ArrayList<Potion> inventaire;
 
     /**
@@ -21,9 +20,8 @@ public class Joueur extends Entite {
      * @return l'objet Joueur correctement instancié
      */
     public Joueur(int px, int py) {
-        super(px, py, NB_PV_START, NB_PA_START);
+        super(px, py, NB_PV_START, NB_PA_START, Direction.BAS);
         inventaire = new ArrayList<Potion>();
-        regard = Direction.BAS;
         this.setArme(new Arme());
     }
 
@@ -48,14 +46,6 @@ public class Joueur extends Entite {
         }
     }
 
-    public Direction getRegard(){
-        return regard;
-    }
-
-    public void setRegard(Direction sens){
-        regard = sens;
-    }
-
     /**
      * Modifie les coordonnees du joueur en tenant des comptes des parametres
      * 
@@ -68,20 +58,24 @@ public class Joueur extends Entite {
     }
 
     @Override
-    public ArrayList<Entite> attaquer(ArrayList<Entite> entites) {
+    public ArrayList<Entite> attaquer(ArrayList<Entite> entites, ArrayList<Object> verrous) {
         ArrayList<Entite> entitesTouchees = new ArrayList<Entite>();
         int portee = this.getArme().getPortee();
         // on traite chaque cas de zone d'attaque
         switch (this.getArme().getZone()) {
             case CASE_DEVANT :
-                switch (this.regard) {
+                switch (this.getRegard()) {
+                    
                     case HAUT :
                         for(Entite ent : entites) {
                             // on teste si l'entité se situe sur les cases au dessus du joueur qui sont dans l'attaque
-                            for(int i = 1; i <= portee; i++) {
-                                if(ent.getX() == this.getX()-i && ent.getY() == this.getY()) {
-                                    // si oui on l'ajoute aux entités touchées
-                                    entitesTouchees.add(ent);
+                            synchronized(verrous.get(entites.indexOf(ent)+1)){
+                                for(int i = 1; i <= portee; i++) {
+                                    
+                                    if(ent.getX() == this.getX()-i && ent.getY() == this.getY()) {
+                                        // si oui on l'ajoute aux entités touchées
+                                        entitesTouchees.add(ent);
+                                    }
                                 }
                             }
                         }
@@ -89,11 +83,15 @@ public class Joueur extends Entite {
 
                     case BAS:
                         for(Entite ent : entites) {
-                            // on teste si l'entité se situe sur les cases en dessous du joueur qui sont dans l'attaque
-                            for(int i = 1; i <= portee; i++) {
-                                if(ent.getX() == this.getX()+i && ent.getY() == this.getY()) {
-                                    // si oui on l'ajoute aux entités touchées
-                                    entitesTouchees.add(ent);
+                            synchronized(verrous.get(entites.indexOf(ent)+1)){
+                                // on teste si l'entité se situe sur les cases en dessous du joueur qui sont dans l'attaque
+                                for(int i = 1; i <= portee; i++) {
+                                   
+                                    if(ent.getX() == this.getX()+i && ent.getY() == this.getY()) {
+                                        // si oui on l'ajoute aux entités touchées
+                                        entitesTouchees.add(ent);
+                                  
+                                    }
                                 }
                             }
                         }
@@ -101,11 +99,15 @@ public class Joueur extends Entite {
 
                     case DROITE:
                         for(Entite ent : entites) {
-                            // on teste si l'entité se situe sur les cases à droite du joueur qui sont dans l'attaque
-                            for(int i = 1; i <= portee; i++) {
-                                if(ent.getX() == this.getX() && ent.getY() == this.getY()-i) {
-                                    // si oui on l'ajoute aux entités touchées
-                                    entitesTouchees.add(ent);
+                            synchronized(verrous.get(entites.indexOf(ent)+1)){
+                                // on teste si l'entité se situe sur les cases à droite du joueur qui sont dans l'attaque
+                                for(int i = 1; i < portee; i++) {
+                                   
+                                    if(ent.getX() == this.getX() && ent.getY() == this.getY()+i) {  
+                                        // si oui on l'ajoute aux entités touchées
+                                        entitesTouchees.add(ent);
+                             
+                                    }
                                 }
                             }
                         }
@@ -113,11 +115,14 @@ public class Joueur extends Entite {
 
                     case GAUCHE:
                         for(Entite ent : entites) {
-                            // on teste si l'entité se situe sur les cases à gauche du joueur qui sont dans l'attaque
-                            for(int i = 1; i <= portee; i++) {
-                                if(ent.getX() == this.getX() && ent.getY() == this.getY()+i) {
-                                    // si oui on l'ajoute aux entités touchées
-                                    entitesTouchees.add(ent);
+                            synchronized(verrous.get(entites.indexOf(ent)+1)){
+                                // on teste si l'entité se situe sur les cases à gauche du joueur qui sont dans l'attaque
+                                for(int i = 1; i <= portee; i++) {
+                             
+                                    if(ent.getX() == this.getX() && ent.getY() == this.getY()-i) {
+                                        // si oui on l'ajoute aux entités touchées
+                                        entitesTouchees.add(ent);
+                                    }
                                 }
                             }
                         }
@@ -126,23 +131,25 @@ public class Joueur extends Entite {
                 break;
 
             case ARC_DE_CERCLE:
-                switch (this.regard) {
+                switch (this.getRegard()) {
                     case HAUT :
                         for(Entite ent: entites) {
-                            for(int i = 1; i <= portee; i++) {
-                                // l'entité se situe dans les cases en haut à gauche du joueur
-                                if(ent.getX() == this.getX()-i && ent.getY() == this.getY()-i) {
-                                    entitesTouchees.add(ent);
-                                }
+                            synchronized(verrous.get(entites.indexOf(ent))){
+                                for(int i = 1; i <= portee; i++) {
+                                    // l'entité se situe dans les cases en haut à gauche du joueur
+                                    if(ent.getX() == this.getX()-i && ent.getY() == this.getY()-i) {
+                                        entitesTouchees.add(ent);
+                                    }
 
-                                // l'entité se situe dans les cases au dessus du joueur
-                                else if(ent.getX() == this.getX()-i && ent.getY() == this.getY()) {
-                                    entitesTouchees.add(ent);
-                                }
+                                    // l'entité se situe dans les cases au dessus du joueur
+                                    else if(ent.getX() == this.getX()-i && ent.getY() == this.getY()) {
+                                        entitesTouchees.add(ent);
+                                    }
 
-                                // l'entité se situe dans les cases en haut à droite du joueur
-                                else if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
-                                    entitesTouchees.add(ent);
+                                    // l'entité se situe dans les cases en haut à droite du joueur
+                                    else if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
+                                        entitesTouchees.add(ent);
+                                    }
                                 }
                             }
                         }
@@ -150,20 +157,22 @@ public class Joueur extends Entite {
 
                     case BAS:
                         for(Entite ent: entites) {
-                            for (int i = 1; i <= portee; i++) {
-                                // l'entité se situe dans les cases en bas à gauche du joueur
-                                if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
-                                    entitesTouchees.add(ent);
-                                }
+                            synchronized(verrous.get(entites.indexOf(ent))){
+                                for (int i = 1; i <= portee; i++) {
+                                    // l'entité se situe dans les cases en bas à gauche du joueur
+                                    if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
+                                        entitesTouchees.add(ent);
+                                    }
 
-                                // l'entité se situe dans les cases en dessous du joueur
-                                else if(ent.getX() == this.getX()+i && ent.getY() == this.getY()) {
-                                    entitesTouchees.add(ent);
-                                }
+                                    // l'entité se situe dans les cases en dessous du joueur
+                                    else if(ent.getX() == this.getX()+i && ent.getY() == this.getY()) {
+                                        entitesTouchees.add(ent);
+                                    }
 
-                                // l'entité se situe dans les cases en bas à droite du joueur
-                                else if(ent.getX() == this.getX()+i && ent.getY() == this.getY()+i) {
-                                    entitesTouchees.add(ent);
+                                    // l'entité se situe dans les cases en bas à droite du joueur
+                                    else if(ent.getX() == this.getX()+i && ent.getY() == this.getY()+i) {
+                                        entitesTouchees.add(ent);
+                                    }
                                 }
                             }
                         }
@@ -171,20 +180,22 @@ public class Joueur extends Entite {
 
                     case DROITE:
                         for(Entite ent: entites) {
-                            for (int i = 1; i <= portee; i++) {
-                                // l'entité se situe dans les cases en haut à gauche du joueur
-                                if(ent.getX() == this.getX()-i && ent.getY() == this.getY()-i) {
-                                    entitesTouchees.add(ent);
-                                }
+                            synchronized(verrous.get(entites.indexOf(ent))){
+                                for (int i = 1; i <= portee; i++) {
+                                    // l'entité se situe dans les cases en haut à gauche du joueur
+                                    if(ent.getX() == this.getX()-i && ent.getY() == this.getY()-i) {
+                                        entitesTouchees.add(ent);
+                                    }
 
-                                // l'entité se situe dans les cases à gauche du joueur
-                                else if(ent.getX() == this.getX() && ent.getY() == this.getY()-i) {
-                                    entitesTouchees.add(ent);
-                                }
+                                    // l'entité se situe dans les cases à gauche du joueur
+                                    else if(ent.getX() == this.getX() && ent.getY() == this.getY()-i) {
+                                        entitesTouchees.add(ent);
+                                    }
 
-                                // l'entité se situe dans les cases en bas à gauche du joueur
-                                else if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
-                                    entitesTouchees.add(ent);
+                                    // l'entité se situe dans les cases en bas à gauche du joueur
+                                    else if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
+                                        entitesTouchees.add(ent);
+                                    }
                                 }
                             }
                         }
@@ -192,21 +203,24 @@ public class Joueur extends Entite {
 
                     case GAUCHE:
                         for(Entite ent: entites) {
-                            for (int i = 1; i <= portee; i++) {
-                                // l'entité se situe dans les cases en haut à droite du joueur
-                                if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
-                                    entitesTouchees.add(ent);
-                                }
+                            synchronized(verrous.get(entites.indexOf(ent))){
+                                for (int i = 1; i <= portee; i++) {
+                                    // l'entité se situe dans les cases en haut à droite du joueur
+                                    if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
+                                        entitesTouchees.add(ent);
+                                    }
 
-                                // l'entité se situe dans les cases à droite du joueur
-                                else if(ent.getX() == this.getX() && ent.getY() == this.getY()+i) {
-                                    entitesTouchees.add(ent);
-                                }
+                                    // l'entité se situe dans les cases à droite du joueur
+                                    else if(ent.getX() == this.getX() && ent.getY() == this.getY()+i) {
+                                        entitesTouchees.add(ent);
+                                    }
 
-                                // l'entité se situe dans les cases en bas à droite du joueur
-                                else if(ent.getX() == this.getX()+i && ent.getY() == this.getY()+i) {
-                                    entitesTouchees.add(ent);
+                                    // l'entité se situe dans les cases en bas à droite du joueur
+                                    else if(ent.getX() == this.getX()+i && ent.getY() == this.getY()+i) {
+                                        entitesTouchees.add(ent);
+                                    }
                                 }
+                            
                             }
                         }
                         break;
@@ -215,45 +229,47 @@ public class Joueur extends Entite {
 
             case EN_CARRE:
                 for(Entite ent : entites) {
-                    for(int i = 1; i <= portee; i++) {
-                        // l'entité se situe dans les cases au dessus du joueur
-                        if(ent.getX() == this.getX()-i && ent.getY() == this.getY()) {
-                            entitesTouchees.add(ent);
-                        }
+                    synchronized(verrous.get(entites.indexOf(ent))){
+                        for(int i = 1; i <= portee; i++) {
+                            // l'entité se situe dans les cases au dessus du joueur
+                            if(ent.getX() == this.getX()-i && ent.getY() == this.getY()) {
+                                entitesTouchees.add(ent);
+                            }
 
-                        // l'entité se situe dans les cases en dessous du joueur
-                        if(ent.getX() == this.getX()+i && ent.getY() == this.getY()) {
-                            entitesTouchees.add(ent);
-                        }
+                            // l'entité se situe dans les cases en dessous du joueur
+                            if(ent.getX() == this.getX()+i && ent.getY() == this.getY()) {
+                                entitesTouchees.add(ent);
+                            }
 
-                        // l'entité se situe dans les cases à gauche du joueur
-                        if(ent.getX() == this.getX() && ent.getY() == this.getY()-i) {
-                            entitesTouchees.add(ent);
-                        }
+                            // l'entité se situe dans les cases à gauche du joueur
+                            if(ent.getX() == this.getX() && ent.getY() == this.getY()-i) {
+                                entitesTouchees.add(ent);
+                            }
 
-                        // l'entité se situe dans les cases à droite du joueur
-                        if(ent.getX() == this.getX() && ent.getY() == this.getY()+i) {
-                            entitesTouchees.add(ent);
-                        }
+                            // l'entité se situe dans les cases à droite du joueur
+                            if(ent.getX() == this.getX() && ent.getY() == this.getY()+i) {
+                                entitesTouchees.add(ent);
+                            }
 
-                        // l'entité se situe dans les cases en haut à droite du joueur
-                        if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
-                            entitesTouchees.add(ent);
-                        }
+                            // l'entité se situe dans les cases en haut à droite du joueur
+                            if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
+                                entitesTouchees.add(ent);
+                            }
 
-                        // l'entité se situe dans les cases en bas à droite du joueur
-                        if(ent.getX() == this.getX()+i && ent.getY() == this.getY()+i) {
-                            entitesTouchees.add(ent);
-                        }
+                            // l'entité se situe dans les cases en bas à droite du joueur
+                            if(ent.getX() == this.getX()+i && ent.getY() == this.getY()+i) {
+                                entitesTouchees.add(ent);
+                            }
 
-                        // l'entité se situe dans les cases en haut à gauche du joueur
-                        if(ent.getX() == this.getX()-i && ent.getY() == this.getY()-i) {
-                            entitesTouchees.add(ent);
-                        }
+                            // l'entité se situe dans les cases en haut à gauche du joueur
+                            if(ent.getX() == this.getX()-i && ent.getY() == this.getY()-i) {
+                                entitesTouchees.add(ent);
+                            }
 
-                        // l'entité se situe dans les cases en bas à gauche du joueur
-                        if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
-                            entitesTouchees.add(ent);
+                            // l'entité se situe dans les cases en bas à gauche du joueur
+                            if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i) {
+                                entitesTouchees.add(ent);
+                            }
                         }
                     }
                 }

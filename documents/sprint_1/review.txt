@@ -63,7 +63,21 @@ PREVU :
   - Création des coffres et de leur contenu (potions de soin, armes, armure...)
 
 REALISE :
- - ...
+ - Gérer les déplacements, les attaques, la vie et l'armure des différents monstres (Gobelin, Fantôme...)
+ - S'occuper de la création et la réaction des différentes cases à effets (soin, poison, dégâts instantanés...) 
+ - Création des coffres et de leur contenu (potions de soin, armes, armure...)
+
+Les monstres se déplacent de manière aléatoire dans le labyrinthe
+Un monstre attaque le joueur s'il est à porter d'attaque et dans son champ de vision.
+Les effets sont de plusieurs types : 
+ - immédiats : l'effet est immédiatement et intégralement appliqué sur le joueur, que ce soit un soin ou des dégâts
+ - progressifs : l'effet est appliqué, cette fois-ci, sur la durée sur le joueur jusqu'à ce que le bon nombre de points de vie soit redonné ou enlevé.
+                 Un point de vie est redonné ou enlevé toustes les X milisecondes (valeure prédéfinie).
+Si les effets, progressifs ou immédiats, tuent le joueur, alors la partie est perdue.
+Les coffres sont placés aléatoirement dans le labyrinthe et leur contenu est aléatoire également.
+Conformément à la première fonctionnalité, le nombre de cases à effets et le nombre de coffres suit l'incrémentation de la 
+difficulté du niveau de jeu. Plus les niveaux avances, plus ces éléments sont nombreux.
+
 
 La fonctionnalité a été testée et validée.
 

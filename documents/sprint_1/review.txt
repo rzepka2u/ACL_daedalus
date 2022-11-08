@@ -30,9 +30,28 @@ PREVU :
   - Mise à jour du système d'intéraction avec le jeu via les touches du clavier et la souris
 
 REALISE :
-  - ...
+  
+  - Passage de l'affichage console à un affichage graphique
+  - Création d'une fenêtre contenant jouant sur trois panels
+  - Création d'un panel d'accueil avec un formulaire (réaction partie sélection fichiers non implémenter pour le moment) pour
+	la récupération des paramètres de partie.
+  - Création d'un panel de partie avec un thread en charge de l'affichage qui s'occupe de le mettre à jour tous les x secondes.
+  	A l'intérieur du panel de partie, on retrouve trois sous panels qui sont celui du labyrinthe, celui des informations et celui
+	du HUD.
+  - Création du panel du labyrinthe avec des assets qui définissent chaques cases et son état.
+  - Création du panel du HUD avec des assets et un logo au dessus, les données sont celle du joueur à l'instant réel.
+  - Création d'un panel d'informations avec l'affichage des cinqs dernières informations de partie (en temps réel).
+  - Création d'un panel de fin de partie qui change selon si le joueur gagne ou perds (action du boutton non implémentée pour le moment)
+  - Mise à jour du système d'intéraction avec le jeu via les touches du clavier et la souris
+  - Gestions des evenements et des actions que cela répertorie dans le commande
+  - Création d'une barre de Menu (les actions n'ont pas pu être implémentée durant ce sprint)
+  - Les touches de contrôle sont "o" pour ouvrir, "r" pour ramasser, les flèches pour déplacer le joueur, et un clique sur la potion
+    ou les chiffres du pavé numérique pour boire une potion
 
-La fonctionnalité a été validée.
+La fonctionnalité a été validée et testée. Concernant les tests, nous n'avons pas pu faire autrement que de tester simplement sur
+une de nos machines puisque le test de l'interface graphique dépend de la vision de la personne devant l'écran ainsi que de ses
+actions sur les entrées (clique sur l'écran a un endroit précis, tape sur une touche, etc). Il n'est pas possible de tester cela
+simplement. 
 
 ---
 3)

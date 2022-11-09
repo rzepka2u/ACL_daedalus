@@ -207,11 +207,10 @@ public class TestJoueur extends TestCase {
 
         Jeu j = new Jeu(null, 2, true);
 
-        assertTrue("Le premier labyrinthe doit contenir un trésor",  j.toString().contains("C"));
+        assertTrue("Le premier labyrinthe doit contenir un trésor",  j.getLabyrinthe().toString().contains("?"));
 
         j.changerNiveau();
-
-        assertTrue("Le second labyrinthe doit contenir un trésor",  j.toString().contains("T"));
+        assertTrue("Le second labyrinthe doit contenir un trésor",  j.getLabyrinthe().toString().contains("?"));
 
     }
 

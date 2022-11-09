@@ -1,6 +1,6 @@
 1)
 FONCTIONNALITE : Amélioration l'Interface graphique + tests attaque joueur + tests gestions joueurs
-    - Correction des bugs, optimisation et réorganisation du code de l'ihm 
+    - Correction des bugs, optimisation et réorganisation du code de l'IHM
     - Travail de l'aspect graphique de la fenêtre (améliorations)
     - Finition détails et implémentation partie formulaires et barre de menu non implémenter
     - Ajout d'un panel pour modifier les touches de jeu 
@@ -11,8 +11,8 @@ CRITERES DE VALIDATION :
   - L'interface graphique doit être plus jolie que le sprint précédent
   - La barre de menu doit être fonctionnelle.  Les panels d'informations déclenchés lors du clic sur un bouton
     contenant les informations a afficher aussi
-  - L'expérience utilisateur doit être améliorer au maximum (temps d'attente, fluidité de rafraichissage, etc)
-  - Possible de créer une partie avec un dossier de fichiers (seconde partie formulaire acceuil implémentée)
+  - L'expérience utilisateur doit être améliorer au maximum (temps d'attente, fluidité de rafraichissement, etc)
+  - Possible de créer une partie avec un dossier de fichiers (seconde partie formulaire accueil implémentée)
   - Corrections des bugs présents sur le sprint précédent
 
 
@@ -33,14 +33,16 @@ TESTS :
   - Thomas RZEPKA
 
 2)
-FONCTIONNALITE : améliorations des algorithmes dans les labyrinthes pseudo aléatoire 
-    + modification des assets de l'interface graphique
-    
+FONCTIONNALITE : Améliorations des algorithmes utilisés dans la classe Labyrinthe et modification des sprites de l'interface graphique
   - Optimisation et réorganisation du code de la classe labyrinthe
-  -
+  - Ajout d'algorithmes de génération aléatoire intelligente pour les cases à effets et les trésors
+  - Les cases à effet auront plus de chances d'êtres disposées dans les environs du chemin du joueur (départ vers sortie)
+  - Les trésors auront plus de chance d'apparaitre loin du chemin du joueur 
+  - Amélioration des sprites de l'interface graphique.
 
 CRITERES DE VALIDATION :
-  - 
+  - Les cases à effet se situent majoritairement sur / aux abords du chemin du joueur
+  - Les cases trésor sont majoritairement éloignées du chemin du joueur
 
 TESTS CORRESPONDANTS :
   - 
@@ -80,15 +82,15 @@ TESTS :
 ---
 4)
 FONCTIONNALITE : 
-  Améliorations attaque du joueur et la gestion des trésors (ramasser et ourvrir)
+  Améliorations attaque du joueur et la gestion des trésors (ramasser et ouvrir)
     - Optimisation et réorganisation du code du sprint précédent
     - Amélioration de la qualité des actions pour fluidifier le déroulement du jeu
-  + Amélioration des tests sur le comportement des montres et des cases à éffets (sprint précédent)
+  + Amélioration des tests sur le comportement des montres et des cases à effets (sprint précédent)
     - Ajout des tests manquants et fixé les anciens tests qui bug
-  + Implémentation des compétances dépendantes de l'expérience du joueur
-    - Création de diverses compétances pour le joueur (ex: Boule de feu, amélioration de vitesse temporaire, etc)
+  + Implémentation des compétences dépendantes de l'expérience du joueur
+    - Création de diverses compétences pour le joueur (ex: Boule de feu, amélioration de vitesse temporaire, etc)
     - Gestion de l'acquisition et du déclenchement de celles-ci suivant le niveau d'expérience
-    - Ajout de textes d'informations sur le statut l'acquisitionet le déclenchement des compétances
+    - Ajout de textes d'informations sur le statut l'acquisition et le déclenchement des compétences
  
 
 CRITERES DE VALIDATION :

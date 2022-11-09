@@ -103,7 +103,9 @@ public class ThreadMonstre extends Thread {
                 }
             }
 
-        } while(cond);
+            System.out.println(Thread.interrupted());
+
+        } while(cond && !Thread.interrupted());
 
         synchronized(jeu.getVerrousEntites().get(positionInList)){
             synchronized(jeu.getVerrouInformations()){

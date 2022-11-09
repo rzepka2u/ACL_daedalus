@@ -48,6 +48,7 @@ public class TestLabyrinthe {
 
     /**
      * Test verifiant que le labyrinthe de base généré est bien celui souhaité
+     */
     @Test
     public void test_generationLabyrintheAvecFichierValide() throws FileNotFoundException {
         // preparation des donnees
@@ -62,7 +63,7 @@ public class TestLabyrinthe {
             };
 
         // Initialisation du jeu pour créer le labyrinthe à partir du fichier niveauTestLabyrinthe
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true);
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true, true);
 
         // Création du labyrinthe
         Labyrinthe l = new Labyrinthe();
@@ -75,11 +76,9 @@ public class TestLabyrinthe {
 
         // On compare si on obtient la même chose après le toString des deux labyrinthes
         boolean b = s1.equals(s2);
-        // verifications des donnees
-        assertTrue(s1, b);
+        // verifications des donnees 
+        assertTrue(s1+s2, b);
     }
-
-    */
 
     /**
      * Test verifiant que la création du labyrinthe à partir d'un fichier va renvoyer une erreur si le fichier n'existe pas

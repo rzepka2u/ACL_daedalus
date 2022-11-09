@@ -1,0 +1,92 @@
+1)
+FONCTIONNALITE : Amélioration l'Interface graphique + tests attaque joueur + tests gestions joueurs
+    - Optimisation et réorganisation du code de l'ihm 
+    - Travail de l'aspect graphique de la fenêtre (améliorations)
+    - Finition détails et implémentation partie formulaires et barre de menu non implémenter
+    - Ajout d'un panel pour modifier les touches de jeu 
+    - Gestion d'une partie avec un dossier de niveau
+    - Amélioration des tests sur l'attaque et la gestion des armes/potions et ajout de ceux manquant (sprint précédent)
+
+CRITERES DE VALIDATION :
+  - 
+
+
+TESTS CORRESPONDANTS :
+  - 
+
+RESPONSABLE :
+  - Maxime RACOILLET
+
+TESTS :
+  - 
+
+2)
+FONCTIONNALITE : améliorations des algorithmes dans les labyrinthes pseudo aléatoire 
+    + modification des assets de l'interface graphique
+    
+  - Optimisation et réorganisation du code de la classe labyrinthe
+  -
+
+CRITERES DE VALIDATION :
+  - 
+
+TESTS CORRESPONDANTS :
+  - 
+
+RESPONSABLE :
+  - Thomas RZEPKA
+
+TESTS :
+  - 
+
+
+3)
+FONCTIONNALITE : 
+
+    Améliorations comportement monstres + cases effets (sprint précédent)
+        - Optimisation et réorganisation du code du sprint précédent
+        - Amélioration des décisions du monstre pour fluidifier le déroulement du jeu
+    + Amélioration des tests sur la labyrinthe pseudo aléatoire (sprint précédent, si possible)
+        - Ajout des tests manquants et fixé les anciens tests qui bug  
+    + Implémentation du système d'acquisition d'expérience
+        - Création d'un nombre d'expérience pour le joueur (avec niveaux = nombre points expérience)
+        - Gestion de l'acquisition des points d'expérience suite aux actions
+        - Ajout de textes d'informations sur le statut de l'expérience
+
+CRITERES DE VALIDATION :
+  - 
+
+TESTS CORRESPONDANTS :
+  - 
+
+RESPONSABLE :
+  - Jérémy POIREL
+
+TESTS :
+  - 
+
+---
+4)
+FONCTIONNALITE : 
+  Améliorations attaque du joueur et la gestion des trésors (ramasser et ourvrir)
+    - Optimisation et réorganisation du code du sprint précédent
+    - Amélioration de la qualité des actions pour fluidifier le déroulement du jeu
+  + Amélioration des tests sur le comportement des montres et des cases à éffets (sprint précédent)
+    - Ajout des tests manquants et fixé les anciens tests qui bug
+  + Implémentation des compétances dépendantes de l'expérience du joueur
+    - Création de diverses compétances pour le joueur (ex: Boule de feu, amélioration de vitesse temporaire, etc)
+    - Gestion de l'acquisition et du déclenchement de celles-ci suivant le niveau d'expérience
+    - Ajout de textes d'informations sur le statut l'acquisitionet le déclenchement des compétances
+ 
+
+CRITERES DE VALIDATION :
+  - 
+
+TESTS CORRESPONDANTS :
+  - 
+
+RESPONSABLE :
+  - Victor NOEL
+
+TESTS :
+  - 

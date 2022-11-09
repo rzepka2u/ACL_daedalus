@@ -155,7 +155,13 @@ public class Labyrinthe {
             System.exit(-1);
 
         }
+       
         this.genererDepuisEntiers(casesTemplate);
+    }
+
+    public static void main(String []args) throws FileNotFoundException{
+        Jeu j = new Jeu(null, "Daedalus/src/main/resources/niveaux/niveauSimple.txt", 1, true);// jeu avec labyrinthe par défaut
+        
     }
 
     /**

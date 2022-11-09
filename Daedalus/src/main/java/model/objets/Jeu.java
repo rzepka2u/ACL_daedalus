@@ -73,14 +73,18 @@ public class Jeu{
     }
 
     public Jeu(FenetreGraphique f, String path, int nbMax) throws FileNotFoundException{
-        this(f,path, nbMax, false);
+        this(f,path, nbMax, false, false);
+    }
+
+    public Jeu(FenetreGraphique f, String path, int nbMax, boolean test) throws FileNotFoundException{
+        this(f,path, nbMax, test, false);
     }
 
     /** 
     * Constructeur par initialisation d'un objet Jeu avec un labyrinthe contenu dans un fichier
     * @param path Le chemin relatif ou absolu du fichier contenant le labyrinthe
     */
-    public Jeu(FenetreGraphique f, String path, int nbMax, boolean test) throws FileNotFoundException {
+    public Jeu(FenetreGraphique f, String path, int nbMax, boolean test, boolean tresorEffet) throws FileNotFoundException {
 
         this.nbNiveau = 0;
         this.nbMaxNiveau = nbMax;
@@ -91,8 +95,10 @@ public class Jeu{
 
         //Initialisation du labyrinthe via fichier texte 
 		this.labyrinthe = new Labyrinthe(path);
-        labyrinthe.ajouterCasesEffet(nbNiveau);
-        labyrinthe.ajouterCasesTresor(nbNiveau/3+1);
+        if(!tresorEffet){
+            labyrinthe.ajouterCasesEffet(nbNiveau);
+            labyrinthe.ajouterCasesTresor(nbNiveau/3+1);
+        }
 
         //Récupération de la position de départ
 
@@ -149,6 +155,10 @@ public class Jeu{
 
     public Object getVerrouInformations(){
         return this.verrouInformations;
+    }
+
+    public ArrayList<ThreadMonstre> getThreads(){
+        return this.threads;
     }
 
     /**

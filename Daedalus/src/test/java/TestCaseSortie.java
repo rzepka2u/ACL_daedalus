@@ -19,7 +19,7 @@ public class TestCaseSortie {
     @Test
     public void test_CollisionCaseSortie() throws FileNotFoundException {
         // preparation des donnees
-        Jeu jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true);
+        Jeu jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true, true);
 
         jeu.placerJoueurSurCase(1, jeu.getLabyrinthe().getLargeur()-3);
         // methodes testées
@@ -40,7 +40,7 @@ public class TestCaseSortie {
         Jeu jeu;
 
         // preparation des donnees
-        jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true); 
+        jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true, true); 
         
 
         // methodes testées

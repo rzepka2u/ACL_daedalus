@@ -94,10 +94,16 @@ FONCTIONNALITE :
  
 
 CRITERES DE VALIDATION :
-  - 
+  - L'attaque du joueur doit être plus fluide et plus précise
+  - Le joueur doit pouvoir ramasser de l'armure (déjà possible avec les armes et les potions)
+  - Les tests manquants sur le comportement des monstres / cases à effet doivent être mis en place et fonctionnels
+  - Le joueur peut utiliser diverses compétences qu'il débloquera au fur et à mesure de sa partie
+  - Ces compétences doivent avoir un descriptif sur son utilisation (et si possible un temps de recharge)
 
 TESTS CORRESPONDANTS :
-  - 
+  - Test certifant la zone d'attaque des armes
+  - Test sur le ramassage de l'armure
+  - Test des différentes compétences
 
 RESPONSABLE :
   - Victor NOEL

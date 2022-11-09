@@ -51,7 +51,7 @@ RESPONSABLE :
   - Thomas RZEPKA
 
 TESTS :
-  - 
+  - Jérémy POIREL
 
 
 3)
@@ -77,7 +77,7 @@ RESPONSABLE :
   - Jérémy POIREL
 
 TESTS :
-  - 
+  - Victor NOEL
 
 ---
 4)
@@ -109,4 +109,4 @@ RESPONSABLE :
   - Victor NOEL
 
 TESTS :
-  - 
+  - Maxime RACOILLET

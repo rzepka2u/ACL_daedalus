@@ -1,24 +1,36 @@
 1)
 FONCTIONNALITE : Amélioration l'Interface graphique + tests attaque joueur + tests gestions joueurs
-    - Optimisation et réorganisation du code de l'ihm 
+    - Correction des bugs, optimisation et réorganisation du code de l'ihm 
     - Travail de l'aspect graphique de la fenêtre (améliorations)
     - Finition détails et implémentation partie formulaires et barre de menu non implémenter
     - Ajout d'un panel pour modifier les touches de jeu 
-    - Gestion d'une partie avec un dossier de niveau
+    - Gestion d'une partie avec un dossier de fichiers niveaux
     - Amélioration des tests sur l'attaque et la gestion des armes/potions et ajout de ceux manquant (sprint précédent)
 
 CRITERES DE VALIDATION :
-  - 
+  - L'interface graphique doit être plus jolie que le sprint précédent
+  - La barre de menu doit être fonctionnelle.  Les panels d'informations déclenchés lors du clic sur un bouton
+    contenant les informations a afficher aussi
+  - L'expérience utilisateur doit être améliorer au maximum (temps d'attente, fluidité de rafraichissage, etc)
+  - Possible de créer une partie avec un dossier de fichiers (seconde partie formulaire acceuil implémentée)
+  - Corrections des bugs présents sur le sprint précédent
 
 
 TESTS CORRESPONDANTS :
-  - 
+  - Concernant les tests, nous ne pouvons pas faire autrement que de tester simplement sur une de nos machines
+    puisque le test de l'interface graphique dépend de la vision de la personne devant l'écran ainsi que de ses
+    actions sur les entrées (clique sur l'écran a un endroit précis, tape sur une touche, etc). Il n'est pas
+    possible de tester cela simplement.
+  - Vérifications que le menu déclenche bien les bonnes actions
+  - Vérifier qu'il est possible de lancer une partie avec un dossier de fichiers labyrinthes préalablement créer
+  - Vérifier que l'interface graphique est jolie visuellement
+  - Vérifier que la réalisations des actions captées sur les entrées (clavier et souris) soit fluide
 
 RESPONSABLE :
   - Maxime RACOILLET
 
 TESTS :
-  - 
+  - Thomas RZEPKA
 
 2)
 FONCTIONNALITE : améliorations des algorithmes dans les labyrinthes pseudo aléatoire 

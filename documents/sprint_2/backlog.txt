@@ -68,10 +68,26 @@ FONCTIONNALITE :
         - Ajout de textes d'informations sur le statut de l'expérience
 
 CRITERES DE VALIDATION :
-  - 
+  - Les monstres ont un comportement plus intelligent qu'auparavant : 
+    Ils ne se déplacent plus inutilement vers les murs
+    Ils savent détecter le joueur lorsqu'il est à une certaine distance d'eux sans obstacles au milieu
+    Ils savent suivre le joueur une fois qu'ils l'ont détectés une première fois
+  - L'expérience est acquise pendant que le joueur joue au jeu et nottament : 
+    Lorsqu'il tue un monstre
+    Lorsqu'il termine un niveau et passe au niveau suivant 
+  - L'expérience fonctionne par points et par niveaux. Chaque niveau peut être passé en acquérant un certain nombre de points,
+    celui-ci devenant de plus en plus élevé au fil des niveaux que le joueur passe.
+  - L'expérience permet d'acquérir notamment  : 
+    Des améliorations statistiques pour le joueur (augmentation du nombre de points de vie maximum par exemple)
+    Des compétences activables (voir fonctionnalité 4 pour les détails).
+  - Chaque gain d'expérience et passage de niveau est indiqué sous forme de texte.
+    
 
 TESTS CORRESPONDANTS :
-  - 
+  - Les monstres arrivent à détecter un joueur qui se trouve dans la zone de détection du monstre.
+  - Les monstres qui ont détectés le joueur suivent les déplacements de celui-ci.
+  - L'expérience incrémente bel et bien au fil du jeu et des actions du joueur, et les niveaux sont passés au fil de la récupération d'expérience.
+  - Le joueur gagne bel bien ses "bonus" lorsqu'il gagne de l'expérience.
 
 RESPONSABLE :
   - Jérémy POIREL

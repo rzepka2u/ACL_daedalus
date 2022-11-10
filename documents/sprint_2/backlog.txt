@@ -43,9 +43,14 @@ FONCTIONNALITE : Améliorations des algorithmes utilisés dans la classe Labyrin
 CRITERES DE VALIDATION :
   - Les cases à effet se situent majoritairement sur / aux abords du chemin du joueur
   - Les cases trésor sont majoritairement éloignées du chemin du joueur
+  - Les sprites de l'interface graphique sont de meilleure qualité
 
 TESTS CORRESPONDANTS :
-  - 
+  - Test sur le positionnement des cases à éffets
+  - Test sur le positionnement des cases trésors
+  - Test (visuel) comparant les sprites de ce sprint avec ceux du précédent
+  - Le code de la classe Labyrinthe et des classes Case doit être retravailler et lisible
+  - Les labyrinthe doivent ne pas prendre trop de temps pour se créer 
 
 RESPONSABLE :
   - Thomas RZEPKA

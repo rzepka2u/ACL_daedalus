@@ -159,10 +159,10 @@ public class Labyrinthe {
         this.genererDepuisEntiers(casesTemplate);
     }
 
-    public static void main(String []args) throws FileNotFoundException{
+    /*public static void main(String []args) throws FileNotFoundException{
         Jeu j = new Jeu(null, "Daedalus/src/main/resources/niveaux/niveauSimple.txt", 1, true);// jeu avec labyrinthe par défaut
         
-    }
+    }*/
 
     /**
      * Méthode pour générer les cases du labyrinthe sous formes d'objes depuis un tableau d'entiers
@@ -573,7 +573,6 @@ public class Labyrinthe {
         return compteur;
     }
 
-    /*
     public static void main(String[] args) {
         Labyrinthe l = new Labyrinthe(9);
         System.out.println(l);
@@ -586,6 +585,6 @@ public class Labyrinthe {
         l.ajouterCasesTresor(4);
 
         System.out.println(l);
-    }*/
+    }
 
 }

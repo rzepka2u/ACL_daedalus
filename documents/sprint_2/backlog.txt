@@ -46,11 +46,11 @@ CRITERES DE VALIDATION :
   - Les sprites de l'interface graphique sont de meilleure qualité
 
 TESTS CORRESPONDANTS :
-  - Test sur le positionnement des cases à éffets
+  - Test sur le positionnement des cases à effets
   - Test sur le positionnement des cases trésors
+  - Le code de la classe Labyrinthe et des classes Case doit être retravaillé et amélioré
+  - Test sur le temps de génération : les labyrinthes doivent être générés dans un temps réduit
   - Test (visuel) comparant les sprites de ce sprint avec ceux du précédent
-  - Le code de la classe Labyrinthe et des classes Case doit être retravailler et lisible
-  - Les labyrinthe doivent ne pas prendre trop de temps pour se créer 
 
 RESPONSABLE :
   - Thomas RZEPKA
@@ -77,7 +77,7 @@ CRITERES DE VALIDATION :
     Ils ne se déplacent plus inutilement vers les murs
     Ils savent détecter le joueur lorsqu'il est à une certaine distance d'eux sans obstacles au milieu
     Ils savent suivre le joueur une fois qu'ils l'ont détectés une première fois
-  - L'expérience est acquise pendant que le joueur joue au jeu et nottament : 
+  - L'expérience est acquise pendant que le joueur joue au jeu et notament : 
     Lorsqu'il tue un monstre
     Lorsqu'il termine un niveau et passe au niveau suivant 
   - L'expérience fonctionne par points et par niveaux. Chaque niveau peut être passé en acquérant un certain nombre de points,
@@ -122,7 +122,7 @@ CRITERES DE VALIDATION :
   - Ces compétences doivent avoir un descriptif sur son utilisation (et si possible un temps de recharge)
 
 TESTS CORRESPONDANTS :
-  - Test certifant la zone d'attaque des armes
+  - Test certifiant la zone d'attaque des armes
   - Test sur le ramassage de l'armure
   - Test des différentes compétences
 

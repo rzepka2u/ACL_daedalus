@@ -1,0 +1,161 @@
+@startuml "Diagram Class Entites"
+
+    namespace entites #DDDDDD {
+
+        abstract Entite <<abstract>>{
+            # {static} NB_PV_START: int
+            # {static} NB_PA_START: int
+            - x: int
+            - y: int
+            - pointsVie: int
+            - pointsArmure: int
+            - arme: Arme
+            - regard: Direction
+            + Entite(x:int, y:int, pv:int, pa:int, regard:Direction)
+            + getX(): int
+            + setX(x:int): void
+            + getY(): int
+            + setY(y:int): void
+            + getPointsVie(): int
+            + setPointsVie(pointsVie:int): void
+            + getPointsArmure(): int
+            + getArme(): Arme
+            + setArme(a:Arme): void
+            + getRegard(): Direction
+            + setRegard(sens:Direction): void 
+            + modifierPV(effet:int): void
+            + etreMort(): boolean
+            + prendreDegat(retrait:int): boolean
+            + {abstract} seDeplacer(int px, int py): void
+            + {abstract} attaquer(entites:ArrayList<Entite>, verrous:ArrayList<Object>)
+        }
+
+        class Gobelin {
+            + Gobelin(x:int, y:int)
+            + Gobelin(x:int, y:int, pv:int, pa:int)
+            + seDeplacer(px:int, py:int): void
+            + attaquer(entites:ArrayList<Entite>, verrous:ArrayList<Object>)
+        }   
+
+        class Fantome {
+            + Fantome(x:int, y:int)
+            + Fantome(x:int, y:int, pv:int, pa:int)
+            + seDeplacer(px:int, py:int): void
+            + attaquer(entites:ArrayList<Entite>, verrous:ArrayList<Object>)
+        }
+
+        class Joueur {
+            - inventaire: ArrayList<Potion>
+            - competances: ArrayList<Competance>
+            - experience: int
+            - rang: int
+            + Joueur(px:int, py:int)
+            + getInventaire(): ArrayList<Potion>
+            + getCompetances(): ArrayList<Competance>
+            + getRang(): int
+            + getExperience():int
+            + addExperience(xp:int): void
+            + incrementeRang(): void
+            + ajouterPotion(): void
+            + boirePotion(): void
+            + competance(i:int): void
+            + seDeplacer(px:int, py:int): void
+            + attaquer(entites:ArrayList<Entite>, verrous:ArrayList<Object>)
+            + toString(): String
+        }
+    }
+
+    namespace enums #DDDDDD{
+        
+        enum ZoneAttaque <<enumeration>>{ 
+            CASE_DEVANT
+            ARC_DE_CERCLE
+            EN_CARRE
+        }
+
+        enum Direction <<enumeration>>{
+            HAUT
+            BAS
+            GAUCHE
+            DROITE
+        }
+
+        enum TypeCompetance <<enumeration>>{
+            BOULE_DE_FEU
+            BERSERKER
+        }
+    }
+
+    namespace tresors #DDDDDD {
+
+        class Arme {
+            - nom: String
+            - degats: int
+            - portee: int
+            - zone: ZoneAttaque
+            + Arme()
+            + Arme(nom:String, degats:int, portee:int, zone:ZoneAttaque)
+            + getNom(): String
+            + getDegats(): int
+            + setDegats(deg:int): void
+            + getPortee(): int
+            + getZone(): ZoneAttaque
+            + updateDegats(deg:int): void
+        }
+
+        class Potion {
+            - augmentationPV: int
+            + Potion(aug:int)
+            + getAugmentation(): int
+        }
+
+        interface Tresor <<interface>>{
+            + toString(): String
+        }
+    }
+
+    namespace objets #DDDDDD{
+        class Competance{
+            - type: TypeCompetance
+            - rangMinimal: int
+            - activable: boolean
+            + Competance(t:TypeCompetance, rang:int)
+            + getType(): TypeCompetance
+            + getRangMinimal(): int
+            + getActivable(): boolean
+            + setActivable(b:boolean): void
+        }   
+    }
+
+    namespace threads #DDDDDD{
+        class MyTimerStack{
+            - timer: Timer
+            - arme: Arme
+            + MyTimerStack(t:Timer, a:Arme)
+            + run(): void
+        }
+    }
+
+    class Timer{}
+    abstract TimerStack <<abstract>>{}
+
+    entites.Entite <|-- entites.Gobelin
+    entites.Entite <|-- entites.Fantome
+    entites.Entite <|-- entites.Joueur
+    TimerStack <|-- threads.MyTimerStack
+
+    tresors.Tresor  ^-[dashed]- tresors.Arme
+    tresors.Tresor ^-[dashed]- tresors.Potion
+
+    entites.Entite "0..*" *-- "1" enums.Direction
+    tresors.Arme "0..*" *-- "1" enums.ZoneAttaque
+    entites.Entite "0..*" *-- "1" tresors.Arme
+    entites.Joueur "0..1" o-- "0..5" tresors.Potion
+    objets.Competance "0..5" --* "0..1" entites.Joueur
+    objets.Competance "0..*" *-- "1" enums.TypeCompetance
+
+    tresors.Arme "0..*" -[dashed]-> "0..*" Timer: "use"
+    tresors.Arme "0..*" -[dashed]-> "0..*" threads.MyTimerStack: "use"
+    threads.MyTimerStack "0..1" -[dashed]-> "0..*" Timer: "use"
+
+@enduml

@@ -1,0 +1,187 @@
+@startuml "Diagram Class IHM"
+
+  class JPanel{}
+  class JFrame{}
+  class Thread{}
+  class JMenuBar{}
+
+  namespace objets #DDDDDD {
+    class Jeu{}
+  }
+
+  namespace IHM #DDDDDD {
+
+    class FenetreGraphique {
+      - menuBar: JMenuBar
+      - contentPane: JPanel
+      - verrouContent: Object
+      - thread: ThreadAffichage
+      - jeu: Jeu
+      + FenetreGraphique()
+      + getJeu(): Jeu
+      + getVerrouContent(): Object
+      + afficherPartie(nbNiveau:int): void
+      + afficherPartie(nbNiveau:int, path:String)
+      + afficherVueFin(boolean result): void
+      + raffraichirPartie(): void
+    }
+
+    class PanelAccueil {
+      - fenetre: FenetreGraphique
+      - centerPanel: JPanel
+      - topLabel: JLabel
+      - bottomLabel: JLabel
+      - nbNiveauLabel: JLabel
+      - nbNiveauField: JTextField
+      - checkbox: JCheckBox
+      - fichierLabel: JLabel
+      - fichierButton: JButton
+      - startButton: JButton
+      + PanelAccueil(f: FenetreGraphique)
+      - createCenterPanel(): JPanel
+      - createtopLabel(): JLabel
+      - createNbNiveauLabel(): JLabel
+      - createNbNiveau(): JTextField
+      - createCheckBox(): JCheckBox
+      - createLabelFichier(): JLabel
+      - createButtonFichier(): JButton
+      - createstartButton(): JButton  
+      - createTextBottom(): JLabel  
+    }
+
+    class PanelPartie {
+      - fenetre: FenetreGraphique
+      - labyPanel: JPanel
+      - hudPanel: JPanel
+      - infosPanel: JPanel
+      - nameJeuLabel: JLabel
+      - casesLabels: ArrayList<ArrayList<JLabel>>
+      - hudLabel: JLabel
+      - vieLabel: JLabel
+      - armureLabel: JLabel
+      - potionTitreLabel: JLabel
+      - potionLabels: JLabel[]
+      - decriptionPotionLabel: JLabel
+      - infosTitreLabel: JLabel
+      - infosLabels: JLabel[]
+      + PanelPartie(f:FenetreGraphique)
+      + PanelPartie(f:FenetreGraphique, descriptionPotion:JLabel)
+      + getDescriptionPotion(): JLabel
+      - createLabyPanel(cases:ArrayList<ArrayList<Case>>): JPanel
+      - createHudPanel(descriptionPotion:JLabel): JPanel
+      - createInfosPanel(): JPanel
+      - createNameJeuLabel(): JLabel
+      - createHudLabel(): JLabel
+      - createVieLabel(): JLabel
+      - createArmureLabel(): JLabel
+      - createArmeLabel(): JLabel
+      - createPotionTitreLabel(): JLabel
+      - createPotionLabels(oanel:JPanel, gc:GridBagConstraints): JLabel[]
+      - createInfosTitreLabel(): JLabel
+      - createInfosLabels(): JLabel[]
+    }
+
+    class PanelFinJeu {
+      - fenetre: FenetreGraphique
+      - type: boolean
+      - icone: JLabel
+      - texte: JLabel
+      - boutton: JButton
+      + PanelFinJeu(f:FenetreGraphique, result:boolean)
+      - createIcone(): JLabel
+      - createTexte(): JLabel
+      - createBoutton(): JButton
+    }
+
+    class Menu {
+      - control: JMenu
+      - aide: JMenu
+      - informations: JMenu
+      - redemarrer: JMenuItem
+      - quitter: JMenuItem
+      - regles: JMenuItem
+      - commandes: JMenuItem
+      - copyright: JMenuItem
+      + Menu(): 
+      - createControl(): JMenu
+      - createAide(): JMenu
+      - createInformations(): JMenu
+      - createRedemarrer(): JMenuItem
+      - createQuitter(): JMenuItem
+      - createRegles(): JMenuItem
+      - createCommandes(): JMenuItem
+      - createCopyright(): JMenuItem
+    }
+
+    class FenetreInformation{
+      - titreLabel: JLabel
+      - textHTMLabel: JLabel
+      + FenetreInfos(titre:String, type: boolean)
+      - createTextCopyright(): JLabel
+      - createTextRegles(): JLabel
+    }
+
+    class FenetreCommandes{
+      - centerPanel: JPanel
+      - titreLabel: JLabel
+      - deplacementsLabels: JLabel[]
+      - deplacementsFields: JTextField[]
+      - attaquerLabel: JLabel
+      - attaquerField: JTextField
+      - ramasserLabel: JLabel
+      - ramasserField: JTextField
+      - ouvrirLabel: JLabel
+      - ouvrirField: JTextField
+      - BoirePotionLabel: JLabel
+      - BoirePotionField: JTextField
+      + FenetreCommandes()
+      - createTitreLabel(): JLabel
+      - createDeplacementsLabels(): JLabel[]
+      - createDeplacementsFiels(): JTextField[]
+      - createAttaquerLabel(): JLabel
+      - createAttaquerField(): JTextField
+      - createRamasserLabel(): JLabel
+      - createRamasserField(): JTextField
+      - createOuvrirLabel(): JLabel
+      - createOuvrirField(): JTextField
+      - createBoirePotionLabel(): JLabel
+      - createBoirePotionField(): JTextField
+    }
+  } 
+
+  namespace threads #DDDDDD {
+    class ThreadAffichage {
+      - fenetre: FenetreGraphique
+      + ThreadAffichage(f:FenetreGraphique): 
+      + run(): void
+    }
+  }
+
+  namespace objets #DDDDDD{
+    class Commande{}
+  }
+
+  IHM.FenetreGraphique --|> JFrame
+  IHM.FenetreCommandes --|> JFrame
+  IHM.FenetreInformation --|> JFrame
+  JPanel <|-- IHM.PanelAccueil
+  JPanel <|-- IHM.PanelPartie
+  JPanel <|-- IHM.PanelFinJeu
+  JMenuBar <|-- IHM.Menu
+  Thread <|-- threads.ThreadAffichage
+
+  IHM.FenetreInformation "*" <-[dashed]- "1" IHM.FenetreGraphique: "use"
+  IHM.FenetreCommandes "*" -[dashed]> "1" IHM.FenetreGraphique: "use"
+
+  IHM.PanelAccueil "*" --- "1" IHM.FenetreGraphique
+  IHM.PanelPartie "*" --- "1" IHM.FenetreGraphique
+  IHM.PanelFinJeu "*" --- "1" IHM.FenetreGraphique
+  threads.ThreadAffichage "*" --- "1" IHM.FenetreGraphique
+  objets.Jeu "*" --- "1" IHM.FenetreGraphique
+
+  IHM.Menu "1" --* "1" IHM.FenetreGraphique
+
+  IHM.FenetreGraphique "1" -[dashed]-> "*" objets.Commande: "use" 
+  IHM.PanelPartie "1" -[dashed]-> "*" objets.Commande: "use"
+
+@enduml

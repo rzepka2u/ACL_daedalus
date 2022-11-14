@@ -1,0 +1,35 @@
+@startuml
+
+title "Compétence Berserker - Sequence Diagram"
+
+actor player as player
+== Au Préalable:\n Création et déroulement d'une partie ... ==
+loop While jeu non fini
+	player -> Jeu : controles(cmd)
+	opt cmd est le lancement de la compétence 1
+		activate Jeu
+		Jeu -> Joueur : lancerCompetence(1)
+		deactivate Jeu
+		activate Joueur
+		Joueur -> Arme : getDegats()
+		deactivate Joueur
+		activate Arme
+		Arme --> Joueur : degats
+		deactivate Arme
+		activate Joueur
+			Joueur -> Arme : setDegats(degats+(degats/2))
+			activate Arme
+			deactivate Arme
+				Joueur -> TimeTask : new TimerTask, 10000
+				activate TimeTask
+				TimeTask -> TimeTask : run()
+				TimeTask -> Arme : setDegats(anciensDegats))
+				activate Arme
+				deactivate Arme 
+				deactivate TimeTask
+				
+		Joueur -> Joueur : prendreDegats(20)
+		deactivate Joueur
+	end
+end
+@enduml

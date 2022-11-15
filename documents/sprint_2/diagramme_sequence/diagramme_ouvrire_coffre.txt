@@ -1,0 +1,39 @@
+@startuml Open Treasure / Sequence Diagram
+
+title "Ouvrir un coffre - Sequence Diagram"
+
+actor player as player
+
+== Au Préalable:\n Création et déroulement d'une partie ... ==
+activate player
+loop While jeu non fini
+	player -> Jeu : controles(cmd)
+	deactivate player
+	opt cmd est l'ouverture d'un coffre
+		activate Jeu
+		Jeu -> Jeu : etreProcheCaseTresor()	
+		note right: return [-1,-1] si pas de trésor ou [x,y]: position du coffre 
+		opt joueur à proximité d'une case tresor
+			Jeu -> Labyrinthe : getCase(x,y)
+			deactivate Jeu
+			activate Labyrinthe
+			Labyrinthe --> Jeu : case
+			deactivate Labyrinthe
+			activate Jeu
+			Jeu -> CaseTresor : case.estOuvert()
+			deactivate Jeu
+			activate CaseTresor
+			CaseTresor --> Jeu: True or False 
+			deactivate CaseTresor
+			activate Jeu
+			opt le trésor est fermé
+				Jeu -> CaseTresor : ouvrirTresor()
+				deactivate Jeu
+				activate CaseTresor
+			end
+			deactivate CaseTresor
+		end
+	end
+end
+
+@enduml

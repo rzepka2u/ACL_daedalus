@@ -1,0 +1,60 @@
+@startuml "Attack Player - Sequence Diagram"
+
+title "Attaque joueur - Sequence Diagram"
+
+actor player as player
+== Au Préalable:\n Création et déroulement d'une partie ... ==
+loop While jeu non fini
+	player -> Jeu : controles(cmd)
+	opt cmd est une attaque
+		activate Jeu
+		Jeu -> Joueur : attaquer(entites, verrous)
+		deactivate Jeu
+		activate Joueur
+		Joueur -> Arme : getPortee()
+		deactivate Joueur
+		activate Arme
+		Arme --> Joueur : portee
+		deactivate Arme
+		activate Joueur
+		Joueur -> Arme : getZone()
+		deactivate Joueur
+		activate Arme
+		Arme --> Joueur : zone
+		deactivate Arme
+		activate Joueur
+		loop forEach Entite entites
+			opt Entite touchée par l'attaque
+				Joueur -> Joueur : ajout de l'entite dans la liste de celles touchées
+			end
+		end
+		Joueur --> Jeu : lAttaques
+		deactivate Joueur
+		activate Jeu
+		Jeu -> Arme : getDegats()
+		deactivate Jeu
+		activate Arme
+		Arme --> Jeu : degats
+		deactivate Arme
+		activate Jeu
+		opt liste non vide
+			loop forEach Entite e
+				Jeu -> Entite : e.prendreDegats(degats)
+				deactivate Jeu
+				activate Entite
+				alt degats < pv 
+					Entite --> Jeu : false
+					Entite -> Entite : pv - degats
+				else
+					Entite --> Jeu : true
+					destroy Entite
+					activate Jeu 
+					Jeu --> ThreadMonstre: intterupt()
+					deactivate Jeu
+					destroy ThreadMonstre
+				end
+			end
+		end
+	end
+end
+@enduml

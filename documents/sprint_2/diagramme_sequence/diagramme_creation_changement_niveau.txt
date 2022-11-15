@@ -1,0 +1,75 @@
+@startuml "Create/Change Level - Sequence Diagram"
+
+title "Création/Changement Niveaux - Sequence Diagram"
+
+actor player as player
+
+create Jeu
+player -> Jeu: new
+activate Jeu 
+Jeu -> Jeu: nbNiveau = 0
+create Joueur
+loop While nbLabyrinthe < nbMaxNiveau
+    create Labyrinthe
+    Jeu -> Labyrinthe: new Labyrinthe(DIMENSION)
+    deactivate Jeu
+    activate Labyrinthe
+    Labyrinthe -> Labyrinthe: initialiserGrillePourLabyrintheAleatoire()
+    Labyrinthe -> Labyrinthe: creerCheminLabyrintheAleatoire()
+    Labyrinthe -> Labyrinthe: tab = convertirFormatAleaEnInt()
+    Labyrinthe -> Labyrinthe: genererDepuisEntiers(tab)
+    deactivate Labyrinthe
+    activate Jeu
+    create Joueur
+    Jeu -> Joueur: new
+    Jeu -> Labyrinthe: ajouterCasesTresor(nbNiveau)
+    note left: le nombre de trésors par niveau est\n en fonction de la progression dans la partie
+    activate Labyrinthe
+    loop pour le nombre de case Trésor ajoutée
+        create CaseTresor
+        Labyrinthe -> CaseTresor: new
+    end
+    deactivate Labyrinthe
+    Jeu -> Labyrinthe: ajouterCasesEffets(nbNiveau)
+    note left: le nombre de trésors par niveau est\n en fonction de la progression dans la partie
+    activate Labyrinthe
+    loop pour le nombre de case Effet ajoutée 
+        create CaseEffet
+        Labyrinthe -> CaseEffet: new
+    end
+    deactivate Labyrinthe
+    Jeu -> Jeu: createNewEntites()
+    note right: + nbLabyrinthe est grand, + il y a de monstres
+    loop pour le nombre de monstres créé
+        create ThreadMonstre
+        Jeu -> ThreadMonstre: new ThreadMonstre(jeu, position)
+        note left: position = position dans ArrayList
+        Jeu -> ThreadMonstre: run()
+    end
+    Jeu -> Jeu: nbNiveau++
+    Jeu -> Jeu: etreSurSortie(x, y)
+    note left: return False or True
+    loop While etreSurSortie(x,y) == False
+        player -> Jeu: controles(cmd)
+        opt cmd est un déplacement
+            Jeu -> Joueur: getX()
+            activate Joueur
+            Jeu <-- Joueur: y
+            deactivate Joueur
+            Jeu -> Joueur: getY()
+            activate Joueur
+            Jeu <-- Joueur: y
+            deactivate Joueur
+        end
+        Jeu -> Jeu: etreSurSortie(x, y)
+        note left: return False or True
+    end
+    deactivate Jeu
+    destroy Labyrinthe
+    destroy CaseTresor
+    destroy CaseEffet
+    destroy ThreadMonstre
+end
+deactivate Jeu
+
+@enduml

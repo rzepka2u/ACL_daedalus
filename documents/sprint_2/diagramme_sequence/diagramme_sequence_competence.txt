@@ -5,31 +5,59 @@ title "Compétence Berserker - Sequence Diagram"
 actor player as player
 == Au Préalable:\n Création et déroulement d'une partie ... ==
 loop While jeu non fini
+	activate player
 	player -> Jeu : controles(cmd)
+	deactivate player
 	opt cmd est le lancement de la compétence 1
 		activate Jeu
 		Jeu -> Joueur : lancerCompetence(1)
 		deactivate Jeu
 		activate Joueur
-		Joueur -> Arme : getDegats()
+		Joueur -> Competance: getRangMinimal()
 		deactivate Joueur
-		activate Arme
-		Arme --> Joueur : degats
-		deactivate Arme
+		activate Competance
+		Joueur <-- Competance: rang
+		deactivate Competance
 		activate Joueur
-			Joueur -> Arme : setDegats(degats+(degats/2))
-			activate Arme
-			deactivate Arme
-				Joueur -> TimeTask : new TimerTask, 10000
-				activate TimeTask
-				TimeTask -> TimeTask : run()
-				TimeTask -> Arme : setDegats(anciensDegats))
+		opt le rang du joueur est supérieur ou égal rang minimal
+			Joueur -> Competance: getType()
+			deactivate Joueur
+			activate Competance
+			Joueur <-- Competance: type
+			deactivate Competance
+			activate Joueur
+			opt le type de la compétance est Berserker
+
+				Joueur -> Arme : getDegats()
+				deactivate Joueur
 				activate Arme
-				deactivate Arme 
-				deactivate TimeTask
-				
-		Joueur -> Joueur : prendreDegats(20)
-		deactivate Joueur
+				Arme --> Joueur : degats
+				deactivate Arme
+				activate Joueur
+					Joueur -> Arme : setDegats(degats+(degats/2))
+	
+					activate Arme
+					deactivate Arme
+						create Timer
+						Joueur -> Timer: t = new Timer(true)
+						create MyTimerTask
+						Joueur -> MyTimerTask : ts = new MyTimerTask(t)
+						Joueur -> Timer: scheduleAtFixedRate(ts, 0, durée)
+						activate Timer
+						deactivate Timer
+						Joueur -> Joueur : prendreDegats(20)
+						deactivate Joueur
+						MyTimerTask -> MyTimerTask : run()
+						activate MyTimerTask
+						MyTimerTask -> Arme : setDegats(anciensDegats))
+						activate Arme
+						deactivate Arme 
+						MyTimerTask -> Timer: cancel()
+						deactivate MyTimerTask
+						activate Timer
+			end
+			deactivate Timer
+		end
 	end
 end
 @enduml

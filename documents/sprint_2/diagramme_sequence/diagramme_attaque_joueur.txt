@@ -50,9 +50,12 @@ loop While jeu non fini
 					destroy Entite
 					activate Jeu 
 					Jeu --> ThreadMonstre: intterupt()
-					deactivate Jeu
 					destroy ThreadMonstre
+					Jeu -> Joueur: addExperience(XP_KILL_MONSTRE)
+					deactivate Jeu
+					activate Joueur
 				end
+				deactivate Joueur
 			end
 		end
 	end

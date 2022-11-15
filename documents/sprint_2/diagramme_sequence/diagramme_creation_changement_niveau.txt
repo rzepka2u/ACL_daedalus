@@ -5,7 +5,9 @@ title "Création/Changement Niveaux - Sequence Diagram"
 actor player as player
 
 create Jeu
+activate player
 player -> Jeu: new
+deactivate player
 activate Jeu 
 Jeu -> Jeu: nbNiveau = 0
 create Joueur
@@ -53,22 +55,32 @@ loop While nbLabyrinthe < nbMaxNiveau
         player -> Jeu: controles(cmd)
         opt cmd est un déplacement
             Jeu -> Joueur: getX()
+            deactivate Jeu
             activate Joueur
             Jeu <-- Joueur: y
             deactivate Joueur
+            activate Jeu
             Jeu -> Joueur: getY()
+            deactivate Jeu
             activate Joueur
             Jeu <-- Joueur: y
             deactivate Joueur
+            activate Jeu
         end
         Jeu -> Jeu: etreSurSortie(x, y)
         note left: return False or True
     end
+    Jeu -> Joueur: addExperience(XP_FINISH_LEVEL)
     deactivate Jeu
+    activate Joueur
     destroy Labyrinthe
     destroy CaseTresor
     destroy CaseEffet
-    destroy ThreadMonstre
+    loop pour le nombre de monstres crée initialement
+        Jeu -> ThreadMonstre: intterrupt()
+        deactivate Joueur
+        destroy ThreadMonstre
+    end
 end
 deactivate Jeu
 

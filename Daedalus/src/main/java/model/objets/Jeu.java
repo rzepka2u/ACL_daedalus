@@ -161,6 +161,8 @@ public class Jeu{
         return this.threads;
     }
 
+    public void setNbNiveau(int x){ nbNiveau = x; }
+
     /**
      * Détermine la case de départ du joueur aléatoirement
      * @param l le labyrithne sur lequel va se dérouler la partie
@@ -179,13 +181,13 @@ public class Jeu{
         c = l.getCase(positionDepart[0], positionDepart[1]);
 
         // Tant que la case n'est pas traversable ou que la case est la sortie
-        while(!c.estTraversable() ||  !(c instanceof CaseVide) || emplacementOccupe(positionDepart[0], positionDepart[1])){
+        while(!(c instanceof CaseVide) || emplacementOccupe(positionDepart[0], positionDepart[1])){
 
             // Tirage au sort d'une ligne du labyrinthe
             positionDepart[0] = (int) (Math.random() * l.getHauteur());
             
             // Tant que la case n'est pas traversable ou que la case est la sortie et que nous avons pas déjà essayé à trois reprise
-            for(i=0; i<3 && (!c.estTraversable() || c instanceof CaseSortie); i++){
+            for(i=0; i<3 && (!(c instanceof CaseVide) || emplacementOccupe(positionDepart[0], positionDepart[1])); i++){
 
                 //Tirage au sort d'une case parmi la ligne tirée au sort précédamment
                 positionDepart[1] = (int) (Math.random() * l.getLargeur());
@@ -456,6 +458,7 @@ public class Jeu{
         int i;
 
         for(i=0; i<threads.size(); i++){
+            threads.get(i).arret();
             threads.get(i).interrupt();
         }
 
@@ -464,7 +467,7 @@ public class Jeu{
             threadsEffet.get(i).interrupt();
         }
 
-        if(nbNiveau < nbMaxNiveau){
+        if(nbNiveau < nbMaxNiveau-1){
             
             // 1- CREATION NOUVEAU LABYRINTHE 
 
@@ -479,7 +482,8 @@ public class Jeu{
             createNewEntites();
 
         } else {
-            fenetre.afficherVueFin(true);
+            if(fenetre != null)
+                fenetre.afficherVueFin(true);
         }
     }
 

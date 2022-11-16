@@ -4,17 +4,26 @@ import model.enums.Ordre;
 import model.objets.Commande;
 import model.objets.Jeu;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.junit.BeforeClass;
 
-import junit.framework.TestCase;
 
 /**
  * Classe de test des fonctions du joueur
  */
-public class TestJoueur extends TestCase {
+public class TestJoueur {
+
+    private static Jeu jeu;
+
+    @BeforeClass
+    public static void constructionJeuPourTests() throws FileNotFoundException{
+        jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 4, true, true);
+    }
 
     /**
      * Test qui vérifie que l'initialisation d'un Joueur le positionne bien à l'intérieur du labyrinthe
@@ -22,16 +31,13 @@ public class TestJoueur extends TestCase {
     @Test
     public void test_initialisationJoueurDansLabyrinthe(){
 
-        //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, 1, true);
-
         //Récupération des coordonnées de l'objet Joueur créé par l'objet Jeu
-        int x = j.getJoueur().getX();
-        int y = j.getJoueur().getY();
+        int x = jeu.getJoueur().getX();
+        int y = jeu.getJoueur().getY();
 
         //Récupération de la taille (hauteur et largeur) de l'objet Labyrinthe crée par l'objet Jeu
-        int hauteur = j.getLabyrinthe().getHauteur();
-        int largeur = j.getLabyrinthe().getLargeur();
+        int hauteur = jeu.getLabyrinthe().getHauteur();
+        int largeur = jeu.getLabyrinthe().getLargeur();
 
         assertTrue("Le joueur ne doit pas être au dessus du labyrinthe", x>-1);
         assertTrue("Le joueur ne doit pas être en dessous du labyrinthe", x<hauteur);
@@ -46,15 +52,12 @@ public class TestJoueur extends TestCase {
     @Test
     public void test_initialisationJoueurSurCaseDepart(){
 
-        //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, 1, true);
-
         //Récupération des coordonnées de l'objet Joueur dans le labyrinthe
-        int x = j.getJoueur().getX();
-        int y = j.getJoueur().getY();
+        int x = jeu.getJoueur().getX();
+        int y = jeu.getJoueur().getY();
 
         //Récupération de la case sur laquelle se trouve l'objet Joueur
-        Case c = j.getLabyrinthe().getCase(x, y);
+        Case c = jeu.getLabyrinthe().getCase(x, y);
 
         assertTrue("Le joueur doit être sur la case de départ", c instanceof CaseDepart);
 
@@ -65,18 +68,15 @@ public class TestJoueur extends TestCase {
      * @throws FileNotFoundException
      */
     @Test
-    public void test_deplacementJoueurBas() throws FileNotFoundException{
-
-        //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true, true);
+    public void test_deplacementJoueurBas(){
 
         //Position sur la case dans le coin haut gauche pour être sûr qu'on essaye pas de se déplacer sur un mur
-        j.placerJoueurSurCase(1, 1);
+        jeu.placerJoueurSurCase(1, 1);
 
         //Réalisation de l'instruction de déplacement "bas"
-        j.deplacerJoueur(Direction.BAS);
+        jeu.deplacerJoueur(Direction.BAS);
 
-        assertSame("Le joueur doit être sur la case en dessous de la case (1,1)", 2, j.getJoueur().getX());
+        assertSame("Le joueur doit être sur la case en dessous de la case (1,1)", 2, jeu.getJoueur().getX());
     
     }
 
@@ -85,18 +85,15 @@ public class TestJoueur extends TestCase {
      * @throws FileNotFoundException
      */
     @Test
-    public void test_deplacementJoueurHaut() throws FileNotFoundException{
-
-        //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true, true);
+    public void test_deplacementJoueurHaut(){
 
         //Position sur la case dans le coin haut gauche pour être sûr qu'on essaye pas de se déplacer sur un mur
-        j.placerJoueurSurCase(2, 1);
+        jeu.placerJoueurSurCase(2, 1);
 
         //Réalisation de l'instruction de déplacement "haut"
-        j.deplacerJoueur(Direction.HAUT);
+        jeu.deplacerJoueur(Direction.HAUT);
 
-        assertSame("Le joueur doit être sur la case au dessus de la case (1,2)", j.getJoueur().getX(), 1);
+        assertSame("Le joueur doit être sur la case au dessus de la case (1,2)", jeu.getJoueur().getX(), 1);
     
     }
 
@@ -105,18 +102,15 @@ public class TestJoueur extends TestCase {
      * @throws FileNotFoundException
      */
     @Test
-    public void test_deplacementJoueurDroite() throws FileNotFoundException{
-
-        //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true, true);
+    public void test_deplacementJoueurDroite(){
 
         //Position sur la case dans le coin haut gauche pour être sûr qu'on essaye pas de se déplacer sur un mur
-        j.placerJoueurSurCase(1, 1);
+        jeu.placerJoueurSurCase(1, 1);
 
         //Réalisation de l'instruction de déplacement "droite"
-        j.deplacerJoueur(Direction.DROITE);
+        jeu.deplacerJoueur(Direction.DROITE);
 
-        assertSame("Le joueur doit être sur la case à droite de la case (1,2)", j.getJoueur().getY(), 2);
+        assertSame("Le joueur doit être sur la case à droite de la case (1,2)", jeu.getJoueur().getY(), 2);
     
     }
 
@@ -125,18 +119,14 @@ public class TestJoueur extends TestCase {
      * @throws FileNotFoundException
      */
     @Test
-    public void test_deplacementJoueurGauche() throws FileNotFoundException{
+    public void test_deplacementJoueurGauche(){
 
-        //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true, true);
-
-        //Position sur la case dans le coin haut gauche pour être sûr qu'on essaye pas de se déplacer sur un mur
-        j.placerJoueurSurCase(1, 2);
+        jeu.placerJoueurSurCase(1, 2);
 
         //Réalisation de l'instruction de déplacement "gauche"
-        j.deplacerJoueur(Direction.GAUCHE);
+        jeu.deplacerJoueur(Direction.GAUCHE);
 
-        assertSame("Le joueur doit être sur la case à gauche de la case (1,1)", j.getJoueur().getY(), 1);
+        assertSame("Le joueur doit être sur la case à gauche de la case (1,1)", jeu.getJoueur().getY(), 1);
     
     }
 
@@ -145,21 +135,18 @@ public class TestJoueur extends TestCase {
      */
     @Test
     public void test_collisionMur() {
-        // preparation des donnees
-        Jeu j = new Jeu(null, 1, true);// jeu avec labyrinthe par défaut
-
-        int ancienx = j.getJoueur().getX();
-        int ancieny = j.getJoueur().getY();
+        
+        jeu.placerJoueurSurCase(1, 1);
 
         // methodes testées
-        j.deplacerJoueur(Direction.GAUCHE);
+        jeu.deplacerJoueur(Direction.GAUCHE);
 
-        int posx = j.getJoueur().getX();
-        int posy = j.getJoueur().getY();
+        int posx = jeu.getJoueur().getX();
+        int posy = jeu.getJoueur().getY();
 
         // verifications des donnees
-        assertEquals("Le joueur ne devrait pas avoir bougé de la position de départ", ancienx, posx);
-        assertEquals("Le joueur ne devrait pas avoir bougé de la position de départ", ancieny, posy);
+        assertEquals("Le joueur ne devrait pas avoir bougé de la position de départ", 1, posx);
+        assertEquals("Le joueur ne devrait pas avoir bougé de la position de départ", 1, posy);
     }
 
 
@@ -170,14 +157,13 @@ public class TestJoueur extends TestCase {
     @Test
     public void test_nonCollisionMur() throws FileNotFoundException {
         // preparation des donnees
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true, true);// jeu avec labyrinthe par défaut
-        j.placerJoueurSurCase(2,1);
+        jeu.placerJoueurSurCase(2,1);
 
         // methodes testées
-        j.deplacerJoueur(Direction.HAUT);
-        j.deplacerJoueur(Direction.DROITE);
-        int posx = j.getJoueur().getX();
-        int posy = j.getJoueur().getY();
+        jeu.deplacerJoueur(Direction.HAUT);
+        jeu.deplacerJoueur(Direction.DROITE);
+        int posx = jeu.getJoueur().getX();
+        int posy = jeu.getJoueur().getY();
 
         // verifications des donnees
         assertEquals("Le joueur devrait avoir bougé en X = 1", 1, posx);
@@ -189,29 +175,12 @@ public class TestJoueur extends TestCase {
      */
     @Test 
     public void testBoirePotion(){
-        Jeu j = new Jeu(null, 1, true);
+        
+        jeu.getJoueur().setPointsVie(10);
+        jeu.getJoueur().ajouterPotion();// Ajoute une potion dans l'inventaire de 10pv
+        jeu.controles(new Commande(Ordre.BOIRE, 0));// Boire la potion
 
-        j.getJoueur().setPointsVie(10);
-        j.getJoueur().ajouterPotion();// Ajoute une potion dans l'inventaire de 10pv
-        j.controles(new Commande(Ordre.BOIRE, 0));// Boire la potion
-
-        assertTrue("Le nombre de points de vie doit être de 20.", j.getJoueur().getPointsVie() == 20);
-    }
-
-
-    /**
-     * Test vérifiant la présence d'un trésor dans les labyrinthes
-     */
-    @Test
-    public void testTresor(){
-
-        Jeu j = new Jeu(null, 2, true);
-
-        assertTrue("Le premier labyrinthe doit contenir un trésor",  j.getLabyrinthe().toString().contains("?"));
-
-        j.changerNiveau();
-        assertTrue("Le second labyrinthe doit contenir un trésor",  j.getLabyrinthe().toString().contains("?"));
-
+        assertTrue("Le nombre de points de vie doit être de 20.", jeu.getJoueur().getPointsVie() == 20);
     }
 
 

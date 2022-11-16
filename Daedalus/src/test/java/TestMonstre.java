@@ -5,71 +5,71 @@ import model.objets.Entite;
 import model.objets.Jeu;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import model.objets.Joueur;
+import model.threads.ThreadMonstre;
+
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertTrue;
+
 
 /**
  * Classe de test des fonctions du joueur
  */
-public class TestMonstre extends TestCase {
+public class TestMonstre {
+
+    private static Jeu jeu;
+
+    @BeforeClass
+    public static void constructionJeuPourTests() throws FileNotFoundException{
+        jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, false, true);
+    }
 
     /**
      * Test qui vérifie que le déplacement du monstre s'effectue bien
      */
     @Test
-    public void test_deplacementMonstre() throws FileNotFoundException {
+    public void test_deplacementMonstre() {
 
-        //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauVide.txt", 1, false);
-
-        synchronized(j.getVerrousEntites().get(1)){
+        synchronized(jeu.getVerrousEntites().get(1)){
             // Récupération du Monstre
-            Entite e = j.getEntites().get(1);
-
+            Entite e = jeu.getEntites().get(1);
             // on déplace le monstre
             e.seDeplacer(2, 2);
-
-            
-            assertTrue("Le monstre devrait avoir effectué son déplacement en y", 2 == e.getY() && 2 == e.getX());
+            assertTrue("Le monstre devrait avoir effectué son déplacement en (2,2)", 2 == e.getY() && 2 == e.getX());
         }
-
-        j.getThreads().get(0).interrupt();
-        j.getThreads().get(1).interrupt();
-
     }
-
 
     /**
      * Test qui vérifie que le déplacement du monstre s'effectue bien
      * @throws FileNotFoundException
-     *//*/
+     */
     @Test
-    public void test_priseDegatsMonstre() throws FileNotFoundException{
+    public void test_priseDegatsMonstre(){
 
-        //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauVide.txt", 1, false, true);
         int pa;
         Entite e;
         
-        synchronized(j.getVerrousEntites().get(1)){
-            synchronized(j.getVerrousEntites().get(0)){
+        synchronized(jeu.getVerrousEntites().get(1)){
+            synchronized(jeu.getVerrousEntites().get(0)){
 
                 // Récupération du Joueur
-                Joueur jo = j.getJoueur();
+                Joueur jo = jeu.getJoueur();
 
                 // on fait regarde le Joueur vers le
-                jo.setRegard(Direction.DROITE);
+                jo.setRegard(Direction.HAUT);
             
 
                 // Récupération du Monstre
-                e = j.getEntites().get(1);
+                e = jeu.getEntites().get(1);
 
-                e.setRegard(Direction.GAUCHE);
+                e.setRegard(Direction.BAS);
                 // on déplace le monstre à sa droite
-                e.seDeplacer(jo.getX(), jo.getY()+1);
+                e.seDeplacer(jo.getX()-1, jo.getY());
 
                 // on stocke les points d'armure avant l'attaque
                 pa = e.getPointsArmure();
@@ -78,16 +78,25 @@ public class TestMonstre extends TestCase {
 
         Commande c = new Commande(Ordre.ATTAQUE, null);
         // attaque
-        j.controles(c);
+        jeu.controles(c);
 
-        synchronized(j.getVerrousEntites().get(1)){
+        synchronized(jeu.getVerrousEntites().get(1)){
             // Test
             assertTrue("Le monstre devrait avoir reçu un coup"+e.getPointsArmure()+","+e.getPointsVie(), e.getPointsArmure() < pa);
-        }  
+        } 
+    }
 
-        j.getThreads().get(0).interrupt();
-        j.getThreads().get(1).interrupt();
-    }*/
+    @AfterClass public static void interruption_threads(){
+
+        ArrayList<ThreadMonstre> threads = jeu.getThreads();
+        int i=0;
+
+        for(i=0; i<threads.size(); i++){
+            threads.get(i).arret();
+            threads.get(i).interrupt();
+        }
+
+    }
 
 }
 

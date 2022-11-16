@@ -3,6 +3,8 @@ import model.cases.CaseMur;
 import model.objets.Jeu;
 
 import model.objets.Labyrinthe;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -17,34 +19,13 @@ import static org.junit.Assert.assertTrue;
  */
 public class TestLabyrinthe {
 
-    /**
-     * Test verifiant que le labyrinthe de base a les bonnes dimensions
-     * Celui ci est de taille 15x15
-     */
-    @Test
-    public void test_respectDimension() {
-        // preparation des donnees
-        Jeu j = new Jeu(null, 1, true);
-        Labyrinthe l = j.getLabyrinthe();
 
-        // récupération des données à tester
-        int h = l.getHauteur();
-        int la = l.getLargeur();
-        int dim;
+    private static Labyrinthe labyrinthe;
 
-        if(j.DIMENSION_LABYRINTHE%2==0){
-            dim = j.DIMENSION_LABYRINTHE+1;
-        } else {
-            dim = j.DIMENSION_LABYRINTHE;
-        }
-        
-        // verifications des données
-        // test sur la hauteur
-        assertEquals("La hauteur devrait être de "+dim, dim, h);
-        // test sur la largeur
-        assertEquals("La largeur devrait être de "+dim, dim, la);
+    @BeforeClass
+    public static void constructionJeuPourTests() throws FileNotFoundException{
+        labyrinthe = new Labyrinthe(9);
     }
-
 
     /**
      * Test verifiant que le labyrinthe de base généré est bien celui souhaité
@@ -87,18 +68,33 @@ public class TestLabyrinthe {
     public void test_generationLabyrintheAvecFichierInexistant() throws FileNotFoundException {
         // methodes testée
         // Ici on doit avoir une exception FileNotFound en créant le jeu
-        Jeu j = new Jeu(null, "fichierInexistant.txt", 1, true);
+        new Jeu(null, "fichierInexistant.txt", 1, true);
 
+    }
+
+    /**
+     * Test verifiant que le labyrinthe de base a les bonnes dimensions
+     * Celui ci est de taille 15x15
+     */
+    @Test
+    public void test_respectDimension() {
+
+        // récupération des données à tester
+        int h = labyrinthe.getHauteur();
+        int la = labyrinthe.getLargeur();
+        
+        // verifications des données
+        // test sur la hauteur
+        assertEquals("La hauteur devrait être de "+7, 9, h);
+        // test sur la largeur
+        assertEquals("La largeur devrait être de "+7, 9, la);
     }
 
     @Test
     public void test_labyrintheEntoureMur() {
-        //Création d'un nouveau objet Jeu avec le labyrinthe par défaut
-        Jeu j = new Jeu(null, 1, true);
 
-        Labyrinthe l = j.getLabyrinthe();
         boolean entoure = true;
-        ArrayList<ArrayList<Case>> lab = l.getCases();
+        ArrayList<ArrayList<Case>> lab = labyrinthe.getCases();
         for (int i = 0; i < lab.size(); i++) {
             for(int k = 0; k < lab.get(i).size(); k++) {
                 if(i == 0 || i == lab.size()) {
@@ -111,6 +107,22 @@ public class TestLabyrinthe {
         }
 
         assertEquals("Le labyrinthe devrait être entouré de mur", true, entoure);
+    }
+
+    /**
+     * Test vérifiant la présence d'un trésor dans les labyrinthes
+     */
+    @Test
+    public void testPresenceDesTresors() throws FileNotFoundException{
+
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauVide.txt", 2, true);
+        
+        assertTrue("Le premier labyrinthe doit contenir un trésor",  j.getLabyrinthe().toString().contains("?"));
+
+        j.changerNiveau();
+
+        assertTrue("Le second labyrinthe doit contenir un trésor",  j.getLabyrinthe().toString().contains("?"));
+
     }
     
 

@@ -1,7 +1,6 @@
 package model.threads;
 
 import model.ihm.FenetreGraphique;
-import model.ihm.PanelPartie;
 
 /**
  * Classe représentant un thread dont le but est de rafraîchir régulièrement l'affichage de la partie
@@ -26,11 +25,8 @@ public class ThreadAffichage extends Thread{
      */
     @Override
     public void run(){
-
-        boolean condition = true;
-
         
-        while(condition){
+        while(!Thread.interrupted()){
             
             // Attente de 300 milisecondes
             try{
@@ -40,8 +36,6 @@ public class ThreadAffichage extends Thread{
             }
 
             synchronized(fenetre.getVerrouContent()){
-                condition = fenetre.getContentPane() instanceof PanelPartie;
-                if(condition)
                 // Rafraîchissent du panel de partie dans la fenêtre
                 fenetre.raffraichirPartie();
             }

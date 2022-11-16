@@ -15,18 +15,19 @@ public class ThreadMonstre extends Thread {
 
     private int positionInList;
     private Jeu jeu;
+    private boolean stop;
 
     public ThreadMonstre(Jeu j, int pos){
         super();
         jeu = j;
         positionInList = pos;
+        stop = false;
     }
 
     public void run(){
 
         int px,py, pv, random;
         Direction sens;
-        boolean cond = true;
         Entite m;
         Joueur j;
         Random r = new Random();
@@ -41,71 +42,70 @@ public class ThreadMonstre extends Thread {
                 System.out.println("SLEEP INTERROMPU");
             }
 
-            synchronized(jeu.getVerrousEntites().get(0)){
-                synchronized(jeu.getVerrousEntites().get(positionInList+1)){
-                    m = jeu.getEntites().get(positionInList+1);
-                    pv = m.getPointsVie();
-                    j = jeu.getJoueur();
-                    
-                    if(m.attaquer(jeu.getEntites(), null).size() == 0){
+            if(!stop){
+                synchronized(jeu.getVerrousEntites().get(0)){
+                    synchronized(jeu.getVerrousEntites().get(positionInList+1)){
+                        m = jeu.getEntites().get(positionInList+1);
+                        pv = m.getPointsVie();
+                        j = jeu.getJoueur();
                         
-                        px = m.getX();
-                        py = m.getY();
-                        random = r.nextInt(4);
-                        random = random+1;
+                        if(m.attaquer(jeu.getEntites(), null).size() == 0){
+                            
+                            px = m.getX();
+                            py = m.getY();
+                            random = r.nextInt(4);
+                            random = random+1;
 
-                        switch(random) {
-                            case 1:
-                                px += 1;
-                                sens = Direction.BAS;
-                            break;
-                            case 2:
-                                py += 1;
-                                sens = Direction.DROITE;
-                            break;
-                            case 3:
-                                px += -1;
-                                sens = Direction.HAUT;
-                            break;
-                            case 4:
-                                py += -1;
-                                sens = Direction.GAUCHE;
-                            break;
-                            default :
-                                sens = Direction.BAS;
-                        }
+                            switch(random) {
+                                case 1:
+                                    px += 1;
+                                    sens = Direction.BAS;
+                                break;
+                                case 2:
+                                    py += 1;
+                                    sens = Direction.DROITE;
+                                break;
+                                case 3:
+                                    px += -1;
+                                    sens = Direction.HAUT;
+                                break;
+                                case 4:
+                                    py += -1;
+                                    sens = Direction.GAUCHE;
+                                break;
+                                default :
+                                    sens = Direction.BAS;
+                            }
 
-                        if(m instanceof Fantome) {
-                            if(px >= 0 && py >= 0 && px <= hauteur-1 && py <= largeur-1){
-                                m.seDeplacer(px, py);
+                            if(m instanceof Fantome) {
+                                if(px >= 0 && py >= 0 && px <= hauteur-1 && py <= largeur-1){
+                                    m.seDeplacer(px, py);
+                                    m.setRegard(sens);
+                                }
+                            } else {
+                                if(jeu.validerDeplacement(px, py)) {
+                                    m.seDeplacer(px, py);
+                                }
                                 m.setRegard(sens);
                             }
+
                         } else {
-                            if(jeu.validerDeplacement(px, py)) {
-                                m.seDeplacer(px, py);
+
+                            int dgts = m.getArme().getDegats();
+                            if(j.prendreDegat(dgts)){
+                                j.setPointsVie(0);
+                                this.jeu.mortJoueur();
                             }
-                            m.setRegard(sens);
-                        }
-
-                    } else {
-
-                        int dgts = m.getArme().getDegats();
-                        if(j.prendreDegat(dgts)){
-                            j.setPointsVie(0);
-                            this.jeu.mortJoueur();
-                        }
-                        
-                        synchronized(jeu.getVerrouInformations()){
-                            jeu.ajouterInfos("Le "+ (m instanceof Gobelin? "Gobelin" : "Fatôme")+ " position ("+m.getX()+","+m.getY()+") est vous à attribué "+dgts+" de dégats!" );
+                            
+                            synchronized(jeu.getVerrouInformations()){
+                                jeu.ajouterInfos("Le "+ (m instanceof Gobelin? "Gobelin" : "Fatôme")+ " position ("+m.getX()+","+m.getY()+") est vous à attribué "+dgts+" de dégats!" );
+                            }
                         }
                     }
-                    cond = pv > 0 && j.getPointsVie() > 0;
                 }
             }
 
-            System.out.println(Thread.interrupted());
-
-        } while(cond && !Thread.interrupted());
+        } while(!stop);
 
         synchronized(jeu.getVerrousEntites().get(positionInList)){
             synchronized(jeu.getVerrouInformations()){
@@ -113,5 +113,9 @@ public class ThreadMonstre extends Thread {
                 jeu.ajouterInfos("Le "+ (e instanceof Gobelin? "Gobelin" : "Fatôme")+ " position ("+e.getX()+","+e.getY()+") est mort!" );
             }
         }
+    }
+
+    public void arret(){
+        stop=true;
     }
 }

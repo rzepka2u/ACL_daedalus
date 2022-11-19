@@ -155,17 +155,12 @@ public class Labyrinthe {
             System.exit(-1);
 
         }
-       
+
         this.genererDepuisEntiers(casesTemplate);
     }
 
-    /*public static void main(String []args) throws FileNotFoundException{
-        Jeu j = new Jeu(null, "Daedalus/src/main/resources/niveaux/niveauSimple.txt", 1, true);// jeu avec labyrinthe par défaut
-        
-    }*/
-
     /**
-     * Méthode pour générer les cases du labyrinthe sous formes d'objes depuis un tableau d'entiers
+     * Méthode pour générer les cases du labyrinthe sous formes d'objets depuis un tableau d'entiers
      *
      * @param casesTemplate tableau d'entiers à double dimension
      */
@@ -370,7 +365,7 @@ public class Labyrinthe {
 
     /**
      * Permet de convertir la grille du labyrinthe aléatoire dans la structure de donnée utilisée précédemment (avec des entiers)
-     * (pour la création d'un Labyrinthe aléatoire)
+     * (pour la création d'un Labyrinthe aléatoire) (Méthode de retro-compatibilité)
      *
      * @return un tableau d'entier à double entrée représentant la grille du labyrinthe sous forme d'entiers.
      */
@@ -411,6 +406,7 @@ public class Labyrinthe {
 
     /**
      * Permet de définir la case X, Y à une autre Case
+     *
      * @param x position X de la case à remplacer
      * @param y position Y de la case à remplacer
      * @param c nouvelle Case
@@ -484,88 +480,135 @@ public class Labyrinthe {
     }
 
     /**
-     * Méthode qui ajoute les cases à effet dans le labyrinthe, de manière aléatoire
-     * @param noNiveau numéro du niveau
+     * Méthode qui permet de déterminer quelles sont les cases qui seront transformées en trésor ou cases à effet
+     *
+     * @param estDetypeEffet true si on veut l'algo de placement des cases à effet, false si on désire celui pour les cases trésor
+     * @param nbAAjouter     nombre de cases souhaitées
+     * @return une liste de cases sélectionnées, compatibles avec les critères sélectionnés
      */
-    public void ajouterCasesEffet(int noNiveau) {
-        int nbAAjouter = (int) (Math.random() * (((this.compterCasesVides() * 0.9) * noNiveau) / 10) + 1);
-        ArrayList<Case> casesConcernees = new ArrayList<>();
+    public ArrayList<Case> calculerCasesSpeciales(boolean estDetypeEffet, int nbAAjouter) {
+        ArrayList<Case> casesSpeciales = new ArrayList<>();
         int nbAjoutes = 0;
         int xAlea, yAlea;
-        while (nbAjoutes < nbAAjouter) {
-            xAlea = (int) (Math.random() * this.hauteur);
-            yAlea = (int) (Math.random() * this.largeur);
+        boolean pasDeCasesIdentiquesAutour;
 
+        // Tant que toutes les cases spéciales n'ont pas été placées on continue à essayer
+        while (nbAjoutes < nbAAjouter) {
+
+            // Cas où on souhaite placer des CASES A EFFET
+            if (estDetypeEffet) {
+                // On détermine aléatoirement si on tente de mettre la case Effet dans la partie en BAS à GAUCHE ou en HAUT à DROITE. (une chance sur 2)
+                if ((int) (Math.random() * 2) == 0) {
+                    // On tire des coordonnées aléatoires dans la partie en BAS à GAUCHE
+                    xAlea = (int) (Math.random() * (this.hauteur / 2)) + this.hauteur / 2;
+                    yAlea = (int) (Math.random() * (this.largeur / 2));
+
+                } else {
+                    // On tire des coordonnées aléatoires dans la partie en HAUT à DROITE
+                    xAlea = (int) (Math.random() * (this.hauteur / 2));
+                    yAlea = (int) (Math.random() * (this.largeur / 2)) + this.largeur / 2;
+                }
+            } else { // Cas où on souhaite placer des CASES TRÉSOR
+                // On détermine aléatoirement si on tente de mettre le trésor dans la partie en HAUT à GAUCHE ou en BAS à DROITE. (une chance sur 2)
+                if ((int) (Math.random() * 2) == 0) {
+                    // On tire des coordonnées aléatoires dans la partie en HAUT à GAUCHE, en évitant le centre du Labyrinthe
+                    xAlea = (int) (Math.random() * (this.hauteur / 2 - 1));
+                    yAlea = (int) (Math.random() * (this.largeur / 2 - 1));
+
+                } else {
+                    // On tire des coordonnées aléatoires dans la partie en BAS à DROITE, en évitant le centre du Labyrinthe
+                    xAlea = (int) (Math.random() * (this.hauteur / 2) + 1) + this.hauteur / 2;
+                    yAlea = (int) (Math.random() * (this.largeur / 2) + 1) + this.largeur / 2;
+                }
+            }
+
+            // Il faut maintenant s'assurer que la case est libre
             if (this.cases.get(xAlea).get(yAlea) instanceof CaseVide) {
-                if (!casesConcernees.contains(this.cases.get(xAlea).get(yAlea))) {
-                    casesConcernees.add(this.cases.get(xAlea).get(yAlea));
-                    //System.out.println("CaseVide en X="+ xAlea+ " Y="+yAlea);
-                    nbAjoutes++;
+                // Il faut aussi que ça soit une case qui n'est pas déjà prévue pour être une case spéciale
+                if (!casesSpeciales.contains(this.cases.get(xAlea).get(yAlea))) {
+                    // Il faut enfin s'assurer qu'il n'y ait pas déjà une case spéciale sur les cases adjacentes.
+                    pasDeCasesIdentiquesAutour = true;
+                    for (Case c : casesSpeciales) {
+                        if (xAlea == c.getX() + 1 || xAlea == c.getX() - 1 || yAlea == c.getY() + 1 || yAlea == c.getY() - 1) {
+                            pasDeCasesIdentiquesAutour = false;
+                        }
+                    }
+                    // Si toutes les conditions sont réunies, alors on ajoute
+                    if (pasDeCasesIdentiquesAutour) {
+                        casesSpeciales.add(this.cases.get(xAlea).get(yAlea));
+                        nbAjoutes++;
+                    }
                 }
             }
         }
+        return casesSpeciales;
+    }
+
+    /**
+     * Méthode qui ajoute les cases à effet dans le labyrinthe, de manière pseudo-aléatoire favorisant un placement proche du chemin que le joueur va emprunter
+     *
+     * @param noNiveau numéro du niveau
+     */
+    public void ajouterCasesEffet(int noNiveau) {
+        int nbAAjouter = (int) (Math.random() * (((this.compterCasesVides() * 0.6) * noNiveau) / 10) + 1);
+
+        // Tout d'abord il faut limiter le nombre de cases spéciales sur le labyrinthe, pour ne pas surcharger l'algorithme
+        if (nbAAjouter > 2 * this.taille / 3) nbAAjouter = 2 * this.taille / 3;
+
+        // Il faut ensuite déterminer quelles seront les cases à changer
+        ArrayList<Case> casesConcernees = calculerCasesSpeciales(true, nbAAjouter);
+
         int pvA, pvD;
         for (Case c : casesConcernees) {
-            if (((int) (Math.random() * 2) == 0)) {
+            if ((int) (Math.random() * 2) == 0) {
                 pvA = (int) (Math.random() * 10);
                 pvD = 0;
             } else {
-                pvD = (int) (Math.random() * 10);
                 pvA = 0;
+                pvD = (int) (Math.random() * 10);
             }
 
             this.cases.get(c.getX()).set(c.getY(), new CaseEffet(0, new Coordonnee(c.getX(), c.getY()), pvA, pvD, ((int) (Math.random() * 2) == 0)));
-
-            // verifications utiles pour le moment (fonctionnalité répartie sur 2 sprints)
-            //CaseEffet caseEffet = (CaseEffet) this.cases.get(c.getX()).get(c.getY());
-            //System.out.println(caseEffet.getAugmentation());
-            //System.out.println(caseEffet.getDiminutionPV());
-            //System.out.println(caseEffet.getProgressif());
 
         }
     }
 
     /**
-     * Méthode qui ajoute les trésors dans le labyrinthe, de manière aléatoire
-     * @param nbAAjouter nombre de trésors à ajouter
+     * Méthode qui ajoute les trésors dans le labyrinthe, de manière pseudo-aléatoire favorisant un placement éloigné du chemin que le joueur va emprunter
+     *
+     * @param noNiveau nombre de trésors à ajouter
      */
-    public void ajouterCasesTresor(int nbAAjouter) {
-        ArrayList<Case> casesConcernees = new ArrayList<>();
-        int nbAjoutes = 0;
-        int xAlea, yAlea;
-        while (nbAjoutes < nbAAjouter) {
-            xAlea = (int) (Math.random() * this.hauteur);
-            yAlea = (int) (Math.random() * this.largeur);
+    public void ajouterCasesTresor(int noNiveau) {
+        int nbAAjouter = (int) (Math.random() * this.compterCasesVides() * noNiveau * 0.015) + noNiveau;
 
-            if (this.cases.get(xAlea).get(yAlea) instanceof CaseVide) {
-                if (!casesConcernees.contains(this.cases.get(xAlea).get(yAlea))) {
-                    casesConcernees.add(this.cases.get(xAlea).get(yAlea));
-                    nbAjoutes++;
-                }
-            }
-        }
-       Tresor tresor;
+        // Tout d'abord il faut limiter le nombre de cases spéciales sur le labyrinthe, pour ne pas surcharger l'algorithme
+        if (nbAAjouter > this.taille / 3) nbAAjouter = this.taille / 3;
+
+        // Il faut ensuite déterminer quelles seront les cases à changer
+        ArrayList<Case> casesConcernees = calculerCasesSpeciales(false, nbAAjouter);
+
+        // Il faut maintenant déterminer quel sera le type de trésor, puis l'ajouter
         for (Case c : casesConcernees) {
-            if (((int) (Math.random() * 2) == 0)) {
+            Tresor tresor;
+            // On détermine aléatoirement s'il s'agira d'une Potion ou d'une Arme (une chance sur 3 que ça soit une arme).
+            if ((int) (Math.random() * 3) != 0) {
                 tresor = new Potion((int) (Math.random() * 10));
             } else {
                 tresor = new Arme();
             }
             this.cases.get(c.getX()).set(c.getY(), new CaseTresor(0, new Coordonnee(c.getX(), c.getY()), tresor));
 
-            // verifications utiles pour le moment (fonctionnalité répartie sur 2 sprints)
-            //CaseTresor caseTresor = (CaseTresor) this.cases.get(c.getX()).get(c.getY());
-            //System.out.println(caseTresor.getContenu().getClass());
         }
     }
 
     /**
      * Méthode qui permet de compter le nombre de cases vides
+     *
      * @return le nombre de cases vides
      */
     public int compterCasesVides() {
-        int compteur=0;
-        for (ArrayList<Case> ligne: this.cases) {
+        int compteur = 0;
+        for (ArrayList<Case> ligne : this.cases) {
             for (Case c : ligne) {
                 if (c instanceof CaseVide) compteur++;
             }
@@ -573,18 +616,53 @@ public class Labyrinthe {
         return compteur;
     }
 
+    /**
+     * Méthode qui permet de compter le nombre de cases trésor
+     *
+     * @return le nombre de cases tresor
+     */
+    public int compterCasesTresor() {
+        int compteur = 0;
+        for (ArrayList<Case> ligne : this.cases) {
+            for (Case c : ligne) {
+                if (c instanceof CaseTresor) compteur++;
+            }
+        }
+        return compteur;
+    }
+
+    /**
+     * Méthode qui permet de compter le nombre de cases a effet
+     *
+     * @return le nombre de cases effet
+     */
+    public int compterCasesEffet() {
+        int compteur = 0;
+        for (ArrayList<Case> ligne : this.cases) {
+            for (Case c : ligne) {
+                if (c instanceof CaseEffet) compteur++;
+            }
+        }
+        return compteur;
+    }
+
     public static void main(String[] args) {
-        Labyrinthe l = new Labyrinthe(9);
+        Labyrinthe l = new Labyrinthe(20);
+        //System.out.println(l);
+        //System.out.println(l.compterCasesVides());
+
+        //System.out.println("Ajout des cases à effet et des trésors\n");
+
+        l.ajouterCasesEffet(10);
+        l.ajouterCasesTresor(10);
+
         System.out.println(l);
-        //System.out.println(l.getHauteur());
-        //System.out.println(l.getLargeur());
 
-        System.out.println("Ajout des cases à effet et des trésors\n");
+        System.out.println("Il y a "+l.compterCasesVides() + " cases vides");
+        System.out.println("Il y a "+l.compterCasesEffet() + " cases effet");
+        System.out.println("Il y a "+l.compterCasesTresor() + " cases trésor");
 
-        l.ajouterCasesEffet(4);
-        l.ajouterCasesTresor(4);
 
-        System.out.println(l);
     }
 
 }

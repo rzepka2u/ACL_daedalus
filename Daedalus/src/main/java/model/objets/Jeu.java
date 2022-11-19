@@ -53,7 +53,7 @@ public class Jeu{
         //Initialisation du labyrinthe avec le labyrinthe par défaut
         this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
         labyrinthe.ajouterCasesEffet(nbNiveau);
-        labyrinthe.ajouterCasesTresor(nbNiveau/3+1);
+        labyrinthe.ajouterCasesTresor(nbNiveau);
 
         this.entites = new ArrayList<Entite>();
         this.verrousEntites = new ArrayList<Object>();
@@ -98,7 +98,7 @@ public class Jeu{
 		this.labyrinthe = new Labyrinthe(path);
         if(!tresorEffet){
             labyrinthe.ajouterCasesEffet(nbNiveau);
-            labyrinthe.ajouterCasesTresor(nbNiveau/3+1);
+            labyrinthe.ajouterCasesTresor(nbNiveau);
         }
 
         //Récupération de la position de départ
@@ -481,7 +481,7 @@ public class Jeu{
             this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
             nbNiveau++;
             labyrinthe.ajouterCasesEffet(nbNiveau);
-            labyrinthe.ajouterCasesTresor(nbNiveau/3+1);
+            labyrinthe.ajouterCasesTresor(nbNiveau);
             placerJoueurSurCase(labyrinthe.getHauteur()-2, 1);
 
             // Gestion des reset des compétences

@@ -1,5 +1,6 @@
 package model.cases;
 
+import model.objets.Arme;
 import model.objets.Coordonnee;
 import model.objets.Potion;
 import model.objets.Tresor;
@@ -36,6 +37,8 @@ public class CaseTresor extends Case {
         this.c = '?';
         ouvert = false;
         contenu = t;
+        //if (t instanceof Arme) this.c = 'A';
+        //else  this.c = 'P';
     }
 
     /**

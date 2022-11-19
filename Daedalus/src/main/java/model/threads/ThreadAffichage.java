@@ -10,6 +10,7 @@ public class ThreadAffichage extends Thread{
 
     // La fenètre graphique sur laquelle il doit rafraîchir l'information
     private FenetreGraphique fenetre;
+    private boolean stop;
 
     /**
      * Constructeur par initialisation 
@@ -18,6 +19,7 @@ public class ThreadAffichage extends Thread{
     public ThreadAffichage(FenetreGraphique f){
         super();
         fenetre = f;
+        stop = false;
     }
 
     /**
@@ -41,5 +43,9 @@ public class ThreadAffichage extends Thread{
             }
             
         }
+    }
+
+    public void arret(){
+        stop=true;
     }
 }

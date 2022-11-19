@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import java.awt.GridBagLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.GridBagConstraints;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,6 +20,7 @@ import java.awt.Dimension;
 public class PanelFinJeu extends JPanel {
 
     // Déclaration des attributs
+    private FenetreGraphique fenetre;
     private boolean type; // Le type de la fenêtre (true = victoire, false = défaite)
     private JLabel icone; // L'image de la fenêtre
     private JLabel texte; // Le texte de la fenêtre
@@ -27,7 +30,7 @@ public class PanelFinJeu extends JPanel {
      * Unique constructeur de la classe PanelFinJeu 
      * @param result true si gagner, false sinon
      */
-    public PanelFinJeu(boolean result){
+    public PanelFinJeu(FenetreGraphique f, boolean result){
 
         // Appel du constructeur de la classe JPanel et définition stratégie de positionnement GridBagLayout
         super(new GridBagLayout());
@@ -36,6 +39,7 @@ public class PanelFinJeu extends JPanel {
         
         // Association du paramètre reçu à l'attribut prévu à cet effet
         type = result;
+        fenetre = f;
 
         // Initialisation des contraintes pour l'ajout de l'image
         gc.gridx = 0; // Sa position x dans le tableau (abscisses)
@@ -131,6 +135,20 @@ public class PanelFinJeu extends JPanel {
         btn.setPreferredSize(new Dimension(250,35)); 
         btn.setBackground(new Color(33,32,30)); // Changement de la couleur de fond
         btn.setForeground(new Color(234,161,19)); // Changement de la couleur du texte
+
+        // Ajout d'un écouter sur le button
+        btn.addActionListener(new ActionListener(){
+            /**
+             * Méthode appeler lorsque l'utilisateur clique sur le bouton
+             * @param e L'évenement capté par l'écouteur
+             */
+            @Override
+            public void actionPerformed(ActionEvent e){
+                fenetre.dispose();
+                new FenetreGraphique();
+            }
+
+        });
         
         return btn;
     }

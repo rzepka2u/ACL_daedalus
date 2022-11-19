@@ -39,7 +39,7 @@ public class FenetreGraphique extends JFrame {
         // Réalisation des réglages graphiques de la fenêtre
         this.setVisible(true); // Rendre la fenêtre visible
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Terminer le programme lorsque l'on ferme la fenêtre
-        this.setSize(new Dimension(600, 600)); // Modification des dimension de départ de la fenêtre
+        this.setSize(new Dimension(700, 700)); // Modification des dimension de départ de la fenêtre
         this.setLocationRelativeTo(null); // Mise de la fenêtre au milieu de l'écran
 
         menuBar = new Menu(); // Initialisation de la barre de menu
@@ -150,12 +150,14 @@ public class FenetreGraphique extends JFrame {
      */
     public void raffraichirPartie(){
 
-        // Création d'un nouveau panel de partie et écrassement de l'ancien
-        contentPane = new PanelPartie(this, ((PanelPartie) contentPane).getDescriptionPotion());
-        this.setContentPane(contentPane);
+        if(contentPane instanceof PanelPartie){
+            // Création d'un nouveau panel de partie et écrassement de l'ancien
+            contentPane = new PanelPartie(this, ((PanelPartie) contentPane).getDescriptionPotion());
+            this.setContentPane(contentPane);
 
-        // Mise à jour de la fenêtre
-        this.validate();
+            // Mise à jour de la fenêtre
+            this.validate();
+        }
     }
 
     /**
@@ -164,12 +166,13 @@ public class FenetreGraphique extends JFrame {
      */
     public void afficherVueFin(boolean result){
 
+        this.thread.arret();
         // Attente de la fin du thread d'affichage
         this.thread.interrupt();
 
         synchronized(verrouContent){
             // Création d'un panel de fin de partie, et remplacement du panel de partie
-            contentPane = new PanelFinJeu(result);
+            contentPane = new PanelFinJeu(this,result);
             this.setContentPane(contentPane);
         }
 

@@ -115,6 +115,7 @@ public class ThreadMonstre extends Thread {
             synchronized(jeu.getVerrouInformations()){
                 Entite e = jeu.getEntites().get(positionInList);
                 jeu.ajouterInfos("Le "+ (e instanceof Gobelin? "Gobelin" : "Fatôme")+ " position ("+e.getX()+","+e.getY()+") est mort!" );
+                jeu.getJoueur().gagnerExperience(2000);
             }
         }
     }

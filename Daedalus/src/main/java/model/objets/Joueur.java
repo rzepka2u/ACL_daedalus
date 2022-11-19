@@ -1,6 +1,8 @@
 package model.objets;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Timer;
 
 import model.enums.Direction;
 
@@ -13,6 +15,13 @@ public class Joueur extends Entite {
     // indique où regarde le joueur (vers le haut, bas,..)
     private ArrayList<Potion> inventaire;
 
+    // Liste des compétences du personnage
+    private ArrayList<Competence> competences;
+
+    private boolean drain = false;
+
+    private boolean revenant = false;
+
     /**
      * Constructeur de la classe Joueur 
      * @param px coordonnées en x
@@ -21,7 +30,8 @@ public class Joueur extends Entite {
      */
     public Joueur(int px, int py) {
         super(px, py, NB_PV_START, NB_PA_START, Direction.BAS);
-        inventaire = new ArrayList<Potion>();
+        this.inventaire = new ArrayList<Potion>();
+        this.competences = new ArrayList<Competence>();
         this.setArme(new Arme());
     }
 
@@ -37,11 +47,7 @@ public class Joueur extends Entite {
 
     public void boirePotion() {
         if(!this.inventaire.isEmpty()) {
-            if(this.getPointsVie()+this.inventaire.get(0).getAugmentation() > NB_PV_START) {
-                this.setPointsVie(NB_PV_START);
-            } else {
-                this.setPointsVie(this.getPointsVie()+this.inventaire.get(0).getAugmentation());
-            }
+            this.seSoigner(this.inventaire.get(0).getAugmentation());
             this.inventaire.remove(0);
         }
     }
@@ -275,10 +281,93 @@ public class Joueur extends Entite {
                 }
                 break;
         }
+        // si la compétence de drain de vie est activée on récupère des pv pour chaque attaque réussie
+        if(!entitesTouchees.isEmpty() && this.drain) {
+            for(Entite e : entitesTouchees) {
+                this.seSoigner(this.getArme().getDegats());
+            }
+        }
         return entitesTouchees;
     }
 
+    public void lancerCompetence(int num) {
+        // TODO : ajouter if sur le rang
+        if(this.competences.get(num).isActivable() && num < this.competences.size()) {
+            switch(this.competences.get(num).getType()) {
+                case BERSERKER:
+                    int dgts = this.getArme().getDegats();
+                    this.prendreDegat(20);
+                    this.getArme().setDegats(dgts + dgts/2);
+                    this.competences.get(num).setActivable(false);
+                    Timer t = new Timer();
+                    t.schedule(
+                            new java.util.TimerTask() {
+                                @Override
+                                public void run() {
+                                    getArme().setDegats(dgts);
+                                    competences.get(num).setActivable(true);
+                                    // close the thread
+                                    t.cancel();
+                                }
+                            },
+                            competences.get(num).getTempsRecharge()
+                    );
+                    break;
 
+                case BOUCLIER_MAGIQUE :
+                    this.setPointsArmure(this.getPointsArmure()+25);
+                    this.competences.get(num).setActivable(false);
+                    break;
+
+                case DRAIN_VIE:
+                    this.drain = true;
+                    this.competences.get(num).setActivable(false);
+                    Timer t1 = new Timer();
+                    t1.schedule(
+                            new java.util.TimerTask() {
+                                @Override
+                                public void run() {
+                                    drain = false;
+                                    competences.get(num).setActivable(true);
+                                    // close the thread
+                                    t1.cancel();
+                                }
+                            },
+                            competences.get(num).getTempsRecharge()
+                    );
+                    break;
+
+                case REVENANT:
+                    this.revenant = true;
+                    this.competences.get(num).setActivable(false);
+                    break;
+            }
+        }
+    }
+
+    public ArrayList<Competence> getCompetences() {
+        return competences;
+    }
+
+    public void ajouterCompetence(Competence c) {
+        this.competences.add(c);
+    }
+
+    public boolean isRevenant() {
+        return revenant;
+    }
+
+    public void setRevenant(boolean revenant) {
+        this.revenant = revenant;
+    }
+
+    public void seSoigner(int pv) {
+        if(this.getPointsVie()+pv > NB_PV_START) {
+            this.setPointsVie(NB_PV_START);
+        } else {
+            this.setPointsVie(this.getPointsVie()+pv);
+        }
+    }
     @Override
     public String toString(){
         return "J";

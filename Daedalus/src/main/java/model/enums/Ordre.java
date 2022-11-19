@@ -4,5 +4,5 @@ package model.enums;
  * Enumération pour les ordres de commandement
  */
 public enum Ordre {
-    ATTAQUE, DEPLACEMENT, OUVRIR, RAMASSER, BOIRE
+    ATTAQUE, DEPLACEMENT, OUVRIR, RAMASSER, BOIRE, COMPETENCE
 }

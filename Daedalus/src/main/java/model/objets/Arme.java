@@ -69,4 +69,7 @@ public class Arme implements Tresor {
         return zone;
     }
 
+    public void setDegats(int i) {
+        this.degats = i;
+    }
 }

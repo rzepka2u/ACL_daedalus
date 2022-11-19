@@ -8,6 +8,7 @@ import model.cases.CaseSortie;
 import model.cases.CaseTresor;
 import model.enums.Direction;
 import model.enums.Ordre;
+import model.enums.TypeCompetence;
 import model.ihm.FenetreGraphique;
 import model.threads.ThreadEffet;
 import model.threads.ThreadMonstre;
@@ -343,7 +344,11 @@ public class Jeu{
         }
 
         if(test){
-            mortJoueur();
+            if(getJoueur().isRevenant()){
+                getJoueur().setPointsVie(20);
+            } else {
+                mortJoueur();
+            }
         }
     }
 
@@ -448,6 +453,8 @@ public class Jeu{
         } else if(cmd.getOrdre() == Ordre.BOIRE){
             // TO DO: BOIRE LA POTION A L'indice cmd.getIndice() dans la collection du joueur
             this.getJoueur().boirePotion();
+        } else if(cmd.getOrdre() == Ordre.COMPETENCE) {
+            this.getJoueur().lancerCompetence(cmd.getIndice());
         }
     }
 
@@ -477,6 +484,19 @@ public class Jeu{
             labyrinthe.ajouterCasesTresor(nbNiveau/3+1);
             placerJoueurSurCase(labyrinthe.getHauteur()-2, 1);
 
+            // Gestion des reset des compétences
+            if(!this.getJoueur().getCompetences().isEmpty()) {
+                for(Competence c : this.getJoueur().getCompetences()) {
+                    if(c.getType() == TypeCompetence.BOUCLIER_MAGIQUE) {
+                        if(c.getDureeNiveau() > 1) {
+                            c.setDureeNiveau(c.getDureeNiveau() - 1);
+                        } else if(c.getDureeNiveau() == 1) {
+                            c.setActivable(true);
+                            c.setDureeNiveau(c.getDureeNiveauDeBase());
+                        }
+                    }
+                }
+            }
 
             // 2- CREATION NOUVELLES ENTITES (object + threads)
             createNewEntites();

@@ -93,8 +93,12 @@ public class ThreadMonstre extends Thread {
 
                             int dgts = m.getArme().getDegats();
                             if(j.prendreDegat(dgts)){
-                                j.setPointsVie(0);
-                                this.jeu.mortJoueur();
+                                if(j.isRevenant()) {
+                                    j.setPointsVie(20);
+                                } else{
+                                    j.setPointsVie(0);
+                                    this.jeu.mortJoueur();
+                                }
                             }
                             
                             synchronized(jeu.getVerrouInformations()){

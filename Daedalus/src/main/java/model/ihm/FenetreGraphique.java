@@ -128,6 +128,9 @@ public class FenetreGraphique extends JFrame {
                     // Création de la nouvelle commande associée puis réalisation de celle-ci
                     c = new Commande(Ordre.BOIRE, e.getKeyCode()-KeyEvent.VK_NUMPAD1);
                     jeu.controles(c);
+                } else if(e.getKeyCode() >= KeyEvent.VK_1 && e.getKeyCode() <= KeyEvent.VK_4) {
+                    c = new Commande(Ordre.COMPETENCE, e.getKeyCode()-KeyEvent.VK_1);
+                    jeu.controles(c);
                 }
             }
         });

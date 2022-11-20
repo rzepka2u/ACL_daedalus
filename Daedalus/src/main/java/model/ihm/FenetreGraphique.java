@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.awt.event.WindowAdapter;
 import java.awt.Dimension;
@@ -192,14 +193,25 @@ public class FenetreGraphique extends JFrame {
         this.commandes_competence[3] = c4;
     }
 
+    public void afficherPartie(int nbNiveau){
+        try{
+            afficherPartie(nbNiveau, null);
+        } catch(FileNotFoundException e){}
+    }
+
     /**
      * Méthode qui permet de créer et d'afficher le panel de partie
      * @param nbNiveau Le nombre Maximum de niveau pour finir la partie
      */
-    public void afficherPartie(int nbNiveau){
+    public void afficherPartie(int nbNiveau, String path) throws FileNotFoundException{
 
-        // Création et intialisation du moteur de la partie, l'attribut jeu
-        this.jeu = new Jeu(this, nbNiveau);
+        if(path == null){
+            // Création et intialisation du moteur de la partie, l'attribut jeu
+            this.jeu = new Jeu(this, nbNiveau);
+        } else {
+            this.jeu = new Jeu(null, path, nbNiveau);
+        }
+
 
         // Initialisation d'un nouveau panel de partie, et ajout de celui-ci dans la fenêtre
         contentPane = new PanelPartie(this);
@@ -347,7 +359,12 @@ public class FenetreGraphique extends JFrame {
         }
 
         int nbMaxNiveau = jeu.getNbMaxNiveau();
-        afficherPartie(nbMaxNiveau);
+        String path = jeu.getPath();
+        try{
+            afficherPartie(nbMaxNiveau, path);
+        } catch(FileNotFoundException e){
+            System.out.println("Le fichier voulu n'existe pas!");
+        }
     }
 
     // Fonction de test pour la phase de développement de l'IHM  (à retirer au final)

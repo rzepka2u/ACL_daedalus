@@ -13,6 +13,7 @@ import model.ihm.FenetreGraphique;
 import model.threads.ThreadEffet;
 import model.threads.ThreadMonstre;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ public class Jeu{
     private int nbNiveau;
     private ArrayList<String> informations;
     private Object verrouInformations;
+    private String path;
 
     public Jeu(FenetreGraphique f, int nbMax){
         this(f, nbMax, false);
@@ -49,6 +51,7 @@ public class Jeu{
         this.fenetre = f;
         this.informations = new ArrayList<String>();
         this.verrouInformations = new Object();
+        this.path = null;
 
         //Initialisation du labyrinthe avec le labyrinthe par défaut
         this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
@@ -90,12 +93,15 @@ public class Jeu{
         this.nbNiveau = 0;
         this.nbMaxNiveau = nbMax;
         this.fenetre = f;
-
+        this.path = path;
         this.informations = new ArrayList<String>();
         this.verrouInformations = new Object();
 
+        System.out.println(getPathFichierAlea());
+        System.out.flush();
+
         //Initialisation du labyrinthe via fichier texte 
-		this.labyrinthe = new Labyrinthe(path);
+		this.labyrinthe = new Labyrinthe(getPathFichierAlea());
         if(!tresorEffet){
             labyrinthe.ajouterCasesEffet(nbNiveau);
             labyrinthe.ajouterCasesTresor(nbNiveau);
@@ -158,6 +164,10 @@ public class Jeu{
         return this.verrouInformations;
     }
 
+    public String getPath(){
+        return this.path;
+    }
+
     public ArrayList<ThreadMonstre> getThreads(){
         return this.threads;
     }
@@ -203,6 +213,32 @@ public class Jeu{
 
         return positionDepart;
         
+    }
+
+    public String getPathFichierAlea(){
+        
+        File rep = new File(this.path);
+        File[] fichiers = rep.listFiles();
+        
+        ArrayList<String> nomFichiers = new ArrayList<String>();
+        int nbFichier=0, i;
+
+        for(i=0; i<fichiers.length; i++){
+            if(fichiers[i].isFile()){
+                nbFichier++;
+                nomFichiers.add(fichiers[i].toString());
+            }
+        }
+
+        if(nbFichier>0){
+
+            int x = (int) Math.floor(Math.random() * nbFichier) + 1;
+
+            return nomFichiers.get(x);
+
+        }
+
+        return null;
     }
 
     public boolean emplacementOccupe(int x, int y){
@@ -482,8 +518,15 @@ public class Jeu{
         if(nbNiveau < nbMaxNiveau-1){
             
             // 1- CREATION NOUVEAU LABYRINTHE 
-
-            this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
+            if(path == null){
+                this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
+            } else {
+                try{
+                    this.labyrinthe = new Labyrinthe(getPathFichierAlea());
+                } catch(FileNotFoundException e){
+                    System.out.println("Le fichier voulu n'existe pas!");
+                }
+            }
             nbNiveau++;
             labyrinthe.ajouterCasesEffet(nbNiveau);
             labyrinthe.ajouterCasesTresor(nbNiveau);

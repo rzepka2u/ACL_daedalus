@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -65,7 +66,8 @@ public class FenetreCommandes extends JFrame {
         gc.gridx = 0;
         gc.gridy = 0;
         gc.gridwidth = 2;
-        gc.fill = GridBagConstraints.BOTH;
+        gc.insets = new Insets(20,20,20,20);
+        gc.fill = GridBagConstraints.VERTICAL;
         gc.anchor = GridBagConstraints.CENTER;
 
         descriptionLabel = createDescriptionLabel();
@@ -151,6 +153,7 @@ public class FenetreCommandes extends JFrame {
         }
 
         gc.gridwidth = 2;
+        gc.fill = GridBagConstraints.HORIZONTAL;
 
         boutonValider = createBoutonValider();
         panel.add(boutonValider, gc);
@@ -339,15 +342,21 @@ public class FenetreCommandes extends JFrame {
 
         JLabel[] labels = new JLabel[4];
 
-        labels[0] = new JLabel("Deplacement Haut:");
-        labels[1] = new JLabel("Deplacement Bas:");
-        labels[2] = new JLabel("Deplacement Gauche:");
-        labels[3] = new JLabel("Deplacement Droite:");
+        labels[0] = new JLabel("  Deplacement Haut:");
+        labels[0].setIcon(new ImageIcon(getClass().getResource("/assets/deplace_haut.png")));
+        labels[1] = new JLabel("  Deplacement Bas:");
+        labels[1].setIcon(new ImageIcon(getClass().getResource("/assets/deplace_bas.png")));
+        labels[2] = new JLabel("  Deplacement Gauche:");
+        labels[2].setIcon(new ImageIcon(getClass().getResource("/assets/deplace_gauche.png")));
+        labels[3] = new JLabel("  Deplacement Droite:");
+        labels[3].setIcon(new ImageIcon(getClass().getResource("/assets/deplace_droite.png")));
 
         for(int i=0; i<labels.length; i++){
             labels[i].setOpaque(true);
+            labels[i].setPreferredSize(new Dimension(170,48));
+            labels[i].setVerticalAlignment(SwingConstants.CENTER);
             labels[i].setBackground(new Color(255,255,255));
-            labels[i].setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(255,255,255)));
+            labels[i].setBorder(BorderFactory.createMatteBorder(0, 10, 0, 10, new Color(255,255,255)));
         }
 
         return labels;
@@ -361,7 +370,8 @@ public class FenetreCommandes extends JFrame {
 
         for(int i=0; i<fields.length; i++){
             fields[i] = new JTextField();
-            fields[i].setColumns(4);
+            fields[i].setColumns(12);
+            fields[i].setHorizontalAlignment(SwingConstants.CENTER);
             String txt = stringOfCode(codes[i]);
             if(txt.length() == 0) txt = ""+(char) codes[i];
             fields[i].setText(txt);
@@ -449,16 +459,20 @@ public class FenetreCommandes extends JFrame {
     }
 
     private JLabel createAttaquerLabel(){
-        JLabel label = new JLabel("Attaquer:");
+        JLabel label = new JLabel("  Attaquer:");
+        label.setIcon(new ImageIcon(getClass().getResource("/assets/attaquer.png")));
         label.setOpaque(true);
+        label.setPreferredSize(new Dimension(170,48));
+        label.setVerticalAlignment(SwingConstants.CENTER);
         label.setBackground(new Color(255,255,255));
-        label.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(255,255,255)));
+        label.setBorder(BorderFactory.createMatteBorder(0, 10, 0, 10, new Color(255,255,255)));
         return label;
     }
 
     private JTextField createAttaquerField(){
         JTextField field = new JTextField();
-        field.setColumns(4);
+        field.setColumns(12);
+        field.setHorizontalAlignment(SwingConstants.CENTER);
         int code = fenetre.getCommandeAttaquer();
         String txt = stringOfCode(code);
         if(txt.length() == 0) txt = ""+(char) code;
@@ -487,8 +501,11 @@ public class FenetreCommandes extends JFrame {
     }
 
     private JLabel createRamasserLabel(){
-        JLabel label = new JLabel("ramasser trésor:");
+        JLabel label = new JLabel("  Ramasser trésor:");
+        label.setIcon(new ImageIcon(getClass().getResource("/assets/ramasser.png")));
         label.setOpaque(true);
+        label.setPreferredSize(new Dimension(170,48));
+        label.setVerticalAlignment(SwingConstants.CENTER);
         label.setBackground(new Color(255,255,255));
         label.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(255,255,255)));
         return label;
@@ -496,7 +513,8 @@ public class FenetreCommandes extends JFrame {
 
     private JTextField createRamasserField(){
         JTextField field = new JTextField();
-        field.setColumns(4);
+        field.setColumns(12);
+        field.setHorizontalAlignment(SwingConstants.CENTER);
 
         int code = fenetre.getCommandeRamasser();
         String txt = stringOfCode(code);
@@ -526,7 +544,10 @@ public class FenetreCommandes extends JFrame {
     }
 
     private JLabel createOuvrirLabel(){
-        JLabel label = new JLabel("Ouvrir trésor:");
+        JLabel label = new JLabel("  Ouvrir trésor:");
+        label.setIcon(new ImageIcon(getClass().getResource("/assets/ouvrir.png")));
+        label.setPreferredSize(new Dimension(170,48));
+        label.setVerticalAlignment(SwingConstants.CENTER);
         label.setOpaque(true);
         label.setBackground(new Color(255,255,255));
         label.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(255,255,255)));
@@ -536,7 +557,8 @@ public class FenetreCommandes extends JFrame {
 
     private JTextField createOuvrirField(){
         JTextField field = new JTextField();
-        field.setColumns(4);
+        field.setColumns(12);
+        field.setHorizontalAlignment(SwingConstants.CENTER);
         int code = fenetre.getCommandeOuvrir();
         String txt = stringOfCode(code);
         if(txt.length() == 0) txt = ""+(char) code;
@@ -567,14 +589,17 @@ public class FenetreCommandes extends JFrame {
     private JLabel[] createBoirePotionsLabels(){
 
         JLabel[] labels = new JLabel[5];
-        labels[0] = new JLabel("Boire potion 1:");
-        labels[1] = new JLabel("Boire potion 2:");
-        labels[2] = new JLabel("Boire potion 3:");
-        labels[3] = new JLabel("Boire potion 4:");
-        labels[4] = new JLabel("Boire potion 5:");
+        labels[0] = new JLabel("  Boire potion 1:");
+        labels[1] = new JLabel("  Boire potion 2:");
+        labels[2] = new JLabel("  Boire potion 3:");
+        labels[3] = new JLabel("  Boire potion 4:");
+        labels[4] = new JLabel("  Boire potion 5:");
 
         for(int i=0; i<labels.length; i++){
             labels[i].setOpaque(true);
+            labels[i].setIcon(new ImageIcon(getClass().getResource("/assets/boire.png")));
+            labels[i].setPreferredSize(new Dimension(170,48));
+            labels[i].setVerticalAlignment(SwingConstants.CENTER);
             labels[i].setBackground(new Color(255,255,255));
             labels[i].setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(255,255,255)));
         }
@@ -590,7 +615,8 @@ public class FenetreCommandes extends JFrame {
         
         for(int i=0; i<fields.length; i++){
             fields[i] = new JTextField();
-            fields[i].setColumns(4);
+            fields[i].setColumns(12);
+            fields[i].setHorizontalAlignment(SwingConstants.CENTER);
             String txt = stringOfCode(codes[i]);
             if(txt.length() == 0) txt = ""+(char) codes[i];
             fields[i].setText(txt);
@@ -696,13 +722,16 @@ public class FenetreCommandes extends JFrame {
 
     private JLabel[] createCompetencesLabels(){
         JLabel[] labels = new JLabel[4];
-        labels[0] = new JLabel("Utiliser compétence 1:");
-        labels[1] = new JLabel("Utiliser compétence 2:");
-        labels[2] = new JLabel("Utiliser compétence 3:");
-        labels[3] = new JLabel("Utiliser compétence 4:");
+        labels[0] = new JLabel("  Utiliser compétence 1:");
+        labels[1] = new JLabel("  Utiliser compétence 2:");
+        labels[2] = new JLabel("  Utiliser compétence 3:");
+        labels[3] = new JLabel("  Utiliser compétence 4:");
 
         for(int i=0; i<labels.length; i++){
             labels[i].setOpaque(true);
+            labels[i].setIcon(new ImageIcon(getClass().getResource("/assets/competence.png")));
+            labels[i].setPreferredSize(new Dimension(170,48));
+            labels[i].setVerticalAlignment(SwingConstants.CENTER);
             labels[i].setBackground(new Color(255,255,255));
             labels[i].setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, new Color(255,255,255)));
         }
@@ -716,7 +745,8 @@ public class FenetreCommandes extends JFrame {
         
         for(int i=0; i<fields.length; i++){
             fields[i] = new JTextField();
-            fields[i].setColumns(4);
+            fields[i].setColumns(12);
+            fields[i].setHorizontalAlignment(SwingConstants.CENTER);
             String txt = stringOfCode(codes[i]);
             if(txt.length() == 0) txt = ""+(char) codes[i];
             fields[i].setText(txt);
@@ -803,6 +833,8 @@ public class FenetreCommandes extends JFrame {
 
     private JButton createBoutonValider(){
         JButton bouton = new JButton("Sauvegarder les changements");
+        bouton.setBackground(new Color(24,34,95)); // Change sa couleur de fond
+        bouton.setForeground(new Color(234,161,19)); // Change sa couleur de texte
         bouton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){

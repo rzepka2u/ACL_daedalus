@@ -3,9 +3,12 @@ package model.ihm;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.event.MouseInputAdapter;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
@@ -16,6 +19,9 @@ import java.awt.Color;
 import java.awt.Insets;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -232,6 +238,17 @@ public class PanelAccueil extends JPanel {
         label.setOpaque(true); // Défini le texte comme opaque
         label.setBackground(new Color(255,255,255)); // Modifie la couleur de fond du texte en blanc
 
+        label.addMouseListener(new MouseAdapter() {
+        
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if(!checkBox.isSelected()){
+                    checkBox.setSelected(true);
+                }
+            }
+            
+        });
+
         return label;
     }
 
@@ -243,7 +260,27 @@ public class PanelAccueil extends JPanel {
         
         // Création d'un nouveau bouton avec le texte ".."
         JButton button = new JButton("..");
+        button.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
 
+                if(!checkBox.isSelected()){
+                    checkBox.setSelected(true);
+                }
+                JFileChooser jfc = new JFileChooser();
+                jfc.setDialogTitle("Choissiez le dossier contenant vos fichiers de labyrinthe: ");
+                jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+                int returnValue = jfc.showSaveDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    if (jfc.getSelectedFile().isDirectory()) {
+                       fichierLabel.setText(jfc.getSelectedFile().toString());
+                    }
+                }
+            }
+            
+            
+        });
         return button;
     }
 
@@ -267,8 +304,19 @@ public class PanelAccueil extends JPanel {
             public void actionPerformed(ActionEvent e){
                 // Si j'ai bien un nombre de niveau renseigné dans le champ prévu et qu'il est > 0
                 if(nbNiveauField.getText().length() != 0 && Integer.valueOf(nbNiveauField.getText()) > 0){ 
-                    // J'affiche le panel de partie (et commencement de la partie)
-                    fenetre.afficherPartie(Integer.valueOf(nbNiveauField.getText())); 
+
+                    if(checkBox.isSelected()){
+                        if(!fichierLabel.getText().equals("") &&  !fichierLabel.getText().equals("Choissisez un fichier..")){
+                            try{
+                                fenetre.afficherPartie(Integer.valueOf(nbNiveauField.getText()), fichierLabel.getText());
+                            } catch(Exception ex){
+                                System.out.println("Le fichier voulu n'existe pasxxx!");
+                            }
+                        }
+                    } else {
+                        // J'affiche le panel de partie (et commencement de la partie)
+                        fenetre.afficherPartie(Integer.valueOf(nbNiveauField.getText())); 
+                    }
                 }
             }
 

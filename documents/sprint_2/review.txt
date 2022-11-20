@@ -1,0 +1,107 @@
+SPRINT REVIEW : fonctionnalités réalisées et validées (ou pas)
+
+1)
+FONCTIONNALITE : Génération pseudo-aléatoire du labyrinthe / Création de niveaux / Gestion difficulté
+
+PREVU :
+  - Le jeu construit un labyrinthe pseudo-aléatoirement
+  - La fin d'un niveau entraine la création d'un autre niveau (qui montent en difficulté)
+  - La difficulté du niveau va avoir un impact sur le nombre de monstres, de cases à effets et d'armes
+  - Définition d'un nombre de niveau maximum pour gagner la partie
+
+REALISE :
+  - La succession des niveaux se fait dans la classe Jeu et non pas dans le Labyrinthe.
+  - Le nombre maximal de niveaux est décidé par l'utilisateur au lancement de l'application.
+  - La difficulté est décidée aléatoirement en lien avec le numéro du niveau en cours. Elle se caractérise par un nombre croissant de cases à effets et un nombre défini de trésors.
+  - Le Labyrinthe construit une grille de jeu pseudo-aléatoirement : la grille est toujours différente mais suit un algorithme de génération.
+  - L'algorithme implémenté est le suivant : https://fr.m.wikipedia.org/wiki/Modélisation_mathématique_d%27un_labyrinthe#Fusion_aléatoire_de_chemins
+  - Par conséquent, le labyrinthe évolue au fur et à mesure du jeu, de manière aléatoire
+
+La fonctionnalité a été testée et validée.
+
+---
+2)
+FONCTIONNALITE : Création de l'interface graphique du jeu
+
+PREVU :
+  - Passage de l'affichage console à un affichage graphique
+  - Utilisation d'assets pour améliorer l'expérience utilisateur
+  - Création d'un HUD, d'un menu d'accueil, d'un menu échap (pour quitter si besoin), ainsi que d'un écran de victoire et de défaite
+  - Mise à jour du système d'intéraction avec le jeu via les touches du clavier et la souris
+
+REALISE :
+  
+  - Passage de l'affichage console à un affichage graphique
+  - Création d'une fenêtre contenant jouant sur trois panels
+  - Création d'un panel d'accueil avec un formulaire (réaction partie sélection fichiers non implémenter pour le moment) pour
+	la récupération des paramètres de partie.
+  - Création d'un panel de partie avec un thread en charge de l'affichage qui s'occupe de le mettre à jour tous les x secondes.
+  	A l'intérieur du panel de partie, on retrouve trois sous panels qui sont celui du labyrinthe, celui des informations et celui
+	du HUD.
+  - Création du panel du labyrinthe avec des assets qui définissent chaques cases et son état.
+  - Création du panel du HUD avec des assets et un logo au dessus, les données sont celle du joueur à l'instant réel.
+  - Création d'un panel d'informations avec l'affichage des cinqs dernières informations de partie (en temps réel).
+  - Création d'un panel de fin de partie qui change selon si le joueur gagne ou perds (action du boutton non implémentée pour le moment)
+  - Mise à jour du système d'intéraction avec le jeu via les touches du clavier et la souris
+  - Gestions des evenements et des actions que cela répertorie dans le commande
+  - Création d'une barre de Menu (les actions n'ont pas pu être implémentée durant ce sprint)
+  - Les touches de contrôle sont "o" pour ouvrir, "r" pour ramasser, les flèches pour déplacer le joueur, et un clique sur la potion
+    ou les chiffres du pavé numérique pour boire une potion
+
+La fonctionnalité a été validée et testée. Concernant les tests, nous n'avons pas pu faire autrement que de tester simplement sur
+une de nos machines puisque le test de l'interface graphique dépend de la vision de la personne devant l'écran ainsi que de ses
+actions sur les entrées (clique sur l'écran a un endroit précis, tape sur une touche, etc). Il n'est pas possible de tester cela
+simplement. 
+
+---
+3)
+FONCTIONNALITE : Création des monstres, des cases avec effets et des coffres dans le labyrinthe
+
+PREVU :
+  - Gérer les déplacements, les attaques, la vie et l'armure des différents monstres (Gobelin, Fantôme...)
+  - S'occuper de la création et la réaction des différentes cases à effets (soin, poison, dégâts instantanés...) 
+  - Création des coffres et de leur contenu (potions de soin, armes, armure...)
+
+REALISE :
+ - Gérer les déplacements, les attaques, la vie et l'armure des différents monstres (Gobelin, Fantôme...)
+ - S'occuper de la création et la réaction des différentes cases à effets (soin, poison, dégâts instantanés...) 
+ - Création des coffres et de leur contenu (potions de soin, armes, armure...)
+
+Les monstres se déplacent de manière aléatoire dans le labyrinthe
+Un monstre attaque le joueur s'il est à porter d'attaque et dans son champ de vision.
+Les effets sont de plusieurs types : 
+ - immédiats : l'effet est immédiatement et intégralement appliqué sur le joueur, que ce soit un soin ou des dégâts
+ - progressifs : l'effet est appliqué, cette fois-ci, sur la durée sur le joueur jusqu'à ce que le bon nombre de points de vie soit redonné ou enlevé.
+                 Un point de vie est redonné ou enlevé toustes les X milisecondes (valeure prédéfinie).
+Si les effets, progressifs ou immédiats, tuent le joueur, alors la partie est perdue.
+Les coffres sont placés aléatoirement dans le labyrinthe et leur contenu est aléatoire également.
+Conformément à la première fonctionnalité, le nombre de cases à effets et le nombre de coffres suit l'incrémentation de la 
+difficulté du niveau de jeu. Plus les niveaux avances, plus ces éléments sont nombreux.
+
+
+La fonctionnalité a été testée et validée.
+
+---
+4)
+FONCTIONNALITE : Implémentation des compétences dépendantes de l'expérience du joueur
+
+PREVU :
+  - Création de compétences
+  - Lorsque l'utilisateur appuie sur 1, 2, 3 ou 4, la compétence 1, 2, 3 ou 4 est lancée
+  - Gestion des temps de recharge
+
+REALISE :
+
+COMPETENCES :
+	- BERSERKER : -20 PV, dégâts de l'arme augmentés de 50%
+	- BOUCLIER MAGIQUE : octroie 25 points d'armure
+	- DRAIN DE VIE : Tout dégâts infligés soigne le joueur
+	- REVENANT : Lorsque le joueur meurt, il ressuscite avec 20 PV
+
+TEMPS DE RECHARGE :
+	- BERSERKER : utilisable pendant 10s
+	- BOUCLIER MAGIQUE : lorsque utilisé, est de nouveau disponible après avoir complété deux niveaux
+	- DRAIN DE VIE : utilisable pendant 10s, est de nouveau disponible après avoir complété un niveau
+	- REVENANT : utilisable une seule fois par partie 
+
+La fonctionnalité a été testée et validée.

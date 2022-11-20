@@ -506,6 +506,9 @@ public class Jeu{
             // 2- CREATION NOUVELLES ENTITES (object + threads)
             createNewEntites();
 
+            // 3- Attribution de l'expérience au joueur (un demi rang)
+            this.getJoueur().gagnerExperience(this.getJoueur().calculerRangSuivant() / 2);
+
         } else {
             if(fenetre != null)
                 fenetre.afficherVueFin(true);

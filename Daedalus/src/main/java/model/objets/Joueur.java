@@ -12,8 +12,20 @@ import model.enums.Direction;
 
 public class Joueur extends Entite {
 
+    // Nombre de points de vie maximum du joueur évoluant au fil de la partie et des rangs gagnés
+    protected static int NB_PV_MAX = 100;
+    // Nombre de pa maximum du joueur évoluant au fil de la partie et des rangs gagnés
+    protected static int NB_PA_MAX = 50;
+    // Nombre d'objets maximum que l'inventaire peut contenir 
+    protected static int TAILLE_INVENTAIRE = 5;
+
     // indique où regarde le joueur (vers le haut, bas,..)
     private ArrayList<Potion> inventaire;
+
+    // points d'expériences du joueur 
+    private double experience;
+    // niveau du joueur : augmente avec l'expérience
+    private int rang;
 
     // Liste des compétences du personnage
     private ArrayList<Competence> competences;
@@ -30,8 +42,7 @@ public class Joueur extends Entite {
      */
     public Joueur(int px, int py) {
         super(px, py, NB_PV_START, NB_PA_START, Direction.BAS);
-        this.inventaire = new ArrayList<Potion>();
-        this.competences = new ArrayList<Competence>();
+        inventaire = new ArrayList<Potion>();
         this.setArme(new Arme());
     }
 
@@ -39,12 +50,18 @@ public class Joueur extends Entite {
         return inventaire;
     }
 
+    /**
+     * Méthode permattant d'ajouter une potion dans l'inventaire du joueur en respectant la taille limite de son inventaire
+     */
     public void ajouterPotion() {
-        if(this.inventaire.size() < 5) {
+        if(this.inventaire.size() < TAILLE_INVENTAIRE) {
             this.inventaire.add(new Potion(10));
         }
     }
 
+    /**
+     * Méthode permettant au joueur de boire une potion et de récupérer un certain montant de points de vie 
+     */
     public void boirePotion() {
         if(!this.inventaire.isEmpty()) {
             this.seSoigner(this.inventaire.get(0).getAugmentation());
@@ -61,6 +78,36 @@ public class Joueur extends Entite {
     public void seDeplacer(int px, int py) {
       this.setX(px);
       this.setY(py);
+    }
+
+    /**
+     * Méthode permettant de calculer la quantité d'expérience nécessaire pour passer au rang suivant
+     * en partant de 0 (n'est pas pris en compte le montant actuel d'expérience du joueur)
+     * @return la quantité d'expérience nécessaire 
+     */
+    public double calculerRangSuivant() {
+        double xp = 10000;
+        for(int i = 1; i < this.rang; i++) {
+            xp = xp*1.5;
+        }
+        return xp;
+    }
+
+    /**
+     * Méthode permettant de faire gagner une certaine quantité d'expérience au joueur et lui 
+     * faire éventuellement passer au rang suivant si le montant d'expérience est suffisant
+     * @param xp : montant d'expérience gagné par le joueur
+     */
+    public void gagnerExperience(double xp) {
+        this.experience += xp;
+        if(this.experience >= calculerRangSuivant()) {
+            this.experience = (this.experience + xp) - calculerRangSuivant();
+            this.rang++;
+            NB_PV_MAX += 10;
+            this.seSoigner(10);
+            NB_PA_MAX += 10;
+            TAILLE_INVENTAIRE += 1;
+        }
     }
 
     @Override
@@ -361,13 +408,30 @@ public class Joueur extends Entite {
         this.revenant = revenant;
     }
 
+    /**
+     * Méthode permettant au joueur de récupérer des points de vie sans dépasser la limite de points de vie
+     * @param pv : montant de points de vie à récupérer
+     */
     public void seSoigner(int pv) {
-        if(this.getPointsVie()+pv > NB_PV_START) {
-            this.setPointsVie(NB_PV_START);
+        if(this.getPointsVie()+pv > NB_PV_MAX) {
+            this.setPointsVie(NB_PV_MAX);
         } else {
             this.setPointsVie(this.getPointsVie()+pv);
         }
     }
+
+    /**
+     * Méthode permettant au joueur de récupérer des points d'armure sans dépasser la limite de points d'armure
+     * @param pa : montant de points d'armure à récupérer
+     */
+    public void recupererPA(int pa) {
+        if(this.getPointsArmure()+pa > NB_PA_MAX) {
+            this.setPointsArmure(NB_PA_MAX);
+        } else {
+            this.setPointsArmure(this.getPointsArmure()+pa);
+        }
+    }
+
     @Override
     public String toString(){
         return "J";

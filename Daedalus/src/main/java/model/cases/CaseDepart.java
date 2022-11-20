@@ -1,9 +1,7 @@
 package model.cases;
 
-import model.objets.Coordonnee;
-
 /**
- * Represente la case de départ dans la labyrinthe
+ * Représente la case de départ dans le labyrinthe
  */
 public class CaseDepart extends Case {
 
@@ -19,18 +17,19 @@ public class CaseDepart extends Case {
 
     /**
      * constructeur de CaseDepart
-     * @param id id
+     *
+     * @param id    id
      * @param coord coordonnee de la case
      */
     public CaseDepart(int id, Coordonnee coord) {
         super(coord.getX(), coord.getY());
         this.id = id;
         this.c = 'D';
-
     }
 
     /**
      * methode get id
+     *
      * @return this.id
      */
     @Override
@@ -40,6 +39,7 @@ public class CaseDepart extends Case {
 
     /**
      * methode set id
+     *
      * @param id id voulu
      */
     @Override
@@ -56,15 +56,17 @@ public class CaseDepart extends Case {
     }
 
     /**
-    * Définit les cases départ comme traversable
-    * @return un boolean toujours égal à true
-    */
-    public boolean estTraversable(){
+     * Définit les cases départ comme traversable
+     *
+     * @return un boolean toujours égal à true
+     */
+    public boolean estTraversable() {
         return true;
     }
 
     /**
      * methode pour changer provisoirement le caractère associé à la case (pour la génération aléatoire)
+     *
      * @param a charactere
      */
     @Override
@@ -73,7 +75,7 @@ public class CaseDepart extends Case {
     }
 
     /**
-     * methode get charactere
+     * methode get caractere
      */
     @Override
     public char getChar() {

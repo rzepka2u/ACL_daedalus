@@ -1,15 +1,22 @@
 package model.cases;
 
-import model.objets.Coordonnee;
-
 /**
  * Classe CaseEffet qui représente une case à effet
  */
 public class CaseEffet extends Case {
 
-    private int augmentationPV; // Le nombre de points de vie à augmenter
-    private int diminutionPV; // Le nombre de points de vie à diminuer
-    private boolean progressif; // Si la diminution / augmentation est progressive ou instantanée 
+    /**
+     * Le nombre de points de vie à augmenter
+     */
+    private final int augmentationPV;
+    /**
+     * Le nombre de points de vie à diminuer
+     */
+    private final int diminutionPV;
+    /**
+     * Si la diminution / augmentation est progressive ou instantanée
+     */
+    private final boolean progressif;
 
     /**
      * id de la case (utile pour la génération aléatoire)
@@ -17,19 +24,20 @@ public class CaseEffet extends Case {
     private int id;
 
     /**
-     * charactere qui représente la case
+     * caractere qui représente la case
      */
     private char c;
 
     /**
      * Constructeur par initialisation d'un objet CaseEffet
-     * @param id id
+     *
+     * @param id    id
      * @param coord coordonnee de la case
-     * @param a le nombre de points de vie à augmenter
-     * @param d le nombre de points de vie à diminuer
-     * @param p le boolean indiquant si l'effet est progressif ou non 
+     * @param a     le nombre de points de vie à augmenter
+     * @param d     le nombre de points de vie à diminuer
+     * @param p     le boolean indiquant si l'effet est progressif ou non
      */
-    public CaseEffet(int id, Coordonnee coord, int a, int d, boolean p){
+    public CaseEffet(int id, Coordonnee coord, int a, int d, boolean p) {
         super(coord.getX(), coord.getY());
         this.id = id;
         this.augmentationPV = a;
@@ -40,6 +48,7 @@ public class CaseEffet extends Case {
 
     /**
      * methode get id
+     *
      * @return this.id
      */
     @Override
@@ -49,6 +58,7 @@ public class CaseEffet extends Case {
 
     /**
      * methode set id
+     *
      * @param id id voulu
      */
     @Override
@@ -67,14 +77,16 @@ public class CaseEffet extends Case {
 
     /**
      * Getter sur l'attribut augmentationPV
+     *
      * @return la valeur entière de l'attribut augmentationPV
      */
-    public int getAugmentation(){
+    public int getAugmentation() {
         return augmentationPV;
     }
 
     /**
      * Getter sur l'attribut diminutionPV
+     *
      * @return la valeur entière de l'attribut diminutionPV
      */
     public int getDiminutionPV() {
@@ -82,8 +94,9 @@ public class CaseEffet extends Case {
     }
 
     /**
-     * Getter sur l'attribut progressif 
-     * @return la valeur booléenne de l'attribut progressif 
+     * Getter sur l'attribut progressif
+     *
+     * @return la valeur booléenne de l'attribut progressif
      */
     public boolean getProgressif() {
         return this.progressif;
@@ -91,15 +104,17 @@ public class CaseEffet extends Case {
 
     /**
      * Méthode qui défini si la case est traversable pour le joueur
-     * @return toujours true 
+     *
+     * @return toujours true
      */
     @Override
-    public boolean estTraversable(){
+    public boolean estTraversable() {
         return true;
     }
 
     /**
      * methode pour changer provisoirement le caractère associé à la case (pour la génération aléatoire)
+     *
      * @param a charactere
      */
     @Override

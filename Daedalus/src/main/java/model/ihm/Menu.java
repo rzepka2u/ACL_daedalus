@@ -192,6 +192,12 @@ public class Menu extends JMenuBar{
      */
     private JMenuItem createCommandes(){
         JMenuItem item = new JMenuItem("Commandes du jeu");
+        item.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new FenetreCommandes(fenetre);
+            }
+        });
         return item;
     }
 

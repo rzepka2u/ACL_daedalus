@@ -32,6 +32,12 @@ public class FenetreGraphique extends JFrame {
     private Object verrouContent;
     private ThreadAffichage thread; // Le thread pour rafraîchir l'affichage
     private Jeu jeu; // Le moteur du jeu
+    private int[] commandes_deplacement;
+    private int commande_attaquer;
+    private int commande_ouvrir;
+    private int commande_ramasser;
+    private int[] commandes_boire;
+    private int[] commandes_competence;
 
     /**
      * Constructeur par défaut de la classe FenetreGraphique
@@ -73,6 +79,37 @@ public class FenetreGraphique extends JFrame {
         // Initialisation d'un nouveau panel d'acceuil, et ajout de celui-ci dans la fenêtre
         contentPane = new PanelAccueil(this);
         this.setContentPane(contentPane);
+
+        initialiserCommandes();
+
+    }
+
+    private void initialiserCommandes(){
+
+        commandes_deplacement = new int[4];
+
+        commandes_deplacement[0] = KeyEvent.VK_UP;
+        commandes_deplacement[1] = KeyEvent.VK_DOWN;
+        commandes_deplacement[2] = KeyEvent.VK_LEFT;
+        commandes_deplacement[3] = KeyEvent.VK_RIGHT;
+
+        commande_attaquer = KeyEvent.VK_SPACE;
+        commande_ramasser = KeyEvent.VK_R;
+        commande_ouvrir = KeyEvent.VK_O;
+
+        commandes_boire = new int[5];
+        commandes_boire[0] = KeyEvent.VK_NUMPAD1;
+        commandes_boire[1] = KeyEvent.VK_NUMPAD2;
+        commandes_boire[2] = KeyEvent.VK_NUMPAD3;
+        commandes_boire[3] = KeyEvent.VK_NUMPAD4;
+        commandes_boire[4] = KeyEvent.VK_NUMPAD5;
+
+        commandes_competence = new int[4];
+        commandes_competence[0] = KeyEvent.VK_1;
+        commandes_competence[1] = KeyEvent.VK_2;
+        commandes_competence[2] = KeyEvent.VK_3;
+        commandes_competence[3] = KeyEvent.VK_4;
+
     }
 
 
@@ -86,6 +123,74 @@ public class FenetreGraphique extends JFrame {
 
     public Object getVerrouContent(){
         return this.verrouContent;
+    }
+
+    public int[] getCommandesDeplacements(){
+        return this.commandes_deplacement;
+    }
+
+    public int getCommandeAttaquer(){
+        return this.commande_attaquer;
+    }
+
+    public int getCommandeOuvrir(){
+        return this.commande_ouvrir;
+    }
+
+    public int getCommandeRamasser(){
+        return this.commande_ramasser;
+    }
+
+    public int[] getCommandesBoirePotions(){
+        return this.commandes_boire;
+    }
+
+    public int[] getCommandesCompetences(){
+        return this.commandes_competence;
+    }
+
+    public void setCmdDeplacementHaut(int c){
+        this.commandes_deplacement[0] = c; 
+        System.out.println("FG: "+c+", "+commandes_deplacement[0]);
+    }
+
+    public void setCmdDeplacementBas(int c){
+        this.commandes_deplacement[1] = c; 
+    }
+
+    public void setCmdDeplacementGauche(int c){
+        this.commandes_deplacement[2] = c; 
+    }
+
+    public void setCmdDeplacementDroite(int c){
+        this.commandes_deplacement[3] = c; 
+    }
+
+    public void setCmdAttaquer(int c){
+        this.commande_attaquer = c; 
+    }
+
+    public void setCmdOuvrir(int c){
+        this.commande_ouvrir = c; 
+    }
+
+    public void setCmdRamasser(int c){
+        this.commande_ramasser = c; 
+    }
+
+    public void setCmdBoirePotions(int p1, int p2, int p3, int p4, int p5){
+        this.commandes_boire[0] = p1;
+        this.commandes_boire[1] = p2;
+        this.commandes_boire[2] = p3;
+        this.commandes_boire[3] = p4;
+        this.commandes_boire[4] = p5;
+    }
+
+    public void setCmdCompetences(int c1, int c2, int c3, int c4){
+        this.commandes_competence[0] = c1;
+        this.commandes_competence[1] = c2;
+        this.commandes_competence[2] = c3;
+        this.commandes_competence[3] = c4;
     }
 
     /**
@@ -116,40 +221,43 @@ public class FenetreGraphique extends JFrame {
             public void keyPressed(KeyEvent e){
 
                 Commande c;
-                if(e.getKeyCode() == KeyEvent.VK_UP){ // Si la touche est la flèche haut
+                if(e.getKeyCode() == commandes_deplacement[0]){ // Si la touche est la flèche haut
                     // Création de la nouvelle commande associée puis réalisation de celle-ci
                     c = new Commande(Ordre.DEPLACEMENT, Direction.HAUT); // Déplacer le joueur en haut
                     jeu.controles(c);
-                } else if(e.getKeyCode() == KeyEvent.VK_DOWN){ // Si la touche est la flèche bas
+                } else if(e.getKeyCode() == commandes_deplacement[1]){ // Si la touche est la flèche bas
                     // Création de la nouvelle commande associée puis réalisation de celle-ci
                     c = new Commande(Ordre.DEPLACEMENT, Direction.BAS); // Déplacer le joueur en bas
                     jeu.controles(c);
-                } else if(e.getKeyCode() == KeyEvent.VK_LEFT){ // Si la touche est la flèche gauche
+                } else if(e.getKeyCode() == commandes_deplacement[2]){ // Si la touche est la flèche gauche
                     // Création de la nouvelle commande associée puis réalisation de celle-ci
                     c = new Commande(Ordre.DEPLACEMENT, Direction.GAUCHE); // Déplacer le joueur à gauche
                     jeu.controles(c);
-                } else if(e.getKeyCode() == KeyEvent.VK_RIGHT){ // Si la touche est la flèche droite
+                } else if(e.getKeyCode() == commandes_deplacement[3]){ // Si la touche est la flèche droite
                     // Création de la nouvelle commande associée puis réalisation de celle-ci
                     c = new Commande(Ordre.DEPLACEMENT, Direction.DROITE); // Déplacer le joueur à droite
                     jeu.controles(c);
-                } else if(e.getKeyCode() == KeyEvent.VK_SPACE){ // Si la touche est la barre espace
+                } else if(e.getKeyCode() == commande_attaquer){ // Si la touche est la barre espace
                     // Création de la nouvelle commande associée puis réalisation de celle-ci
                     c = new Commande(Ordre.ATTAQUE, null); // Attaque de la part du joueur 
                     jeu.controles(c);
-                } else if(e.getKeyCode() == KeyEvent.VK_R){ // Si la touche est R 
+                } else if(e.getKeyCode() == commande_ramasser){ // Si la touche est R 
                     // Création de la nouvelle commande associée puis réalisation de celle-ci
                     c = new Commande(Ordre.RAMASSER, null); // Ramasser un trésor à proximité
                     jeu.controles(c);
-                } else if (e.getKeyCode() == KeyEvent.VK_O){ // Si la touche est O
+                } else if (e.getKeyCode() == commande_ouvrir){ // Si la touche est O
                     // Création de la nouvelle commande associée puis réalisation de celle-ci
                     c = new Commande(Ordre.OUVRIR, null); // Ouvrir un trésor à proximité
                     jeu.controles(c);
-                } else if(e.getKeyCode() >= KeyEvent.VK_NUMPAD1 && e.getKeyCode() <= KeyEvent.VK_NUMPAD5){ 
+                } else if(e.getKeyCode() == commandes_boire[0] || e.getKeyCode() == commandes_boire[1]
+                    || e.getKeyCode() == commandes_boire[2] || e.getKeyCode() == commandes_boire[3]
+                    || e.getKeyCode() == commandes_boire[4]){ 
                     // Si la touche est entre 1 et 5 inclus du clavier numérique
                     // Création de la nouvelle commande associée puis réalisation de celle-ci
                     c = new Commande(Ordre.BOIRE, e.getKeyCode()-KeyEvent.VK_NUMPAD1);
                     jeu.controles(c);
-                } else if(e.getKeyCode() >= KeyEvent.VK_1 && e.getKeyCode() <= KeyEvent.VK_4) {
+                } else if(e.getKeyCode() == commandes_competence[0] || e.getKeyCode() == commandes_competence[1]
+                || e.getKeyCode() == commandes_competence[2] || e.getKeyCode() == commandes_competence[3]){ 
                     c = new Commande(Ordre.COMPETENCE, e.getKeyCode()-KeyEvent.VK_1);
                     jeu.controles(c);
                 }

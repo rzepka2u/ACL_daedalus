@@ -613,15 +613,11 @@ public class PanelPartie extends JPanel{
         JLabel label;
 
         // SECTION CRITIQUE, verrouillage du verrou de l'entité joueur (en position 0 dans la collection, toujours)
-        
-        /* Partie à utiliser lorsque plus d'affichage brut
         synchronized(fenetre.getJeu().getVerrousEntites().get(0)){
             // Création d'un nouveau texte indiquant le nombre de points de vie du joueur
-            label = new JLabel("  Points de vie: "+fenetre.getJeu().getJoueur().getPointsVie());
+            label = new JLabel("  Rang: "+fenetre.getJeu().getJoueur().getRang());
         
-        }*/
-
-        label = new JLabel("  Rang: 2");
+        }
 
         // Ajout d'une icône prévu pour les points de vie au texte
         label.setIcon(new ImageIcon(getClass().getResource("/assets/rang.png")));
@@ -640,15 +636,12 @@ public class PanelPartie extends JPanel{
         JLabel label;
 
         // SECTION CRITIQUE, verrouillage du verrou de l'entité joueur (en position 0 dans la collection, toujours)
-        
-        /* Partie à utiliser lorsque plus d'affichage brut
         synchronized(fenetre.getJeu().getVerrousEntites().get(0)){
+            Joueur j = fenetre.getJeu().getJoueur();
             // Création d'un nouveau texte indiquant le nombre de points de vie du joueur
-            label = new JLabel("  Points de vie: "+fenetre.getJeu().getJoueur().getPointsVie());
+            label = new JLabel(" XP: "+j.getExperience()+"/"+j.calculerRangSuivant());
         
-        }*/
-
-        label = new JLabel("  XP: 10/100");
+        }
 
         // Ajout d'une icône prévu pour les points de vie au texte
         label.setIcon(new ImageIcon(getClass().getResource("/assets/xp.png")));

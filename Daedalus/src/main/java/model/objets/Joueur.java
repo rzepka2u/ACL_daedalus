@@ -43,11 +43,20 @@ public class Joueur extends Entite {
     public Joueur(int px, int py) {
         super(px, py, NB_PV_START, NB_PA_START, Direction.BAS);
         inventaire = new ArrayList<Potion>();
+        competences = new ArrayList<Competence>();
         this.setArme(new Arme());
     }
 
     public ArrayList<Potion> getInventaire(){
         return inventaire;
+    }
+
+    public double getExperience(){
+        return experience;
+    }
+
+    public int getRang(){
+        return rang;
     }
 
     /**

@@ -1,5 +1,7 @@
 package model.threads;
 
+import javax.swing.SwingUtilities;
+
 import model.ihm.FenetreGraphique;
 
 /**
@@ -10,6 +12,7 @@ public class ThreadAffichage extends Thread{
 
     // La fenètre graphique sur laquelle il doit rafraîchir l'information
     private FenetreGraphique fenetre;
+    private boolean stop;
 
     /**
      * Constructeur par initialisation 
@@ -18,6 +21,7 @@ public class ThreadAffichage extends Thread{
     public ThreadAffichage(FenetreGraphique f){
         super();
         fenetre = f;
+        stop = false;
     }
 
     /**
@@ -26,11 +30,11 @@ public class ThreadAffichage extends Thread{
     @Override
     public void run(){
         
-        while(!Thread.interrupted()){
+        while(stop == false){
             
             // Attente de 300 milisecondes
             try{
-                sleep(300);
+                sleep(5);
             } catch (InterruptedException e){
                 System.out.println("SLEEP INTERROMPU");
             }
@@ -41,5 +45,9 @@ public class ThreadAffichage extends Thread{
             }
             
         }
+    }
+
+    public void arret(){
+        stop=true;
     }
 }

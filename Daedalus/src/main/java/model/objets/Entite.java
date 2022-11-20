@@ -7,7 +7,6 @@ public abstract class Entite {
 
     protected static final int NB_PV_START = 100;
     protected static final int NB_PA_START = 50;
-
     /**
      * Coordonnees de l'entite
      */

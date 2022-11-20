@@ -2,6 +2,7 @@ package model.ihm;
 
 import model.objets.Jeu;
 import model.objets.Commande;
+import model.threads.ThreadMonstre;
 import model.threads.ThreadAffichage;
 import model.enums.Direction;
 import model.enums.Ordre;
@@ -9,11 +10,15 @@ import model.enums.Ordre;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.awt.event.WindowAdapter;
 import java.awt.Dimension;
 
 
@@ -38,11 +43,27 @@ public class FenetreGraphique extends JFrame {
         
         // Réalisation des réglages graphiques de la fenêtre
         this.setVisible(true); // Rendre la fenêtre visible
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Terminer le programme lorsque l'on ferme la fenêtre
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Terminer le programme lorsque l'on ferme la fenêtre
         this.setSize(new Dimension(700, 700)); // Modification des dimension de départ de la fenêtre
         this.setLocationRelativeTo(null); // Mise de la fenêtre au milieu de l'écran
 
-        menuBar = new Menu(); // Initialisation de la barre de menu
+        FenetreGraphique f = this;
+
+        this.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e){
+                int retour = JOptionPane.showConfirmDialog((JFrame)f, 
+                "Êtes-vous sûr de vouloir quitter le jeu?", 
+                "Attention",
+                JOptionPane.YES_NO_OPTION);
+
+                if(retour == JOptionPane.YES_OPTION){
+                    f.dispose();
+                }
+            }
+        }); 
+
+        menuBar = new Menu(this); // Initialisation de la barre de menu
         this.setJMenuBar(menuBar); // Ajout de la barre de menu précédament créé
 
         // Mise des attributs inutiles (pour le moment) à null
@@ -169,6 +190,7 @@ public class FenetreGraphique extends JFrame {
         this.thread.arret();
         // Attente de la fin du thread d'affichage
         this.thread.interrupt();
+        this.thread = null;
 
         synchronized(verrouContent){
             // Création d'un panel de fin de partie, et remplacement du panel de partie
@@ -178,6 +200,47 @@ public class FenetreGraphique extends JFrame {
 
         // Mise à jour de la fenêtre
         this.validate();
+    }
+
+    public void quitterPartie(){
+
+        if(thread != null){
+            thread.arret();
+            thread.interrupt();
+            thread = null;
+        }
+
+        ArrayList<ThreadMonstre> monstres = jeu.getThreads();
+
+        while(monstres.size()>0){
+            monstres.get(0).arret();
+            monstres.get(0).interrupt();
+            monstres.remove(monstres.get(0));
+        }
+
+        this.dispose();
+        new FenetreGraphique();
+
+    }
+
+    public void redemarrerPartie(){
+
+        if(thread != null){
+            thread.arret();
+            thread.interrupt();
+            thread = null;
+        }
+
+        ArrayList<ThreadMonstre> monstres = jeu.getThreads();
+
+        while(monstres.size()>0){
+            monstres.get(0).arret();
+            monstres.get(0).interrupt();
+            monstres.remove(monstres.get(0));
+        }
+
+        int nbMaxNiveau = jeu.getNbMaxNiveau();
+        afficherPartie(nbMaxNiveau);
     }
 
     // Fonction de test pour la phase de développement de l'IHM  (à retirer au final)

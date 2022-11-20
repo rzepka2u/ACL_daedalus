@@ -1,11 +1,17 @@
 package model.ihm;
 
 import javax.swing.JMenuBar;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class Menu extends JMenuBar{
     
+    private FenetreGraphique fenetre;
     private JMenu control; // Le menu de contrôles
     private JMenu aide; // Le menu d'aide
     private JMenu informations; // Le menu d'informations
@@ -18,10 +24,12 @@ public class Menu extends JMenuBar{
     /**
      * Constructeur par défaut d'un objet Menu
      */
-    public Menu(){
+    public Menu(FenetreGraphique f){
 
         // Appel au constructeur de JMenuBar
         super();
+
+        fenetre = f;
 
         // Création et initialisation du menu de contrôles
         control = createControl();
@@ -109,6 +117,27 @@ public class Menu extends JMenuBar{
      */
     private JMenuItem createRedemarrer(){
         JMenuItem item = new JMenuItem("Redémarrer la partie");
+        item.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(fenetre.getJeu() == null){
+                    JOptionPane.showInternalMessageDialog(null, "Vous n'avez pas encore débuté la partie.",
+                    "information",
+                    JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    int retour = JOptionPane.showConfirmDialog(fenetre, 
+                    "Êtes-vous sûr de recommencer la partie?", 
+                    "Attention",
+                    JOptionPane.YES_NO_OPTION);
+
+                    if(retour == JOptionPane.YES_OPTION){
+                        fenetre.redemarrerPartie();
+                    }
+                }
+            }
+            
+        });
         return item;
     }
 
@@ -118,6 +147,27 @@ public class Menu extends JMenuBar{
      */
     private JMenuItem createQuitter(){
         JMenuItem item = new JMenuItem("Quitter la partie");
+        item.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(fenetre.getJeu() == null){
+                    JOptionPane.showInternalMessageDialog(null, "Vous n'avez pas encore débuté la partie.",
+                    "information",
+                    JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    int retour = JOptionPane.showConfirmDialog(fenetre, 
+                    "Êtes-vous sûr de vouloir quitter la partie?", 
+                    "Attention",
+                    JOptionPane.YES_NO_OPTION);
+
+                    if(retour == JOptionPane.YES_OPTION){
+                        fenetre.quitterPartie();
+                    }
+                }
+            }
+            
+        });
         return item;
     }
 
@@ -127,6 +177,12 @@ public class Menu extends JMenuBar{
      */
     private JMenuItem createRegles(){
         JMenuItem item = new JMenuItem("Règles du jeu");
+        item.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new FenetreInformation(true);
+            }
+        });
         return item;
     }
 
@@ -145,6 +201,12 @@ public class Menu extends JMenuBar{
      */
     private JMenuItem createCopyright(){
         JMenuItem item = new JMenuItem("Copyright");
+        item.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                new FenetreInformation(false);
+            }
+        });
         return item;
     }
 }

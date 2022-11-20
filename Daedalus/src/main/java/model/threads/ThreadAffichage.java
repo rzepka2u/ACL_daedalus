@@ -1,5 +1,7 @@
 package model.threads;
 
+import javax.swing.SwingUtilities;
+
 import model.ihm.FenetreGraphique;
 
 /**
@@ -28,11 +30,11 @@ public class ThreadAffichage extends Thread{
     @Override
     public void run(){
         
-        while(!Thread.interrupted()){
+        while(stop == false){
             
             // Attente de 300 milisecondes
             try{
-                sleep(300);
+                sleep(5);
             } catch (InterruptedException e){
                 System.out.println("SLEEP INTERROMPU");
             }

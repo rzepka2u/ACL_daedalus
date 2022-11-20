@@ -29,7 +29,6 @@ import javax.swing.SwingConstants;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.lang.ProcessBuilder.Redirect.Type;
 
 
 /**
@@ -184,82 +183,90 @@ public class PanelPartie extends JPanel{
         gc.gridy=0; // Sa position y dans le tableau (ordonnées)
 
 
-        // Boucles sur les lignes des cases du labyrinthe
-        for(i=0; i<cases.size(); i++){
-            // Boucles sur les colonnes des cases du labyrinthe
-            for(j=0; j<cases.get(i).size(); j++){
 
-                // Déclaration d'une variable temporaire de label
-                JLabel tmp;
-                ImageIcon imageIcon = new ImageIcon(getClass().getResource("/assets/sol.png"));
+            // Boucles sur les lignes des cases du labyrinthe
+            for(i=0; i<cases.size(); i++){
+                // Boucles sur les colonnes des cases du labyrinthe
+                for(j=0; j<cases.get(i).size(); j++){
 
-                // SECTION CRITIQUE, verrouillage du verrou de la case en question
-                synchronized(verrous.get(i).get(j)){
+                    // Déclaration d'une variable temporaire de label
+                    JLabel tmp;
+                    ImageIcon imageIcon = new ImageIcon(getClass().getResource("/assets/sol.png"));
 
-                    // Si la case est un mur
-                    if(cases.get(i).get(j) instanceof CaseMur){
-                        // Création d'une nouvelle icône mur
-                        imageIcon = new ImageIcon(getClass().getResource("/assets/mur.png"));
-                    } else if(cases.get(i).get(j) instanceof CaseSortie){ // Si la case est la case de sortie
-                        // Création d'une nouvelle icône sortie
-                        imageIcon = new ImageIcon(getClass().getResource("/assets/sortie.png"));
+                    // SECTION CRITIQUE, verrouillage du verrou de la case en question
+                    synchronized(verrous.get(i).get(j)){
 
-                    } else if(cases.get(i).get(j) instanceof CaseDepart){ // Si la case est la case de départ
-                        // Création d'un nouvelle icône depart
-                        imageIcon = new ImageIcon(getClass().getResource("/assets/depart.png"));
+                        // Si la case est un mur
+                        if(cases.get(i).get(j) instanceof CaseMur){
+                            // Création d'une nouvelle icône mur
+                            imageIcon = new ImageIcon(getClass().getResource("/assets/mur.png"));
+                        } else if(cases.get(i).get(j) instanceof CaseSortie){ // Si la case est la case de sortie
+                            // Création d'une nouvelle icône sortie
+                            imageIcon = new ImageIcon(getClass().getResource("/assets/sortie.png"));
 
-                    } else if(cases.get(i).get(j) instanceof CaseTresor){ //Si la case est un trésor
+                        } else if(cases.get(i).get(j) instanceof CaseDepart){ // Si la case est la case de départ
+                            // Création d'un nouvelle icône depart
+                            imageIcon = new ImageIcon(getClass().getResource("/assets/depart.png"));
 
-                        // Si le trésor est fermé
-                        if(((CaseTresor)cases.get(i).get(j)).getOuvert() == false){
-                            // Création d'une nouvelle îcone trésor
-                            imageIcon = new ImageIcon(getClass().getResource("/assets/tresor.png"));
-                        } else { // Si le trésor est ouvert
+                        } else if(cases.get(i).get(j) instanceof CaseTresor){ //Si la case est un trésor
 
-                            // Si le trésor est une potion
-                            if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Potion){
-                                // Création d'une nouvelle icône potion
-                                imageIcon = new ImageIcon(getClass().getResource("/assets/potion.png"));
-                            } else if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Arme){ // Si le trésor est une Arme
-                                // Création d'une nouvelle icône arme
-                                imageIcon = new ImageIcon(getClass().getResource("/assets/arme.png"));
-                            } else { // Si le trésor est une pièce d'armure
-                                // Création d'une nouvelle icône armure
-                                imageIcon = new ImageIcon(getClass().getResource("/assets/armure.png"));
+                            // Si le trésor est fermé
+                            if(((CaseTresor)cases.get(i).get(j)).getOuvert() == false){
+                                // Création d'une nouvelle îcone trésor
+                                imageIcon = new ImageIcon(getClass().getResource("/assets/tresor.png"));
+                            } else { // Si le trésor est ouvert
+
+                                // Si le trésor est une potion
+                                if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Potion){
+                                    // Création d'une nouvelle icône potion
+                                    imageIcon = new ImageIcon(getClass().getResource("/assets/potion.png"));
+                                } else if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Arme){ // Si le trésor est une Arme
+                                    // Création d'une nouvelle icône arme
+                                    imageIcon = new ImageIcon(getClass().getResource("/assets/arme.png"));
+                                } else { // Si le trésor est une pièce d'armure
+                                    // Création d'une nouvelle icône armure
+                                    imageIcon = new ImageIcon(getClass().getResource("/assets/armure.png"));
+                                }
+
+                            }
+                        
+                        } else if(cases.get(i).get(j) instanceof CaseEffet){ // Si la case est une case à effet
+
+                            if(((CaseEffet) cases.get(i).get(j)).getAugmentation() > 0){ // Si elle effectue une augmentation 
+                                // Création d'une nouvelle icône soin
+                                imageIcon = new ImageIcon(getClass().getResource("/assets/soin.png"));
+                            } else { // Si elle effectue une diminution
+                                // Création d'une nouvelle icône poison
+                                imageIcon = new ImageIcon(getClass().getResource("/assets/poison.png"));
                             }
 
+                        } else { // La case est une case vide
+                            // Création d'une nouvelle icône sol
+                            imageIcon = new ImageIcon(getClass().getResource("/assets/sol.png"));
                         }
-                    
-                    } else if(cases.get(i).get(j) instanceof CaseEffet){ // Si la case est une case à effet
-
-                        if(((CaseEffet) cases.get(i).get(j)).getAugmentation() > 0){ // Si elle effectue une augmentation 
-                            // Création d'une nouvelle icône soin
-                            imageIcon = new ImageIcon(getClass().getResource("/assets/soin.png"));
-                        } else { // Si elle effectue une diminution
-                            // Création d'une nouvelle icône poison
-                            imageIcon = new ImageIcon(getClass().getResource("/assets/poison.png"));
+                        Image image = imageIcon.getImage();
+                        Image newimg = image.getScaledInstance(scaleWidth, scaleHeight,  java.awt.Image.SCALE_SMOOTH);
+                        imageIcon = new ImageIcon(newimg);
+        
+                        try {
+                            tmp = new JLabel(imageIcon);
+                        } catch(Exception e){
+                            tmp = null;
                         }
-
-                    } else { // La case est une case vide
-                        // Création d'une nouvelle icône sol
-                        imageIcon = new ImageIcon(getClass().getResource("/assets/sol.png"));
+                        if(tmp != null)
+                            caseLabels.get(i).add(tmp); // Ajout de la nouvelle icônes dans l'attribut de la collection des icônes
+        
                     }
+                    if(tmp != null){
+                        panel.add(tmp, gc); // Ajout de la nouvelle icône dans le panel avec les contraintes souhaitées
+                    }
+                    gc.gridx++; // On décale la prochaine icône d'une case vers la droite
+            
                 }
 
-                Image image = imageIcon.getImage();
-                Image newimg = image.getScaledInstance(scaleWidth, scaleHeight,  java.awt.Image.SCALE_SMOOTH);
-                imageIcon = new ImageIcon(newimg);
-
-                tmp = new JLabel(imageIcon);
-                caseLabels.get(i).add(tmp); // Ajout de la nouvelle icônes dans l'attribut de la collection des icônes
-
-                panel.add(tmp, gc); // Ajout de la nouvelle icône dans le panel avec les contraintes souhaitées
-                gc.gridx++; // On décale la prochaine icône d'une case vers la droite
+                gc.gridx = 0; // On se remet en debut de ligne
+                gc.gridy++; // On descent à la colonne du dessous
             }
-
-            gc.gridx = 0; // On se remet en debut de ligne
-            gc.gridy++; // On descent à la colonne du dessous
-        }
 
         // Boucle sur les entites du jeu
         for(i=0; i<fenetre.getJeu().getEntites().size(); i++){

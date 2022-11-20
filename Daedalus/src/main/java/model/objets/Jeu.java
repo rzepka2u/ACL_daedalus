@@ -162,6 +162,10 @@ public class Jeu{
         return this.threads;
     }
 
+    public int getNbMaxNiveau(){
+        return nbMaxNiveau;
+    }
+
     public void setNbNiveau(int x){ nbNiveau = x; }
 
     /**
@@ -467,6 +471,7 @@ public class Jeu{
         for(i=0; i<threads.size(); i++){
             threads.get(i).arret();
             threads.get(i).interrupt();
+            threads.remove(threads.get(i));
         }
 
         // - INTERUPT LES THREADS EFFETS PROGRESSIF
@@ -549,7 +554,9 @@ public class Jeu{
         int i;
 
         for(i=0; i<threads.size(); i++){
+            threads.get(i).arret();
             threads.get(i).interrupt();
+            threads.remove(threads.get(i));
         }
 
         // - INTERUPT LES THREADS EFFETS PROGRESSIF

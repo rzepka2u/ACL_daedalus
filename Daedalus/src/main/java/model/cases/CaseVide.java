@@ -1,7 +1,5 @@
 package model.cases;
 
-import model.objets.Coordonnee;
-
 /**
  * Represente une simple case vide dans le labyrinthe
  */
@@ -19,7 +17,8 @@ public class CaseVide extends Case {
 
     /**
      * constructeur de CaseVide
-     * @param id id
+     *
+     * @param id    id
      * @param coord coordonnee de la case
      */
     public CaseVide(int id, Coordonnee coord) {
@@ -30,6 +29,7 @@ public class CaseVide extends Case {
 
     /**
      * methode get id
+     *
      * @return this.id
      */
     @Override
@@ -39,6 +39,7 @@ public class CaseVide extends Case {
 
     /**
      * methode set id
+     *
      * @param id id voulu
      */
     @Override
@@ -55,15 +56,17 @@ public class CaseVide extends Case {
     }
 
     /**
-    * Définit les cases vide comme traversable
-    * @return un boolean toujours égal à true
-    */
-    public boolean estTraversable(){
+     * Définit les cases vide comme traversable
+     *
+     * @return un boolean toujours égal à true
+     */
+    public boolean estTraversable() {
         return true;
     }
 
     /**
      * methode pour changer provisoirement le caractère associé à la case (pour la génération aléatoire)
+     *
      * @param a charactere
      */
     @Override

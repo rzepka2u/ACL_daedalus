@@ -1,7 +1,5 @@
 package model.cases;
 
-import model.objets.Coordonnee;
-
 /**
  * Represente un mur dans le labyrinthe
  */
@@ -19,6 +17,7 @@ public class CaseMur extends Case {
 
     /**
      * constructeur de CaseMur
+     *
      * @param id id
      * @param coord coordonnee de la case
      */
@@ -26,11 +25,11 @@ public class CaseMur extends Case {
         super(coord.getX(), coord.getY());
         this.id = id;
         this.c = '#';
-
     }
 
     /**
      * methode get id
+     *
      * @return this.id
      */
     @Override
@@ -40,6 +39,7 @@ public class CaseMur extends Case {
 
     /**
      * methode set id
+     *
      * @param id id voulu
      */
     @Override
@@ -57,15 +57,17 @@ public class CaseMur extends Case {
     }
 
     /**
-    * Définit les cases mur comme non traversable
-    * @return un boolean toujours égal à false
-    */
-    public boolean estTraversable(){
+     * Définit les cases mur comme non traversable
+     *
+     * @return un boolean toujours égal à false
+     */
+    public boolean estTraversable() {
         return false;
     }
 
     /**
      * methode pour changer provisoirement le caractère associé à la case (pour la génération aléatoire)
+     *
      * @param a charactere
      */
     @Override

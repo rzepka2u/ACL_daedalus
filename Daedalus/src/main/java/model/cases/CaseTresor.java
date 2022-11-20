@@ -1,7 +1,6 @@
 package model.cases;
 
 import model.objets.Arme;
-import model.objets.Coordonnee;
 import model.objets.Potion;
 import model.objets.Tresor;
 
@@ -9,7 +8,7 @@ import model.objets.Tresor;
  * Classe CaseTresor qui représente une case contenant un trésor
  */
 public class CaseTresor extends Case {
-    
+
     private boolean ouvert; // Booléen pour savoir si le trésor est ouvert ou non
     private Tresor contenu; // Le contenu du trésor (Potion, Arme ou PieceArmure)
 
@@ -25,24 +24,27 @@ public class CaseTresor extends Case {
 
     /**
      * Unique constructeur de la classe CaseTresor
-     * @param id id
+     *
+     * @param id    id
      * @param coord coordonnee de la case
-     * @param t le contenu du trésor (Potion, Arme ou PieceArmure)
+     * @param t     le contenu du trésor (Potion, Arme ou PieceArmure)
      */
 
 
     public CaseTresor(int id, Coordonnee coord, Tresor t) {
         super(coord.getX(), coord.getY());
         this.id = id;
-        this.c = '?';
+        //this.c = '?';
         ouvert = false;
         contenu = t;
-        //if (t instanceof Arme) this.c = 'A';
-        //else  this.c = 'P';
+        if (t instanceof Arme) this.c = 'A';
+        else if (t instanceof Potion) this.c = 'P';
+        else this.c = 'W';
     }
 
     /**
      * methode get id
+     *
      * @return this.id
      */
     @Override
@@ -52,6 +54,7 @@ public class CaseTresor extends Case {
 
     /**
      * methode set id
+     *
      * @param id id voulu
      */
     @Override
@@ -69,17 +72,19 @@ public class CaseTresor extends Case {
 
     /**
      * Getter sur l'attribut ouvert
+     *
      * @return la valeur booléene de l'attribut ouvert
      */
-    public boolean getOuvert(){
+    public boolean getOuvert() {
         return ouvert;
     }
 
-    /** 
+    /**
      * Getter sur l'attribut contenu
+     *
      * @return la valeur de l'attribut contenu (type: Tresor)
      */
-    public Tresor getContenu(){
+    public Tresor getContenu() {
         return contenu;
     }
 
@@ -92,10 +97,11 @@ public class CaseTresor extends Case {
 
     /**
      * Méthode qui défini si la case est traversable pour le joueur
-     * @return false ou true suivant si le coffre est ouvert ou non 
+     *
+     * @return false ou true suivant si le coffre est ouvert ou non
      */
-    public boolean estTraversable(){
-        if(ouvert){
+    public boolean estTraversable() {
+        if (ouvert) {
             return true;
         } else {
             return false;
@@ -108,6 +114,7 @@ public class CaseTresor extends Case {
 
     /**
      * methode pour changer provisoirement le caractère associé à la case (pour la génération aléatoire)
+     *
      * @param a charactere
      */
     @Override

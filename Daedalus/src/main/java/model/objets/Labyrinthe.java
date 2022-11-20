@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.Year;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -579,7 +578,8 @@ public class Labyrinthe {
      * @param noNiveau nombre de trésors à ajouter
      */
     public void ajouterCasesTresor(int noNiveau) {
-        int nbAAjouter = (int) (Math.random() * this.compterCasesVides() * noNiveau * 0.015) + noNiveau;
+        if (noNiveau == 0) noNiveau = 1;
+        int nbAAjouter = noNiveau + (int) (Math.random() * this.compterCasesVides() * noNiveau * 0.015);
 
         // Tout d'abord il faut limiter le nombre de cases spéciales sur le labyrinthe, pour ne pas surcharger l'algorithme
         if (nbAAjouter > this.taille / 3) nbAAjouter = this.taille / 3;
@@ -591,10 +591,11 @@ public class Labyrinthe {
         for (Case c : casesConcernees) {
             Tresor tresor;
             // On détermine aléatoirement s'il s'agira d'une Potion ou d'une Arme (une chance sur 3 que ça soit une arme).
-            if ((int) (Math.random() * 3) != 0) {
-                tresor = new Potion((int) (Math.random() * 10));
-            } else {
-                tresor = new Arme();
+            int nb = (int) (Math.random() * 3);
+            switch (nb) {
+                case 1 -> tresor = new Arme();
+                case 2 -> tresor = new PieceArmure((int) (Math.random() * 5));
+                default -> tresor = new Potion((int) (Math.random() * 10));
             }
             this.cases.get(c.getX()).set(c.getY(), new CaseTresor(0, new Coordonnee(c.getX(), c.getY()), tresor));
 
@@ -653,14 +654,14 @@ public class Labyrinthe {
 
         //System.out.println("Ajout des cases à effet et des trésors\n");
 
-        l.ajouterCasesEffet(10);
-        l.ajouterCasesTresor(10);
+        //l.ajouterCasesEffet(1);
+        l.ajouterCasesTresor(100);
 
         System.out.println(l);
 
-        System.out.println("Il y a "+l.compterCasesVides() + " cases vides");
-        System.out.println("Il y a "+l.compterCasesEffet() + " cases effet");
-        System.out.println("Il y a "+l.compterCasesTresor() + " cases trésor");
+        System.out.println("Il y a " + l.compterCasesVides() + " cases vides");
+        System.out.println("Il y a " + l.compterCasesEffet() + " cases effet");
+        System.out.println("Il y a " + l.compterCasesTresor() + " cases trésor");
 
 
     }

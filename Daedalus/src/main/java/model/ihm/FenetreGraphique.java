@@ -150,8 +150,7 @@ public class FenetreGraphique extends JFrame {
     }
 
     public void setCmdDeplacementHaut(int c){
-        this.commandes_deplacement[0] = c; 
-        System.out.println("FG: "+c+", "+commandes_deplacement[0]);
+        this.commandes_deplacement[0] = c;
     }
 
     public void setCmdDeplacementBas(int c){

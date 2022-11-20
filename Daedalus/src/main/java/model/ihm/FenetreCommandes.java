@@ -362,7 +362,6 @@ public class FenetreCommandes extends JFrame {
         for(int i=0; i<fields.length; i++){
             fields[i] = new JTextField();
             fields[i].setColumns(4);
-            System.out.println(codes[i]);
             String txt = stringOfCode(codes[i]);
             if(txt.length() == 0) txt = ""+(char) codes[i];
             fields[i].setText(txt);
@@ -1000,8 +999,6 @@ public class FenetreCommandes extends JFrame {
 
         if(res == -1){
             res = KeyEvent.getExtendedKeyCodeForChar(s.charAt(0));
-            System.out.println(s);
-            System.out.println(res);
             
         }
     

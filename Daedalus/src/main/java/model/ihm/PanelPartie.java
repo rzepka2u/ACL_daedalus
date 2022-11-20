@@ -639,7 +639,7 @@ public class PanelPartie extends JPanel{
         synchronized(fenetre.getJeu().getVerrousEntites().get(0)){
             Joueur j = fenetre.getJeu().getJoueur();
             // Création d'un nouveau texte indiquant le nombre de points de vie du joueur
-            label = new JLabel(" XP: "+j.getExperience()+"/"+j.calculerRangSuivant());
+            label = new JLabel(" XP: "+j.getExperience()+"/"+(j.getExperience()+j.calculerRangSuivant()));
         
         }
 

@@ -23,7 +23,7 @@ public class TestJeu{
 
     @BeforeClass
     public static void constructionJeuPourTests() throws FileNotFoundException{
-        jeu = new Jeu(null, "src/main/resources/niveaux/niveauGrand.txt", 4);
+        jeu = new Jeu(null, "src/main/resources/niveaux/niveauGrand.txt", 4, false, false, false);
     }
 
     /**

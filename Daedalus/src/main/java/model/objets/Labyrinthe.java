@@ -119,6 +119,8 @@ public class Labyrinthe {
             System.exit(-1);*/
         }
 
+        
+        this.taille = nbLignes> nbColonnes? nbColonnes: nbLignes;
         // initialisation de la matrice de cases
         int[][] casesTemplate = new int[nbLignes][nbColonnes];
 
@@ -516,8 +518,8 @@ public class Labyrinthe {
 
                 } else {
                     // On tire des coordonnées aléatoires dans la partie en BAS à DROITE, en évitant le centre du Labyrinthe
-                    xAlea = (int) (Math.random() * (this.hauteur / 2) + 1) + this.hauteur / 2;
-                    yAlea = (int) (Math.random() * (this.largeur / 2) + 1) + this.largeur / 2;
+                    xAlea = (int) (Math.random() * (this.hauteur / 2) + 1) + this.hauteur / 2-1;
+                    yAlea = (int) (Math.random() * (this.largeur / 2) + 1) + this.largeur / 2-1;
                 }
             }
 

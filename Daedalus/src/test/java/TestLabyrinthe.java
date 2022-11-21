@@ -44,7 +44,7 @@ public class TestLabyrinthe {
             };
 
         // Initialisation du jeu pour créer le labyrinthe à partir du fichier niveauTestLabyrinthe
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true, true);
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 1, true, true, false);
 
         // Création du labyrinthe
         Labyrinthe l = new Labyrinthe();
@@ -68,7 +68,7 @@ public class TestLabyrinthe {
     public void test_generationLabyrintheAvecFichierInexistant() throws FileNotFoundException {
         // methodes testée
         // Ici on doit avoir une exception FileNotFound en créant le jeu
-        new Jeu(null, "fichierInexistant.txt", 1, true);
+        new Jeu(null, "fichierInexistant.txt", 1, true, false, false);
 
     }
 
@@ -115,13 +115,13 @@ public class TestLabyrinthe {
     @Test
     public void testPresenceDesTresors() throws FileNotFoundException{
 
-        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauVide.txt", 2, true);
+        Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauVide.txt", 2, true, false, false);
         
-        assertTrue("Le premier labyrinthe doit contenir un trésor",  j.getLabyrinthe().toString().contains("?"));
+        assertTrue("Le premier labyrinthe doit contenir un trésor"+j.getLabyrinthe().compterCasesTresor(),  j.getLabyrinthe().compterCasesTresor()>0);
 
         j.changerNiveau();
 
-        assertTrue("Le second labyrinthe doit contenir un trésor",  j.getLabyrinthe().toString().contains("?"));
+        assertTrue("Le second labyrinthe doit contenir un trésor",  j.getLabyrinthe().compterCasesTresor() >0);
 
     }
     

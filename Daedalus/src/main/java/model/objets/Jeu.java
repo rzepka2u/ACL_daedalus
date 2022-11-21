@@ -38,6 +38,8 @@ public class Jeu{
     private Object verrouInformations;
     private String path;
 
+    private boolean dossier;
+
     public Jeu(FenetreGraphique f, int nbMax){
         this(f, nbMax, false);
     }
@@ -78,18 +80,18 @@ public class Jeu{
     }
 
     public Jeu(FenetreGraphique f, String path, int nbMax) throws FileNotFoundException{
-        this(f,path, nbMax, false, false);
+        this(f,path, nbMax, false, false, true);
     }
 
     public Jeu(FenetreGraphique f, String path, int nbMax, boolean test) throws FileNotFoundException{
-        this(f,path, nbMax, test, false);
+        this(f,path, nbMax, test, false, true);
     }
 
     /** 
     * Constructeur par initialisation d'un objet Jeu avec un labyrinthe contenu dans un fichier
     * @param path Le chemin relatif ou absolu du fichier contenant le labyrinthe
     */
-    public Jeu(FenetreGraphique f, String path, int nbMax, boolean test, boolean tresorEffet) throws FileNotFoundException {
+    public Jeu(FenetreGraphique f, String path, int nbMax, boolean test, boolean tresorEffet, boolean dossier) throws FileNotFoundException {
 
         this.nbNiveau = 0;
         this.nbMaxNiveau = nbMax;
@@ -98,8 +100,15 @@ public class Jeu{
         this.informations = new ArrayList<String>();
         this.verrouInformations = new Object();
 
+        this.dossier = dossier;
+
         //Initialisation du labyrinthe via fichier texte 
-		this.labyrinthe = new Labyrinthe(getPathFichierAlea());
+		if(dossier){
+            this.labyrinthe = new Labyrinthe(getPathFichierAlea());
+        } else {
+            this.labyrinthe = new Labyrinthe(path);
+        }
+        
         if(!tresorEffet){
             labyrinthe.ajouterCasesEffet(nbNiveau);
             labyrinthe.ajouterCasesTresor(nbNiveau);
@@ -590,7 +599,11 @@ public class Jeu{
                 this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
             } else {
                 try{
-                    this.labyrinthe = new Labyrinthe(getPathFichierAlea());
+                    if(dossier){
+                        this.labyrinthe = new Labyrinthe(getPathFichierAlea());
+                    } else {
+                        this.labyrinthe = new Labyrinthe(path);
+                    }
                 } catch(FileNotFoundException e){
                     System.out.println("Le fichier voulu n'existe pas!");
                 }

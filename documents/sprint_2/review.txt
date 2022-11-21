@@ -62,7 +62,18 @@ PREVU :
     + Ajout de textes d'informations sur le statut de l'expérience
 
 REALISE :
- - 
+ - Les monstres de déplacent maintenant plus intelligement en nottament : 
+   - Les monstres qui ne peuvent pas traverser les obstacles ne se dirigent désormais plus vers ceux-ci et privilégies les cases traversables
+   - Les monstres, lorsqu'ils se trouvent à 5 cases maximum à proximité du joueur et sans obstacle les séparrant, le repèrent et le traquent jusqu'à être à pouvoir l'attaquer
+ - Les tests manquants ont été ajoutés
+ - Les tests qui ne fonctionnaient pas correctement ont été réparés
+ - Le système d'aquisition d'expérience a été correctement implémenté : 
+   - Le joueur gagne de l'expérience soit en tuant des monstres, soit en finissant un niveau et en passant au suivant
+   - Le joueur a besoin d'un montant x d'expérience pour gagner un rang
+   - A chaque rang, le montant d'expérience pour passer au suivant augmente
+   - A chaque rang, le nombre de pv maximum du joueur augmente
+ - Le lien entre expérience et compétence à été correctement réalisé : A chaque gain de rang, le joueur gagne une compétence.
+
 
 La fonctionnalité a été testée et validée.
 

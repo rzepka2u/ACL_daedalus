@@ -41,9 +41,13 @@ PREVU :
 
 REALISE :
   
-  - 
+  - Dorénavant, les trésors sont générés dans les zones opposées du chemin du joueur pour le forcer à explorer le terrain (et ainsi récupérer ces fameux trésors)
+  - Les cases avec effet sont dispersées sur le chemin du joueur pour le contraindre à adopter une stratégie de maintien des points de vie
+  - Les algorithmes utilisés pour la génération aléatoire prennent en compte la difficulté progressive des niveaux.
+  - Les sprites ont été en partie mis à jour pour un meilleur visuel.
+  - Enfin, le code est optimisé et la Javadoc est intégralement complétée.
 
-La fonctionnalité a été validée et testée. 
+La fonctionnalité a été validée. 
 
 ---
 3)

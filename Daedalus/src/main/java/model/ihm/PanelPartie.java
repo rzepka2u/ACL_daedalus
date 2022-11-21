@@ -278,47 +278,51 @@ public class PanelPartie extends JPanel{
                 Entite e = fenetre.getJeu().getEntites().get(i);
                 ImageIcon imageIcon = null;
 
-                // Si l'entitée est le joueur
-                if(e instanceof Joueur){
-                    switch (e.getRegard()) {
-                        case HAUT -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/haut.png"));}
-                        case BAS -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/bas.png"));}
-                        case DROITE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/droite.png"));}
-                        case GAUCHE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/gauche.png"));}
+                if(e.getPointsVie() > 0){
+
+                    // Si l'entitée est le joueur
+                    if(e instanceof Joueur){
+                        switch (e.getRegard()) {
+                            case HAUT -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/haut.png"));}
+                            case BAS -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/bas.png"));}
+                            case DROITE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/droite.png"));}
+                            case GAUCHE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/gauche.png"));}
+                        }
+
+                    } else if(e instanceof Gobelin){ // Si l'entitée est un Gobelin
+                        switch (e.getRegard()) {
+                            case HAUT -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/haut.png"));}
+                            case BAS -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/bas.png"));}
+                            case DROITE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/droite.png"));}
+                            case GAUCHE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/gauche.png"));}
+                        }
+                        // Création d'une nouvelle icône gobelin
+                    } else { // Si l'enittée est un fantome
+                        switch (e.getRegard()) {
+                            case HAUT -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/haut.png"));}
+                            case BAS -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/bas.png"));}
+                            case DROITE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/droite.png"));}
+                            case GAUCHE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/gauche.png"));}
+                        }
                     }
 
-                } else if(e instanceof Gobelin){ // Si l'entitée est un Gobelin
-                    switch (e.getRegard()) {
-                        case HAUT -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/haut.png"));}
-                        case BAS -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/bas.png"));}
-                        case DROITE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/droite.png"));}
-                        case GAUCHE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/gauche.png"));}
-                    }
-                    // Création d'une nouvelle icône gobelin
-                } else { // Si l'enittée est un fantome
-                    switch (e.getRegard()) {
-                        case HAUT -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/haut.png"));}
-                        case BAS -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/bas.png"));}
-                        case DROITE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/droite.png"));}
-                        case GAUCHE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/gauche.png"));}
-                    }
+                    // mise à l'échelle de l'image
+                    Image image = imageIcon.getImage();
+                    Image newimg = image.getScaledInstance(scaleWidth, scaleHeight,  java.awt.Image.SCALE_SMOOTH);
+                    imageIcon = new ImageIcon(newimg);
+
+                    // Ajout de l'icône dans un champ de texte (pour pouvoir l'afficher)
+                    JLabel label = new JLabel(imageIcon);
+                    gc.gridx = e.getY(); // La position de l'icône en ordonnée doit être celle de l'entitée
+                    gc.gridy = e.getX(); // La position de l'icône en abscisse doit être celle de l'entitée
+
+                    // On retire l'icône qui a était mise dans cette case lors de la boucle précédente
+                    panel.remove(caseLabels.get(e.getX()).get(e.getY()));
+                    caseLabels.get(e.getX()).set(e.getY(), label); // modification de l'icône dans la collections des icônes de cases
+
+                    panel.add(label, gc); // On ajoute la nouvelle icône dans le panel avec les contraintes
+
                 }
-
-                // mise à l'échelle de l'image
-                Image image = imageIcon.getImage();
-                Image newimg = image.getScaledInstance(scaleWidth, scaleHeight,  java.awt.Image.SCALE_SMOOTH);
-                imageIcon = new ImageIcon(newimg);
-
-                // Ajout de l'icône dans un champ de texte (pour pouvoir l'afficher)
-                JLabel label = new JLabel(imageIcon);
-                gc.gridx = e.getY(); // La position de l'icône en ordonnée doit être celle de l'entitée
-                gc.gridy = e.getX(); // La position de l'icône en abscisse doit être celle de l'entitée
-
-                // On retire l'icône qui a était mise dans cette case lors de la boucle précédente
-                panel.remove(caseLabels.get(e.getX()).get(e.getY()));
-                caseLabels.get(e.getX()).set(e.getY(), label); // modification de l'icône dans la collections des icônes de cases
-
-                panel.add(label, gc); // On ajoute la nouvelle icône dans le panel avec les contraintes
             }
         }
 

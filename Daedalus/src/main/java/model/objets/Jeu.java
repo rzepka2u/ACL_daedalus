@@ -248,11 +248,14 @@ public class Jeu{
         int i;
         
         if(this.entites != null){
-
             for(i=0; i<entites.size() && res == false; i++){
-                if(entites.get(i).getX() == x){
-                    if(entites.get(i).getY() == y){
-                        res = true;
+                synchronized(verrousEntites.get(i)){
+                    if(entites.get(i) instanceof Gobelin){
+                        if(entites.get(i).getX() == x){
+                            if(entites.get(i).getY() == y){
+                                res = true;
+                            }
+                        }
                     }
                 }        
             }
@@ -299,7 +302,7 @@ public class Jeu{
             ((Joueur) this.entites.get(0)).setRegard(sens);
 
             //Si la la case sur laquelle veut aller le joueur est valide alors le déplacement est effectué
-            if(validerDeplacement(px, py)){
+            if(validerDeplacement(px, py) && !emplacementOccupe(px, py)){
                 this.entites.get(0).seDeplacer(px,py);
                 res = 0;
                 if (etreSurCaseEffet(px, py)) res = 3;
@@ -465,12 +468,14 @@ public class Jeu{
                     synchronized (this.verrousEntites.get(index)) {
                         if(ent.prendreDegat(dgts)){
                             ent.setPointsVie(0);
-                        };
-                    }
-                }
-                if(lAttaquees.size()>0){
-                    synchronized(getVerrouInformations()){
-                        ajouterInfos("Vous avez touché "+lAttaquees.size()+" monstre(s) avec votre attaque!" );
+                            threads.get(index-1).arret();
+                            threads.get(index-1).interrupt();
+                            threads.remove(index-1);
+                        } else {
+                            synchronized(getVerrouInformations()){
+                                ajouterInfos("Vous avez infligé "+dgts+" au monstre ("+ent.getX()+","+ent.getY()+") avec votre attaque! (pv+pa restant: "+(ent.getPointsVie()+ent.getPointsArmure())+")");
+                            }
+                        }
                     }
                 }
             }

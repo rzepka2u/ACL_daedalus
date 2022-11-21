@@ -28,6 +28,7 @@ public class Fantome extends Entite {
     @Override
     public ArrayList<Entite> attaquer(ArrayList<Entite> entites, ArrayList<Object> verrous) {
         ArrayList<Entite> entitesTouchees = new ArrayList<Entite>();
+        
         int portee = this.getArme().getPortee();
         Joueur j = (Joueur) entites.get(0);
 

@@ -83,7 +83,7 @@ public class ThreadMonstre extends Thread {
                                     m.setRegard(sens);
                                 }
                             } else {
-                                if(jeu.validerDeplacement(px, py)) {
+                                if(jeu.validerDeplacement(px, py) && !jeu.emplacementOccupe(px, py)) {
                                     m.seDeplacer(px, py);
                                 }
                                 m.setRegard(sens);
@@ -113,9 +113,9 @@ public class ThreadMonstre extends Thread {
 
         System.out.println("Fin monstre");
 
-        synchronized(jeu.getVerrousEntites().get(positionInList)){
+        synchronized(jeu.getVerrousEntites().get(positionInList+1)){
             synchronized(jeu.getVerrouInformations()){
-                Entite e = jeu.getEntites().get(positionInList);
+                Entite e = jeu.getEntites().get(positionInList+1);
                 jeu.ajouterInfos("Le "+ (e instanceof Gobelin? "Gobelin" : "Fatôme")+ " position ("+e.getX()+","+e.getY()+") est mort!" );
                 jeu.getJoueur().gagnerExperience(2000);
             }

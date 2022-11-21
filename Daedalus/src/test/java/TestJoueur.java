@@ -81,26 +81,6 @@ public class TestJoueur {
         assertTrue("Le joueur devrait avoir gagné de l'expérience : " + jeu.getJoueur().getExperience(), jeu.getJoueur().getExperience() > pe);
     }
 
-    @Test
-    public void test_gagnerExperienceMortMonstre(){
-        double pe;
-        Entite e = jeu.getEntites().get(1);;
-
-        // Récupération du Joueur
-        Joueur jo = jeu.getJoueur();
-
-        // on stocke les points d'armure avant l'attaque
-        pe = jo.getExperience();
-
-
-
-        synchronized (jeu.getVerrousEntites().get(1)) {
-            e.prendreDegat(400);
-            assertTrue("Le joueur devrait avoir gagné de l'expérience : " + jeu.getJoueur().getExperience(), jeu.getJoueur().getExperience() > pe);
-        }
-
-    }
-
 
     /**
      * Test pour vérifier le bon fonctionnement du déplacement vers le bas du joueur

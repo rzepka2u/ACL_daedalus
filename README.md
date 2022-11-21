@@ -1,25 +1,21 @@
 # ACL_daedalus
-Projet ACL Labyrinthe (RZEPKA Thomas, NOEL Victor, POIREL Jérémy, RACOILLET Maxime)
+Ce projet de jeu avec labyrinthe est réalisé dans le cadre du module Analyse et Conception de Logiciels.
 
-Dernier sprint effecté : sprint 1
+Les membres de l'équipe sont: M. RZEPKA Thomas, M. NOEL Victor, M. POIREL Jérémy et M. RACOILLET Maxime)
 
-Pour utiliser le jeu, vous devez:
+Le dernier sprint effecté est le sprint numéro 2.
 
-    1- Se placer dans le dossier Daedalus avec votre terminal
-    2- Utiliser la commande mvn compile pour générer les fichiers .class
-    3- Utiliser la commande mvn package pour générer l'archive du projet
+Pour utiliser ce projet, vous devez avoir installé préalablement sur votre machine JAVA SE version 17.0.1, ainsi que MAVEN version 3.8.6. 
 
-    4- Une fois ceci réalisé, vous devez utiliser au choix une des deux commandes ci-dessous:
+Pour déployer et exécuté le jeu, vous devez:
 
-        - Pour générer un jeu avec un labyrinthe défini dans un fichier .txt: 
-            
-            java -cp target/Daedalus-1.0.jar start.Main [chaîne de caractère contenant le lien du fichier (relatif ou absolu)]
+    1- vous placer dans le dossier Daedalus avec votre terminal
+    2- Utiliser la commande "mvn compile" pour générer les fichiers .class
+    3- Utiliser la commande "mvn package" pour générer l'archive du projet
 
-            Un fichier préfabriqué est déjà utilisable avec le lien "src/main/ressources/niveaux/niveau0.txt".
-
-        - Pour générer un jeu avec un labyrinthe défini par défaut (toujours le même):
-
-            java -cp target/Daedalus-1.0.jar start.Main 
+    4- Une fois ceci réalisé, vous devez utiliser la commande ci-dessous pour exécuter le jeu ci-dessous:
+        
+        java -cp target/Daedalus-2.0.jar start.Main 
 
 Pour exécuter les fichiers de test, vous devez entrer, dans l'ordre, les commandes:
 

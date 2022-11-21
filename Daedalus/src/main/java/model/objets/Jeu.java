@@ -2,6 +2,7 @@ package model.objets;
 
 import model.cases.Case;
 import model.cases.CaseVide;
+import model.cases.Coordonnee;
 import model.cases.CaseEffet;
 import model.cases.CaseSortie;
 
@@ -13,6 +14,7 @@ import model.ihm.FenetreGraphique;
 import model.threads.ThreadEffet;
 import model.threads.ThreadMonstre;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -34,6 +36,9 @@ public class Jeu{
     private int nbNiveau;
     private ArrayList<String> informations;
     private Object verrouInformations;
+    private String path;
+
+    private boolean dossier;
 
     public Jeu(FenetreGraphique f, int nbMax){
         this(f, nbMax, false);
@@ -49,6 +54,7 @@ public class Jeu{
         this.fenetre = f;
         this.informations = new ArrayList<String>();
         this.verrouInformations = new Object();
+        this.path = null;
 
         //Initialisation du labyrinthe avec le labyrinthe par défaut
         this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
@@ -74,28 +80,35 @@ public class Jeu{
     }
 
     public Jeu(FenetreGraphique f, String path, int nbMax) throws FileNotFoundException{
-        this(f,path, nbMax, false, false);
+        this(f,path, nbMax, false, false, true);
     }
 
     public Jeu(FenetreGraphique f, String path, int nbMax, boolean test) throws FileNotFoundException{
-        this(f,path, nbMax, test, false);
+        this(f,path, nbMax, test, false, true);
     }
 
     /** 
     * Constructeur par initialisation d'un objet Jeu avec un labyrinthe contenu dans un fichier
     * @param path Le chemin relatif ou absolu du fichier contenant le labyrinthe
     */
-    public Jeu(FenetreGraphique f, String path, int nbMax, boolean test, boolean tresorEffet) throws FileNotFoundException {
+    public Jeu(FenetreGraphique f, String path, int nbMax, boolean test, boolean tresorEffet, boolean dossier) throws FileNotFoundException {
 
         this.nbNiveau = 0;
         this.nbMaxNiveau = nbMax;
         this.fenetre = f;
-
+        this.path = path;
         this.informations = new ArrayList<String>();
         this.verrouInformations = new Object();
 
+        this.dossier = dossier;
+
         //Initialisation du labyrinthe via fichier texte 
-		this.labyrinthe = new Labyrinthe(path);
+		if(dossier){
+            this.labyrinthe = new Labyrinthe(getPathFichierAlea());
+        } else {
+            this.labyrinthe = new Labyrinthe(path);
+        }
+        
         if(!tresorEffet){
             labyrinthe.ajouterCasesEffet(nbNiveau);
             labyrinthe.ajouterCasesTresor(nbNiveau);
@@ -158,6 +171,10 @@ public class Jeu{
         return this.verrouInformations;
     }
 
+    public String getPath(){
+        return this.path;
+    }
+
     public ArrayList<ThreadMonstre> getThreads(){
         return this.threads;
     }
@@ -205,17 +222,48 @@ public class Jeu{
         
     }
 
+    public String getPathFichierAlea(){
+        
+        File rep = new File(this.path);
+        File[] fichiers = rep.listFiles();
+        
+        ArrayList<String> nomFichiers = new ArrayList<String>();
+        int nbFichier=0, i;
+
+        for(i=0; i<fichiers.length; i++){
+            if(fichiers[i].isFile()){
+                nbFichier++;
+                nomFichiers.add(fichiers[i].toString());
+            }
+        }
+
+        if(nbFichier>0){
+
+            int x = (int) Math.floor(Math.random() * nbFichier) + 1;
+
+            return nomFichiers.get(x);
+
+        }
+
+        return null;
+    }
+
     public boolean emplacementOccupe(int x, int y){
         
         boolean res = false;
         int i;
         
         if(this.entites != null){
-
             for(i=0; i<entites.size() && res == false; i++){
-                if(entites.get(i).getX() == x){
-                    if(entites.get(i).getY() == y){
-                        res = true;
+                synchronized(verrousEntites.get(i)){
+                    if(entites.get(i) instanceof Gobelin){
+                        if(entites.get(i).getX() == x){
+                            if(entites.get(i).getY() == y){
+                                if(entites.get(i).getPointsVie() >0 ){
+                                    res = true;
+                                }
+                            }
+                        }
                     }
                 }        
             }
@@ -262,7 +310,7 @@ public class Jeu{
             ((Joueur) this.entites.get(0)).setRegard(sens);
 
             //Si la la case sur laquelle veut aller le joueur est valide alors le déplacement est effectué
-            if(validerDeplacement(px, py)){
+            if(validerDeplacement(px, py) && !emplacementOccupe(px, py)){
                 this.entites.get(0).seDeplacer(px,py);
                 res = 0;
                 if (etreSurCaseEffet(px, py)) res = 3;
@@ -343,7 +391,7 @@ public class Jeu{
             }
 
             synchronized(verrouInformations){
-                ajouterInfos("Vous avez déclencher une case a éffets "+(ce.getProgressif()? "progressif" : "unique")+" "+(ce.getDiminutionPV()>0?"infligant "+ce.getDiminutionPV():"augmantenant "+ce.getAugmentation())+" points de vie!");
+                ajouterInfos("Vous avez déclencher une case a éffet "+(ce.getProgressif()? "progressif" : "unique")+" "+(ce.getDiminutionPV()>0?"infligant "+ce.getDiminutionPV():"augmentant "+ce.getAugmentation())+" points de vie!");
             }
         }
 
@@ -351,7 +399,7 @@ public class Jeu{
             if(getJoueur().isRevenant()){
                 getJoueur().setPointsVie(20);
             } else {
-                mortJoueur();
+                mortJoueur(-1);
             }
         }
     }
@@ -359,35 +407,46 @@ public class Jeu{
     public int[] etreProcheCaseTresor() {
         int[] pos = {-1, -1};
         Case c;
-        switch(getJoueur().getRegard()) {
-            case HAUT : 
-                c = this.labyrinthe.getCase(this.getJoueur().getX()-1, this.getJoueur().getY());
-                if(c instanceof CaseTresor) {
-                    pos[0] = this.getJoueur().getX()-1;
-                    pos[1] = this.getJoueur().getY();
-                }
-            break;
-            case BAS : 
-                c = this.labyrinthe.getCase(this.getJoueur().getX()+1, this.getJoueur().getY());
-                if(c instanceof CaseTresor) {
-                    pos[0] = this.getJoueur().getX()+1;
-                    pos[1] = this.getJoueur().getY();
-                }
-            break;
-            case GAUCHE : 
-                c = this.labyrinthe.getCase(this.getJoueur().getX(), this.getJoueur().getY()-1);
-                if(c instanceof CaseTresor) {
-                    pos[0] = this.getJoueur().getX();
-                    pos[1] = this.getJoueur().getY()-1;
-                }
-            break;
-            case DROITE : 
-                c = this.labyrinthe.getCase(this.getJoueur().getX(), this.getJoueur().getY()+1);
-                if(c instanceof CaseTresor) {
-                    pos[0] = this.getJoueur().getX();
-                    pos[1] = this.getJoueur().getY()+1;
-                }
-            break;
+
+        synchronized(verrousEntites.get(0)){
+            switch(getJoueur().getRegard()) {
+                case HAUT : 
+                    synchronized(labyrinthe.getVerrousCases().get(getJoueur().getX()-1).get(getJoueur().getY())){
+                        c = this.labyrinthe.getCase(this.getJoueur().getX()-1, this.getJoueur().getY());
+                        if(c instanceof CaseTresor) {
+                            pos[0] = this.getJoueur().getX()-1;
+                            pos[1] = this.getJoueur().getY();
+                        }
+                    }
+                break;
+                case BAS : 
+                    synchronized(labyrinthe.getVerrousCases().get(getJoueur().getX()+1).get(getJoueur().getY())){
+                        c = this.labyrinthe.getCase(this.getJoueur().getX()+1, this.getJoueur().getY());
+                        if(c instanceof CaseTresor) {
+                            pos[0] = this.getJoueur().getX()+1;
+                            pos[1] = this.getJoueur().getY();
+                        }
+                    }
+                break;
+                case GAUCHE : 
+                    synchronized(labyrinthe.getVerrousCases().get(getJoueur().getX()).get(getJoueur().getY()-1)){
+                        c = this.labyrinthe.getCase(this.getJoueur().getX(), this.getJoueur().getY()-1);
+                        if(c instanceof CaseTresor) {
+                            pos[0] = this.getJoueur().getX();
+                            pos[1] = this.getJoueur().getY()-1;
+                        }
+                    }
+                break;
+                case DROITE : 
+                    synchronized(labyrinthe.getVerrousCases().get(getJoueur().getX()).get(getJoueur().getY()+1)){
+                        c = this.labyrinthe.getCase(this.getJoueur().getX(), this.getJoueur().getY()+1);
+                        if(c instanceof CaseTresor) {
+                            pos[0] = this.getJoueur().getX();
+                            pos[1] = this.getJoueur().getY()+1;
+                        }
+                    }
+                break;
+            }
         }
         return pos;
     }
@@ -417,48 +476,102 @@ public class Jeu{
                     synchronized (this.verrousEntites.get(index)) {
                         if(ent.prendreDegat(dgts)){
                             ent.setPointsVie(0);
-                        };
-                    }
-                }
-                if(lAttaquees.size()>0){
-                    synchronized(getVerrouInformations()){
-                        ajouterInfos("Vous avez touchez "+lAttaquees.size()+" monstres avec votre attaque!" );
+                            threads.get(index-1).arret();
+                            threads.get(index-1).interrupt();
+                        } else {
+                            synchronized(getVerrouInformations()){
+                                ajouterInfos("Vous avez infligé "+dgts+" au monstre ("+ent.getX()+","+ent.getY()+") avec votre attaque! (pv+pa restant: "+(ent.getPointsVie()+ent.getPointsArmure())+")");
+                            }
+                        }
                     }
                 }
             }
         } else if(cmd.getOrdre() == Ordre.OUVRIR){
             int[] poscoffre = etreProcheCaseTresor();
             if(poscoffre[0] != -1 && poscoffre[1] != -1) {
-                CaseTresor ct = (CaseTresor) labyrinthe.getCase(poscoffre[0], poscoffre[1]);
-                if(!ct.getOuvert()) ct.ouvrirTresor();
-            }
-        } else if(cmd.getOrdre() == Ordre.RAMASSER){
-            // on teste si le joueur se trouve sur une case d'un trésor (et non d'un coffre)
-            if(this.getLabyrinthe().getCase(this.getJoueur().getX(), this.getJoueur().getY()) instanceof CaseTresor) {
-                CaseTresor ct = (CaseTresor) this.getLabyrinthe().getCase(this.getJoueur().getX(), this.getJoueur().getY());
-                if(ct.getOuvert()) {
-                    // on teste si ce trésor est une arme
-                    if(ct.getContenu() instanceof Arme) {
-                        Arme temp_a = this.getJoueur().getArme();
-                        Arme nov_a = ((Arme) ct.getContenu());
-                        // pose l'arme par terre
-                        ct.setContenu(temp_a);
-
-                        // switch avec la nouvelle
-                        this.getJoueur().setArme(nov_a);
-                    } else if(ct.getContenu() instanceof PieceArmure) {
-                        // on ajoute de l'armure
-                    } else if(ct.getContenu() instanceof Potion) {
-                        this.getJoueur().ajouterPotion();
+                synchronized(labyrinthe.getVerrousCases().get(poscoffre[0]).get(poscoffre[1])){
+                    CaseTresor ct = (CaseTresor) labyrinthe.getCase(poscoffre[0], poscoffre[1]);
+                    if(!ct.getOuvert()){
+                        ct.ouvrirTresor();
+                        synchronized(verrouInformations){
+                            ajouterInfos("Vous venez d'ourvir un coffre !");
+                        }
                     }
                 }
             }
-            // TO DO: RAMMASER UN TRESOR A PROXIMITE
+        } else if(cmd.getOrdre() == Ordre.RAMASSER){
+            synchronized(verrousEntites.get(0)){
+                int x = getJoueur().getX();
+                int y = getJoueur().getY();
+                synchronized(this.getLabyrinthe().getVerrousCases().get(x).get(y)){
+                    // on teste si le joueur se trouve sur une case d'un trésor (et non d'un coffre)
+                    if(this.getLabyrinthe().getCase(x, y) instanceof CaseTresor) {
+                        CaseTresor ct = (CaseTresor) this.getLabyrinthe().getCase(x, y);
+                        if(ct.getOuvert()) {
+                            // on teste si ce trésor est une arme
+                            if(ct.getContenu() instanceof Arme) {
+                                Arme temp_a = this.getJoueur().getArme();
+                                Arme nov_a = ((Arme) ct.getContenu());
+                                // pose l'arme par terre
+                                ct.setContenu(temp_a);
+
+                                // switch avec la nouvelle
+                                this.getJoueur().setArme(nov_a);
+
+                                synchronized(verrouInformations){
+                                    ajouterInfos("Vous d'échanger l'arme "+temp_a.getNom()+" par l'arme "+nov_a.getNom()+"!");
+                                }                                
+
+                            } else if(ct.getContenu() instanceof PieceArmure) {
+                                // on ajoute de l'armure
+
+                                if(this.getJoueur().ramasserArmure((PieceArmure)ct.getContenu())){
+                                    labyrinthe.getCases().get(x).set(y, new CaseVide(-1, new Coordonnee(x,y)));
+                                    synchronized(verrouInformations){
+                                        ajouterInfos("Vous de ramasser une pièce d'amure rapportant "+((PieceArmure)ct.getContenu()).getPointsArmure()+" points d'armure!");
+                                    }
+                                } else {
+                                    synchronized(verrouInformations){
+                                        ajouterInfos("Vos points d'armure sont déjà au maximum!");
+                                    }
+                                }
+
+                                
+                            } else if(ct.getContenu() instanceof Potion) {
+                                
+                                if(this.getJoueur().ajouterPotion((Potion)ct.getContenu())){
+                                    labyrinthe.getCases().get(x).set(y, new CaseVide(-1, new Coordonnee(x,y)));
+                                    synchronized(verrouInformations){
+                                        ajouterInfos("Vous venez de ramasser une potion rapportant "+((Potion)ct.getContenu()).getAugmentation()+" points de vie!");
+                                    }
+                                } else {
+                                    synchronized(verrouInformations){
+                                        ajouterInfos("Votre inventaire de potion est déjà plein!");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         } else if(cmd.getOrdre() == Ordre.BOIRE){
-            // TO DO: BOIRE LA POTION A L'indice cmd.getIndice() dans la collection du joueur
-            this.getJoueur().boirePotion();
+            synchronized(verrousEntites.get(0)){
+                if(this.getJoueur().boirePotion(cmd.getIndice())){
+                    synchronized(verrouInformations){
+                        ajouterInfos("Vous venez de boire votre potion dans à la place "+cmd.getIndice()+"de l'inventaire.");
+                    }
+                }
+            }
         } else if(cmd.getOrdre() == Ordre.COMPETENCE) {
-            this.getJoueur().lancerCompetence(cmd.getIndice());
+            if(this.getJoueur().lancerCompetence(cmd.getIndice())){
+                synchronized(verrouInformations){
+                    ajouterInfos("Vous venez d'activer la compétence "+getJoueur().getCompetences().get(cmd.getIndice()).getType().toString()+" du joueur.");
+                }
+            } else {
+                synchronized(verrouInformations){
+                    ajouterInfos("Vous n'avez pas de compétence activable à cette position.");
+                }
+            }
         }
     }
 
@@ -468,10 +581,10 @@ public class Jeu{
         // - INTERRUPT LES THREADS MONSTRES
         int i;
 
-        for(i=0; i<threads.size(); i++){
-            threads.get(i).arret();
-            threads.get(i).interrupt();
-            threads.remove(threads.get(i));
+        while(threads.size() > 0){
+            threads.get(0).arret();
+            threads.get(0).interrupt();
+            threads.remove(0);
         }
 
         // - INTERUPT LES THREADS EFFETS PROGRESSIF
@@ -482,8 +595,19 @@ public class Jeu{
         if(nbNiveau < nbMaxNiveau-1){
             
             // 1- CREATION NOUVEAU LABYRINTHE 
-
-            this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
+            if(path == null){
+                this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
+            } else {
+                try{
+                    if(dossier){
+                        this.labyrinthe = new Labyrinthe(getPathFichierAlea());
+                    } else {
+                        this.labyrinthe = new Labyrinthe(path);
+                    }
+                } catch(FileNotFoundException e){
+                    System.out.println("Le fichier voulu n'existe pas!");
+                }
+            }
             nbNiveau++;
             labyrinthe.ajouterCasesEffet(nbNiveau);
             labyrinthe.ajouterCasesTresor(nbNiveau);
@@ -520,17 +644,15 @@ public class Jeu{
         long nombreEntite =  Math.round(nbNiveau * 0.80 + 2);
         int i;
 
-
-        if(threads != null){
-            while(threads.size() > 0){
-                threads.remove(0);
-                verrousEntites.remove(1);
-                entites.remove(1);
-            }
+        
+        while(verrousEntites.size() > 1 ){
+            verrousEntites.remove(1);
+            entites.remove(1);
         }
 
 
         for(i=0; i<nombreEntite; i++){
+
             
             int[] determinerDepart = determinerDepart(this.labyrinthe);
 
@@ -551,20 +673,20 @@ public class Jeu{
     }
 
     // Méthode appelée lorsque le joueur est mort
-    public void mortJoueur(){
+    public void mortJoueur(int index){
         
         // - INTERRUPT LES THREADS MONSTRES
         int i;
 
         for(i=0; i<threads.size(); i++){
             threads.get(i).arret();
-            threads.get(i).interrupt();
-            threads.remove(threads.get(i));
+            if(i!=index){
+                threads.get(i).interrupt();
+            }
         }
 
-        // - INTERUPT LES THREADS EFFETS PROGRESSIF
-        for(i=0; i<threadsEffet.size(); i++){
-            threadsEffet.get(i).interrupt();
+        while(threads.size() > 0){
+            threads.remove(threads.get(0));
         }
 
         fenetre.afficherVueFin(false);
@@ -579,6 +701,72 @@ public class Jeu{
 
     public int getNbNiveau() {
         return this.nbNiveau;
+    }
+
+    public boolean chercherJoueur(int x, int y, int compteur, Direction casePrecedente){
+
+        if(compteur > 5){
+            return false;
+        }
+
+
+        synchronized(labyrinthe.getVerrousCases().get(x).get(y)){
+            if(labyrinthe.getCases().get(x).get(y).estTraversable()){
+
+                if(getJoueur().getX() == x && getJoueur().getY() == y){
+                    return true;
+                } else{
+
+                    if(casePrecedente != Direction.HAUT){
+                        synchronized(labyrinthe.getVerrousCases().get(x+1).get(y)){
+                            
+                            if(chercherJoueur(x+1, y, compteur+1, Direction.BAS)){
+                                return true;
+                            }
+                
+                        }
+                    }
+
+                    if(casePrecedente != Direction.BAS){
+                        synchronized(labyrinthe.getVerrousCases().get(x-1).get(y)){
+                            
+                                if(chercherJoueur(x-1, y, compteur+1, Direction.HAUT)){
+                                    return true;
+                                }
+                            
+                        }
+                    }
+
+                    if(casePrecedente != Direction.GAUCHE){
+                        synchronized(labyrinthe.getVerrousCases().get(x).get(y+1)){
+                            
+                                if(chercherJoueur(x, y+1, compteur+1, Direction.DROITE)){
+                                    return true;
+                                }
+                            
+                        }
+                    }
+
+                    if(casePrecedente != Direction.DROITE){
+                        synchronized(labyrinthe.getVerrousCases().get(x).get(y-1)){
+                            
+                                if(chercherJoueur(x, y-1, compteur+1, Direction.GAUCHE)){
+                                    return true;
+                                }
+                            
+                        }
+                    }
+
+                    return false;
+                }
+
+            } else {
+
+                return false;
+            
+            }
+        }
+
     }
 
     @Override

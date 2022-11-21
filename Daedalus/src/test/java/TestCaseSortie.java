@@ -19,7 +19,7 @@ public class TestCaseSortie {
     @BeforeClass
     public static void constructionJeuPourTests() throws FileNotFoundException {
 
-        jeu = new Jeu(null, "src/main/resources/niveaux/niveauVide.txt", 1, true, true);
+        jeu = new Jeu(null, "src/main/resources/niveaux/niveauVide.txt", 1, true, true, false);
 
     }
 

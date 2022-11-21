@@ -34,15 +34,13 @@ public class ThreadAffichage extends Thread{
             
             // Attente de 300 milisecondes
             try{
-                sleep(5);
-            } catch (InterruptedException e){
-                System.out.println("SLEEP INTERROMPU");
-            }
+                sleep(150);
+            } catch (InterruptedException e){}
 
-            synchronized(fenetre.getVerrouContent()){
+            
                 // Rafraîchissent du panel de partie dans la fenêtre
                 fenetre.raffraichirPartie();
-            }
+            
             
         }
     }

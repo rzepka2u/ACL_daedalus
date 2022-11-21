@@ -7,6 +7,8 @@ public abstract class Entite {
 
     protected static final int NB_PV_START = 100;
     protected static final int NB_PA_START = 50;
+    // Nombre de points de vie maximum du joueur évoluant au fil de la partie et des rangs gagnés
+    protected static int NB_PV_MAX = 100;
     /**
      * Coordonnees de l'entite
      */
@@ -174,6 +176,7 @@ public abstract class Entite {
     }
 
     public void modifierPV(int effet) {
+        if(pointsVie + effet <= NB_PV_MAX)
         pointsVie += effet;
     }
 

@@ -2,7 +2,7 @@
 FONCTIONNALITE : Amélioration l'Interface graphique + tests attaque joueur + tests gestions joueurs
     - Correction des bugs, optimisation et réorganisation du code de l'IHM
     - Travail de l'aspect graphique de la fenêtre (améliorations)
-    - Finition détails et implémentation partie formulaires et barre de menu non implémenter
+    - Finition détails et implémentation concernant la partie formulaire de la page d'acceuil, ainsi que la barre de menu
     - Ajout d'un panel pour modifier les touches de jeu 
     - Gestion d'une partie avec un dossier de fichiers niveaux
     - Amélioration des tests sur l'attaque et la gestion des armes/potions et ajout de ceux manquant (sprint précédent)
@@ -60,7 +60,7 @@ TESTS :
 
 
 3)
-FONCTIONNALITE : 
+FONCTIONNALITE : Amélioration monstres et cases éffet + améliorations tests labyrinthe + implémentation expériences et niveaux
 
     Améliorations comportement monstres + cases effets (sprint précédent)
         - Optimisation et réorganisation du code du sprint précédent
@@ -102,7 +102,8 @@ TESTS :
 
 ---
 4)
-FONCTIONNALITE : 
+FONCTIONNALITE : Amélioration attaque et trésors du joueurs + amélioration test comportement monstre + Création compétences
+
   Améliorations attaque du joueur et la gestion des trésors (ramasser et ouvrir)
     - Optimisation et réorganisation du code du sprint précédent
     - Amélioration de la qualité des actions pour fluidifier le déroulement du jeu

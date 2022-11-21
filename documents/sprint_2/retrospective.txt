@@ -1,28 +1,33 @@
 SPRINT RETROSPECTIVE : ce qui s’est bien passé (ou pas) et les décisions pour le sprint suivant
 
-Le sprint 1 a permis la modification de la méthode de travail :
+Le sprint 2 a encore une fois permis l'amélioration de la méthodologie de travail SCRUM :
   - Meilleure synchronisation lorsque plusieurs personnes devaient travailler sur les mêmes classes
   - Bonne gestion des conflits sur les fichiers 
-  - Meilleure communication sur l'avancée, du fait du nombre plus important de fonctionnalités à effectuer durant ce sprint
+  - Meilleure communication sur l'avancée, du fait du nombre important de fonctionnalités à effectuer durant ce sprint
 
-Le projet a bien avancé :
-  - Les fonctionnalités prévues pour le sprint 1 ont été réalisées (certaines différemment que prévu initialement)
-  - Tous les membres de l'équipe ont travaillés équitablement (sauf pour les diagrammes, voir partie cependant)
-  - Il reste du travail à faire pour les itérations suivantes
+Le projet est se rapproche enormément de la version finale :
+  - Les fonctionnalités prévues pour le sprint 2 ont été réalisées sans trop s'écarter de l'idée de départ 
+  - Tous les membres de l'équipe ont travaillés équitablement
+  - Il reste du travail à faire pour les itérations suivantes: corrections derniers bugs présent + ajouts légères
+    fonctionnalités pour améliorer l'expérience de l'utilisateur + continuer l'amélioration aspect graphique + 
+    meilleure gestion commentaires et javadoc
+  - Les tests sont de nouveaux fonctionnelles contrairement au sprint 1 (ce qui empaîchait le lancement du jeu avec ceux-ci 
+    présents). Ils sont beaucoup mieux gérer maintenant à la suite de notre TP sur les tests qui nous a permis de pratiquer
+    et d'apprendre d'avantage.
+  - Les diagrammes de classes et de séquence pour la documentation sont plus soigné et lisible.
+  - On remarque pour finir que tout ce qui était présent dans notre vision produit de départ est maintenant implémenté.
 
-Cependant :
-  - Quelques difficultés pour réaliser les diagrammes, les fonctionnalités et leurs tests puisque 3 personnes du groupe ont été malades durant ce sprint.
-  - Pour cette raison le travail s'est surtout concentré sur la fin du sprint.
+Pour le sprint suivant nous avons décidé de garder ce rythme de travail qui nous a plutôt bien réussi ce coup-ci. 
 
+L'objectif est tout d'abord d'avoir une meilleure expérience de jeu parfaite.
 
-Pour le sprint suivant nous avons décidé de mieux adapter le développement au temps que nous auront afin de réaliser un code de meilleure qualité tout en travaillant sur les autres projets. 
+- Dans un premier temps, nous devons avoir toutes les fonctionnalités présente dans l'application correcte et plus aucunes traces
+  de bug
 
-L'objectif est tout d'abord d'avoir une meilleure expérience de jeu (faire en sorte que toute les fonctionnalités du jeu soient implémentées.
-- Dans un premier temps, nous souhaitons avoir une interface graphique amélioré (plus conviviale et avec de nouveaux sprites)
+- Dans un deuxième temps les fichiers de documentation mais aussi le code et les commentaires (+javadoc) doivent être parfait
+  à la fin de se sprint, pour des question de rendus. Il va falloir reprendre chaque fichiers un à un.
 
-- Dans un deuxième temps, les bugs résiduels devront être corrigés et le code amélioré. 
-  Il va falloir faire une refonte de certaines méthodes et classes pour optimiser les calculs et éviter la duplication de code.
+- L'aspect graphique de l'IHM va devoir continuer d'être amélioré (c'est sans fin, on peut toujours faire plus et mieux).
 
-- Les cases spéciales devront être mieux gérées et de nouvelles seront ajoutées.
-
-- Le système d'armes va devoir être amélioré.
+- Nous devons également retrouver chacun une petite fonctionnalité qui apporterait un plus au jeu afin de profiter tout de même
+  de se sprint pour ajouter d'autres choses à l'application.

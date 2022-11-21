@@ -743,7 +743,7 @@ public class Jeu{
                 pos[1] = 0;
             } else {
                 if(this.labyrinthe.getCase(m.getX() - distance - 1, m.getY()).estTraversable()) {
-                    chercherJoueurXP(m, distance + 1);
+                    chercherJoueurXN(m, distance + 1);
                 }
             }
         }
@@ -758,7 +758,7 @@ public class Jeu{
                 pos[1] = distance;
             } else {
                 if(this.labyrinthe.getCase(m.getX(), m.getY() + distance + 1).estTraversable()) {
-                    chercherJoueurXP(m, distance + 1);
+                    chercherJoueurYP(m, distance + 1);
                 }
             }
         }
@@ -773,7 +773,7 @@ public class Jeu{
                 pos[1] = -distance;
             } else {
                 if(this.labyrinthe.getCase(m.getX(), m.getY() - distance - 1).estTraversable()) {
-                    chercherJoueurXP(m, distance + 1);
+                    chercherJoueurYN(m, distance + 1);
                 }
             }
         }

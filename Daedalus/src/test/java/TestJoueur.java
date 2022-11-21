@@ -68,6 +68,23 @@ public class TestJoueur {
 
     }
 
+    @Test
+    public void test_gagnerExperienceChangementNiveau(){
+        double pe;
+        Entite e;
+
+        // Récupération du Joueur
+        Joueur jo = jeu.getJoueur();
+
+        // on stocke les points d'armure avant l'attaque
+        pe = jo.getExperience();
+
+        jeu.changerNiveau();
+
+        assertTrue("Le joueur devrait avoir gagné de l'expérience : " + jeu.getJoueur().getExperience(), jeu.getJoueur().getExperience() > pe);
+    }
+
+
     /**
      * Test pour vérifier le bon fonctionnement du déplacement vers le bas du joueur
      * @throws FileNotFoundException
@@ -187,6 +204,8 @@ public class TestJoueur {
 
         assertTrue("Le nombre de points de vie doit être de 20."+jeu.getJoueur().getPointsVie(), jeu.getJoueur().getPointsVie() == 20);
     }
+
+
 
 
 }

@@ -5,7 +5,7 @@ Les membres de l'équipe sont: M. RZEPKA Thomas, M. NOEL Victor, M. POIREL Jér�
 
 Le dernier sprint effecté est le sprint numéro 2.
 
-Pour utiliser ce projet, vous devez avoir installé préalablement sur votre machine JAVA SE version 17.0.1, ainsi que MAVEN version 3.8.6. 
+Pour utiliser ce projet, il est recommandé d'utiliser JAVA SE version 17.0.1 ainsi que MAVEN version 3.8.6. 
 
 Pour déployer et exécuté le jeu, vous devez:
 

@@ -1,10 +1,12 @@
 package model.objets;
 
+import java.lang.ProcessBuilder.Redirect.Type;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Timer;
 
 import model.enums.Direction;
+import model.enums.TypeCompetence;
 
 /**
 * La classe qui représente le joueur dans le labyrinthe
@@ -105,6 +107,7 @@ public class Joueur extends Entite {
     /**
      * Méthode permettant de faire gagner une certaine quantité d'expérience au joueur et lui 
      * faire éventuellement passer au rang suivant si le montant d'expérience est suffisant
+     * Permet également au joueur d'acquérir les améliorations liées au passage au rang suivant 
      * @param xp : montant d'expérience gagné par le joueur
      */
     public void gagnerExperience(double xp) {
@@ -115,7 +118,11 @@ public class Joueur extends Entite {
             NB_PV_MAX += 10;
             this.seSoigner(10);
             NB_PA_MAX += 10;
-            TAILLE_INVENTAIRE += 1;
+            //TAILLE_INVENTAIRE += 1; 
+            if(this.rang == 2) ajouterCompetence(new Competence(TypeCompetence.BERSERKER, 2, 10, 0));
+            if(this.rang == 3) ajouterCompetence(new Competence(TypeCompetence.BOUCLIER_MAGIQUE, 3, 0, 2));
+            if(this.rang == 4) ajouterCompetence(new Competence(TypeCompetence.DRAIN_VIE, 4, 10, 1));
+            if(this.rang == 5) ajouterCompetence(new Competence(TypeCompetence.REVENANT, 5, 0, 0));
         }
     }
 

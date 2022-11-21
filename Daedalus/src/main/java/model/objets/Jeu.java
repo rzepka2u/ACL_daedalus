@@ -696,6 +696,90 @@ public class Jeu{
         return this.nbNiveau;
     }
 
+    public int[] chercherJoueur(Entite m) {
+        int[] pos = {-1, -1}; 
+        int[] xp = chercherJoueurXP(m, 1);
+        if(xp[0] == -1 && xp[1] == -1) {
+            int[] xn = chercherJoueurXN(m, 1);
+            if(xn[0] == -1 && xn[1] == -1) {
+                int[] yp = chercherJoueurYP(m, 1);
+                if(yp[0] == -1 && yp[1] == -1) {
+                    int[] yn = chercherJoueurYN(m, 1);
+                    if(yn[0] != -1 && yn[1] != -1) {
+                        pos = yn;
+                    }
+                } else {
+                    pos = yp;
+                }
+            } else {
+                pos = xn;
+            }
+        } else {
+            pos = xp;
+        }
+        return pos;
+    }
+
+    public int[] chercherJoueurXP(Entite m, int distance) {
+        int[] pos = {-1, -1};
+        if(distance <= 4) {
+            if(m.getX() + distance == this.getJoueur().getX() && distance <= 4) {
+                pos[0] = distance;
+                pos[1] = 0;
+            } else {
+                if(this.labyrinthe.getCase(m.getX() + distance + 1, m.getY()).estTraversable()) {
+                    chercherJoueurXP(m, distance + 1);
+                }
+            }
+        }
+        return pos;
+    }
+
+    public int[] chercherJoueurXN(Entite m, int distance) {
+        int[] pos = {-1, -1};
+        if(distance <= 4) {
+            if(m.getX() - distance == this.getJoueur().getX() && distance <= 4) {
+                pos[0] = -distance;
+                pos[1] = 0;
+            } else {
+                if(this.labyrinthe.getCase(m.getX() - distance - 1, m.getY()).estTraversable()) {
+                    chercherJoueurXP(m, distance + 1);
+                }
+            }
+        }
+        return pos;
+    }
+
+    public int[] chercherJoueurYP(Entite m, int distance) {
+        int[] pos = {-1, -1};
+        if(distance <= 4) {
+            if(m.getY() + distance == this.getJoueur().getY() && distance <= 4) {
+                pos[0] = 0;
+                pos[1] = distance;
+            } else {
+                if(this.labyrinthe.getCase(m.getX() + distance + 1, m.getY()).estTraversable()) {
+                    chercherJoueurXP(m, distance + 1);
+                }
+            }
+        }
+        return pos;
+    }
+
+    public int[] chercherJoueurYN(Entite m, int distance) {
+        int[] pos = {-1, -1};
+        if(distance <= 4) {
+            if(m.getY() - distance == this.getJoueur().getY() && distance <= 4) {
+                pos[0] = 0;
+                pos[1] = -distance;
+            } else {
+                if(this.labyrinthe.getCase(m.getX() - distance - 1, m.getY()).estTraversable()) {
+                    chercherJoueurXP(m, distance + 1);
+                }
+            }
+        }
+        return pos;
+    }
+
     @Override
     public String toString(){
 

@@ -88,7 +88,7 @@ REALISE :
   - Le ramassage et l'ouverture des trésors est lui aussi maintenant 100% fonctionnelle (plus auncun bug et optimisée)
   - Le comportement des monstres est désormais mieux testé qu'au sprint précédent.
   - Création de compétences et de leurs effets respectifs
-  - Lorsque l'utilisateur appuie sur 1, 2, 3 ou 4, la compétence respective est lancée
+  - Lorsque l'utilisateur appuie sur une touche de lancement de compétence, la compétence respective est lancée
   - Gestion des temps ou condition de recharge
 
   - Les différents types de compétences sont :

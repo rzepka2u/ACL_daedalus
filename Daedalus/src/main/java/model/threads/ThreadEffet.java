@@ -28,7 +28,7 @@ public class ThreadEffet extends Thread {
                 j.modifierPV(augmentation);
                 j.modifierPV(-diminution);
                 if(j.getPointsVie() <= 0){
-                    jeu.mortJoueur();
+                    jeu.mortJoueur(-1);
                 }
             }
 

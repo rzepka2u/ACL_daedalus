@@ -66,20 +66,41 @@ public class Joueur extends Entite {
     /**
      * Méthode permattant d'ajouter une potion dans l'inventaire du joueur en respectant la taille limite de son inventaire
      */
-    public void ajouterPotion() {
+    public boolean ajouterPotion(Potion p) {
         if(this.inventaire.size() < TAILLE_INVENTAIRE) {
-            this.inventaire.add(new Potion(10));
+            this.inventaire.add(p);
+            return true;
         }
+        
+        return false;
+    }
+
+    public boolean ramasserArmure(PieceArmure p){
+        if(this.getPointsArmure() < NB_PA_MAX){
+
+            this.setPointsArmure(this.getPointsArmure()+p.getPointsArmure());
+
+            if(this.getPointsArmure() > NB_PA_MAX){
+                this.setPointsArmure(NB_PA_MAX);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * Méthode permettant au joueur de boire une potion et de récupérer un certain montant de points de vie 
      */
-    public void boirePotion() {
-        if(!this.inventaire.isEmpty()) {
-            this.seSoigner(this.inventaire.get(0).getAugmentation());
-            this.inventaire.remove(0);
+    public boolean boirePotion(int indice) {
+        if(inventaire.size() >= indice+1) {
+            this.seSoigner(this.inventaire.get(indice).getAugmentation());
+            this.inventaire.remove(indice);
+            return true;
         }
+
+        return false;
     }
 
     /**
@@ -473,8 +494,8 @@ public class Joueur extends Entite {
      */
     public void seSoigner(int pv) {
         // Si l'ajout va dépasser le nombre max de PV
-        if(this.getPointsVie()+pv > NB_PV_START) {
-            this.setPointsVie(NB_PV_START);
+        if(this.getPointsVie()+pv > NB_PV_MAX) {
+            this.setPointsVie(NB_PV_MAX);
         } else {
             this.setPointsVie(this.getPointsVie()+pv);
         }

@@ -593,9 +593,9 @@ public class Labyrinthe {
             // On détermine aléatoirement s'il s'agira d'une Potion ou d'une Arme (une chance sur 3 que ça soit une arme).
             int nb = (int) (Math.random() * 3);
             switch (nb) {
-                case 1 -> tresor = new Arme();
-                case 2 -> tresor = new PieceArmure((int) (Math.random() * 5));
-                default -> tresor = new Potion((int) (Math.random() * 10));
+                case 1 -> tresor = Arme.armeAlea();
+                case 2 -> tresor = new PieceArmure((int) (Math.random() * 5)+1);
+                default -> tresor = new Potion((int) (Math.random() * 10)+1);
             }
             this.cases.get(c.getX()).set(c.getY(), new CaseTresor(0, new Coordonnee(c.getX(), c.getY()), tresor));
 

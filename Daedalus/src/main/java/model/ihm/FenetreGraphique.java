@@ -294,7 +294,11 @@ public class FenetreGraphique extends JFrame {
             JLabel descrPotion;
 
             synchronized(verrouContent){
-                descrPotion = ((PanelPartie) contentPane).getDescriptionPotion();
+                if(contentPane instanceof PanelPartie){
+                    descrPotion = ((PanelPartie) contentPane).getDescriptionPotion();
+                } else {
+                    descrPotion = null;
+                }
             }
 
             PanelPartie panel = new PanelPartie(this, descrPotion);

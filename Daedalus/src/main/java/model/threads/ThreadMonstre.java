@@ -97,7 +97,7 @@ public class ThreadMonstre extends Thread {
                                     j.setPointsVie(20);
                                 } else{
                                     j.setPointsVie(0);
-                                    this.jeu.mortJoueur();
+                                    this.jeu.mortJoueur(positionInList);
                                 }
                             }
                             

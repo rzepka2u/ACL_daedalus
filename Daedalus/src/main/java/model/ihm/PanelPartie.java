@@ -459,7 +459,7 @@ public class PanelPartie extends JPanel{
             
             // Initialisation des contraintes pour la description de potion
             gc.gridx = 0; // Sa position x dans le tableau (abscisses)
-            gc.gridy = 8; // Sa position y dans le tableau (ordonnées)
+            gc.gridy = 9; // Sa position y dans le tableau (ordonnées)
             gc.gridwidth = 5; // L'élément doit prendre 5 cases en largeur
             gc.ipady = 10; // Une marge verticale de 10 pixels à l'intérieure des cases 
 

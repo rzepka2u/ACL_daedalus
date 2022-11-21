@@ -37,6 +37,28 @@ public class Arme implements Tresor {
         this.zone = ZoneAttaque.CASE_DEVANT;
     }
 
+    public static Arme armeAlea(){
+        int x = (int) Math.random() * 3;
+
+        Arme arme;
+
+        switch(x){
+            case 0: 
+                arme = new Arme("Arc", 15, 4, ZoneAttaque.CASE_DEVANT);
+                break;
+            case 1: 
+                arme = new Arme("Sabre", 20, 1, ZoneAttaque.ARC_DE_CERCLE); 
+                break;
+            case 2:
+                arme = new Arme("Bombe", 13, 2, ZoneAttaque.EN_CARRE);
+                break;
+            default:
+                arme = new Arme();
+        }
+
+        return arme;
+    }
+
     /**
      * Renvoie le nom de l'arme
      * @return l'attribut nom

@@ -1,8 +1,12 @@
 import model.cases.*;
 import model.enums.Direction;
 import model.enums.Ordre;
+import model.enums.ZoneAttaque;
+import model.objets.Arme;
 import model.objets.Commande;
 import model.objets.Jeu;
+import model.objets.Joueur;
+import model.objets.PieceArmure;
 import model.objets.Potion;
 
 import java.io.FileNotFoundException;
@@ -181,7 +185,7 @@ public class TestJoueur {
         jeu.getJoueur().ajouterPotion(new Potion(10));// Ajoute une potion dans l'inventaire de 10pv
         jeu.controles(new Commande(Ordre.BOIRE, 0));// Boire la potion
 
-        assertTrue("Le nombre de points de vie doit être de 20.", jeu.getJoueur().getPointsVie() == 20);
+        assertTrue("Le nombre de points de vie doit être de 20."+jeu.getJoueur().getPointsVie(), jeu.getJoueur().getPointsVie() == 20);
     }
 
 

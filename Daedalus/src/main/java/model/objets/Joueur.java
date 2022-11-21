@@ -64,6 +64,10 @@ public class Joueur extends Entite {
         return NB_PV_MAX;
     }
 
+    public int getNB_PA_MAX(){
+        return NB_PA_MAX;
+    }
+
     /**
      * Méthode permattant d'ajouter une potion dans l'inventaire du joueur en respectant la taille limite de son inventaire
      */

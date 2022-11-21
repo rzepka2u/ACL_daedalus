@@ -98,9 +98,6 @@ public class Jeu{
         this.informations = new ArrayList<String>();
         this.verrouInformations = new Object();
 
-        System.out.println(getPathFichierAlea());
-        System.out.flush();
-
         //Initialisation du labyrinthe via fichier texte 
 		this.labyrinthe = new Labyrinthe(getPathFichierAlea());
         if(!tresorEffet){
@@ -634,22 +631,11 @@ public class Jeu{
         long nombreEntite =  Math.round(nbNiveau * 0.80 + 2);
         int i;
 
-        System.out.println("nb:"+nombreEntite);
-
-        System.out.println("entitesSize: "+ entites.size());
-        System.out.println("verrousSize: "+ verrousEntites.size());
-        System.out.println("threadsSize: "+ threads.size());
-
         
         while(verrousEntites.size() > 1 ){
             verrousEntites.remove(1);
             entites.remove(1);
         }
-        
-
-        System.out.println("entitesSize: "+ entites.size());
-        System.out.println("verrousSize: "+ verrousEntites.size());
-        System.out.println("threadsSize: "+ threads.size());
 
 
         for(i=0; i<nombreEntite; i++){
@@ -704,88 +690,70 @@ public class Jeu{
         return this.nbNiveau;
     }
 
-    public int[] chercherJoueur(Entite m) {
-        int[] pos = {-1, -1}; 
-        int[] xp = chercherJoueurXP(m, 1);
-        if(xp[0] == -1 && xp[1] == -1) {
-            int[] xn = chercherJoueurXN(m, 1);
-            if(xn[0] == -1 && xn[1] == -1) {
-                int[] yp = chercherJoueurYP(m, 1);
-                if(yp[0] == -1 && yp[1] == -1) {
-                    int[] yn = chercherJoueurYN(m, 1);
-                    if(yn[0] != -1 && yn[1] != -1) {
-                        pos = yn;
+    public boolean chercherJoueur(int x, int y, int compteur, Direction casePrecedente){
+
+        if(compteur > 5){
+            return false;
+        }
+
+
+        synchronized(labyrinthe.getVerrousCases().get(x).get(y)){
+            if(labyrinthe.getCases().get(x).get(y).estTraversable()){
+
+                if(getJoueur().getX() == x && getJoueur().getY() == y){
+                    return true;
+                } else{
+
+                    if(casePrecedente != Direction.HAUT){
+                        synchronized(labyrinthe.getVerrousCases().get(x+1).get(y)){
+                            
+                            if(chercherJoueur(x+1, y, compteur+1, Direction.BAS)){
+                                return true;
+                            }
+                
+                        }
                     }
-                } else {
-                    pos = yp;
-                }
-            } else {
-                pos = xn;
-            }
-        } else {
-            pos = xp;
-        }
-        return pos;
-    }
 
-    public int[] chercherJoueurXP(Entite m, int distance) {
-        int[] pos = {-1, -1};
-        if(distance <= 4) {
-            if(m.getX() + distance == this.getJoueur().getX() && distance <= 4) {
-                pos[0] = distance;
-                pos[1] = 0;
-            } else {
-                if(this.labyrinthe.getCase(m.getX() + distance + 1, m.getY()).estTraversable()) {
-                    chercherJoueurXP(m, distance + 1);
-                }
-            }
-        }
-        return pos;
-    }
+                    if(casePrecedente != Direction.BAS){
+                        synchronized(labyrinthe.getVerrousCases().get(x-1).get(y)){
+                            
+                                if(chercherJoueur(x-1, y, compteur+1, Direction.HAUT)){
+                                    return true;
+                                }
+                            
+                        }
+                    }
 
-    public int[] chercherJoueurXN(Entite m, int distance) {
-        int[] pos = {-1, -1};
-        if(distance <= 4) {
-            if(m.getX() - distance == this.getJoueur().getX() && distance <= 4) {
-                pos[0] = -distance;
-                pos[1] = 0;
-            } else {
-                if(this.labyrinthe.getCase(m.getX() - distance - 1, m.getY()).estTraversable()) {
-                    chercherJoueurXP(m, distance + 1);
-                }
-            }
-        }
-        return pos;
-    }
+                    if(casePrecedente != Direction.GAUCHE){
+                        synchronized(labyrinthe.getVerrousCases().get(x).get(y+1)){
+                            
+                                if(chercherJoueur(x, y+1, compteur+1, Direction.DROITE)){
+                                    return true;
+                                }
+                            
+                        }
+                    }
 
-    public int[] chercherJoueurYP(Entite m, int distance) {
-        int[] pos = {-1, -1};
-        if(distance <= 4) {
-            if(m.getY() + distance == this.getJoueur().getY() && distance <= 4) {
-                pos[0] = 0;
-                pos[1] = distance;
-            } else {
-                if(this.labyrinthe.getCase(m.getX(), m.getY() + distance + 1).estTraversable()) {
-                    chercherJoueurXP(m, distance + 1);
-                }
-            }
-        }
-        return pos;
-    }
+                    if(casePrecedente != Direction.DROITE){
+                        synchronized(labyrinthe.getVerrousCases().get(x).get(y-1)){
+                            
+                                if(chercherJoueur(x, y-1, compteur+1, Direction.GAUCHE)){
+                                    return true;
+                                }
+                            
+                        }
+                    }
 
-    public int[] chercherJoueurYN(Entite m, int distance) {
-        int[] pos = {-1, -1};
-        if(distance <= 4) {
-            if(m.getY() - distance == this.getJoueur().getY() && distance <= 4) {
-                pos[0] = 0;
-                pos[1] = -distance;
-            } else {
-                if(this.labyrinthe.getCase(m.getX(), m.getY() - distance - 1).estTraversable()) {
-                    chercherJoueurXP(m, distance + 1);
+                    return false;
                 }
+
+            } else {
+
+                return false;
+            
             }
         }
-        return pos;
+
     }
 
     @Override

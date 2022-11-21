@@ -142,9 +142,9 @@ public class Joueur extends Entite {
             this.seSoigner(10);
             NB_PA_MAX += 10;
             //TAILLE_INVENTAIRE += 1; 
-            if(this.rang == 2) ajouterCompetence(new Competence(TypeCompetence.BERSERKER, 2, 10, 0));
+            if(this.rang == 2) ajouterCompetence(new Competence(TypeCompetence.BERSERKER, 2, 10000, 0));
             if(this.rang == 3) ajouterCompetence(new Competence(TypeCompetence.BOUCLIER_MAGIQUE, 3, 0, 2));
-            if(this.rang == 4) ajouterCompetence(new Competence(TypeCompetence.DRAIN_VIE, 4, 10, 1));
+            if(this.rang == 4) ajouterCompetence(new Competence(TypeCompetence.DRAIN_VIE, 4, 10000, 1));
             if(this.rang == 5) ajouterCompetence(new Competence(TypeCompetence.REVENANT, 5, 0, 0));
         }
     }

@@ -253,7 +253,9 @@ public class Jeu{
                     if(entites.get(i) instanceof Gobelin){
                         if(entites.get(i).getX() == x){
                             if(entites.get(i).getY() == y){
-                                res = true;
+                                if(entites.get(i).getPointsVie() >0 ){
+                                    res = true;
+                                }
                             }
                         }
                     }
@@ -470,7 +472,6 @@ public class Jeu{
                             ent.setPointsVie(0);
                             threads.get(index-1).arret();
                             threads.get(index-1).interrupt();
-                            threads.remove(index-1);
                         } else {
                             synchronized(getVerrouInformations()){
                                 ajouterInfos("Vous avez infligé "+dgts+" au monstre ("+ent.getX()+","+ent.getY()+") avec votre attaque! (pv+pa restant: "+(ent.getPointsVie()+ent.getPointsArmure())+")");
@@ -566,10 +567,10 @@ public class Jeu{
         // - INTERRUPT LES THREADS MONSTRES
         int i;
 
-        for(i=0; i<threads.size(); i++){
-            threads.get(i).arret();
-            threads.get(i).interrupt();
-            threads.remove(threads.get(i));
+        while(threads.size() > 0){
+            threads.get(0).arret();
+            threads.get(0).interrupt();
+            threads.remove(0);
         }
 
         // - INTERUPT LES THREADS EFFETS PROGRESSIF
@@ -625,17 +626,26 @@ public class Jeu{
         long nombreEntite =  Math.round(nbNiveau * 0.80 + 2);
         int i;
 
+        System.out.println("nb:"+nombreEntite);
 
-        if(threads != null){
-            while(threads.size() > 0){
-                threads.remove(0);
-                verrousEntites.remove(1);
-                entites.remove(1);
-            }
+        System.out.println("entitesSize: "+ entites.size());
+        System.out.println("verrousSize: "+ verrousEntites.size());
+        System.out.println("threadsSize: "+ threads.size());
+
+        
+        while(verrousEntites.size() > 1 ){
+            verrousEntites.remove(1);
+            entites.remove(1);
         }
+        
+
+        System.out.println("entitesSize: "+ entites.size());
+        System.out.println("verrousSize: "+ verrousEntites.size());
+        System.out.println("threadsSize: "+ threads.size());
 
 
         for(i=0; i<nombreEntite; i++){
+
             
             int[] determinerDepart = determinerDepart(this.labyrinthe);
 

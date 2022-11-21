@@ -1,6 +1,7 @@
 package model.objets;
 
 import model.cases.*;
+import model.cases.Coordonnee;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

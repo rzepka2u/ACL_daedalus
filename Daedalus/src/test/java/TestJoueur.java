@@ -1,8 +1,8 @@
 import model.cases.*;
 import model.enums.Direction;
 import model.enums.Ordre;
-import model.objets.Commande;
-import model.objets.Jeu;
+import model.enums.ZoneAttaque;
+import model.objets.*;
 
 import java.io.FileNotFoundException;
 import static org.junit.Assert.assertTrue;
@@ -22,7 +22,7 @@ public class TestJoueur {
 
     @BeforeClass
     public static void constructionJeuPourTests() throws FileNotFoundException{
-        jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 4, true, true);
+        jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 4, false, true);
     }
 
     /**
@@ -62,6 +62,43 @@ public class TestJoueur {
         assertTrue("Le joueur doit être sur la case de départ", c instanceof CaseDepart);
 
     }
+
+    @Test
+    public void test_gagnerExperienceChangementNiveau(){
+        double pe;
+        Entite e;
+
+        // Récupération du Joueur
+        Joueur jo = jeu.getJoueur();
+
+        // on stocke les points d'armure avant l'attaque
+        pe = jo.getExperience();
+
+        jeu.changerNiveau();
+
+        assertTrue("Le joueur devrait avoir gagné de l'expérience : " + jeu.getJoueur().getExperience(), jeu.getJoueur().getExperience() > pe);
+    }
+
+    @Test
+    public void test_gagnerExperienceMortMonstre(){
+        double pe;
+        Entite e = jeu.getEntites().get(1);;
+
+        // Récupération du Joueur
+        Joueur jo = jeu.getJoueur();
+
+        // on stocke les points d'armure avant l'attaque
+        pe = jo.getExperience();
+
+
+
+        synchronized (jeu.getVerrousEntites().get(1)) {
+            e.prendreDegat(400);
+            assertTrue("Le joueur devrait avoir gagné de l'expérience : " + jeu.getJoueur().getExperience(), jeu.getJoueur().getExperience() > pe);
+        }
+
+    }
+
 
     /**
      * Test pour vérifier le bon fonctionnement du déplacement vers le bas du joueur
@@ -182,6 +219,8 @@ public class TestJoueur {
 
         assertTrue("Le nombre de points de vie doit être de 20.", jeu.getJoueur().getPointsVie() == 20);
     }
+
+
 
 
 }

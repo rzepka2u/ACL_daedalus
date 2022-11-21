@@ -44,6 +44,7 @@ public class TestMonstre {
         }
     }
 
+
     /**
      * Test qui vérifie que le déplacement du monstre s'effectue bien
      * @throws FileNotFoundException
@@ -61,15 +62,14 @@ public class TestMonstre {
                 Joueur jo = jeu.getJoueur();
 
                 // on fait regarde le Joueur vers le
-                jo.setRegard(Direction.HAUT);
+                jo.setRegard(Direction.DROITE);
             
 
                 // Récupération du Monstre
                 e = jeu.getEntites().get(1);
 
-                e.setRegard(Direction.BAS);
-                // on déplace le monstre à sa droite
-                e.seDeplacer(jo.getX()-1, jo.getY());
+                // on déplace le monstre à droite du joueur
+                e.seDeplacer(jo.getX(), jo.getY()+1);
 
                 // on stocke les points d'armure avant l'attaque
                 pa = e.getPointsArmure();
@@ -86,6 +86,44 @@ public class TestMonstre {
         } 
     }
 
+    /**
+     * Test qui vérifie que le déplacement du monstre s'effectue bien
+     * @throws FileNotFoundException
+     */
+    //@Test
+    public void test_attaqueMonstre(){
+
+        int pa;
+        Entite e;
+
+        synchronized(jeu.getVerrousEntites().get(1)){
+            synchronized(jeu.getVerrousEntites().get(0)){
+
+                // Récupération du Joueur
+                Joueur jo = jeu.getJoueur();
+
+                // Récupération du Monstre
+                e = jeu.getEntites().get(1);
+
+                e.setRegard(Direction.GAUCHE);
+
+                // on déplace le monstre à sa droite
+                e.seDeplacer(jo.getX(), jo.getY()+1);
+
+                // on stocke les points d'armure avant l'attaque
+                pa = jo.getPointsArmure();
+            }
+        }
+
+        // attaque
+        e.attaquer(jeu.getEntites(), jeu.getVerrousEntites());
+
+        synchronized(jeu.getVerrousEntites().get(1)){
+            // Test
+            assertTrue("Le joueur devrait avoir reçu un coup "+jeu.getJoueur().getPointsArmure()+", "+jeu.getJoueur().getPointsVie(), jeu.getJoueur().getPointsArmure() < pa);
+        }
+    }
+
     @AfterClass public static void interruption_threads(){
 
         ArrayList<ThreadMonstre> threads = jeu.getThreads();
@@ -99,5 +137,4 @@ public class TestMonstre {
     }
 
 }
-
 

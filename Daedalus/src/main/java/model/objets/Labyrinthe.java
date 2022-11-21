@@ -120,6 +120,8 @@ public class Labyrinthe {
             System.exit(-1);*/
         }
 
+        
+        this.taille = nbLignes> nbColonnes? nbColonnes: nbLignes;
         // initialisation de la matrice de cases
         int[][] casesTemplate = new int[nbLignes][nbColonnes];
 
@@ -517,8 +519,8 @@ public class Labyrinthe {
 
                 } else {
                     // On tire des coordonnées aléatoires dans la partie en BAS à DROITE, en évitant le centre du Labyrinthe
-                    xAlea = (int) (Math.random() * (this.hauteur / 2) + 1) + this.hauteur / 2;
-                    yAlea = (int) (Math.random() * (this.largeur / 2) + 1) + this.largeur / 2;
+                    xAlea = (int) (Math.random() * (this.hauteur / 2) + 1) + this.hauteur / 2-1;
+                    yAlea = (int) (Math.random() * (this.largeur / 2) + 1) + this.largeur / 2-1;
                 }
             }
 
@@ -561,11 +563,11 @@ public class Labyrinthe {
         int pvA, pvD;
         for (Case c : casesConcernees) {
             if ((int) (Math.random() * 2) == 0) {
-                pvA = (int) (Math.random() * 10);
+                pvA = (int) (Math.random() * 10)+1;
                 pvD = 0;
             } else {
                 pvA = 0;
-                pvD = (int) (Math.random() * 10);
+                pvD = (int) (Math.random() * 10)+1;
             }
 
             this.cases.get(c.getX()).set(c.getY(), new CaseEffet(0, new Coordonnee(c.getX(), c.getY()), pvA, pvD, ((int) (Math.random() * 2) == 0)));
@@ -594,9 +596,9 @@ public class Labyrinthe {
             // On détermine aléatoirement s'il s'agira d'une Potion ou d'une Arme (une chance sur 3 que ça soit une arme).
             int nb = (int) (Math.random() * 3);
             switch (nb) {
-                case 1 -> tresor = new Arme();
-                case 2 -> tresor = new PieceArmure((int) (Math.random() * 5));
-                default -> tresor = new Potion((int) (Math.random() * 10));
+                case 1 -> tresor = Arme.armeAlea();
+                case 2 -> tresor = new PieceArmure((int) (Math.random() * 5)+1);
+                default -> tresor = new Potion((int) (Math.random() * 10)+1);
             }
             this.cases.get(c.getX()).set(c.getY(), new CaseTresor(0, new Coordonnee(c.getX(), c.getY()), tresor));
 

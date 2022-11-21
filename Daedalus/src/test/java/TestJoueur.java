@@ -1,8 +1,10 @@
 import model.cases.*;
 import model.enums.Direction;
 import model.enums.Ordre;
-import model.enums.ZoneAttaque;
 import model.objets.*;
+import model.objets.Commande;
+import model.objets.Jeu;
+import model.objets.Potion;
 
 import java.io.FileNotFoundException;
 import static org.junit.Assert.assertTrue;
@@ -22,7 +24,7 @@ public class TestJoueur {
 
     @BeforeClass
     public static void constructionJeuPourTests() throws FileNotFoundException{
-        jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 4, false, true);
+        jeu = new Jeu(null, "src/main/resources/niveaux/niveauSimple.txt", 4, true, true, false);
     }
 
     /**
@@ -214,7 +216,7 @@ public class TestJoueur {
     public void testBoirePotion(){
         
         jeu.getJoueur().setPointsVie(10);
-        jeu.getJoueur().ajouterPotion();// Ajoute une potion dans l'inventaire de 10pv
+        jeu.getJoueur().ajouterPotion(new Potion(10));// Ajoute une potion dans l'inventaire de 10pv
         jeu.controles(new Commande(Ordre.BOIRE, 0));// Boire la potion
 
         assertTrue("Le nombre de points de vie doit être de 20.", jeu.getJoueur().getPointsVie() == 20);

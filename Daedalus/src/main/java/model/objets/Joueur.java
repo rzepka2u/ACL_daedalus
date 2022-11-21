@@ -303,7 +303,7 @@ public class Joueur extends Entite {
                                         else if(ent.getX() == this.getX() && ent.getY() == this.getY()+i && ent.getPointsVie() > 0) {
                                             entitesTouchees.add(ent);
                                         }
-
+                                        
                                         // l'entité se situe dans les cases en bas à droite du joueur
                                         else if(ent.getX() == this.getX()+i && ent.getY() == this.getY()+i && ent.getPointsVie() > 0) {
                                             entitesTouchees.add(ent);
@@ -378,7 +378,7 @@ public class Joueur extends Entite {
      * Lance la compétence numéro num du joueur
      * @param num numéro de la compétence à effectuer
      */
-    public void lancerCompetence(int num) {
+    public boolean lancerCompetence(int num) {
         // TODO : ajouter if sur le rang
         // si la compétence est activable et si la compétence num est dans la liste des compétences débloquées
         if(this.competences.get(num).isActivable() && num < this.competences.size()) {
@@ -451,7 +451,11 @@ public class Joueur extends Entite {
                     this.competences.get(num).setActivable(false);
                     break;
             }
+
+            return true;
         }
+
+        return false;
     }
 
     /**

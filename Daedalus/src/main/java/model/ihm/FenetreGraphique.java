@@ -40,6 +40,7 @@ public class FenetreGraphique extends JFrame {
     private int commande_ramasser;
     private int[] commandes_boire;
     private int[] commandes_competence;
+    private boolean ecouteursAdd;
 
     /**
      * Constructeur par défaut de la classe FenetreGraphique
@@ -77,6 +78,7 @@ public class FenetreGraphique extends JFrame {
         // Mise des attributs inutiles (pour le moment) à null
         jeu = null;
         thread = null;
+        this.ecouteursAdd = false;
 
         // Initialisation d'un nouveau panel d'acceuil, et ajout de celui-ci dans la fenêtre
         contentPane = new PanelAccueil(this);
@@ -223,58 +225,61 @@ public class FenetreGraphique extends JFrame {
         this.setFocusable(true);
         this.requestFocus();
 
-        // Ajout d'un écouteur sur les touches préssées
-        this.addKeyListener(new KeyAdapter(){
-            /**
-             * Méthode appeler lorsque l'utilisateur enfonce une touche
-             * @param e L'évenement capté par l'écouteur
-             */
-            @Override
-            public void keyPressed(KeyEvent e){
+        if(ecouteursAdd == false){
+            // Ajout d'un écouteur sur les touches préssées
+            this.addKeyListener(new KeyAdapter(){
+                /**
+                 * Méthode appeler lorsque l'utilisateur enfonce une touche
+                 * @param e L'évenement capté par l'écouteur
+                 */
+                @Override
+                public void keyPressed(KeyEvent e){
 
-                Commande c;
-                if(e.getKeyCode() == commandes_deplacement[0]){ // Si la touche est la flèche haut
-                    // Création de la nouvelle commande associée puis réalisation de celle-ci
-                    c = new Commande(Ordre.DEPLACEMENT, Direction.HAUT); // Déplacer le joueur en haut
-                    jeu.controles(c);
-                } else if(e.getKeyCode() == commandes_deplacement[1]){ // Si la touche est la flèche bas
-                    // Création de la nouvelle commande associée puis réalisation de celle-ci
-                    c = new Commande(Ordre.DEPLACEMENT, Direction.BAS); // Déplacer le joueur en bas
-                    jeu.controles(c);
-                } else if(e.getKeyCode() == commandes_deplacement[2]){ // Si la touche est la flèche gauche
-                    // Création de la nouvelle commande associée puis réalisation de celle-ci
-                    c = new Commande(Ordre.DEPLACEMENT, Direction.GAUCHE); // Déplacer le joueur à gauche
-                    jeu.controles(c);
-                } else if(e.getKeyCode() == commandes_deplacement[3]){ // Si la touche est la flèche droite
-                    // Création de la nouvelle commande associée puis réalisation de celle-ci
-                    c = new Commande(Ordre.DEPLACEMENT, Direction.DROITE); // Déplacer le joueur à droite
-                    jeu.controles(c);
-                } else if(e.getKeyCode() == commande_attaquer){ // Si la touche est la barre espace
-                    // Création de la nouvelle commande associée puis réalisation de celle-ci
-                    c = new Commande(Ordre.ATTAQUE, null); // Attaque de la part du joueur 
-                    jeu.controles(c);
-                } else if(e.getKeyCode() == commande_ramasser){ // Si la touche est R 
-                    // Création de la nouvelle commande associée puis réalisation de celle-ci
-                    c = new Commande(Ordre.RAMASSER, null); // Ramasser un trésor à proximité
-                    jeu.controles(c);
-                } else if (e.getKeyCode() == commande_ouvrir){ // Si la touche est O
-                    // Création de la nouvelle commande associée puis réalisation de celle-ci
-                    c = new Commande(Ordre.OUVRIR, null); // Ouvrir un trésor à proximité
-                    jeu.controles(c);
-                } else if(e.getKeyCode() == commandes_boire[0] || e.getKeyCode() == commandes_boire[1]
-                    || e.getKeyCode() == commandes_boire[2] || e.getKeyCode() == commandes_boire[3]
-                    || e.getKeyCode() == commandes_boire[4]){ 
-                    // Si la touche est entre 1 et 5 inclus du clavier numérique
-                    // Création de la nouvelle commande associée puis réalisation de celle-ci
-                    c = new Commande(Ordre.BOIRE, e.getKeyCode()-KeyEvent.VK_NUMPAD1);
-                    jeu.controles(c);
-                } else if(e.getKeyCode() == commandes_competence[0] || e.getKeyCode() == commandes_competence[1]
-                || e.getKeyCode() == commandes_competence[2] || e.getKeyCode() == commandes_competence[3]){ 
-                    c = new Commande(Ordre.COMPETENCE, e.getKeyCode()-KeyEvent.VK_1);
-                    jeu.controles(c);
+                    Commande c;
+                    if(e.getKeyCode() == commandes_deplacement[0]){ // Si la touche est la flèche haut
+                        // Création de la nouvelle commande associée puis réalisation de celle-ci
+                        c = new Commande(Ordre.DEPLACEMENT, Direction.HAUT); // Déplacer le joueur en haut
+                        jeu.controles(c);
+                    } else if(e.getKeyCode() == commandes_deplacement[1]){ // Si la touche est la flèche bas
+                        // Création de la nouvelle commande associée puis réalisation de celle-ci
+                        c = new Commande(Ordre.DEPLACEMENT, Direction.BAS); // Déplacer le joueur en bas
+                        jeu.controles(c);
+                    } else if(e.getKeyCode() == commandes_deplacement[2]){ // Si la touche est la flèche gauche
+                        // Création de la nouvelle commande associée puis réalisation de celle-ci
+                        c = new Commande(Ordre.DEPLACEMENT, Direction.GAUCHE); // Déplacer le joueur à gauche
+                        jeu.controles(c);
+                    } else if(e.getKeyCode() == commandes_deplacement[3]){ // Si la touche est la flèche droite
+                        // Création de la nouvelle commande associée puis réalisation de celle-ci
+                        c = new Commande(Ordre.DEPLACEMENT, Direction.DROITE); // Déplacer le joueur à droite
+                        jeu.controles(c);
+                    } else if(e.getKeyCode() == commande_attaquer){ // Si la touche est la barre espace
+                        // Création de la nouvelle commande associée puis réalisation de celle-ci
+                        c = new Commande(Ordre.ATTAQUE, null); // Attaque de la part du joueur 
+                        jeu.controles(c);
+                    } else if(e.getKeyCode() == commande_ramasser){ // Si la touche est R 
+                        // Création de la nouvelle commande associée puis réalisation de celle-ci
+                        c = new Commande(Ordre.RAMASSER, null); // Ramasser un trésor à proximité
+                        jeu.controles(c);
+                    } else if (e.getKeyCode() == commande_ouvrir){ // Si la touche est O
+                        // Création de la nouvelle commande associée puis réalisation de celle-ci
+                        c = new Commande(Ordre.OUVRIR, null); // Ouvrir un trésor à proximité
+                        jeu.controles(c);
+                    } else if(e.getKeyCode() == commandes_boire[0] || e.getKeyCode() == commandes_boire[1]
+                        || e.getKeyCode() == commandes_boire[2] || e.getKeyCode() == commandes_boire[3]
+                        || e.getKeyCode() == commandes_boire[4]){ 
+                        // Si la touche est entre 1 et 5 inclus du clavier numérique
+                        // Création de la nouvelle commande associée puis réalisation de celle-ci
+                        c = new Commande(Ordre.BOIRE, e.getKeyCode()-KeyEvent.VK_NUMPAD1);
+                        jeu.controles(c);
+                    } else if(e.getKeyCode() == commandes_competence[0] || e.getKeyCode() == commandes_competence[1]
+                    || e.getKeyCode() == commandes_competence[2] || e.getKeyCode() == commandes_competence[3]){ 
+                        c = new Commande(Ordre.COMPETENCE, e.getKeyCode()-KeyEvent.VK_1);
+                        jeu.controles(c);
+                    }
                 }
-            }
-        });
+            });
+            ecouteursAdd = true;
+        }
 
         verrouContent = new Object();
 

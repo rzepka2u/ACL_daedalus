@@ -554,7 +554,7 @@ public class PanelPartie extends JPanel{
              */
             @Override
             public void mouseClicked(MouseEvent e){
-
+                System.out.println("clique Competence!");
                 // On crée une commande qui fera boire au joueur la potion présente  à l'indice cliqué
                 Commande c = new Commande(Ordre.COMPETENCE, index);
                 fenetre.getJeu().controles(c); // Exécution de la commande dans le moteur du jeu (l'objet Jeu)

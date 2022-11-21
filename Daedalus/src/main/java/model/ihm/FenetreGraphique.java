@@ -13,6 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -290,14 +291,26 @@ public class FenetreGraphique extends JFrame {
      */
     public void raffraichirPartie(){
 
-        if(contentPane instanceof PanelPartie){
-            // Création d'un nouveau panel de partie et écrassement de l'ancien
-            contentPane = new PanelPartie(this, ((PanelPartie) contentPane).getDescriptionPotion());
-            this.setContentPane(contentPane);
+            JLabel descrPotion;
 
-            // Mise à jour de la fenêtre
-            this.validate();
-        }
+            synchronized(verrouContent){
+                descrPotion = ((PanelPartie) contentPane).getDescriptionPotion();
+            }
+
+            PanelPartie panel = new PanelPartie(this, descrPotion);
+
+            synchronized(verrouContent){
+
+                if(contentPane instanceof PanelPartie){
+                    // Création d'un nouveau panel de partie et écrassement de l'ancien
+                    contentPane = panel;
+                    this.setContentPane(contentPane);
+
+                    // Mise à jour de la fenêtre
+                    this.validate();
+                }
+            }
+        
     }
 
     /**
@@ -305,15 +318,18 @@ public class FenetreGraphique extends JFrame {
      * @param result le résultat de la partie: true = victoire, false = defaite
      */
     public void afficherVueFin(boolean result){
+        
+        if(thread != null){
+            this.thread.arret();
+            // Attente de la fin du thread d'affichage
+            this.thread = null;
+        }
 
-        this.thread.arret();
-        // Attente de la fin du thread d'affichage
-        this.thread.interrupt();
-        this.thread = null;
+        PanelFinJeu panel = new PanelFinJeu(this,result);
 
         synchronized(verrouContent){
             // Création d'un panel de fin de partie, et remplacement du panel de partie
-            contentPane = new PanelFinJeu(this,result);
+            contentPane = panel;
             this.setContentPane(contentPane);
         }
 

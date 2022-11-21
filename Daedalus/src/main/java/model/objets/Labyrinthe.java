@@ -560,11 +560,11 @@ public class Labyrinthe {
         int pvA, pvD;
         for (Case c : casesConcernees) {
             if ((int) (Math.random() * 2) == 0) {
-                pvA = (int) (Math.random() * 10);
+                pvA = (int) (Math.random() * 10)+1;
                 pvD = 0;
             } else {
                 pvA = 0;
-                pvD = (int) (Math.random() * 10);
+                pvD = (int) (Math.random() * 10)+1;
             }
 
             this.cases.get(c.getX()).set(c.getY(), new CaseEffet(0, new Coordonnee(c.getX(), c.getY()), pvA, pvD, ((int) (Math.random() * 2) == 0)));

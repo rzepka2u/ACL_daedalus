@@ -27,10 +27,13 @@ public class ThreadEffet extends Thread {
                 Joueur j = jeu.getJoueur();
                 j.modifierPV(augmentation);
                 j.modifierPV(-diminution);
+                if(j.getPointsVie() <= 0){
+                    jeu.mortJoueur();
+                }
             }
 
             try{
-                sleep(300);
+                sleep(2000);
             } catch (InterruptedException e){
                 System.out.println("SLEEP INTERROMPU");
             }

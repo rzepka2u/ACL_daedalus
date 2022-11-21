@@ -34,6 +34,8 @@ public class PanelFinJeu extends JPanel {
 
         // Appel du constructeur de la classe JPanel et définition stratégie de positionnement GridBagLayout
         super(new GridBagLayout());
+
+        System.out.println("PANELFINJEU");
         GridBagConstraints gc = new GridBagConstraints(); // Nouvel objet pour les contraintes de chaques composants
         this.setBackground(new Color(45,78, 95)); // Définition de la couleur de fond du panel
         

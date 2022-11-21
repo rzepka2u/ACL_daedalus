@@ -14,8 +14,6 @@ import model.enums.TypeCompetence;
 
 public class Joueur extends Entite {
 
-    // Nombre de points de vie maximum du joueur évoluant au fil de la partie et des rangs gagnés
-    protected static int NB_PV_MAX = 100;
     // Nombre de pa maximum du joueur évoluant au fil de la partie et des rangs gagnés
     protected static int NB_PA_MAX = 50;
     // Nombre d'objets maximum que l'inventaire peut contenir 
@@ -59,6 +57,10 @@ public class Joueur extends Entite {
 
     public int getRang(){
         return rang;
+    }
+
+    public int getNB_PV_MAX(){
+        return NB_PV_MAX;
     }
 
     /**

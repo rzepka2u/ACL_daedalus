@@ -102,7 +102,7 @@ public class ThreadMonstre extends Thread {
                             }
                             
                             synchronized(jeu.getVerrouInformations()){
-                                jeu.ajouterInfos("Le "+ (m instanceof Gobelin? "Gobelin" : "Fatôme")+ " position ("+m.getX()+","+m.getY()+") est vous à attribué "+dgts+" de dégats!" );
+                                jeu.ajouterInfos("Le "+ (m instanceof Gobelin? "Gobelin" : "Fatôme")+ " position ("+m.getX()+","+m.getY()+") vous a attribué "+dgts+" de dégats!" );
                             }
                         }
                     }
@@ -110,6 +110,8 @@ public class ThreadMonstre extends Thread {
             }
 
         } while(!stop);
+
+        System.out.println("Fin monstre");
 
         synchronized(jeu.getVerrousEntites().get(positionInList)){
             synchronized(jeu.getVerrouInformations()){

@@ -379,7 +379,7 @@ public class Jeu{
             }
 
             synchronized(verrouInformations){
-                ajouterInfos("Vous avez déclencher une case a éffets "+(ce.getProgressif()? "progressif" : "unique")+" "+(ce.getDiminutionPV()>0?"infligant "+ce.getDiminutionPV():"augmantenant "+ce.getAugmentation())+" points de vie!");
+                ajouterInfos("Vous avez déclencher une case a éffet "+(ce.getProgressif()? "progressif" : "unique")+" "+(ce.getDiminutionPV()>0?"infligant "+ce.getDiminutionPV():"augmentant "+ce.getAugmentation())+" points de vie!");
             }
         }
 
@@ -458,7 +458,7 @@ public class Jeu{
                 }
                 if(lAttaquees.size()>0){
                     synchronized(getVerrouInformations()){
-                        ajouterInfos("Vous avez touchez "+lAttaquees.size()+" monstres avec votre attaque!" );
+                        ajouterInfos("Vous avez touché "+lAttaquees.size()+" monstre(s) avec votre attaque!" );
                     }
                 }
             }
@@ -466,7 +466,13 @@ public class Jeu{
             int[] poscoffre = etreProcheCaseTresor();
             if(poscoffre[0] != -1 && poscoffre[1] != -1) {
                 CaseTresor ct = (CaseTresor) labyrinthe.getCase(poscoffre[0], poscoffre[1]);
-                if(!ct.getOuvert()) ct.ouvrirTresor();
+                if(!ct.getOuvert()){
+                    ct.ouvrirTresor();
+                    synchronized(verrouInformations){
+                        ajouterInfos("Vous venez d'ourvir un coffre !");
+                    }
+                }
+
             }
         } else if(cmd.getOrdre() == Ordre.RAMASSER){
             // on teste si le joueur se trouve sur une case d'un trésor (et non d'un coffre)
@@ -602,12 +608,10 @@ public class Jeu{
         for(i=0; i<threads.size(); i++){
             threads.get(i).arret();
             threads.get(i).interrupt();
-            threads.remove(threads.get(i));
         }
 
-        // - INTERUPT LES THREADS EFFETS PROGRESSIF
-        for(i=0; i<threadsEffet.size(); i++){
-            threadsEffet.get(i).interrupt();
+        while(threads.size() > 0){
+            threads.remove(threads.get(0));
         }
 
         fenetre.afficherVueFin(false);

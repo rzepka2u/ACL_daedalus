@@ -557,7 +557,15 @@ public class Jeu{
                 }
             }
         } else if(cmd.getOrdre() == Ordre.COMPETENCE) {
-            this.getJoueur().lancerCompetence(cmd.getIndice());
+            if(this.getJoueur().lancerCompetence(cmd.getIndice())){
+                synchronized(verrouInformations){
+                    ajouterInfos("Vous venez d'activer la compétence "+getJoueur().getCompetences().get(cmd.getIndice()).getType().toString()+" du joueur.");
+                }
+            } else {
+                synchronized(verrouInformations){
+                    ajouterInfos("Vous n'avez pas de compétence activable à cette position.");
+                }
+            }
         }
     }
 

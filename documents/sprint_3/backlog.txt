@@ -38,19 +38,19 @@ TESTS :
 
 2)
 FONCTIONNALITE :
-  - Création de quelques nouvelles compétences ainsi que leur méchanisme d'utilisation et de régénération.
+  - Création de nouvelles compétences ainsi que leur mécanisme d'utilisation et de régénération.
   - Implémentation d'un système de choix des compétences.
 
 CRITERES DE VALIDATION :
-  - De nouvelles compétences doivent être disponible dans le jeu.
-  - Les actions réalisé lors du délenchement des nouvelles compétences doivent être utiles.
-  - Les régénérations des nouvelles coméptences doivent être cohérentes avec leurs actions.
-  - Le joueur doit pouvoir choisir ses compétences (soit des le départ, soit au fûr et à mesure lorsque le rang s'incrémente, etc).
+  - De nouvelles compétences doivent être disponibles dans le jeu.
+  - Bon déclenchement des compétences
+  - Bonne gestion des temps de recharge
+  - Le joueur doit pouvoir choisir ses compétences (soit dès le départ, soit au fûr et à mesure lorsque le rang s'incrémente, etc).
 
 TESTS CORRESPONDANTS :
   - Il existe de nouvelles compétences dans le jeu.
-  - Ces nouvelles compétences sont fonctionnelles et elles créent un impacte sur la partie du joueur.
-  - Les nouvelles compétances se rechargent tous sous certaines conditions.
+  - Ces nouvelles compétences sont fonctionnelles et elles créent un impact sur la partie du joueur.
+  - Les nouvelles compétences se rechargent toutes sous certaines conditions.
   - Il est possible de choisir les compétences que l'on veut durant la partie. 
 
 RESPONSABLE :

@@ -1,0 +1,80 @@
+1)
+FONCTIONNALITE : 
+  - Création de nouveaux monstres (1 ou 2) ainsi que de leur propriété spéciales (si nécessaire suivant le type de monstre)
+  - Implémenter le tracage du joueur par les monstres dans les labyrinthes générés par fichier (si gros espace de vide, bug)
+  - Remettre à jour les commentaires et la javadoc de tout le projet
+  - Remise à jour de la version des diagrammes (séquences et classes)
+
+CRITERES DE VALIDATION :
+  - 
+
+TESTS CORRESPONDANTS :
+  - 
+
+RESPONSABLE :
+  - POIREL Jérémy
+
+TESTS :
+  - RACOILLET Maxime
+
+2)
+FONCTIONNALITE :
+  - Création de nouvelle compétences ainsi que leur méchanisme d'utilisation et de régénération
+  - Implémentation d'un système de choix des compétences
+  - Remettre à jour les commentaires et la javadoc de tout le projet
+  - Remise à jour de la version des diagrammes (séquences et classes)
+
+CRITERES DE VALIDATION :
+  - 
+
+TESTS CORRESPONDANTS :
+  - 
+
+RESPONSABLE :
+  - NOEL Victor
+
+TESTS :
+  - POIREL Jérémy
+
+
+3)
+FONCTIONNALITE : 
+  - Systeme de sauvegarde de l'état d'une partie dans un fichier
+  - Rendre possible le lancement d'une partie à l'état d'un fichier de sauvegarde
+  - Remettre à jour les commentaires et la javadoc de tout le projet
+  - Remise à jour de la version des diagrammes (séquences et classes)
+
+CRITERES DE VALIDATION :
+  - 
+
+TESTS CORRESPONDANTS :
+  - 
+
+RESPONSABLE :
+  - RZEPKA Thomas 
+
+TESTS :
+  - NOEL Victor
+
+---
+4)
+FONCTIONNALITE : 
+  - Possibilité de reset par défaut les commandes choisit
+  - Gestion de la taille des images des cases d'un labyrinthe (suivant taille de la fenêtre, etc)
+  - Corrections de divers légers bugs toujours présent sur l'interface graphique
+  - Amélioration du rendu graphique de l'application (encore plus jolie)
+  - Ajout de sons lors de divers actions dans le jeu (si le temps le permet)
+  - Remettre à jour les commentaires et la javadoc de tout le projet
+  - Remise à jour de la version des diagrammes (séquences et classes)
+
+CRITERES DE VALIDATION :
+  - 
+
+TESTS CORRESPONDANTS :
+  - 
+
+RESPONSABLE :
+  - RACOILLET Maxime
+
+TESTS :
+  - RZEPKA Thomas

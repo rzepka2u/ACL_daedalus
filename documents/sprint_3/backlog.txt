@@ -68,10 +68,18 @@ FONCTIONNALITE :
   - Remise à jour de la version des diagrammes (séquences et classes)
 
 CRITERES DE VALIDATION :
-  - 
+  - Il doit y avoir un bouton reset fonctionnel dans la page des commandes
+  - Les images des cases du labyrinthes doivent être responsive suivant la taille du labyrinthe et la taille de la fenêtre
+  - L'interface graphique ne doit plus contenir aucun bug
+  - L'interface graphique doit être encore plus jolie à l'oeil
+  - Des sons doivent être émis lors de chaque action (attaque, ouverture de coffre, ramassage, etc)
 
 TESTS CORRESPONDANTS :
-  - 
+  - Lorsque l'on modifie les touches et que l'on clique sur le bouton reset dans la page commande, les touches par défaut sont remisent.
+  - Lorsque l'on exécute des labyrinthes de différentes tailles ou que l'on joue sur la taille de la fenetre, les cases du labyrinthes doivent utilisées tout l'espace dédié à leur cellule.
+  - L'interface graphique répond correctement à toutes les actions.
+  - Le rendu visuel est plus jolie (dépendant des goûts de chacuns..)
+  - La machine qui exécute le jeu doit émettre des sons lors des différentes actions
 
 RESPONSABLE :
   - RACOILLET Maxime

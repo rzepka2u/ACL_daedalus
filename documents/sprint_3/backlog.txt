@@ -1,9 +1,23 @@
+0)
+FONCTIONNALITE : 
+  - Mise à jour des commentaires et de la Javadoc de tout le projet
+  - Mise à jour des diagrammes de séquences et de classes
+
+CRITERES DE VALIDATION :
+  - La Javadoc peut être générée sans provoquer d'erreur
+  - Les diagrammes doivent être complets et lisibles
+
+RESPONSABLES :
+  - POIREL Jérémy
+  - RACOILLET Maxime
+  - NOEL Victor
+  - RZEPKA Thomas
+
+
 1)
 FONCTIONNALITE : 
   - Création de nouveaux monstres (1 ou 2) ainsi que de leur propriété spéciales (si nécessaire suivant le type de monstre)
   - Implémenter le tracage du joueur par les monstres dans les labyrinthes générés par fichier (si gros espace de vide, bug)
-  - Remettre à jour les commentaires et la javadoc de tout le projet
-  - Remise à jour de la version des diagrammes (séquences et classes)
 
 CRITERES DE VALIDATION :
   - 
@@ -21,8 +35,6 @@ TESTS :
 FONCTIONNALITE :
   - Création de nouvelle compétences ainsi que leur méchanisme d'utilisation et de régénération
   - Implémentation d'un système de choix des compétences
-  - Remettre à jour les commentaires et la javadoc de tout le projet
-  - Remise à jour de la version des diagrammes (séquences et classes)
 
 CRITERES DE VALIDATION :
   - 
@@ -39,16 +51,16 @@ TESTS :
 
 3)
 FONCTIONNALITE : 
-  - Systeme de sauvegarde de l'état d'une partie dans un fichier
+  - Système de sauvegarde de l'état d'une partie dans un fichier
   - Rendre possible le lancement d'une partie à l'état d'un fichier de sauvegarde
-  - Remettre à jour les commentaires et la javadoc de tout le projet
-  - Remise à jour de la version des diagrammes (séquences et classes)
 
 CRITERES DE VALIDATION :
-  - 
+  - Toutes les informations sur le joueur ont été récupérées (points de vie, protection, inventaire, compétences...)
+  - Toutes les informations sur le mode de jeu sont récupérés (nombre de niveaux maximum,  touches de contrôle du jeu, ...)
 
 TESTS CORRESPONDANTS :
-  - 
+  - Toutes les informations à propos du joueur doivent être récupérées
+  - Toutes les informations à propos du jeu doivent être récupérées
 
 RESPONSABLE :
   - RZEPKA Thomas 
@@ -64,8 +76,6 @@ FONCTIONNALITE :
   - Corrections de divers légers bugs toujours présent sur l'interface graphique
   - Amélioration du rendu graphique de l'application (encore plus jolie)
   - Ajout de sons lors de divers actions dans le jeu (si le temps le permet)
-  - Remettre à jour les commentaires et la javadoc de tout le projet
-  - Remise à jour de la version des diagrammes (séquences et classes)
 
 CRITERES DE VALIDATION :
   - Il doit y avoir un bouton reset fonctionnel dans la page des commandes

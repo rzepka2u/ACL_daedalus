@@ -34,6 +34,10 @@ public class Joueur extends Entite {
 
     private boolean revenant = false;
 
+    private boolean blocage = false;
+
+    private boolean epines = false;
+
     /**
      * Constructeur de la classe Joueur 
      * @param px coordonnées en x
@@ -454,6 +458,50 @@ public class Joueur extends Entite {
                     // la compétence n'est plus activable
                     this.competences.get(num).setActivable(false);
                     break;
+
+                    // La compétence BLOCAGE va permettre au Joueur de subir un quart de dégâts en moins pendant 10s
+                    // Utilisable une seule fois par niveau
+                case BLOCAGE:
+                    // On indique que la compétence est active pour pouvoir réduire les dégâts lors de l'attaque réussie d'un monstre
+                    this.blocage = true;
+                    // la compétence n'est plus activable
+                    this.competences.get(num).setActivable(false);
+                    Timer t2 = new Timer();
+                    t2.schedule(
+                            new java.util.TimerTask() {
+                                @Override
+                                public void run() {
+                                    // Au bout de 10s, le drain n'est plus activé
+                                    blocage = false;
+                                    // On ferme le thread du timer
+                                    t2.cancel();
+                                }
+                            },
+                            competences.get(num).getTempsRecharge()
+                    );
+                    break;
+
+                    // La compétence EPINES va permettre d'infliger au Monstre qui attaque le joueur 25% des dégâts de l'attaque subie pendant 10s
+                    // Utilisable une seule fois par niveau
+                case EPINES:
+                    // On indique que la compétence est active pour pouvoir soigner le Joueur lors de l'attaque réussie d'un monstre
+                    this.epines = true;
+                    // la compétence n'est plus activable
+                    this.competences.get(num).setActivable(false);
+                    Timer t3 = new Timer();
+                    t3.schedule(
+                            new java.util.TimerTask() {
+                                @Override
+                                public void run() {
+                                    // Au bout de tempsRecharge, les épines ne sont plus actives
+                                    epines = false;
+                                    // On ferme le thread du timer
+                                    t3.cancel();
+                                }
+                            },
+                            competences.get(num).getTempsRecharge()
+                    );
+                    break;
             }
 
             return true;
@@ -494,6 +542,10 @@ public class Joueur extends Entite {
         this.revenant = revenant;
     }
 
+    public boolean isBlocage() {
+        return blocage;
+    }
+
     /**
      * Méthode qui soigne le joueur à hauteur de pv
      * @param pv le montant de soin à attribuer
@@ -520,6 +572,9 @@ public class Joueur extends Entite {
         }
     }
 
+    public boolean isEpines() {
+        return epines;
+    }
 
     @Override
     public String toString(){

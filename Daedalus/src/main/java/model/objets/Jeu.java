@@ -616,7 +616,7 @@ public class Jeu{
             // Gestion des reset des compétences
             if(!this.getJoueur().getCompetences().isEmpty()) {
                 for(Competence c : this.getJoueur().getCompetences()) {
-                    if(c.getType() == TypeCompetence.BOUCLIER_MAGIQUE || c.getType() == TypeCompetence.DRAIN_VIE) {
+                    if(c.getType() == TypeCompetence.BOUCLIER_MAGIQUE || c.getType() == TypeCompetence.DRAIN_VIE || c.getType() == TypeCompetence.BLOCAGE || c.getType() == TypeCompetence.EPINES) {
                         if(c.getDureeNiveau() > 1) {
                             c.setDureeNiveau(c.getDureeNiveau() - 1);
                         } else if(c.getDureeNiveau() == 1) {

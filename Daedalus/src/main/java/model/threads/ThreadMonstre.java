@@ -127,6 +127,8 @@ public class ThreadMonstre extends Thread {
                         } else {
 
                             int dgts = m.getArme().getDegats();
+                            if(j.isEpines()) m.prendreDegats(dgts/4);
+                            if(j.isBlocage()) dgts -= dgts/4;
                             if(j.prendreDegat(dgts)){
                                 if(j.isRevenant()) {
                                     j.setPointsVie(20);

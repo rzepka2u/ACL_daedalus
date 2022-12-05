@@ -128,7 +128,10 @@ public class ThreadMonstre extends Thread {
 
                             int dgts = m.getArme().getDegats();
 
-                            if(j.isEpines()) m.prendreDegat(dgts/4);
+                            if(j.isEpines()) {
+                                if(m.prendreDegat(dgts/10)) this.arret();
+                            }
+
                             if(j.isBlocage()) dgts -= dgts/4;
 
                             boolean esquive = false;
@@ -152,7 +155,7 @@ public class ThreadMonstre extends Thread {
                             }
                             
                             synchronized(jeu.getVerrouInformations()){
-                                jeu.ajouterInfos("Le "+ (m instanceof Gobelin? "Gobelin" : "Fatôme")+ " position ("+m.getX()+","+m.getY()+") vous a attribué "+dgts+" de dégats!" );
+                                jeu.ajouterInfos("Le "+ (m instanceof Gobelin? "Gobelin" : "Fantôme")+ " position ("+m.getX()+","+m.getY()+") vous a attribué "+dgts+" de dégats!" );
                             }
                         }
                     }
@@ -164,9 +167,12 @@ public class ThreadMonstre extends Thread {
         synchronized(jeu.getVerrousEntites().get(positionInList+1)){
             synchronized(jeu.getVerrouInformations()){
                 Entite e = jeu.getEntites().get(positionInList+1);
-                jeu.ajouterInfos("Le "+ (e instanceof Gobelin? "Gobelin" : "Fatôme")+ " position ("+e.getX()+","+e.getY()+") est mort!" );
-                jeu.getJoueur().gagnerExperience(2000);
+                jeu.ajouterInfos("Le "+ (e instanceof Gobelin? "Gobelin" : "Fantôme")+ " position ("+e.getX()+","+e.getY()+") est mort!" );
             }
+        }
+
+        synchronized (jeu.getVerrousEntites().get(0)) {
+            jeu.getJoueur().gagnerExperience(2000);
         }
     }
 

@@ -30,13 +30,8 @@ public class Joueur extends Entite {
     // Liste des compétences du personnage
     private ArrayList<Competence> competences;
 
-    private boolean drain = false;
+    private boolean drain, revenant, blocage, epines, anguille;
 
-    private boolean revenant = false;
-
-    private boolean blocage = false;
-
-    private boolean epines = false;
 
     /**
      * Constructeur de la classe Joueur 
@@ -502,6 +497,14 @@ public class Joueur extends Entite {
                             competences.get(num).getTempsRecharge()
                     );
                     break;
+
+                    // La compétence passive ANGUILLE permet d'octroyer au Joueur une chance de 10% d'esquiver une attaque subie
+                case ANGUILLE:
+                    // On indique que la compétence est active pour pouvoir faire le test lors de l'attaque réussie d'un monstre
+                    this.anguille = true;
+                    // la compétence n'est plus activable
+                    this.competences.get(num).setActivable(false);
+                    break;
             }
 
             return true;
@@ -574,6 +577,10 @@ public class Joueur extends Entite {
 
     public boolean isEpines() {
         return epines;
+    }
+
+    public boolean isAnguille() {
+        return anguille;
     }
 
     @Override

@@ -127,12 +127,24 @@ public class ThreadMonstre extends Thread {
                         } else {
 
                             int dgts = m.getArme().getDegats();
-                            if(j.prendreDegat(dgts)){
-                                if(j.isRevenant()) {
-                                    j.setPointsVie(20);
-                                } else{
-                                    j.setPointsVie(0);
-                                    this.jeu.mortJoueur(positionInList);
+                            if(j.isEpines()) m.prendreDegats(dgts/4);
+                            if(j.isBlocage()) dgts -= dgts/4;
+                            boolean esquive;
+                            if(j.isAnguille()) {
+                                Random r = new Random();
+                                int nb = r.nextInt(100+1)+1;
+                                if(nb >= 1 && nb <= 10) {
+                                    esquive = true;
+                                }
+                            }
+                            if(!esquive) {
+                                if(j.prendreDegat(dgts)){
+                                    if(j.isRevenant()) {
+                                        j.setPointsVie(20);
+                                    } else{
+                                        j.setPointsVie(0);
+                                        this.jeu.mortJoueur(positionInList);
+                                    }
                                 }
                             }
                             

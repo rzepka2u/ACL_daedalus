@@ -5,9 +5,11 @@ import javax.swing.JMenuBar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Menu extends JMenuBar{
     
@@ -15,6 +17,7 @@ public class Menu extends JMenuBar{
     private JMenu control; // Le menu de contrôles
     private JMenu aide; // Le menu d'aide
     private JMenu informations; // Le menu d'informations
+    private JMenuItem sauvegarder; // L'item sauvegarder du menu de contrôles
     private JMenuItem redemarrer; // L'item redémarrer du menu de contrôles
     private JMenuItem quitter; // L'item quitter du menu de contrôles
     private JMenuItem regles; // L'item règles du menu d'aide
@@ -54,6 +57,12 @@ public class Menu extends JMenuBar{
         // Création du menu de contrôle
         JMenu menu = new JMenu("Contrôles");
         
+        // Création de l'item sauvegarder du menu
+        sauvegarder = createSauvegarder();
+
+        // Affectation de l'item sauvegarder au menu de contrôles
+        menu.add(sauvegarder); 
+
         // Création de l'item redémarrer du menu
         redemarrer = createRedemarrer();
 
@@ -109,6 +118,53 @@ public class Menu extends JMenuBar{
         menu.add(copyright);
 
         return menu;
+    }
+
+    /**
+     * Méthode qui sert à créer l'item redémarrer du menu de contrôles
+     * @return objet JMenuItem représentant l'item redémarrer
+     */
+    private JMenuItem createSauvegarder(){
+        JMenuItem item = new JMenuItem("Sauvegarder la partie");
+        item.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if(fenetre.getJeu() == null){
+                    JOptionPane.showInternalMessageDialog(null, "Vous n'avez pas encore débuté la partie.",
+                    "information",
+                    JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    
+                    JFileChooser jfc = new JFileChooser();
+                    jfc.setDialogTitle("Choissiez l'endroit de la sauvegarde:");
+                    jfc.setAcceptAllFileFilterUsed(false);
+                    FileNameExtensionFilter filter = new FileNameExtensionFilter(".bin", "bin");
+                    jfc.addChoosableFileFilter(filter);
+
+                    int returnValue = jfc.showSaveDialog(null);
+                    if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+
+                        // object File = jfc.getSelectedFile();
+                        
+                        if(jfc.getSelectedFile().exists()){ // Si le fichier existe (écrasement save)
+
+                            // TO DO: ecriture dans fichier save
+
+                        } else { // Si le fichier n'existe pas
+
+                            // TO DO: Création + écriture fichier save
+
+                        }
+
+                    }
+            
+                }
+            }
+            
+        });
+        return item;
     }
 
     /**

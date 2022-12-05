@@ -88,7 +88,7 @@ public class FenetreGraphique extends JFrame {
 
     }
 
-    private void initialiserCommandes(){
+    public void initialiserCommandes(){
 
         commandes_deplacement = new int[4];
 

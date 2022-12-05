@@ -7,8 +7,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.event.MouseInputAdapter;
-
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
@@ -16,10 +15,10 @@ import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Insets;
 
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.KeyAdapter;
@@ -41,6 +40,7 @@ public class PanelAccueil extends JPanel {
     private JLabel fichierLabel; // L'étiquette comportant le lien du dossier selectionné
     private JButton fichierButton; // Le button permettant de selectionner un dossier
     private JButton startButton; // Le button permettant de lancer la partie
+    private JButton lireSaveButton; // Le button permettant de lire un fichier de sauvegarde
 
 
     /**
@@ -89,17 +89,19 @@ public class PanelAccueil extends JPanel {
         gc.insets = new Insets(12,12,12,12); // Les marges entres chaques cases
         gc.gridx = 1; // Sa position x dans le tableau (abscisses)
         gc.gridy = 0; // Sa position y dans le tableau (ordonnées)
-        gc.fill = GridBagConstraints.NONE; // N'essaye pas de remplire la case
-        gc.anchor = GridBagConstraints.LINE_END; // Ancre au milieu à droite
+        gc.fill = GridBagConstraints.HORIZONTAL; // N'essaye pas de remplire la case
+        gc.anchor = GridBagConstraints.CENTER; // Ancre au milieu à droite
+        gc.gridwidth = 2; // Le composant prend 2 cases en abscisses
 
         // Création et initialisation de l'attribut nbNiveauLabel
         nbNiveauLabel = createNbNiveauLabel();
         panel.add(nbNiveauLabel, gc); // Ajout de l'attribut dans le panel avec les contraintes
 
         // Initialisation des contraintes pour le champ du nombre de niveaux
-        gc.gridx = 2; // Sa position x dans le tableau (abscisses)
+        gc.gridx = 3; // Sa position x dans le tableau (abscisses)
         gc.anchor = GridBagConstraints.LINE_START; // Ancre au milieu à gauche
         gc.fill = GridBagConstraints.NONE; // N'essaye pas de remplire la case
+        gc.gridwidth = 1; // Le composant prend 1 cases en abscisses
 
         // Création et initialisation de l'attribut nbNiveauField
         nbNiveauField = createNbNiveau();
@@ -119,15 +121,17 @@ public class PanelAccueil extends JPanel {
         gc.gridx = 1; // Sa position x dans le tableau (abscisses)
         gc.anchor = GridBagConstraints.CENTER; // Ancre au centre de la case
         gc.fill = GridBagConstraints.HORIZONTAL; // Le contenu de la case doit occuper toute la case horizontalement
+        gc.gridwidth = 2; // Le composant prend 2 cases en abscisses
 
         // Création et initialisation de l'attribut fichierLabel
         fichierLabel = createLabelFichier();
         panel.add(fichierLabel, gc); // Ajout de l'attribut dans le panel avec les contraintes
 
         // Initialisation des contraintes pour le button de sélection de dossier
-        gc.gridx=2;// Sa position x dans le tableau (abscisses)
+        gc.gridx=3;// Sa position x dans le tableau (abscisses)
         gc.anchor = GridBagConstraints.LINE_START; // Ancre au milieu à gauche
         gc.fill = GridBagConstraints.HORIZONTAL; // Le contenu de la case doit occuper toute la case horizontalement 
+        gc.gridwidth = 1; // Le composant prend 1 cases en abscisses
 
         // Création et initialisation de l'attribut fichierButton
         fichierButton = createButtonFichier();
@@ -136,13 +140,23 @@ public class PanelAccueil extends JPanel {
         // Initialisation des contraintes pour le button de lancement de partie
         gc.gridx = 0; // Sa position x dans le tableau (abscisses)
         gc.gridy = 2; // Sa position y dans le tableau (ordonnées)
+        gc.gridwidth = 1;
         gc.anchor = GridBagConstraints.CENTER; // Ancre au centre de la case
         gc.fill = GridBagConstraints.HORIZONTAL; // Le contenu de la case doit occuper toute la case horizontalement
-        gc.gridwidth = 3; // Le composant prend 3 cases en abscisses
+        gc.gridwidth = 2; // Le composant prend 2 cases en abscisses
+
 
         // Création et initialisation de l'attribut startButton
-        startButton = createstartButton();
-        panel.add(startButton, gc); // Ajout de l'attribut dans le panel avec les contraintes
+        lireSaveButton = createLireSaveButton();
+        panel.add(lireSaveButton, gc); // Ajout de l'attribut dans le panel avec les contraintes
+
+
+        // Initialisation des contraintes pour le button de lancement de partie
+        gc.gridx = 2; // Sa position x dans le tableau (abscisses)
+
+         // Création et initialisation de l'attribut startButton
+         startButton = createstartButton();
+         panel.add(startButton, gc); // Ajout de l'attribut dans le panel avec les contraintes        
 
         return panel;
 
@@ -318,6 +332,51 @@ public class PanelAccueil extends JPanel {
                         fenetre.afficherPartie(Integer.valueOf(nbNiveauField.getText())); 
                     }
                 }
+            }
+
+        });
+        
+        return button;
+    }
+
+    private JButton createLireSaveButton(){
+        
+        JButton button = new JButton("Lire une sauvegarde"); // Création d'un nouveau bouton avec le texte
+        button.setBackground(new Color(234,161,19)); // Change sa couleur de fond
+        button.setForeground(new Color(24,34,95)); // Change sa couleur de texte
+        button.setPreferredSize(new Dimension(260,30));
+
+
+        // Ajout d'un écouter sur le button
+        button.addActionListener(new ActionListener(){
+            /**
+             * Méthode appeler lorsque l'utilisateur clique sur le bouton
+             * @param e L'évenement capté par l'écouteur
+             */
+            @Override
+            public void actionPerformed(ActionEvent e){
+                
+                JFileChooser jfc = new JFileChooser();
+                jfc.setDialogTitle("Choissiez le fichier de sauvegarde:");
+                jfc.setAcceptAllFileFilterUsed(false);
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(".bin", "bin");
+                jfc.addChoosableFileFilter(filter);
+
+                int returnValue = jfc.showSaveDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+                    if(jfc.getSelectedFile().exists()){
+                   
+                        // TO DO: LIRE UNE SAVE
+
+                        // objet File = jfc.getSelectedFile();
+
+                        // + fenetre.afficherPartie(jeuLu)
+                        // (Créer une méthode afficherPartie à partir d'un jeu => idem l'autre mais jeu pas à créer car en params)
+
+                    }
+                }
+
             }
 
         });

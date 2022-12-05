@@ -40,6 +40,7 @@ public class FenetreCommandes extends JFrame {
     private JLabel[] competencesLabels;
     private JTextField[] competencesFields;
     private JButton boutonValider;
+    private JButton boutonReset;
 
     public FenetreCommandes(FenetreGraphique f){
 
@@ -152,10 +153,15 @@ public class FenetreCommandes extends JFrame {
             gc.gridx=0;
         }
 
-        gc.gridwidth = 2;
+        gc.gridy++;
         gc.fill = GridBagConstraints.HORIZONTAL;
 
-        boutonValider = createBoutonValider();
+        boutonReset = createBoutonReset(panel, gc);
+        panel.add(boutonReset, gc);
+
+        gc.gridx++;
+
+        boutonValider = createBoutonValider(panel, gc);
         panel.add(boutonValider, gc);
 
     }
@@ -831,10 +837,68 @@ public class FenetreCommandes extends JFrame {
         return fields;
     }
 
-    private JButton createBoutonValider(){
-        JButton bouton = new JButton("Sauvegarder les changements");
+
+    private JButton createBoutonReset(JPanel panel, GridBagConstraints gc){
+        JButton bouton = new JButton("Reset");
+        bouton.setBackground(new Color(234,161,19)); // Change sa couleur de fond
+        bouton.setForeground(new Color(24,34,95)); // Change sa couleur de texte
+        FenetreCommandes fc = this; 
+        bouton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                
+
+                fenetre.initialiserCommandes();
+
+                int[] cmds = fenetre.getCommandesDeplacements();
+                deplacementsFields[0].setText(stringOfCode(cmds[0]));
+                deplacementsFields[1].setText(stringOfCode(cmds[1]));
+                deplacementsFields[2].setText(stringOfCode(cmds[2]));
+                deplacementsFields[3].setText(stringOfCode(cmds[3]));
+
+                attaquerField.setText(stringOfCode(fenetre.getCommandeAttaquer()));
+                ramasserField.setText(""+(char)fenetre.getCommandeRamasser());
+                ouvrirField.setText(""+(char)fenetre.getCommandeOuvrir());
+
+                cmds = fenetre.getCommandesBoirePotions();
+
+                boirePotionsFields[0].setText(stringOfCode(cmds[0]));
+                boirePotionsFields[1].setText(stringOfCode(cmds[1]));
+                boirePotionsFields[2].setText(stringOfCode(cmds[2]));
+                boirePotionsFields[3].setText(stringOfCode(cmds[3]));
+                boirePotionsFields[4].setText(stringOfCode(cmds[4]));
+
+                cmds = fenetre.getCommandesCompetences();
+
+                competencesFields[0].setText(""+(char)cmds[0]);
+                competencesFields[1].setText(""+(char)cmds[1]);
+                competencesFields[2].setText(""+(char)cmds[2]);
+                competencesFields[3].setText(""+(char)cmds[3]);
+
+                JLabel label = new JLabel("Les changements ont bien été remit à zéro.");
+                label.setOpaque(true);
+                label.setBackground(new Color(90,209,26));
+                label.setForeground(new Color(255,255,255));
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                label.setBorder(BorderFactory.createMatteBorder(8, 8, 8, 8, new Color(90,209,26)));
+                gc.gridy = 17; 
+                gc.gridwidth = 2;
+                gc.gridx = 0;
+                panel.add(label, gc);
+                fc.validate();
+                    
+                
+            }
+        });
+        return bouton;
+    }
+
+
+    private JButton createBoutonValider(JPanel panel, GridBagConstraints gc){
+        JButton bouton = new JButton("Sauvegarder");
         bouton.setBackground(new Color(24,34,95)); // Change sa couleur de fond
         bouton.setForeground(new Color(234,161,19)); // Change sa couleur de texte
+        FenetreCommandes fc = this; 
         bouton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
@@ -874,6 +938,19 @@ public class FenetreCommandes extends JFrame {
                     codeOfString(competencesFields[1].getText()),
                     codeOfString(competencesFields[2].getText()),
                     codeOfString(competencesFields[3].getText()));
+
+
+                    JLabel label = new JLabel("Les changements ont bien été enregistrés.");
+                    label.setOpaque(true);
+                    label.setBackground(new Color(90,209,26));
+                    label.setForeground(new Color(255,255,255));
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    label.setBorder(BorderFactory.createMatteBorder(8, 8, 8, 8, new Color(90,209,26)));
+                    gc.gridy = 17; 
+                    gc.gridx = 0;
+                    gc.gridwidth = 2;
+                    panel.add(label, gc);
+                    fc.validate();
                     
                 }
             }

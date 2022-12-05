@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class Jeu{
 
     private final int nbMaxNiveau;
-    public final int DIMENSION_LABYRINTHE = 20;
+    public final int DIMENSION_LABYRINTHE = 19;
 
     private FenetreGraphique fenetre;
     private Labyrinthe labyrinthe; // Le labyrinthe en cours
@@ -385,10 +385,15 @@ public class Jeu{
                     this.getJoueur().modifierPV(- ce.getDiminutionPV());
                     if(getJoueur().getPointsVie()<=0){
                         test = true;
+                        if(getJoueur().isRevenant()){
+                            getJoueur().setPointsVie(20);
+                        }
                     }
                 }
 
             }
+
+            labyrinthe.getCases().get(px).set(py, new CaseVide(-1, new Coordonnee(px, py)));
 
             synchronized(verrouInformations){
                 ajouterInfos("Vous avez déclencher une case a éffet "+(ce.getProgressif()? "progressif" : "unique")+" "+(ce.getDiminutionPV()>0?"infligant "+ce.getDiminutionPV():"augmentant "+ce.getAugmentation())+" points de vie!");
@@ -396,9 +401,7 @@ public class Jeu{
         }
 
         if(test){
-            if(getJoueur().isRevenant()){
-                getJoueur().setPointsVie(20);
-            } else {
+            if(!getJoueur().isRevenant()){
                 mortJoueur(-1);
             }
         }

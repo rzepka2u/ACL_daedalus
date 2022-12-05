@@ -46,6 +46,7 @@ public class PanelPartie extends JPanel{
     private JLabel[] competanceLabels;
     private JLabel nameJeuLabel; // Le texte du logo du projet
     private ArrayList<ArrayList<JLabel>> caseLabels; // Les icônes des cases du labyrinthes
+    private JPanel[][] casesPanels; // Le fond des cases du labyrinthes
     private JLabel hudLabel; // Le texte du titre HUD
     private JLabel xpLabel; // Le nombre d'expérience acquis depuis l'ancien passage de niveau du joueur
     private JLabel rangLabel; // Le texte et l'icône du rang actuel du joueur
@@ -85,6 +86,7 @@ public class PanelPartie extends JPanel{
 
         // Création et initialisation de l'attribut labyPanel correspondant au panel du labyrinthe
         labyPanel = createLabyPanel(casesLaby);
+
         this.add(labyPanel, BorderLayout.CENTER); // Ajout du panel de labyrinthe dans le panel de partie au centre
 
         competancePanel = createCompetancePanel();
@@ -166,7 +168,7 @@ public class PanelPartie extends JPanel{
 
         // Création du nouveau panel et définition de stratégie de positionnement GridBagLayout
         JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(new Color(45,78,95)); // Modifie la couleur de fond
+        panel.setBackground(new Color(255,255,255)); // Modifie la couleur de fond
         
         // Création d'un object GridBagConstraints pour la gestion des contraintes de chacuns des composants
         GridBagConstraints gc = new GridBagConstraints();
@@ -177,96 +179,92 @@ public class PanelPartie extends JPanel{
         gc.ipadx = 0; // Pas de marges en abscisse
         gc.weightx = 1; // Poids de la case dans la taille final en abscisse
         gc.weighty = 1; // Poids de la case dans la taille final en ordonnée
-        gc.fill = GridBagConstraints.HORIZONTAL; // Le composant doit remplire la case horizontalement
-        gc.anchor = GridBagConstraints.FIRST_LINE_START; // Ancre en haut à gauche de la case
+        gc.fill = GridBagConstraints.BOTH; // Le composant doit remplire la case horizontalement
         gc.gridx=0; // Sa position x dans le tableau (abscisses)
         gc.gridy=0; // Sa position y dans le tableau (ordonnées)
 
+        casesPanels = new JPanel[fenetre.getJeu().getLabyrinthe().getLargeur()][];
 
+        for(i=0; i<casesPanels.length; i++){
+            casesPanels[i] = new JPanel[fenetre.getJeu().getLabyrinthe().getHauteur()];
+        }
 
-            // Boucles sur les lignes des cases du labyrinthe
-            for(i=0; i<cases.size(); i++){
-                // Boucles sur les colonnes des cases du labyrinthe
-                for(j=0; j<cases.get(i).size(); j++){
+        // Boucles sur les lignes des cases du labyrinthe
+        for(i=0; i<cases.size(); i++){
+            // Boucles sur les colonnes des cases du labyrinthe
+            for(j=0; j<cases.get(i).size(); j++){
 
-                    // Déclaration d'une variable temporaire de label
-                    JLabel tmp;
-                    ImageIcon imageIcon = new ImageIcon(getClass().getResource("/assets/sol.png"));
+                // Déclaration d'une variable temporaire de label
+                JLabel tmp = null;
+                ImageIcon img = null;
 
-                    // SECTION CRITIQUE, verrouillage du verrou de la case en question
-                    synchronized(verrous.get(i).get(j)){
+                // SECTION CRITIQUE, verrouillage du verrou de la case en question
+                synchronized(verrous.get(i).get(j)){
 
-                        // Si la case est un mur
-                        if(cases.get(i).get(j) instanceof CaseMur){
-                            // Création d'une nouvelle icône mur
-                            imageIcon = new ImageIcon(getClass().getResource("/assets/mur.png"));
-                        } else if(cases.get(i).get(j) instanceof CaseSortie){ // Si la case est la case de sortie
+                    if(cases.get(i).get(j) instanceof CaseMur){
+                        casesPanels[i][j] = new MurPanel();
+                    } else {
+                        casesPanels[i][j] = new SolPanel();
+                    }
+
+                    casesPanels[i][j].setMinimumSize(new Dimension(22,22));
+                    panel.add(casesPanels[i][j], gc);
+                    gc.gridx++; // On décale la prochaine icône d'une case vers la droite
+
+                    if(!(cases.get(i).get(j) instanceof CaseMur)){
+
+                        if(cases.get(i).get(j) instanceof CaseSortie){ // Si la case est la case de sortie
                             // Création d'une nouvelle icône sortie
-                            imageIcon = new ImageIcon(getClass().getResource("/assets/sortie.png"));
-
+                            img = new ImageIcon(getClass().getResource("/assets/sortie.png"));
                         } else if(cases.get(i).get(j) instanceof CaseDepart){ // Si la case est la case de départ
                             // Création d'un nouvelle icône depart
-                            imageIcon = new ImageIcon(getClass().getResource("/assets/depart.png"));
-
+                            img = new ImageIcon(getClass().getResource("/assets/depart.png"));
                         } else if(cases.get(i).get(j) instanceof CaseTresor){ //Si la case est un trésor
 
                             // Si le trésor est fermé
                             if(((CaseTresor)cases.get(i).get(j)).getOuvert() == false){
                                 // Création d'une nouvelle îcone trésor
-                                imageIcon = new ImageIcon(getClass().getResource("/assets/tresor.png"));
+                                img = new ImageIcon(getClass().getResource("/assets/tresor.png"));
                             } else { // Si le trésor est ouvert
-
+                                    
                                 // Si le trésor est une potion
                                 if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Potion){
                                     // Création d'une nouvelle icône potion
-                                    imageIcon = new ImageIcon(getClass().getResource("/assets/potion.png"));
+                                    img = new ImageIcon(getClass().getResource("/assets/potion.png"));
                                 } else if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Arme){ // Si le trésor est une Arme
                                     // Création d'une nouvelle icône arme
-                                    imageIcon = new ImageIcon(getClass().getResource("/assets/arme.png"));
+                                    img = new ImageIcon(getClass().getResource("/assets/arme.png"));
                                 } else { // Si le trésor est une pièce d'armure
                                     // Création d'une nouvelle icône armure
-                                    imageIcon = new ImageIcon(getClass().getResource("/assets/armure.png"));
+                                    img = new ImageIcon(getClass().getResource("/assets/armure.png"));
                                 }
-
-                            }
-                        
+                            } 
                         } else if(cases.get(i).get(j) instanceof CaseEffet){ // Si la case est une case à effet
 
                             if(((CaseEffet) cases.get(i).get(j)).getAugmentation() > 0){ // Si elle effectue une augmentation 
                                 // Création d'une nouvelle icône soin
-                                imageIcon = new ImageIcon(getClass().getResource("/assets/soin.png"));
+                                img = new ImageIcon(getClass().getResource("/assets/soin.png"));
                             } else { // Si elle effectue une diminution
                                 // Création d'une nouvelle icône poison
-                                imageIcon = new ImageIcon(getClass().getResource("/assets/poison.png"));
+                                img = new ImageIcon(getClass().getResource("/assets/poison.png"));
                             }
-
-                        } else { // La case est une case vide
-                            // Création d'une nouvelle icône sol
-                            imageIcon = new ImageIcon(getClass().getResource("/assets/sol.png"));
                         }
-                        Image image = imageIcon.getImage();
-                        Image newimg = image.getScaledInstance(scaleWidth, scaleHeight,  java.awt.Image.SCALE_SMOOTH);
-                        imageIcon = new ImageIcon(newimg);
-        
-                        try {
-                            tmp = new JLabel(imageIcon);
-                        } catch(Exception e){
-                            tmp = null;
-                        }
-                        if(tmp != null)
-                            caseLabels.get(i).add(tmp); // Ajout de la nouvelle icônes dans l'attribut de la collection des icônes
-        
                     }
-                    if(tmp != null){
-                        panel.add(tmp, gc); // Ajout de la nouvelle icône dans le panel avec les contraintes souhaitées
-                    }
-                    gc.gridx++; // On décale la prochaine icône d'une case vers la droite
-            
                 }
 
-                gc.gridx = 0; // On se remet en debut de ligne
-                gc.gridy++; // On descent à la colonne du dessous
+                if(img == null){
+                    img = new ImageIcon(getClass().getResource("/assets/transparent.png"));
+                }
+
+                tmp = new JLabel(img);
+                tmp.setMinimumSize(new Dimension(20,20));
+                
+                caseLabels.get(i).add(tmp); // Ajout de la nouvelle icônes dans l'attribut de la collection des icônes            
+                casesPanels[i][j].add(tmp, BorderLayout.CENTER); // Ajout de la nouvelle icône dans le panel
             }
+            gc.gridx = 0;
+            gc.gridy++;
+        }
 
         // Boucle sur les entites du jeu
         for(i=0; i<fenetre.getJeu().getEntites().size(); i++){
@@ -276,53 +274,52 @@ public class PanelPartie extends JPanel{
                 
                 // Définition des variables nécessaires
                 Entite e = fenetre.getJeu().getEntites().get(i);
-                ImageIcon imageIcon = null;
+                JLabel tmp = null;
+                ImageIcon img = null;
 
                 if(e.getPointsVie() > 0){
 
                     // Si l'entitée est le joueur
                     if(e instanceof Joueur){
                         switch (e.getRegard()) {
-                            case HAUT -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/haut.png"));}
-                            case BAS -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/bas.png"));}
-                            case DROITE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/droite.png"));}
-                            case GAUCHE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/personnage/gauche.png"));}
+                            case HAUT -> {img = new ImageIcon(getClass().getResource("/assets/personnage/haut.png"));}
+                            case BAS -> {img = new ImageIcon(getClass().getResource("/assets/personnage/bas.png"));}
+                            case DROITE -> {img = new ImageIcon(getClass().getResource("/assets/personnage/droite.png"));}
+                            case GAUCHE -> {img = new ImageIcon(getClass().getResource("/assets/personnage/gauche.png"));}
                         }
 
                     } else if(e instanceof Gobelin){ // Si l'entitée est un Gobelin
                         switch (e.getRegard()) {
-                            case HAUT -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/haut.png"));}
-                            case BAS -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/bas.png"));}
-                            case DROITE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/droite.png"));}
-                            case GAUCHE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/gauche.png"));}
+                            case HAUT -> {img = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/haut.png"));}
+                            case BAS -> {img = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/bas.png"));}
+                            case DROITE -> {img = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/droite.png"));}
+                            case GAUCHE -> {img = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/gauche.png"));}
                         }
                         // Création d'une nouvelle icône gobelin
                     } else { // Si l'enittée est un fantome
                         switch (e.getRegard()) {
-                            case HAUT -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/haut.png"));}
-                            case BAS -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/bas.png"));}
-                            case DROITE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/droite.png"));}
-                            case GAUCHE -> {imageIcon = new ImageIcon(getClass().getResource("/assets/monstres/fantome/gauche.png"));}
+                            case HAUT -> {img = new ImageIcon(getClass().getResource("/assets/monstres/fantome/haut.png"));}
+                            case BAS -> {img = new ImageIcon(getClass().getResource("/assets/monstres/fantome/bas.png"));}
+                            case DROITE -> {img = new ImageIcon(getClass().getResource("/assets/monstres/fantome/droite.png"));}
+                            case GAUCHE -> {img = new ImageIcon(getClass().getResource("/assets/monstres/fantome/gauche.png"));}
                         }
                     }
-
-                    // mise à l'échelle de l'image
-                    Image image = imageIcon.getImage();
-                    Image newimg = image.getScaledInstance(scaleWidth, scaleHeight,  java.awt.Image.SCALE_SMOOTH);
-                    imageIcon = new ImageIcon(newimg);
-
-                    // Ajout de l'icône dans un champ de texte (pour pouvoir l'afficher)
-                    JLabel label = new JLabel(imageIcon);
-                    gc.gridx = e.getY(); // La position de l'icône en ordonnée doit être celle de l'entitée
-                    gc.gridy = e.getX(); // La position de l'icône en abscisse doit être celle de l'entitée
-
-                    // On retire l'icône qui a était mise dans cette case lors de la boucle précédente
-                    panel.remove(caseLabels.get(e.getX()).get(e.getY()));
-                    caseLabels.get(e.getX()).set(e.getY(), label); // modification de l'icône dans la collections des icônes de cases
-
-                    panel.add(label, gc); // On ajoute la nouvelle icône dans le panel avec les contraintes
-
                 }
+
+                if(img != null){
+                    tmp = new JLabel(img);
+                    tmp.setMinimumSize(new Dimension(20,20));
+                }
+                
+
+                if(tmp != null){
+                    if(caseLabels.get(e.getX()).get(e.getY()) != null){
+                        // On retire l'icône qui a était mise dans cette case lors de la boucle précédente
+                        casesPanels[e.getX()][e.getY()].remove(caseLabels.get(e.getX()).get(e.getY()));
+                    }
+                    caseLabels.get(e.getX()).set(e.getY(), tmp); // modification de l'icône dans la collections des icônes de cases
+                    casesPanels[e.getX()][e.getY()].add(tmp, BorderLayout.CENTER);
+                }    
             }
         }
 
@@ -495,7 +492,7 @@ public class PanelPartie extends JPanel{
         GridBagConstraints gc = new GridBagConstraints();
 
         // Initialisation des contraintes pour le titre du panel d'informations
-        gc.insets = new Insets(10,10,10,10); // Marges internes de 10 pixels entre les cases 
+        gc.insets = new Insets(2,10,2,10); // Marges internes de 10 pixels entre les cases 
         gc.gridx = 0; // Sa position x dans le tableau (abscisses)
         gc.gridy = 0; // Sa position y dans le tableau (ordonnées)
         gc.weightx = 1; // Poid de la case dans la taille final en abscisses
@@ -835,6 +832,7 @@ public class PanelPartie extends JPanel{
 
                         // Ajout de la description dans le panel du HUD avec les contraintes
                         panel.add(descriptionPotionLabel, gc);
+                        fenetre.validate();
 
                         // Remise des valeurs des contrainte comme elles étaient pour la suite de la boucle
                         gc.gridy = 7;
@@ -854,6 +852,7 @@ public class PanelPartie extends JPanel{
 
                         // On passe l'attribut correspondant à la description à null pour signaler qu'il n'y a plus de description
                         descriptionPotionLabel = null;
+                        fenetre.validate();
                     } 
 
                     /**
@@ -958,6 +957,7 @@ public class PanelPartie extends JPanel{
 
                 // Changement de la couleur du texte
                 labels[j].setForeground(new Color(224,226,225));
+                labels[j].setFont(new Font("Serif", Font.PLAIN, 13));
 
                 // Ajout d'une bordure de 5 pixel à l'horizontale, et de 3 pixels en haut (pour créer des marges internes)
                 labels[j].setBorder(BorderFactory.createMatteBorder(3, 5, 0, 5, new Color(33,32,30)));
@@ -971,12 +971,14 @@ public class PanelPartie extends JPanel{
                 labels[i] = new JLabel("> Aucune information pour le moment");
             } else { // Si ce n'est pas le premier texte crée 
                 // Création d'un nouveau texte (TO DO)
-                labels[i] = new JLabel("");
+                labels[i] = new JLabel(" ");
 
             }
 
             // Changement de la couleur du texte
             labels[i].setForeground(new Color(224,226,225));
+
+            labels[i].setFont(new Font("Serif", Font.PLAIN, 13));
 
             // Ajout d'une bordure de 5 pixel à l'horizontale, et de 3 pixels en haut (pour créer des marges internes)
             labels[i].setBorder(BorderFactory.createMatteBorder(3, 5, 0, 5, new Color(33,32,30)));

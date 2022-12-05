@@ -40,6 +40,7 @@ public class FenetreGraphique extends JFrame {
     private int commande_ramasser;
     private int[] commandes_boire;
     private int[] commandes_competence;
+    private int[] competancesSelect;
     private boolean ecouteursAdd;
 
     /**
@@ -196,6 +197,18 @@ public class FenetreGraphique extends JFrame {
         this.commandes_competence[3] = c4;
     }
 
+    public void setCompetancesSelect(int[] competances){
+        this.competancesSelect = competances;
+    }
+
+    public void afficherChoixCompetances(int nbNiveau, String path){
+        
+        // Initialisation d'un nouveau panel de partie, et ajout de celui-ci dans la fenêtre
+        contentPane = new PanelChoixCompetences(this, nbNiveau, path);
+        this.setContentPane(contentPane);
+        this.validate();
+    }
+
     public void afficherPartie(int nbNiveau){
         try{
             afficherPartie(nbNiveau, null);
@@ -273,7 +286,7 @@ public class FenetreGraphique extends JFrame {
                         jeu.controles(c);
                     } else if(e.getKeyCode() == commandes_competence[0] || e.getKeyCode() == commandes_competence[1]
                     || e.getKeyCode() == commandes_competence[2] || e.getKeyCode() == commandes_competence[3]){ 
-                        c = new Commande(Ordre.COMPETENCE, e.getKeyCode()-KeyEvent.VK_1);
+                        c = new Commande(Ordre.COMPETENCE, competancesSelect[e.getKeyCode()-KeyEvent.VK_1]);
                         jeu.controles(c);
                     }
                 }

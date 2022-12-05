@@ -32,7 +32,7 @@ public class ThreadAffichage extends Thread{
         
         while(stop == false){
             
-            // Attente de 300 milisecondes
+            // Attente de 150 milisecondes
             try{
                 sleep(150);
             } catch (InterruptedException e){}

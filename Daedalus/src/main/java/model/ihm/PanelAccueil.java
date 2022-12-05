@@ -88,7 +88,7 @@ public class PanelAccueil extends JPanel {
         // Initialisation des contraintes pour l'étiquette du nombre de niveaux
         gc.insets = new Insets(12,12,12,12); // Les marges entres chaques cases
         gc.gridx = 1; // Sa position x dans le tableau (abscisses)
-        gc.gridy = 0; // Sa position y dans le tableau (ordonnées)
+        gc.gridy = 1; // Sa position y dans le tableau (ordonnées)
         gc.fill = GridBagConstraints.HORIZONTAL; // N'essaye pas de remplire la case
         gc.anchor = GridBagConstraints.CENTER; // Ancre au milieu à droite
         gc.gridwidth = 2; // Le composant prend 2 cases en abscisses
@@ -105,10 +105,10 @@ public class PanelAccueil extends JPanel {
 
         // Création et initialisation de l'attribut nbNiveauField
         nbNiveauField = createNbNiveau();
-        panel.add(nbNiveauField); // Ajout de l'attribut dans le panel avec les contraintes
+        panel.add(nbNiveauField, gc); // Ajout de l'attribut dans le panel avec les contraintes
 
         // Initialisation des contraintes pour la checBox des fichiers
-        gc.gridy = 1; // Sa position y dans le tableau (ordonnées)
+        gc.gridy = 2; // Sa position y dans le tableau (ordonnées)
         gc.gridx = 0; // Sa position x dans le tableau (abcisses)
         gc.anchor = GridBagConstraints.CENTER; // Ancre au centre de la case
         gc.fill = GridBagConstraints.NONE; // N'essaye pas de remplire la case
@@ -139,7 +139,7 @@ public class PanelAccueil extends JPanel {
         
         // Initialisation des contraintes pour le button de lancement de partie
         gc.gridx = 0; // Sa position x dans le tableau (abscisses)
-        gc.gridy = 2; // Sa position y dans le tableau (ordonnées)
+        gc.gridy = 3; // Sa position y dans le tableau (ordonnées)
         gc.gridwidth = 1;
         gc.anchor = GridBagConstraints.CENTER; // Ancre au centre de la case
         gc.fill = GridBagConstraints.HORIZONTAL; // Le contenu de la case doit occuper toute la case horizontalement
@@ -321,16 +321,30 @@ public class PanelAccueil extends JPanel {
 
                     if(checkBox.isSelected()){
                         if(!fichierLabel.getText().equals("") &&  !fichierLabel.getText().equals("Choissisez un fichier..")){
-                            try{
-                                fenetre.afficherPartie(Integer.valueOf(nbNiveauField.getText()), fichierLabel.getText());
-                            } catch(Exception ex){
-                                System.out.println("Le fichier voulu n'existe pasxxx!");
-                            }
+                            fenetre.afficherChoixCompetances(Integer.valueOf(nbNiveauField.getText()), fichierLabel.getText());
                         }
                     } else {
-                        // J'affiche le panel de partie (et commencement de la partie)
-                        fenetre.afficherPartie(Integer.valueOf(nbNiveauField.getText())); 
+                       
+                        fenetre.afficherChoixCompetances(Integer.valueOf(nbNiveauField.getText()), null);
                     }
+                } else {
+                    JLabel label = new JLabel("Vous devez entrer au minimum un nombre de niveau.");
+                    label.setOpaque(true);
+                    label.setForeground(new Color(255,255,255));
+                    label.setBackground(new Color(209,43,26));
+                    label.setHorizontalAlignment(SwingConstants.CENTER);
+                    label.setPreferredSize(new Dimension(20,35));
+
+                    GridBagConstraints gc = new GridBagConstraints();
+                    gc.gridx=0;
+                    gc.gridy=0;
+                    gc.gridwidth=4;
+                    gc.insets = new Insets(0,0,10,0);
+                    gc.fill = GridBagConstraints.BOTH;
+                    gc.anchor = GridBagConstraints.CENTER;  
+
+                    centerPanel.add(label, gc);
+                    fenetre.validate();
                 }
             }
 

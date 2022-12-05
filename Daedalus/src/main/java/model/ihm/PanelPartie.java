@@ -10,7 +10,6 @@ import model.cases.CaseEffet;
 import model.cases.CaseDepart;
 import model.cases.CaseSortie;
 
-import model.enums.Direction;
 import model.enums.Ordre;
 import model.enums.TypeCompetence;
 import model.objets.Entite;

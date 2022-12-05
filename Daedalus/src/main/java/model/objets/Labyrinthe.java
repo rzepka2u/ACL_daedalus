@@ -3,23 +3,20 @@ package model.objets;
 import model.cases.*;
 import model.cases.Coordonnee;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  * La classe qui représente le labyrinthe du jeu
  */
-public class Labyrinthe {
+public class Labyrinthe implements Serializable {
 
     /**
      * Cases du labyrinthe
      */
     private ArrayList<ArrayList<Case>> cases;
-    private ArrayList<ArrayList<Object>> verrousCases;
+    private transient ArrayList<ArrayList<Object>> verrousCases;
 
     /**
      * Grille représentant le labyrinthe
@@ -648,6 +645,10 @@ public class Labyrinthe {
             }
         }
         return compteur;
+    }
+
+    public void setVerrousCases(ArrayList<ArrayList<Object>> verrousCases) {
+        this.verrousCases = verrousCases;
     }
 
     public static void main(String[] args) {

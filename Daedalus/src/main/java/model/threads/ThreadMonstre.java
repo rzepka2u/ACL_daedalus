@@ -9,11 +9,12 @@ import model.cases.Case;
 import model.cases.CaseMur;
 import model.enums.Direction;
 
+import java.io.Serializable;
 import java.lang.Thread;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ThreadMonstre extends Thread {
+public class ThreadMonstre extends Thread implements Serializable {
 
     private int positionInList;
     private Jeu jeu;
@@ -229,5 +230,9 @@ public class ThreadMonstre extends Thread {
         int alea = (int) (Math.random()*sensPossibles.size());
 
         return sensPossibles.get(alea);
+    }
+
+    public int getPositionInList() {
+        return positionInList;
     }
 }

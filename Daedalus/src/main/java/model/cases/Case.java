@@ -1,11 +1,12 @@
 package model.cases;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Represente une case dans le labyrinthe
  */
-public abstract class Case {
+public abstract class Case implements Serializable {
 
     /**
      * coordonnee de la case

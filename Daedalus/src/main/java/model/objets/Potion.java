@@ -1,6 +1,8 @@
 package model.objets;
 
-public class Potion implements Tresor{
+import java.io.Serializable;
+
+public class Potion implements Tresor, Serializable {
     
     private int augmentationPV;
 

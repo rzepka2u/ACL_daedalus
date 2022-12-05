@@ -2,7 +2,9 @@ package model.objets;
 
 import model.enums.ZoneAttaque;
 
-public class Arme implements Tresor {
+import java.io.Serializable;
+
+public class Arme implements Tresor, Serializable {
 
     // le nom de l'arme
     private String nom;

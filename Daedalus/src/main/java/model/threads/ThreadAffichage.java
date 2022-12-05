@@ -4,11 +4,13 @@ import javax.swing.SwingUtilities;
 
 import model.ihm.FenetreGraphique;
 
+import java.io.Serializable;
+
 /**
  * Classe représentant un thread dont le but est de rafraîchir régulièrement l'affichage de la partie
  */
 
-public class ThreadAffichage extends Thread{
+public class ThreadAffichage extends Thread  implements Serializable {
 
     // La fenètre graphique sur laquelle il doit rafraîchir l'information
     private FenetreGraphique fenetre;

@@ -1,6 +1,8 @@
 package model.objets;
 
-public class PieceArmure implements Tresor {
+import java.io.Serializable;
+
+public class PieceArmure implements Tresor, Serializable {
 
 
     /**

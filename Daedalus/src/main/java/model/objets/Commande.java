@@ -3,7 +3,9 @@ package model.objets;
 import model.enums.Ordre;
 import model.enums.Direction;
 
-public class Commande {
+import java.io.Serializable;
+
+public class Commande implements Serializable {
 
     private Ordre ordre;
     private Direction sens;

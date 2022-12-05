@@ -4,6 +4,9 @@ import javax.swing.JMenuBar;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -121,8 +124,8 @@ public class Menu extends JMenuBar{
     }
 
     /**
-     * Méthode qui sert à créer l'item redémarrer du menu de contrôles
-     * @return objet JMenuItem représentant l'item redémarrer
+     * Méthode qui sert à sauvegarder la partie
+     * @return objet JMenuItem
      */
     private JMenuItem createSauvegarder(){
         JMenuItem item = new JMenuItem("Sauvegarder la partie");
@@ -145,19 +148,14 @@ public class Menu extends JMenuBar{
                     int returnValue = jfc.showSaveDialog(null);
                     if (returnValue == JFileChooser.APPROVE_OPTION) {
 
-
                         // object File = jfc.getSelectedFile();
-                        
-                        if(jfc.getSelectedFile().exists()){ // Si le fichier existe (écrasement save)
-
-                            // TO DO: ecriture dans fichier save
-
-                        } else { // Si le fichier n'existe pas
-
-                            // TO DO: Création + écriture fichier save
-
+                        try {
+                            ObjectOutputStream oos =  new ObjectOutputStream(new FileOutputStream(jfc.getSelectedFile()));
+                            oos.writeObject(fenetre.getJeu());
+                            System.out.println("Ecriture dans le fichier : " + jfc.getSelectedFile());
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
                         }
-
                     }
             
                 }

@@ -2,7 +2,9 @@ package model.objets;
 
 import model.enums.TypeCompetence;
 
-public class Competence {
+import java.io.Serializable;
+
+public class Competence implements Serializable {
     // Type de compétence
     private TypeCompetence type;
 

@@ -15,7 +15,7 @@ Pour déployer et exécuté le jeu, vous devez:
 
     4- Une fois ceci réalisé, vous devez utiliser la commande ci-dessous pour exécuter le jeu ci-dessous:
         
-        java -cp target/Daedalus-2.0.jar start.Main 
+        java -cp target/Daedalus-3.0.jar start.Main 
 
 Pour exécuter les fichiers de test, vous devez entrer, dans l'ordre, les commandes:
 

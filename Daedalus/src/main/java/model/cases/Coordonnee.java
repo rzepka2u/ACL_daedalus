@@ -1,6 +1,8 @@
 package model.cases;
 
-public class Coordonnee {
+import java.io.Serializable;
+
+public class Coordonnee implements Serializable {
 
     /**
      * Abscisse et ordonnée de la coordonnée

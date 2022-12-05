@@ -16,26 +16,27 @@ import model.threads.ThreadMonstre;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /** 
 * La classe qui représente le moteur du jeu
 */
 
-public class Jeu{
+public class Jeu  implements Serializable {
 
+    private final long serialVersionUID = 5226653195119974185L;
     private final int nbMaxNiveau;
     public final int DIMENSION_LABYRINTHE = 19;
-
-    private FenetreGraphique fenetre;
+    private transient FenetreGraphique fenetre;
     private Labyrinthe labyrinthe; // Le labyrinthe en cours
     private ArrayList<Entite> entites;
-    private ArrayList<Object> verrousEntites;
+    private transient ArrayList<Object> verrousEntites;
     private ArrayList<ThreadMonstre> threads;
     private ArrayList<ThreadEffet> threadsEffet;
     private int nbNiveau;
     private ArrayList<String> informations;
-    private Object verrouInformations;
+    private transient Object verrouInformations;
     private String path;
 
     private boolean dossier;
@@ -770,6 +771,18 @@ public class Jeu{
             }
         }
 
+    }
+
+    public void setFenetre(FenetreGraphique fenetre) {
+        this.fenetre = fenetre;
+    }
+
+    public void setVerrousEntites(ArrayList<Object> verrousEntites) {
+        this.verrousEntites = verrousEntites;
+    }
+
+    public void setVerrouInformations(Object verrouInformations) {
+        this.verrouInformations = verrouInformations;
     }
 
     @Override

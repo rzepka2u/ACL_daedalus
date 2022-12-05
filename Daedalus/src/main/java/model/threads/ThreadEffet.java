@@ -3,9 +3,10 @@ package model.threads;
 import model.objets.Jeu;
 import model.objets.Joueur;
 
+import java.io.Serializable;
 import java.lang.Thread;
 
-public class ThreadEffet extends Thread {
+public class ThreadEffet extends Thread  implements Serializable {
 
     private Jeu jeu;
     private int augmentation;

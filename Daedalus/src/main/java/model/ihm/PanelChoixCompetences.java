@@ -88,7 +88,7 @@ public class PanelChoixCompetences extends JPanel {
     }
 
     private JLabel createInfosLabel(){
-        JLabel label = new JLabel("Veuillez sélectionner vos quatre compétances:");
+        JLabel label = new JLabel("Veuillez sélectionner vos quatre compétences de départ");
         label.setIcon(new ImageIcon(getClass().getResource("/assets/competence.png")));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setFont(new Font("Serif", Font.PLAIN, 16));
@@ -198,7 +198,7 @@ public class PanelChoixCompetences extends JPanel {
 
                 } else {
                     
-                    JLabel label = new JLabel("Vous devez sélectionner au minimum quatres compétences.");
+                    JLabel label = new JLabel("Vous devez sélectionner au minimum quatre compétences.");
                     label.setOpaque(true);
                     label.setForeground(new Color(255,255,255));
                     label.setBackground(new Color(209,43,26));

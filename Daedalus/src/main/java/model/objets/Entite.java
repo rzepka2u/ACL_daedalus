@@ -1,9 +1,10 @@
 package model.objets;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import model.enums.Direction;
 
-public abstract class Entite {
+public abstract class Entite implements Serializable {
 
     protected static final int NB_PV_START = 100;
     protected static final int NB_PA_START = 50;

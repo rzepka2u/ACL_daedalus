@@ -1,5 +1,7 @@
 package model.ihm;
 
+import model.objets.Jeu;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -24,6 +26,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 /**
  * Classe PanelAccueil représentant le panel qui est affiché dans la fenêtre lorsque l'on démarre le projet
@@ -387,7 +392,13 @@ public class PanelAccueil extends JPanel {
 
                         // + fenetre.afficherPartie(jeuLu)
                         // (Créer une méthode afficherPartie à partir d'un jeu => idem l'autre mais jeu pas à créer car en params)
-
+                        try {
+                            ObjectInputStream ois =  new ObjectInputStream(new FileInputStream(jfc.getSelectedFile())) ;
+                            Jeu jeuLu = (Jeu) ois.readObject() ;
+                            fenetre.afficherPartie(jeuLu);
+                        } catch (IOException | ClassNotFoundException ex) {
+                            throw new RuntimeException(ex);
+                        }
                     }
                 }
 

@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -757,20 +758,34 @@ public class Jeu  implements Serializable {
             verrousEntites.remove(1);
             entites.remove(1);
         }
-
+        
+        int alea;
 
         for(i=0; i<nombreEntite; i++){
 
-            
             int[] determinerDepart = determinerDepart(this.labyrinthe);
 
-            if(i%2 == 0){
+            if(nbNiveau == 0) {
+                alea = new Random().nextInt(2) + 1;
+            } else if(nbNiveau == 1) {
+                alea = new Random().nextInt(3) + 1;
+            } else {
+                alea = new Random().nextInt(4) + 1;
+            }
+            if(alea == 1) {
                 entites.add(new Fantome(determinerDepart[0], determinerDepart[1]));
                 verrousEntites.add(new Object());
-            } else {
+            } else if (alea == 2) {
                 entites.add(new Gobelin(determinerDepart[0], determinerDepart[1]));
                 verrousEntites.add(new Object());
+            } else if (alea == 3) {
+                entites.add(new Archer(determinerDepart[0], determinerDepart[1]));
+                verrousEntites.add(new Object());
+            } else if (alea == 4) {
+                entites.add(new Kamikaze(determinerDepart[0], determinerDepart[1]));
+                verrousEntites.add(new Object());
             }
+
         }
 
         for(i=0; i<nombreEntite; i++){

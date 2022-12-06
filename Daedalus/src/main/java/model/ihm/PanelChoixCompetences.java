@@ -59,7 +59,7 @@ public class PanelChoixCompetences extends JPanel {
         gc.anchor = GridBagConstraints.CENTER;
         gc.fill = GridBagConstraints.BOTH;
 
-        for(i=0; i<6; i++){
+        for(i=0; i<8; i++){
             JPanel competancePanel = new JPanel(new FlowLayout());
             competancePanel.setBackground(new Color(33,32,30));
 
@@ -68,18 +68,15 @@ public class PanelChoixCompetences extends JPanel {
 
             centerPanel.add(competancePanel, gc);
 
-            if(i==2){
+            if(i%2==0){
+                gc.gridx++;
+            } else {
                 gc.gridx = 0;
                 gc.gridy++;
-            } else {
-                gc.gridx++;
             }
         }  
 
         startButton = createStartButton();
-
-        gc.gridy++;
-        gc.gridx=0;
         gc.gridwidth = 3;
         gc.ipady = 8;
         gc.insets = new Insets(15,0,0,0);
@@ -101,7 +98,7 @@ public class PanelChoixCompetences extends JPanel {
 
     private JCheckBox[] createCompetancesCheckBoxs(){
 
-        JCheckBox[] checks = new JCheckBox[6];
+        JCheckBox[] checks = new JCheckBox[8];
         int i;
 
         for(i=0; i<checks.length; i++){
@@ -145,7 +142,7 @@ public class PanelChoixCompetences extends JPanel {
 
     private JLabel[] createCompetancesLabels(){
 
-        JLabel[] labels = new JLabel[6];
+        JLabel[] labels = new JLabel[8];
 
         int i;
 
@@ -166,6 +163,12 @@ public class PanelChoixCompetences extends JPanel {
 
         labels[5] = new JLabel("EPINES");
         labels[5].setIcon(new ImageIcon(getClass().getResource("/assets/epines.png")));
+
+        labels[6] = new JLabel("ANGUILLES");
+        labels[6].setIcon(new ImageIcon(getClass().getResource("/assets/anguilles.png")));
+
+        labels[7] = new JLabel("TELEPORTATION");
+        labels[7].setIcon(new ImageIcon(getClass().getResource("/assets/teleportation.png")));
 
         for(i=0; i<labels.length; i++){
             labels[i].setForeground(new Color(255,255,255));

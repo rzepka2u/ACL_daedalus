@@ -656,7 +656,7 @@ public class Jeu  implements Serializable {
                 if(this.getJoueur().getCompetences().get(cmd.getIndice()).getType() == TypeCompetence.TELEPORTATION) {
                     int x = this.getJoueur().getX();
                     int y = this.getJoueur().getY();
-                    
+
                     switch(this.getJoueur().getRegard()) {
                         case HAUT:
                             if(!(x-2 > this.getLabyrinthe().getHauteur())) {

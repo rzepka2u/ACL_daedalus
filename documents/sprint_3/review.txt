@@ -45,7 +45,10 @@ PREVU:
   - Rendre possible le lancement d'une partie à l'état d'un fichier de sauvegarde.
 
 REALISE : 
-  - 
+  - Implémentation de la sauvegarde du jeu
+  - La sauvegarde se fait dans un fichier binaire d'après l'état du jeu au moment du clique sur "sauvegarder"
+  - Pour la sauvegarde, on fait implémenter Serializable à toutes les classes. On enregistre alors l'objet Jeu dans un fichier. Tout est alors automatiquement enregistré dans ce fichier, à l'exception de tous les attributs que l'on ne souhaite pas enregistrer.
+  - Il est désormais possible de lancer une partie depuis un fichier de sauvegarde. Tout reprendra comme au moment de la sauvegarde.
 
 ---
 4)

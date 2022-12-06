@@ -125,6 +125,18 @@ public class FenetreInformation extends JFrame {
                 +"<li>"
                     +"REVENANT : Lorsque vous mourrez, vous ressuscitez avec 20 points de vie (utilisable qu'une fois par partie)"
                 +"</li>"
+                +"<li>"
+                    +"BLOCAGE : Permet de prendre 25% de dégâts en moins pendant 10 secondes (Un niveau de temps de recharge)"
+                +"</li>"
+                +"<li>"
+                    +"EPINES : Permet de renvoyer 25% des dégâts subis au Monstre qui vous a attaqué pendant 10 secondes (Un niveau de temps de recharge)"
+                +"</li>"
+                +"<li>"
+                    +"ANGUILLE : Permet d'avoir 10% de chance d'esquiver une attaque subie (Compétence passive)"
+                +"</li>"
+                +"<li>"
+                    +"TELEPORTATION : Permet de se déplacer de deux cases dans la direction où vous regardez (Un niveau de temps de recharge)"
+                +"</li>"
             +"</ul>"
         +"</html>";
 

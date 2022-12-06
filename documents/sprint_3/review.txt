@@ -34,7 +34,20 @@ PREVU :
   - Implémentation d'un système de choix des compétences.
 
 REALISE : 
-  - 
+  - L'utilisateur peut désormais choisir les 4 compétences qu'il va pouvoir débloquer tout au long de sa partie
+  - Création de 4 nouvelles compétences, leur gestion du temps ou des conditions de recharge
+	
+  - Les 4 nouvelles compétences sont :
+	- BLOCAGE : Un quart des dégâts subis en moins
+	- EPINES : Un quart des dégâts subis sont infligés au Monstre qui a porté l'attaque
+	- ANGUILLE : Permet d'avoir 10% de chance d'esquiver une attaque
+	- TELEPORTATION : Permet de se déplacer de deux cases dans la direction où il regarde
+
+  - Les différents moyen d'utilisation et de recharge:
+	- BLOCAGE : utilisable pendant 10s, est de nouveau disponible après avoir complété un niveau
+	- EPINES : utilisable pendant 10s, est de nouveau disponible après avoir complété un niveau
+	- ANGUILLE : utilisable pendant 10s, compétence passive
+	- TELEPORTATION : utilisable une seule fois par niveau
 
 
 3)

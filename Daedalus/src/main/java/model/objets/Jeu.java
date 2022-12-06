@@ -5,6 +5,7 @@ import model.cases.CaseVide;
 import model.cases.Coordonnee;
 import model.cases.CaseEffet;
 import model.cases.CaseSortie;
+import model.cases.CaseMur;
 
 import model.cases.CaseTresor;
 import model.enums.Direction;
@@ -576,6 +577,40 @@ public class Jeu  implements Serializable {
             }
         } else if(cmd.getOrdre() == Ordre.COMPETENCE) {
             if(this.getJoueur().lancerCompetence(cmd.getIndice())){
+                if(this.getJoueur().getCompetences().get(cmd.getIndice()).getType() == TypeCompetence.TELEPORTATION) {
+                    int x = this.getJoueur().getX();
+                    int y = this.getJoueur().getY();
+
+                    switch(this.getJoueur().getRegard()) {
+                        case HAUT:
+                            if(!(x-2 > this.getLabyrinthe().getHauteur())) {
+                                x -= 2;
+                            }
+                            break;
+
+                        case BAS:
+                            if(!(x+2 < 0)) {
+                                x += 2;
+                            }
+                            break;
+
+                        case DROITE:
+                            if(!(y+2 > this.getLabyrinthe().getLargeur())) {
+                                y+=2;
+                            }
+                            break;
+
+                        case GAUCHE:
+                            if(!(y-2 > 0)) {
+                                y-=2;
+                            }
+                            break;
+                    }
+                    if(!(!(this.getLabyrinthe().getCase(x,y) instanceof CaseMur) || !emplacementOccupe(x,y))) {
+                        placerJoueurSurCase(x,y);
+                    }
+                }
+
                 synchronized(verrouInformations){
                     ajouterInfos("Vous venez d'activer la compétence "+getJoueur().getCompetences().get(cmd.getIndice()).getType().toString()+" du joueur.");
                 }
@@ -628,7 +663,7 @@ public class Jeu  implements Serializable {
             // Gestion des reset des compétences
             if(!this.getJoueur().getCompetences().isEmpty()) {
                 for(Competence c : this.getJoueur().getCompetences()) {
-                    if(c.getType() == TypeCompetence.BOUCLIER_MAGIQUE || c.getType() == TypeCompetence.DRAIN_VIE || c.getType() == TypeCompetence.BLOCAGE || c.getType() == TypeCompetence.EPINES) {
+                    if(c.getType() == TypeCompetence.BOUCLIER_MAGIQUE || c.getType() == TypeCompetence.DRAIN_VIE || c.getType() == TypeCompetence.BLOCAGE || c.getType() == TypeCompetence.EPINES || c.getType() == TypeCompetence.TELEPORTATION) {
                         if(c.getDureeNiveau() > 1) {
                             c.setDureeNiveau(c.getDureeNiveau() - 1);
                         } else if(c.getDureeNiveau() == 1) {

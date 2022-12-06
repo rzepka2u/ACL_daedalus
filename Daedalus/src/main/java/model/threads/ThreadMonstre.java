@@ -61,7 +61,7 @@ public class ThreadMonstre extends Thread implements Serializable {
                             
                                 random = r.nextInt(4);
                                 random = random+1;
-                                boolean haut = false, bas =false, gauche =false, droite =false;
+                                boolean haut = false, bas = false, gauche = false, droite = false;
 
                                 if(px-1 >= 0 && px-1 <jeu.getLabyrinthe().getHauteur()){
                                     haut = jeu.chercherJoueur(px-1, py, 1, Direction.HAUT);
@@ -115,56 +115,56 @@ public class ThreadMonstre extends Thread implements Serializable {
                                 int i, cas = -1;
                                 boolean cond = true;
 
-                                for(i=0;i<3 && cond;i++){
+                                for(i=0;i<3 && cond && px-i > 0 && py-i > 0;i++){
                                     if(j.getX() == m.getX()-i && j.getY() == m.getY()-i){
                                         cond = false;
                                         cas = 1;
                                     }
                                 }
 
-                                for(i=0;i<5 && cond;i++){
+                                for(i=0;i<5 && cond && px-i > 0; i++){
                                     if(j.getX() == m.getX()-i && j.getY() == m.getY()){
                                         cond = false;
                                         cas = 2;
                                     }
                                 }
 
-                                for(i=0;i<3 && cond;i++){
+                                for(i=0;i<3 && cond && px-i > 0 && py+i < largeur; i++){
                                     if(j.getX() == m.getX()-i && j.getY() == m.getY()+i){
                                         cond = false;
                                         cas = 3;
                                     }
                                 }
 
-                                for(i=0;i<3 && cond;i++){
+                                for(i=0;i<3 && cond && px+i < hauteur && py-i > 0;i++){
                                     if(j.getX() == m.getX()+i && j.getY() == m.getY()-i){
                                         cond = false;
                                         cas = 4;
                                     }
                                 }
 
-                                for(i=0;i<5 && cond;i++){
+                                for(i=0;i<5 && cond && px+i < hauteur;i++){
                                     if(j.getX() == m.getX()+i && j.getY() == m.getY()){
                                         cond = false;
                                         cas = 5;
                                     }
                                 }
 
-                                for(i=0;i<3 && cond;i++){
+                                for(i=0;i<3 && cond && px+i < hauteur && py+i < largeur; i++){
                                     if(j.getX() == m.getX()+i && j.getY() == m.getY()+i){
                                         cond = false;
                                         cas = 6;
                                     }
                                 }
 
-                                for(i=0;i<5 && cond;i++){
+                                for(i=0;i<5 && cond && py-i > 0;i++){
                                     if(j.getX() == m.getX() && j.getY() == m.getY()-i){
                                         cond = false;
                                         cas = 7;
                                     }
                                 }
 
-                                for(i=0;i<5 && cond;i++){
+                                for(i=0;i<5 && cond && py+1 < largeur;i++){
                                     if(j.getX() == m.getX() && j.getY() == m.getY()+i){
                                         cond = false;
                                         cas = 8;

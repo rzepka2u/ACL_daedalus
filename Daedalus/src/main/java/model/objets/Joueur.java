@@ -18,6 +18,9 @@ import model.enums.TypeCompetence;
 
 public class Joueur extends Entite {
 
+    // serialVersionUID pour la sauvegarde
+    private final long serialVersionUID = 2641088547673365950L;
+
     // Nombre de pa maximum du joueur évoluant au fil de la partie et des rangs gagnés
     protected static int NB_PA_MAX = 50;
     // Nombre d'objets maximum que l'inventaire peut contenir 
@@ -566,7 +569,7 @@ public class Joueur extends Entite {
 
     /**
      * Ajoute la compétence c à la liste des compétences débloquées par le joueur
-     * @param c compétence qui vient d'être débloquée par le joueur
+     * @param nb compétence qui vient d'être débloquée par le joueur
      */
     public void ajouterCompetence(int nb) {
 

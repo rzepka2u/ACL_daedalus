@@ -117,11 +117,11 @@ public class TestLabyrinthe {
 
         Jeu j = new Jeu(null, "src/main/resources/niveaux/niveauVide.txt", 2, true, false, false);
         
-        assertTrue("Le premier labyrinthe doit contenir un trésor"+j.getLabyrinthe().compterCasesTresor(),  j.getLabyrinthe().compterCasesTresor()>0);
+        assertTrue("Le premier labyrinthe doit contenir un trésor (actuellement : "+j.getLabyrinthe().compterCasesTresor() + ")",  j.getLabyrinthe().compterCasesTresor()>0);
 
         j.changerNiveau();
 
-        assertTrue("Le second labyrinthe doit contenir un trésor",  j.getLabyrinthe().compterCasesTresor() >0);
+        assertTrue("Le second labyrinthe doit contenir un trésor (actuellement : "+j.getLabyrinthe().compterCasesTresor() + ")",  j.getLabyrinthe().compterCasesTresor() >0);
 
     }
     

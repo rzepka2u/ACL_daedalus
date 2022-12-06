@@ -98,7 +98,7 @@ public class Jeu  implements Serializable {
     */
     public Jeu(FenetreGraphique f, String path, int nbMax, boolean test, boolean tresorEffet, boolean dossier) throws FileNotFoundException {
 
-        this.nbNiveau = 0;
+        this.nbNiveau = 1;
         this.nbMaxNiveau = nbMax;
         this.fenetre = f;
         this.path = path;
@@ -114,8 +114,8 @@ public class Jeu  implements Serializable {
         }
         
         if(!tresorEffet){
-            labyrinthe.ajouterCasesEffet(nbNiveau);
-            labyrinthe.ajouterCasesTresor(nbNiveau);
+            this.labyrinthe.ajouterCasesEffet(nbNiveau);
+            this.labyrinthe.ajouterCasesTresor(nbNiveau);
         }
 
         //Récupération de la position de départ
@@ -401,7 +401,7 @@ public class Jeu  implements Serializable {
             labyrinthe.getCases().get(px).set(py, new CaseVide(-1, new Coordonnee(px, py)));
 
             synchronized(verrouInformations){
-                ajouterInfos("Vous avez déclencher une case a éffet "+(ce.getProgressif()? "progressif" : "unique")+" "+(ce.getDiminutionPV()>0?"infligant "+ce.getDiminutionPV():"augmentant "+ce.getAugmentation())+" points de vie!");
+                ajouterInfos("Vous avez déclenché une case a effet "+(ce.getProgressif()? "progressif" : "unique")+" "+(ce.getDiminutionPV()>0?"infligeant "+ce.getDiminutionPV():"augmentant "+ce.getAugmentation())+" points de vie!");
             }
 
             if(ce.getAugmentation()>0){
@@ -534,7 +534,7 @@ public class Jeu  implements Serializable {
                     if(!ct.getOuvert()){
                         ct.ouvrirTresor();
                         synchronized(verrouInformations){
-                            ajouterInfos("Vous venez d'ourvir un coffre !");
+                            ajouterInfos("Vous venez d'ouvrir un coffre !");
                         }
                     }
                 }
@@ -565,7 +565,7 @@ public class Jeu  implements Serializable {
                                 this.getJoueur().setArme(nov_a);
 
                                 synchronized(verrouInformations){
-                                    ajouterInfos("Vous d'échanger l'arme "+temp_a.getNom()+" par l'arme "+nov_a.getNom()+"!");
+                                    ajouterInfos("Vous avez échangé l'arme "+temp_a.getNom()+" par l'arme "+nov_a.getNom()+" !");
                                 }                                
 
                             } else if(ct.getContenu() instanceof PieceArmure) {
@@ -575,11 +575,11 @@ public class Jeu  implements Serializable {
                                     test = true;
                                     labyrinthe.getCases().get(x).set(y, new CaseVide(-1, new Coordonnee(x,y)));
                                     synchronized(verrouInformations){
-                                        ajouterInfos("Vous de ramasser une pièce d'amure rapportant "+((PieceArmure)ct.getContenu()).getPointsArmure()+" points d'armure!");
+                                        ajouterInfos("Vous avez obtenu une pièce d'amure ajoutant "+((PieceArmure)ct.getContenu()).getPointsArmure()+" points d'armure !");
                                     }
                                 } else {
                                     synchronized(verrouInformations){
-                                        ajouterInfos("Vos points d'armure sont déjà au maximum!");
+                                        ajouterInfos("Vos points d'armure sont déjà au maximum !");
                                     }
                                 }
 
@@ -590,11 +590,11 @@ public class Jeu  implements Serializable {
                                     test = true;
                                     labyrinthe.getCases().get(x).set(y, new CaseVide(-1, new Coordonnee(x,y)));
                                     synchronized(verrouInformations){
-                                        ajouterInfos("Vous venez de ramasser une potion rapportant "+((Potion)ct.getContenu()).getAugmentation()+" points de vie!");
+                                        ajouterInfos("Vous avez obtenu une potion rapportant "+((Potion)ct.getContenu()).getAugmentation()+" points de vie !");
                                     }
                                 } else {
                                     synchronized(verrouInformations){
-                                        ajouterInfos("Votre inventaire de potion est déjà plein!");
+                                        ajouterInfos("Votre inventaire de potion est déjà plein !");
                                     }
                                 }
                             }
@@ -624,7 +624,7 @@ public class Jeu  implements Serializable {
                     } catch (Exception excep) { System.out.println(excep.getMessage()); }
 
                     synchronized(verrouInformations){
-                        ajouterInfos("Vous venez de boire votre potion dans à la place "+cmd.getIndice()+"de l'inventaire.");
+                        ajouterInfos("Vous venez de boire la potion située en position  "+cmd.getIndice()+" de l'inventaire.");
                     }
                 }
             }

@@ -1,4 +1,4 @@
-package model.objets;
+package model.tresors;
 
 import java.io.Serializable;
 

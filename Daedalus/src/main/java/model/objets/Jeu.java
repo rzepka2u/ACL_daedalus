@@ -20,6 +20,9 @@ import model.enums.TypeCompetence;
 import model.ihm.FenetreGraphique;
 import model.threads.ThreadEffet;
 import model.threads.ThreadMonstre;
+import model.tresors.Arme;
+import model.tresors.PieceArmure;
+import model.tresors.Potion;
 
 import java.io.File;
 import java.io.FileNotFoundException;

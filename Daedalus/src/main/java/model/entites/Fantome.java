@@ -7,7 +7,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 import model.enums.Direction;
-import model.objets.Arme;
+import model.tresors.Arme;
 
 public class Fantome extends Entite {
     

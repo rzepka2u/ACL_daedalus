@@ -5,7 +5,7 @@ import model.enums.Direction;
 import model.enums.Ordre;
 import model.objets.Commande;
 import model.objets.Jeu;
-import model.objets.Potion;
+import model.tresors.Potion;
 
 import java.io.FileNotFoundException;
 import static org.junit.Assert.assertTrue;

@@ -18,6 +18,8 @@ import model.cases.CaseSortie;
 import model.enums.Ordre;
 import model.enums.TypeCompetence;
 import model.objets.*;
+import model.tresors.Arme;
+import model.tresors.Potion;
 
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;

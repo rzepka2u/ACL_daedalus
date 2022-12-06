@@ -9,10 +9,10 @@ import javax.sound.sampled.Clip;
 
 import model.enums.Direction;
 import model.enums.TypeCompetence;
-import model.objets.Arme;
 import model.objets.Competence;
-import model.objets.PieceArmure;
-import model.objets.Potion;
+import model.tresors.Arme;
+import model.tresors.PieceArmure;
+import model.tresors.Potion;
 
 /**
 * La classe qui représente le joueur dans le labyrinthe

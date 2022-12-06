@@ -2,7 +2,7 @@ package model.entites;
 
 import model.enums.Direction;
 import model.enums.ZoneAttaque;
-import model.objets.Arme;
+import model.tresors.Arme;
 
 import java.util.ArrayList;
 

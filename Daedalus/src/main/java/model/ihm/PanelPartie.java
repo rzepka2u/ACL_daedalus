@@ -507,17 +507,22 @@ public class PanelPartie extends JPanel{
         
 
         // Si une description de potion était en place dans l'ancien objet PanelPartie
-        if(descriptionPotion != null){
-            
-            // Initialisation des contraintes pour la description de potion
-            gc.gridx = 0; // Sa position x dans le tableau (abscisses)
-            gc.gridy = 9; // Sa position y dans le tableau (ordonnées)
-            gc.gridwidth = 5; // L'élément doit prendre 5 cases en largeur
-            gc.ipady = 10; // Une marge verticale de 10 pixels à l'intérieure des cases 
-
-            // Ajout de l'ancienne description dans le nouveau panel
-            panel.add(descriptionPotion, gc);
+        if(descriptionPotion == null){
+            descriptionPotionLabel = new JLabel();
+            descriptionPotionLabel.setBorder(BorderFactory.createMatteBorder(30, 0, 0, 0, new Color(33,32,30)));
+        } else {
+            descriptionPotionLabel = descriptionPotion;
         }
+            
+        // Initialisation des contraintes pour la description de potion
+        gc.gridx = 0; // Sa position x dans le tableau (abscisses)
+        gc.gridy = 9; // Sa position y dans le tableau (ordonnées)
+        gc.gridwidth = 5; // L'élément doit prendre 5 cases en largeur
+        gc.ipady = 10; // Une marge verticale de 10 pixels à l'intérieure des cases 
+
+        // Ajout de l'ancienne description dans le nouveau panel
+        panel.add(descriptionPotionLabel, gc);
+        
 
         return panel;
     }
@@ -855,56 +860,39 @@ public class PanelPartie extends JPanel{
                     @Override
                     public void mouseEntered(MouseEvent e){
 
-                        // Déclaration et initalisation de la variable nécessaire à stocker la précédente position en abscisse du tableau
-                        int ancienX = gc.gridx;
+                        synchronized(fenetre.getVerrouContent()){
                         
-                        // Initialisation des contraintes pour la description de la potion
-                        gc.gridx = 0; // Sa position x dans le tableau (abscisses)
-                        gc.gridy = 8; // Sa position y dans le tableau (ordonnées)
-                        gc.gridwidth = 5; // La description doit faire la taille de 5 cases en largeur
-                        gc.ipady = 10; // Il doit y avoir une marge verticale de 10 pixels dans la case
+                            // Initialisation des contraintes pour la description de la potion
+                            gc.gridx = 0; // Sa position x dans le tableau (abscisses)
+                            gc.gridy = 9; // Sa position y dans le tableau (ordonnées)
+                            gc.gridwidth = 5; // La description doit faire la taille de 5 cases en largeur
+                            gc.ipady = 10; // Il doit y avoir une marge verticale de 10 pixels dans la case
 
-                        // Création d'un nouveau texte contenant les informations de la potion
-                        descriptionPotionLabel = new JLabel ("Augmentation points de vie de "+augmentation);
+                            panel.remove(descriptionPotionLabel);
 
-                        // On passe la couleur de fond du texte en bleu
-                        descriptionPotionLabel.setBackground(new Color(55,45,212));
-                        
-                        // On ajout une bordure de 5 pixels en bleu (pour créer une marge interne au label)
-                        descriptionPotionLabel.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(55,45,212)));
-                        descriptionPotionLabel.setOpaque(true); // On rend le label opaque
-                        descriptionPotionLabel.setForeground(new Color(255,255,255)); // On passe la couleur du texte en blanc
-                        
-                        // Le texte doit être centré horizontalement dans le label
-                        descriptionPotionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                            // Création d'un nouveau texte contenant les informations de la potion
+                            descriptionPotionLabel = new JLabel ("Augmentation points de vie de "+augmentation);
 
-                        // Le texte doit être centré verticalement dans le label
-                        descriptionPotionLabel.setVerticalAlignment(SwingConstants.CENTER);
+                            // On passe la couleur de fond du texte en bleu
+                            descriptionPotionLabel.setBackground(new Color(55,45,212));
+                            
+                            // On ajout une bordure de 5 pixels en bleu (pour créer une marge interne au label)
+                            descriptionPotionLabel.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, new Color(55,45,212)));
+                            descriptionPotionLabel.setOpaque(true); // On rend le label opaque
+                            descriptionPotionLabel.setForeground(new Color(255,255,255)); // On passe la couleur du texte en blanc
+                            
+                            // Le texte doit être centré horizontalement dans le label
+                            descriptionPotionLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-                        // Ajout de la description dans le panel du HUD avec les contraintes
-                        panel.add(descriptionPotionLabel, gc);
-                        fenetre.validate();
+                            // Le texte doit être centré verticalement dans le label
+                            descriptionPotionLabel.setVerticalAlignment(SwingConstants.CENTER);
 
-                        // Remise des valeurs des contrainte comme elles étaient pour la suite de la boucle
-                        gc.gridy = 7;
-                        gc.gridx = ancienX;
-                        gc.ipady = 0;
+                            // Ajout de la description dans le panel du HUD avec les contraintes
+                            panel.add(descriptionPotionLabel, gc);
+                            fenetre.validate();
+                        }
                     }
 
-                    /**
-                     * Méthode qui sera appelée lorsque la souris sortira du composant
-                     * @param e objet MouseEvent représentant l'événement qui vient de se produire
-                     */
-                    @Override
-                    public void mouseExited(MouseEvent e){
-                        // On retire la description de potion qui a était créé lorsque la souris est entrée sur le composant
-                        // (voir méthode juste au-dessus)
-                        panel.remove(descriptionPotionLabel); 
-
-                        // On passe l'attribut correspondant à la description à null pour signaler qu'il n'y a plus de description
-                        descriptionPotionLabel = null;
-                        fenetre.validate();
-                    } 
 
                     /**
                      * Méthode qui sera appelée lorsque la souris cliquera sur le composant
@@ -933,8 +921,9 @@ public class PanelPartie extends JPanel{
             labels[i] = new JLabel(imgPotionVide);
             labels[i].setHorizontalAlignment(SwingConstants.CENTER); // On centre l'icône horizontalement dans le label
             // On ajout une bordure de 12 pixels à gauche et à droite (pour crée une marge horizontale interne)
+         
             labels[i].setBorder(BorderFactory.createMatteBorder(0, 12, 0, 12, new Color(33,32,30)));
-
+            
             panel.add(labels[i], gc); // on ajoute l'icône dans le panel avec les contraintes souhaitées
             gc.gridx++; // On se décale d'une case à droite dans le tableau
             i++; // On passe au composant suivant

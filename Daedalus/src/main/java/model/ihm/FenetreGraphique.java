@@ -417,29 +417,23 @@ public class FenetreGraphique extends JFrame {
      */
     public void raffraichirPartie(){
 
-            JLabel descrPotion;
+        JLabel descrPotion;
 
-            synchronized(verrouContent){
-                if(contentPane instanceof PanelPartie){
-                    descrPotion = ((PanelPartie) contentPane).getDescriptionPotion();
-                } else {
-                    descrPotion = null;
-                }
+        synchronized(verrouContent){
+            if(contentPane instanceof PanelPartie){
+                    
+                descrPotion = ((PanelPartie) contentPane).getDescriptionPotion();
+                PanelPartie panel = new PanelPartie(this, descrPotion);
+
+            
+                // Création d'un nouveau panel de partie et écrassement de l'ancien
+                contentPane = panel;
+                this.setContentPane(contentPane);
+
+                // Mise à jour de la fenêtre
+                this.validate();
             }
-
-            PanelPartie panel = new PanelPartie(this, descrPotion);
-
-            synchronized(verrouContent){
-
-                if(contentPane instanceof PanelPartie){
-                    // Création d'un nouveau panel de partie et écrassement de l'ancien
-                    contentPane = panel;
-                    this.setContentPane(contentPane);
-
-                    // Mise à jour de la fenêtre
-                    this.validate();
-                }
-            }
+        }
         
     }
 

@@ -656,7 +656,7 @@ public class Jeu  implements Serializable {
                 if(this.getJoueur().getCompetences().get(cmd.getIndice()).getType() == TypeCompetence.TELEPORTATION) {
                     int x = this.getJoueur().getX();
                     int y = this.getJoueur().getY();
-
+                    
                     switch(this.getJoueur().getRegard()) {
                         case HAUT:
                             if(!(x-2 > this.getLabyrinthe().getHauteur())) {
@@ -682,7 +682,8 @@ public class Jeu  implements Serializable {
                             }
                             break;
                     }
-                    if(!(!(this.getLabyrinthe().getCase(x,y) instanceof CaseMur) || !emplacementOccupe(x,y))) {
+                    if(!(this.getLabyrinthe().getCase(x,y) instanceof CaseMur) || emplacementOccupe(x,y)) {
+                        System.out.println("le yes");
                         placerJoueurSurCase(x,y);
                     }
                 }

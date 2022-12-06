@@ -1,0 +1,33 @@
+SPRINT RETROSPECTIVE : ce qui s’est bien passé (ou pas) et ce qui aurait pu être fait / amélioré s'il y avait eu d'autres sprints
+
+Ce sprint était principalement destiné à finir et peaufiner le travail, résoudre les derniers bugs et ajouter quelques fonctionnalités 
+légères, par exemple l'ajout de nouveaux monstres et de nouvelles compétences afin de diversifier le contenu du jeu ou encore l'amélioration
+de l'apsect graphique du jeu, le tout dans l'objectif d'améliorer l'expérience du joueur.
+
+Dans ce 3ème et dernier sprint, nous avons pu continuer sur notre lancer quant à l'utilisation de la méthodologie SCRUM : 
+ - Nous n'avons rencontré aucun problème de synchronisation lorsque plusieurs personnes devaient travailler sur le même fichier
+ - Chaque conflits rencontré a été correctement résolu 
+ - Etant donné le nombre limité de fonctionnalité à réaliser pendant de sprint, nous n'avons pas non plus rencontré de problème
+   au niveau de la communication au sein du groupe 
+
+Le projet arrive donc à sa version finale : 
+ - Toutes les fonctionnalités prévues pour le sprint ont été réalisées 
+ - Tous les bugs connus ont été résolus 
+ - La documentation a été complété et terminé 
+ - L'ensemble des membres de l'équipes ont réalisé les fonctionnalités qui lui ont été confiées 
+ - Tous les tests réalisés sont fonctionnels 
+ - Les diagrammes prévus ont été réalisés, et ceux nécessitant une mise à jour l'ont été également 
+ - Comme au sprint précédent, tous ce qui était prévu dans la vision produit de départ a été implémenté, nous avons même pu ajouter quelques
+   fonctionnalités supplémentaires durant ce sprint.
+
+Tous les objectifs pour ce sprint ainsi que tous les objectifs fixés pour le projet en globalité ont été accomplis.
+
+Cependant, si nous avions pu avoir plus de temps encore, nous pouvons imaginer que nous aurions pu ajouter d'autres fonctionnalités telles que : 
+ - Un meilleur aspect graphique encore en utilisant des animations, nottament pour les attaques et les déplacements, afin de rendre le jeu plus
+   fluide pour le joueur.
+ - Des monstres et des compétences plus sophistiqués pour augmenter la diversité du jeu et augmenter également la sensation de progression dans le jeu
+   pour le joueur
+ - Un labyrinthe plus interactif avec le joueur 
+ - Une gestion de la caméra pour les labyrinthes plus grands, de sorte à ce que le joueur ne voit pas le labyrinthe entièrement lorsque celui-ci est très grand
+ - Différents mode de jeu, différentes difficultés
+ - etc ... 

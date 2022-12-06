@@ -81,7 +81,7 @@ public class FenetreInformation extends JFrame {
         
         if(isRegles){
             label.setText(textRegles());
-            label.setPreferredSize(new Dimension(640,610));
+            label.setPreferredSize(new Dimension(640,800));
         } else {
             label.setText(textCopyright());
             label.setPreferredSize(new Dimension(640,350));

@@ -327,19 +327,45 @@ public class PanelAccueil extends JPanel {
                 // Si j'ai bien un nombre de niveau renseigné dans le champ prévu et qu'il est > 0
                 if(nbNiveauField.getText().length() != 0 && Integer.valueOf(nbNiveauField.getText()) > 0){ 
 
-                    try {
-                        Clip clip = AudioSystem.getClip();
-                        AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/bouton.wav"));
-                        clip.open(inputStream);
-                        clip.start();
-                    } catch (Exception excep) { System.out.println(excep.getMessage()); }
-
                     if(checkBox.isSelected()){
-                        if(!fichierLabel.getText().equals("") &&  !fichierLabel.getText().equals("Choisissez un dossier source pour le plateau de jeu")){
+                        
+                        if(!fichierLabel.getText().equals("") &&  !fichierLabel.getText().equals("  Choix d'un dossier de génération :")){
+                            try {
+                                Clip clip = AudioSystem.getClip();
+                                AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/bouton.wav"));
+                                clip.open(inputStream);
+                                clip.start();
+                            } catch (Exception excep) { System.out.println(excep.getMessage()); }
+
                             fenetre.afficherChoixCompetances(Integer.valueOf(nbNiveauField.getText()), fichierLabel.getText());
+                        } else {
+
+                            JLabel label = new JLabel("Vous devez choisir un dossier de génération.");
+                            label.setOpaque(true);
+                            label.setForeground(new Color(255,255,255));
+                            label.setBackground(new Color(209,43,26));
+                            label.setHorizontalAlignment(SwingConstants.CENTER);
+                            label.setPreferredSize(new Dimension(20,35));
+
+                            GridBagConstraints gc = new GridBagConstraints();
+                            gc.gridx=0;
+                            gc.gridy=0;
+                            gc.gridwidth=4;
+                            gc.insets = new Insets(0,0,10,0);
+                            gc.fill = GridBagConstraints.BOTH;
+                            gc.anchor = GridBagConstraints.CENTER;  
+
+                            centerPanel.add(label, gc);
+                            fenetre.validate();
+
                         }
                     } else {
-                       
+                        try {
+                            Clip clip = AudioSystem.getClip();
+                            AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/bouton.wav"));
+                            clip.open(inputStream);
+                            clip.start();
+                        } catch (Exception excep) { System.out.println(excep.getMessage()); }
                         fenetre.afficherChoixCompetances(Integer.valueOf(nbNiveauField.getText()), null);
                     }
                 } else {

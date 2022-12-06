@@ -1,6 +1,7 @@
 package model.threads;
 
 import model.objets.Jeu;
+import model.entites.Archer;
 import model.entites.Entite;
 import model.entites.Fantome;
 import model.entites.Gobelin;
@@ -121,9 +122,21 @@ public class ThreadMonstre extends Thread implements Serializable {
                                     }
                                 }
                             }
+
+                            String entite;
+
+                            if(m instanceof Gobelin){
+                                entite = "Le Gobelin";
+                            } else if(m instanceof Fantome){
+                                entite = "Le Fantome";
+                            } else if(m instanceof Archer){
+                                entite = "L'Archer";
+                            } else {
+                                entite = "Le Kamikaze";
+                            }
                             
                             synchronized(jeu.getVerrouInformations()){
-                                jeu.ajouterInfos("Le "+ (m instanceof Gobelin? "Gobelin" : "Fantôme")+ " position ("+m.getX()+","+m.getY()+") vous a attribué "+dgts+" de dégats!" );
+                                jeu.ajouterInfos(entite+ " position ("+m.getX()+","+m.getY()+") vous a attribué "+dgts+" de dégats!" );
                             }
 
                             if(m instanceof Kamikaze) {
@@ -141,7 +154,19 @@ public class ThreadMonstre extends Thread implements Serializable {
             synchronized(jeu.getVerrousEntites().get(positionInList+1)){
                 synchronized(jeu.getVerrouInformations()){
                     Entite e = jeu.getEntites().get(positionInList+1);
-                    jeu.ajouterInfos("Le "+ (e instanceof Gobelin? "Gobelin" : "Fantôme")+ " position ("+e.getX()+","+e.getY()+") est mort!" );
+                    String entite;
+
+                    if(e instanceof Gobelin){
+                        entite = "Le Gobelin";
+                    } else if(e instanceof Fantome){
+                        entite = "Le Fantome";
+                    } else if(e instanceof Archer){
+                        entite = "L'Archer";
+                    } else {
+                        entite = "Le Kamikaze";
+                    }
+
+                    jeu.ajouterInfos(entite+ " position ("+e.getX()+","+e.getY()+") est mort!" );
                 }
             }
 

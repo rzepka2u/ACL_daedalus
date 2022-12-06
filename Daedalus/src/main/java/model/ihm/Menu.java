@@ -150,7 +150,7 @@ public class Menu extends JMenuBar{
 
                         // object File = jfc.getSelectedFile();
                         try {
-                            ObjectOutputStream oos =  new ObjectOutputStream(new FileOutputStream(jfc.getSelectedFile()));
+                            ObjectOutputStream oos =  new ObjectOutputStream(new FileOutputStream(jfc.getSelectedFile()+".bin"));
                             oos.writeObject(fenetre.getJeu());
                             System.out.println("Ecriture dans le fichier : " + jfc.getSelectedFile());
                         } catch (IOException ex) {

@@ -9,15 +9,18 @@ import java.io.IOException;
 
 public class MurPanel extends JPanel{
     
-    private BufferedImage imgFond;
+    private static final BufferedImage imgFond;
+
+    static {
+        try {
+            imgFond = ImageIO.read(MurPanel.class.getResource("/assets/mur.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public MurPanel(){
         super();
-        try{
-            imgFond = ImageIO.read(getClass().getResource("/assets/mur.png"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     @Override

@@ -50,6 +50,9 @@ public class PanelAccueil extends JPanel {
     private JButton startButton; // Le button permettant de lancer la partie
     private JButton lireSaveButton; // Le button permettant de lire un fichier de sauvegarde
 
+    private static final ImageIcon imgLaby = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/laby.png"));
+    private static final ImageIcon imgNiveaux = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/niveaux.png"));
+    private static final ImageIcon imgDossier = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/dossier.png"));
     /**
      * Constructeur par défaut de la classe PanelAccueil
      * @param f l'objet FenetreGraphique dans lequel sera inclus le nouveau panel
@@ -178,7 +181,7 @@ public class PanelAccueil extends JPanel {
 
         JLabel label = new JLabel(); // Création d'un nouveau JLabel
         label.setText("<html><br><i><b>DAEDALUS</b></i><br><br></html>");// Ajout du texte de bienvenue
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/laby.png"))); // Ajout de l'icône prévue au texte
+        label.setIcon(imgLaby); // Ajout de l'icône prévue au texte
         label.setHorizontalAlignment(SwingConstants.CENTER); // Centrer le texte horizontalement dans le JLabel
         label.setForeground(new Color(0,0,0)); // Changement de la couleur d'écriture
         // Ajout d'une bordure de 10 pixels avec la même couleur de fond (pour créer des marges internes)
@@ -198,7 +201,7 @@ public class PanelAccueil extends JPanel {
         //Ajout d'une bordure blanche (pour créer une marge intérieure)
         label.setBorder(BorderFactory.createMatteBorder(7,  10,  7,  10, new Color(255,255,255)));
 
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/niveaux.png"))); // Ajout de l'icône prévue à l'étiquette
+        label.setIcon(imgNiveaux); // Ajout de l'icône prévue à l'étiquette
         label.setOpaque(true); // Rend le JLabel opaque
         label.setBackground(new Color(255,255,255)); // Change la couleur de fond du JLabel en blanc
 
@@ -255,7 +258,7 @@ public class PanelAccueil extends JPanel {
         // Ajout d'une bordure blanche (pour créer une marge intérieure)
         label.setBorder(BorderFactory.createMatteBorder(7,  10,  7,  10, new Color(255,255,255)));
 
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/dossier.png"))); // Ajout de l'icône prévue au texte 
+        label.setIcon(imgDossier); // Ajout de l'icône prévue au texte
         label.setOpaque(true); // Défini le texte comme opaque
         label.setBackground(new Color(255,255,255)); // Modifie la couleur de fond du texte en blanc
 

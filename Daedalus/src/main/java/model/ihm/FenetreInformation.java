@@ -20,6 +20,9 @@ public class FenetreInformation extends JFrame {
     private JLabel textHTMLabel;
     private JPanel contentPane;
 
+    private static final ImageIcon imgRegles = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/regles.png"));
+    private static final ImageIcon imgCopyright = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/copyright.png"));
+
     public FenetreInformation(boolean isRegles){
         super("Informations");
 
@@ -57,10 +60,10 @@ public class FenetreInformation extends JFrame {
 
         if(isRegles){
             label.setText("<html><span style='font-size:18px;'>LES REGLES DU JEU</span></html>");
-            label.setIcon(new ImageIcon(getClass().getResource("/assets/regles.png")));
+            label.setIcon(imgRegles);
         } else {
             label.setText("<html><span style='font-size:18px;'>COPYRIGHT DE L'APPLICATION</span></html>");
-            label.setIcon(new ImageIcon(getClass().getResource("/assets/copyright.png")));
+            label.setIcon(imgRegles);
         }
 
         

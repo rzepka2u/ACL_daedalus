@@ -97,6 +97,16 @@ public class PanelPartie extends JPanel{
     private static final ImageIcon imgPotionVide = new ImageIcon(PanelPartie.class.getResource("/assets/potionVide.png"));
     private static final ImageIcon imgInfos = new ImageIcon(PanelPartie.class.getResource("/assets/infos.png"));
 
+    private static final ImageIcon imgCompetence = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/competence.png"));
+    private static final ImageIcon imgBerserker = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/berserker.png"));
+    private static final ImageIcon imgBouclier_magique = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/bouclier_magique.png"));
+    private static final ImageIcon imgDrain_vie = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/drain_vie.png"));
+    private static final ImageIcon imgRevenant = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/revenant.png"));
+    private static final ImageIcon imgBlocage = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/blocage.png"));
+    private static final ImageIcon imgEpines = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/epines.png"));
+    private static final ImageIcon imgAnguilles = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/anguilles.png"));
+    private static final ImageIcon imgTeleportation = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/teleportation.png"));
+
     /**
      * Constructeur par défaut de la classe PanelPartie
      * @param f l'objet FenetreGraphique dans lequelle sera affiché le panel
@@ -578,7 +588,19 @@ public class PanelPartie extends JPanel{
         JLabel label = new JLabel(type.toString());
 
         // Ajout d'une icône prévu pour les points de vie au texte
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/"+type.toString().toLowerCase()+".png")));
+        //label.setIcon(new ImageIcon(getClass().getResource("/assets/"+type.toString().toLowerCase()+".png")));
+        switch (type.toString().toLowerCase()) {
+            case "berserker" -> label.setIcon(imgBerserker);
+            case "bouclier_magique" -> label.setIcon(imgBouclier_magique);
+            case "drain_vie" -> label.setIcon(imgDrain_vie);
+            case "revenant" -> label.setIcon(imgRevenant);
+            case "blocage" -> label.setIcon(imgBlocage);
+            case "epines" -> label.setIcon(imgEpines);
+            case "anguilles" -> label.setIcon(imgAnguilles);
+            case "teleportation" -> label.setIcon(imgTeleportation);
+            default -> label.setIcon(imgCompetence);
+        }
+
 
         if(activable){
             // Modification de la couleur du texte en vert foncé

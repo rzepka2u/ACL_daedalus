@@ -1,8 +1,9 @@
-package model.objets;
+package model.entites;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import model.enums.Direction;
+import model.objets.Arme;
 
 public abstract class Entite implements Serializable {
 

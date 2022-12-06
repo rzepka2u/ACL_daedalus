@@ -1,7 +1,8 @@
-package model.objets;
+package model.entites;
 
 import model.enums.Direction;
 import model.enums.ZoneAttaque;
+import model.objets.Arme;
 
 import java.util.ArrayList;
 

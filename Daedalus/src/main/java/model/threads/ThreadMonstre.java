@@ -1,11 +1,11 @@
 package model.threads;
 
-import model.objets.Entite;
-import model.objets.Fantome;
-import model.objets.Gobelin;
 import model.objets.Jeu;
-import model.objets.Joueur;
-import model.objets.Kamikaze;
+import model.entites.Entite;
+import model.entites.Fantome;
+import model.entites.Gobelin;
+import model.entites.Joueur;
+import model.entites.Kamikaze;
 import model.enums.Direction;
 
 import java.io.Serializable;

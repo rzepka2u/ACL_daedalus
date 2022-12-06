@@ -812,6 +812,7 @@ public class Jeu  implements Serializable {
 
     public boolean chercherJoueur(int x, int y, int compteur, Direction casePrecedente){
 
+
         if(compteur > 5){
             return false;
         }

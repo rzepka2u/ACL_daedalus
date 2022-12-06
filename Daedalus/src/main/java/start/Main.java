@@ -14,7 +14,8 @@ import java.io.FileNotFoundException;
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
-		try{
+		
+        try{
             UIManager.setLookAndFeel(new NimbusLookAndFeel());
         } catch( Exception exception ) { 
             exception.printStackTrace(); 

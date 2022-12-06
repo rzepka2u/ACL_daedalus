@@ -554,6 +554,7 @@ public class Labyrinthe implements Serializable {
         int nbAAjouter = 2 + (int) (Math.random() * ((casesInitialementVides * 0.8) * noNiveau) / 100);
         // Tout d'abord il faut limiter le nombre de cases spéciales sur le labyrinthe, pour ne pas surcharger l'algorithme
         if (nbAAjouter > casesInitialementVides / 20) nbAAjouter = casesInitialementVides / 20;
+        if (nbAAjouter == 0) nbAAjouter = 1;
 
         // Il faut ensuite déterminer quelles seront les cases à changer
         ArrayList<Case> casesConcernees = calculerCasesSpeciales(true, nbAAjouter);
@@ -584,6 +585,7 @@ public class Labyrinthe implements Serializable {
         int nbAAjouter = 1 + (int) (Math.random() * casesInitialementVides * noNiveau * 0.009);
         // Tout d'abord il faut limiter le nombre de cases spéciales sur le labyrinthe, pour ne pas surcharger l'algorithme
         if (nbAAjouter > casesInitialementVides / 25) nbAAjouter = casesInitialementVides / 25;
+        if (nbAAjouter == 0) nbAAjouter = 1;
 
         // Il faut ensuite déterminer quelles seront les cases à changer
         ArrayList<Case> casesConcernees = calculerCasesSpeciales(false, nbAAjouter);

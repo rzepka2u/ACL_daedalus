@@ -97,7 +97,7 @@ public class Jeu  implements Serializable {
     */
     public Jeu(FenetreGraphique f, String path, int nbMax, boolean test, boolean tresorEffet, boolean dossier) throws FileNotFoundException {
 
-        this.nbNiveau = 0;
+        this.nbNiveau = 1;
         this.nbMaxNiveau = nbMax;
         this.fenetre = f;
         this.path = path;
@@ -113,8 +113,8 @@ public class Jeu  implements Serializable {
         }
         
         if(!tresorEffet){
-            labyrinthe.ajouterCasesEffet(nbNiveau);
-            labyrinthe.ajouterCasesTresor(nbNiveau);
+            this.labyrinthe.ajouterCasesEffet(nbNiveau);
+            this.labyrinthe.ajouterCasesTresor(nbNiveau);
         }
 
         //Récupération de la position de départ

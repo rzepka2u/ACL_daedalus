@@ -1,8 +1,8 @@
 package model.cases;
 
-import model.objets.Arme;
-import model.objets.Potion;
-import model.objets.Tresor;
+import model.tresors.Arme;
+import model.tresors.Potion;
+import model.tresors.Tresor;
 
 /**
  * Classe CaseTresor qui représente une case contenant un trésor

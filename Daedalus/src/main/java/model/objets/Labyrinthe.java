@@ -1,6 +1,10 @@
 package model.objets;
 
 import model.cases.*;
+import model.tresors.Arme;
+import model.tresors.PieceArmure;
+import model.tresors.Potion;
+import model.tresors.Tresor;
 
 import java.io.*;
 import java.util.ArrayList;

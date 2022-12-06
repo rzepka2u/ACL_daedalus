@@ -1,20 +1,21 @@
-package model.objets;
+package model.entites;
 
 import model.enums.Direction;
 import model.enums.ZoneAttaque;
+import model.tresors.Arme;
 
 import java.util.ArrayList;
 
-public class Kamikaze extends Entite{
+public class Archer extends Entite{
 
-    public Kamikaze(int x, int y){
+    public Archer(int x, int y){
         super(x, y, NB_PV_START, NB_PA_START, Direction.BAS);
-        setArme(new Arme("ceinture d'explosifs", 60, 2, ZoneAttaque.EN_CARRE));
+        setArme(new Arme("arc en bois", 8, 5, ZoneAttaque.CASE_DEVANT));
     }
     
-    public Kamikaze(int x, int y, int pv, int pa){
+    public Archer(int x, int y, int pv, int pa){
         super(x,y,pv,pa, Direction.BAS);
-        setArme(new Arme("ceinture d'explosifs", 8, 2, ZoneAttaque.EN_CARRE));
+        setArme(new Arme("arc en bois", 8, 5, ZoneAttaque.CASE_DEVANT));
     }
 
     public void seDeplacer(int px, int py){

@@ -1,4 +1,4 @@
-package model.objets;
+package model.tresors;
 
 public interface Tresor {
 

@@ -4,15 +4,15 @@ import java.io.FileNotFoundException;
 
 import org.junit.Test;
 
-import model.objets.Arme;
 import model.objets.Commande;
 import model.objets.Jeu;
-import model.objets.Joueur;
-import model.objets.PieceArmure;
-import model.objets.Potion;
+import model.tresors.Arme;
+import model.tresors.PieceArmure;
+import model.tresors.Potion;
 import model.cases.CaseTresor;
 import model.cases.CaseVide;
 import model.cases.Coordonnee;
+import model.entites.Joueur;
 import model.enums.Direction;
 import model.enums.Ordre;
 import model.enums.ZoneAttaque;

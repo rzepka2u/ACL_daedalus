@@ -26,6 +26,8 @@ REALISE :
   - Amélioration du traçage du fantôme qui désormais ignore les murs 
   - Amélioration du traçage des monstres sur les labyrinthes possédants des gros espaces de cases vides
 
+La fonctionnalité a été testée et validée. 
+
 2)
 FONCTIONNALITE : Créations de nouvelles compétences et implémentation d'un système de choix de compétences au cours du jeu
 
@@ -49,6 +51,7 @@ REALISE :
 	- ANGUILLE : utilisable pendant 10s, compétence passive
 	- TELEPORTATION : utilisable une seule fois par niveau
 
+La fonctionnalité a été testée et validée. 
 
 3)
 FONCTIONNALITE : Implémentation d'un système de sauvegarde 
@@ -63,6 +66,8 @@ REALISE :
   - Pour la sauvegarde, on fait implémenter Serializable à toutes les classes. On enregistre alors l'objet Jeu dans un fichier. Tout est alors automatiquement enregistré dans ce fichier, à l'exception de tous les attributs que l'on ne souhaite pas enregistrer.
   - Il est désormais possible de lancer une partie depuis un fichier de sauvegarde. Tout reprendra comme au moment de la sauvegarde.
 
+La fonctionnalité a été testée et validée. 
+
 ---
 4)
 FONCTIONNALITE : Système de reset des commandes + améliorations de l'affichage du jeu + ajout d'effets sonores au jeu 
@@ -75,4 +80,17 @@ PREVU :
   - Ajout de sons lors de divers actions dans le jeu (si le temps le permet).
 
 REALISE : 
-  - 
+  - Ajout d'un bouton reset pour la fenetre des commandes
+  - Meilleure gestion de l'affichage des éléments du labyrinthe
+  - Gestion de la responsivité de l'affichagedes éléments du labyrinthe
+  - Ajout de sons lors de divers événements
+  - Correction bug inventaire potion partie IHM
+  - Correction bug "pause" lorsqu'un message de confirmation du menu survient en pleine partie
+  - Création d'une ihm pour choisir les compétences avant de démarrer la partie
+  - Amélioration du rendu graphique de certaines choses de l'ihm
+
+La fonctionnalité a été testée et validée.
+Concernant les tests de tout ce qui est IHM, nous n'avons pas pu faire autrement que de tester simplement sur
+une de nos machines puisque le test de l'interface graphique dépend de la vision de la personne devant l'écran ainsi que de ses
+actions sur les entrées (clique sur l'écran a un endroit précis, tape sur une touche, etc). Il n'est pas possible de tester cela
+simplement. 

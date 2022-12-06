@@ -1,7 +1,7 @@
 package model.threads;
 
+import model.entites.Joueur;
 import model.objets.Jeu;
-import model.objets.Joueur;
 
 import java.io.Serializable;
 import java.lang.Thread;

@@ -1,4 +1,4 @@
-package model.objets;
+package model.entites;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -9,6 +9,10 @@ import javax.sound.sampled.Clip;
 
 import model.enums.Direction;
 import model.enums.TypeCompetence;
+import model.objets.Competence;
+import model.tresors.Arme;
+import model.tresors.PieceArmure;
+import model.tresors.Potion;
 
 /**
 * La classe qui représente le joueur dans le labyrinthe
@@ -52,7 +56,6 @@ public class Joueur extends Entite {
         competences = new ArrayList<Competence>();
         this.setArme(new Arme());
 
-       competences.add(new Competence(TypeCompetence.DRAIN_VIE, 4, 10000, 1));
     }
 
     public ArrayList<Potion> getInventaire(){

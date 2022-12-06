@@ -1,4 +1,4 @@
-package model.objets;
+package model.entites;
 
 import java.util.ArrayList;
 
@@ -7,6 +7,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
 import model.enums.Direction;
+import model.tresors.Arme;
 
 public class Fantome extends Entite {
     

@@ -1,6 +1,8 @@
-package model.objets;
+package model.entites;
 
 import model.enums.Direction;
+import model.tresors.Arme;
+
 import java.util.ArrayList;
 
 import javax.sound.sampled.AudioInputStream;

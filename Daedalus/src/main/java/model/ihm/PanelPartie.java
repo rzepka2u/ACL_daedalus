@@ -12,13 +12,7 @@ import model.cases.CaseSortie;
 
 import model.enums.Ordre;
 import model.enums.TypeCompetence;
-import model.objets.Entite;
-import model.objets.Joueur;
-import model.objets.Gobelin;
-import model.objets.Potion;
-import model.objets.Arme;
-import model.objets.Commande;
-import model.objets.Competence;
+import model.objets.*;
 
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
@@ -57,6 +51,51 @@ public class PanelPartie extends JPanel{
     private JLabel descriptionPotionLabel; // Le texte de la description d'une potion (nombre pv gagnés)
     private JLabel infosTitreLabel; // Le titre et l'îcone de titre des informations
     private JLabel[] infosLabels; // Les cinqs derniers textes des informations
+    private static final ImageIcon imgSortie = new ImageIcon(PanelPartie.class.getResource("/assets/sortie.png"));
+    private static final ImageIcon imgDepart = new ImageIcon(PanelPartie.class.getResource("/assets/depart.png"));
+    private static final ImageIcon imgTresor = new ImageIcon(PanelPartie.class.getResource("/assets/tresor.png"));
+    private static final ImageIcon imgPotion = new ImageIcon(PanelPartie.class.getResource("/assets/potion.png"));
+    private static final ImageIcon imgArme = new ImageIcon(PanelPartie.class.getResource("/assets/arme.png"));
+    private static final ImageIcon imgArmure = new ImageIcon(PanelPartie.class.getResource("/assets/armure.png"));
+    private static final ImageIcon imgSoin = new ImageIcon(PanelPartie.class.getResource("/assets/soin.png"));
+    private static final ImageIcon imgPoison = new ImageIcon(PanelPartie.class.getResource("/assets/poison.png"));
+    private static final ImageIcon imgTransparent = new ImageIcon(PanelPartie.class.getResource("/assets/transparent.png"));
+
+    private static final ImageIcon imgPersonnageHaut = new ImageIcon(PanelPartie.class.getResource("/assets/personnage/haut.png"));
+    private static final ImageIcon imgPersonnageBas = new ImageIcon(PanelPartie.class.getResource("/assets/personnage/bas.png"));
+    private static final ImageIcon imgPersonnageGauche = new ImageIcon(PanelPartie.class.getResource("/assets/personnage/gauche.png"));
+    private static final ImageIcon imgPersonnageDroite = new ImageIcon(PanelPartie.class.getResource("/assets/personnage/droite.png"));
+
+    private static final ImageIcon imgGobelinHaut = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/gobelin/haut.png"));
+    private static final ImageIcon imgGobelinBas = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/gobelin/bas.png"));
+    private static final ImageIcon imgGobelinGauche = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/gobelin/gauche.png"));
+    private static final ImageIcon imgGobelinDroite = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/gobelin/droite.png"));
+
+    private static final ImageIcon imgFantomeHaut = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/fantome/haut.png"));
+    private static final ImageIcon imgFantomeBas = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/fantome/bas.png"));
+    private static final ImageIcon imgFantomeGauche = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/fantome/gauche.png"));
+    private static final ImageIcon imgFantomeDroite = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/fantome/droite.png"));
+
+    private static final ImageIcon imgArcherHaut = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/archer/haut.png"));
+    private static final ImageIcon imgArcherBas = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/archer/bas.png"));
+    private static final ImageIcon imgArcherGauche = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/archer/gauche.png"));
+    private static final ImageIcon imgArcherDroite = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/archer/droite.png"));
+
+    private static final ImageIcon imgKamikazeHaut = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/kamikaze/haut.png"));
+    private static final ImageIcon imgKamikazeBas = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/kamikaze/bas.png"));
+    private static final ImageIcon imgKamikazeGauche = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/kamikaze/gauche.png"));
+    private static final ImageIcon imgKamikazeDroite = new ImageIcon(PanelPartie.class.getResource("/assets/monstres/kamikaze/droite.png"));
+
+    private static final ImageIcon imgCompetenceVide = new ImageIcon(PanelPartie.class.getResource("/assets/competence_vide.png"));
+    private static final ImageIcon imgRang = new ImageIcon(PanelPartie.class.getResource("/assets/rang.png"));
+    private static final ImageIcon imgXp = new ImageIcon(PanelPartie.class.getResource("/assets/xp.png"));
+    private static final ImageIcon imgPointsVie = new ImageIcon(PanelPartie.class.getResource("/assets/pointsVie.png"));
+    private static final ImageIcon imgArmureHud = new ImageIcon(PanelPartie.class.getResource("/assets/armureHud.png"));
+    private static final ImageIcon imgArmeHud = new ImageIcon(PanelPartie.class.getResource("/assets/armeHud.png"));
+    private static final ImageIcon imgPotionHud = new ImageIcon(PanelPartie.class.getResource("/assets/potionHud.png"));
+    private static final ImageIcon imgPotionPlein = new ImageIcon(PanelPartie.class.getResource("/assets/potionPlein.png"));
+    private static final ImageIcon imgPotionVide = new ImageIcon(PanelPartie.class.getResource("/assets/potionVide.png"));
+    private static final ImageIcon imgInfos = new ImageIcon(PanelPartie.class.getResource("/assets/infos.png"));
 
     /**
      * Constructeur par défaut de la classe PanelPartie
@@ -66,7 +105,7 @@ public class PanelPartie extends JPanel{
 
         // Appel au constructeur de JPanel et défini BorderLayout en stratégie de positionnement
         super(new BorderLayout());
-        
+
         int i; // Pour la boucle for
         fenetre = f; // Sauvegarde le paramètre f dans l'attribut fenetre
         descriptionPotionLabel = null; // Pas de description de potion pour le moment
@@ -110,7 +149,7 @@ public class PanelPartie extends JPanel{
 
         // Appel au constructeur de JPanel et défini BorderLayout en stratégie de positionnement
         super(new BorderLayout());
-        
+
         int i; // Pour la boucle for
         fenetre = f; // Sauvegarde le paramètre f dans l'attribut fenetre
         descriptionPotionLabel = descriptionPotion; // Pas de description de potion pour le moment
@@ -141,7 +180,6 @@ public class PanelPartie extends JPanel{
         // Création et initialisation de l'attribut infosPanel correspondant au panel des informations
         infosPanel = createInfosPanel();
         this.add(infosPanel, BorderLayout.SOUTH); // Ajout du panel des informations dans le panel de partie en bas
-
     }
 
     /** 
@@ -214,45 +252,45 @@ public class PanelPartie extends JPanel{
 
                         if(cases.get(i).get(j) instanceof CaseSortie){ // Si la case est la case de sortie
                             // Création d'une nouvelle icône sortie
-                            img = new ImageIcon(getClass().getResource("/assets/sortie.png"));
+                            img = imgSortie;
                         } else if(cases.get(i).get(j) instanceof CaseDepart){ // Si la case est la case de départ
                             // Création d'un nouvelle icône depart
-                            img = new ImageIcon(getClass().getResource("/assets/depart.png"));
+                            img = imgDepart;
                         } else if(cases.get(i).get(j) instanceof CaseTresor){ //Si la case est un trésor
 
                             // Si le trésor est fermé
                             if(((CaseTresor)cases.get(i).get(j)).getOuvert() == false){
                                 // Création d'une nouvelle îcone trésor
-                                img = new ImageIcon(getClass().getResource("/assets/tresor.png"));
+                                img = imgTresor;
                             } else { // Si le trésor est ouvert
                                     
                                 // Si le trésor est une potion
                                 if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Potion){
                                     // Création d'une nouvelle icône potion
-                                    img = new ImageIcon(getClass().getResource("/assets/potion.png"));
+                                    img = imgPotion;
                                 } else if(((CaseTresor)cases.get(i).get(j)).getContenu() instanceof Arme){ // Si le trésor est une Arme
                                     // Création d'une nouvelle icône arme
-                                    img = new ImageIcon(getClass().getResource("/assets/arme.png"));
+                                    img = imgArme;
                                 } else { // Si le trésor est une pièce d'armure
                                     // Création d'une nouvelle icône armure
-                                    img = new ImageIcon(getClass().getResource("/assets/armure.png"));
+                                    img = imgArmure;
                                 }
                             } 
                         } else if(cases.get(i).get(j) instanceof CaseEffet){ // Si la case est une case à effet
 
                             if(((CaseEffet) cases.get(i).get(j)).getAugmentation() > 0){ // Si elle effectue une augmentation 
                                 // Création d'une nouvelle icône soin
-                                img = new ImageIcon(getClass().getResource("/assets/soin.png"));
+                                img = imgSoin;
                             } else { // Si elle effectue une diminution
                                 // Création d'une nouvelle icône poison
-                                img = new ImageIcon(getClass().getResource("/assets/poison.png"));
+                                img = imgPoison;
                             }
                         }
                     }
                 }
 
                 if(img == null){
-                    img = new ImageIcon(getClass().getResource("/assets/transparent.png"));
+                    img = imgTransparent;
                 }
 
                 tmp = new JLabel(img);
@@ -281,26 +319,40 @@ public class PanelPartie extends JPanel{
                     // Si l'entitée est le joueur
                     if(e instanceof Joueur){
                         switch (e.getRegard()) {
-                            case HAUT -> {img = new ImageIcon(getClass().getResource("/assets/personnage/haut.png"));}
-                            case BAS -> {img = new ImageIcon(getClass().getResource("/assets/personnage/bas.png"));}
-                            case DROITE -> {img = new ImageIcon(getClass().getResource("/assets/personnage/droite.png"));}
-                            case GAUCHE -> {img = new ImageIcon(getClass().getResource("/assets/personnage/gauche.png"));}
+                            case HAUT -> {img = imgPersonnageHaut;}
+                            case BAS -> {img = imgPersonnageBas;}
+                            case DROITE -> {img = imgPersonnageDroite;}
+                            case GAUCHE -> {img = imgPersonnageGauche;}
                         }
 
                     } else if(e instanceof Gobelin){ // Si l'entitée est un Gobelin
                         switch (e.getRegard()) {
-                            case HAUT -> {img = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/haut.png"));}
-                            case BAS -> {img = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/bas.png"));}
-                            case DROITE -> {img = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/droite.png"));}
-                            case GAUCHE -> {img = new ImageIcon(getClass().getResource("/assets/monstres/gobelin/gauche.png"));}
+                            case HAUT -> {img = imgGobelinHaut;}
+                            case BAS -> {img = imgGobelinBas;}
+                            case DROITE -> {img = imgGobelinDroite;}
+                            case GAUCHE -> {img = imgGobelinGauche;}
                         }
                         // Création d'une nouvelle icône gobelin
-                    } else { // Si l'enittée est un fantome
+                    } else if(e instanceof Fantome){ // Si l'enittée est un fantome
                         switch (e.getRegard()) {
-                            case HAUT -> {img = new ImageIcon(getClass().getResource("/assets/monstres/fantome/haut.png"));}
-                            case BAS -> {img = new ImageIcon(getClass().getResource("/assets/monstres/fantome/bas.png"));}
-                            case DROITE -> {img = new ImageIcon(getClass().getResource("/assets/monstres/fantome/droite.png"));}
-                            case GAUCHE -> {img = new ImageIcon(getClass().getResource("/assets/monstres/fantome/gauche.png"));}
+                            case HAUT -> {img = imgFantomeHaut;}
+                            case BAS -> {img = imgFantomeBas;}
+                            case DROITE -> {img = imgFantomeDroite;}
+                            case GAUCHE -> {img = imgFantomeGauche;}
+                        }
+                    } else if(e instanceof Archer){ // Si l'enittée est un Archer
+                        switch (e.getRegard()) {
+                            case HAUT -> {img = imgArcherHaut;}
+                            case BAS -> {img = imgArcherBas;}
+                            case DROITE -> {img = imgArcherDroite;}
+                            case GAUCHE -> {img = imgArcherGauche;}
+                        }
+                    }else { // Si l'enittée est un kamikaze
+                        switch (e.getRegard()) {
+                            case HAUT -> {img = imgKamikazeHaut;}
+                            case BAS -> {img = imgKamikazeBas;}
+                            case DROITE -> {img = imgKamikazeDroite;}
+                            case GAUCHE -> {img = imgKamikazeGauche;}
                         }
                     }
                 }
@@ -564,7 +616,7 @@ public class PanelPartie extends JPanel{
     private JLabel createDefaultCompetenceLabel(){
 
         JLabel label = new JLabel("  Vous n'avez pas encore débloqué des compétences.");
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/competence_vide.png")));
+        label.setIcon(imgCompetenceVide);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);
         // Modification de la couleur du texte en blanc
@@ -620,7 +672,7 @@ public class PanelPartie extends JPanel{
         }
 
         // Ajout d'une icône prévu pour les points de vie au texte
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/rang.png")));
+        label.setIcon(imgRang);
 
         // Modification de la couleur du texte en blanc
         label.setForeground(new Color(255,255,255));
@@ -644,7 +696,7 @@ public class PanelPartie extends JPanel{
         }
 
         // Ajout d'une icône prévu pour les points de vie au texte
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/xp.png")));
+        label.setIcon(imgXp);
 
         // Modification de la couleur du texte en blanc
         label.setForeground(new Color(255,255,255));
@@ -671,7 +723,7 @@ public class PanelPartie extends JPanel{
         }
 
         // Ajout d'une icône prévu pour les points de vie au texte
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/pointsVie.png")));
+        label.setIcon(imgPointsVie);
 
         // Modification de la couleur du texte en blanc
         label.setForeground(new Color(255,255,255));
@@ -697,7 +749,7 @@ public class PanelPartie extends JPanel{
         }
 
         // Ajout d'une icône prévu pour les points d'armure au texte
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/armure_hud.png")));
+        label.setIcon(imgArmureHud);
         
         // Modification de la couleur du texte en blanc 
         label.setForeground(new Color(255,255,255));
@@ -731,7 +783,7 @@ public class PanelPartie extends JPanel{
         JLabel label = new JLabel("  Arme: "+nomArme);
 
         // Ajout d'une icône prévue pour les armes au texte
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/arme_hud.png")));
+        label.setIcon(imgArmeHud);
 
         // Modification de la couleur du texte en blanc
         label.setForeground(new Color(255,255,255));
@@ -752,7 +804,7 @@ public class PanelPartie extends JPanel{
         JLabel label = new JLabel("  Potions:");
 
         // Ajout d'une icône prévu pour les potions au texte
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/potion_hud.png")));
+        label.setIcon(imgPotionHud);
 
         // Modification de la couleur du texte en blanc
         label.setForeground(new Color(255,255,255));
@@ -790,7 +842,7 @@ public class PanelPartie extends JPanel{
                 int indice = i;
 
                 // On crée une nouvelle icône symbolysant une potion contenu dans une case
-                labels[i] = new JLabel(new ImageIcon(getClass().getResource("/assets/potion_plein.png")));
+                labels[i] = new JLabel(imgPotionPlein);
                 labels[i].setHorizontalAlignment(SwingConstants.CENTER); // On centre l'îcone horizontalement dans le label
 
                 // Ajout d'un écouteur sur la sourie
@@ -878,7 +930,7 @@ public class PanelPartie extends JPanel{
         while(i<5){
 
             // Création d'une nouvlle icône symbolysant une case de potion vide
-            labels[i] = new JLabel(new ImageIcon(getClass().getResource("/assets/potion_vide.png")));
+            labels[i] = new JLabel(imgPotionVide);
             labels[i].setHorizontalAlignment(SwingConstants.CENTER); // On centre l'icône horizontalement dans le label
             // On ajout une bordure de 12 pixels à gauche et à droite (pour crée une marge horizontale interne)
             labels[i].setBorder(BorderFactory.createMatteBorder(0, 12, 0, 12, new Color(33,32,30)));
@@ -901,7 +953,7 @@ public class PanelPartie extends JPanel{
         JLabel label = new JLabel(" INFORMATIONS DE PARTIE:");
         
         // Ajout d'une icône prévu pour le titre des informations au texte
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/infos.png")));
+        label.setIcon(imgInfos);
 
         // Modification de la couleur d'écriture
         label.setForeground(new Color(224,226,225));

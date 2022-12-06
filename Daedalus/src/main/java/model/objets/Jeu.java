@@ -403,9 +403,12 @@ public class Jeu  implements Serializable {
                     this.getJoueur().modifierPV(ce.getAugmentation());
                     this.getJoueur().modifierPV(- ce.getDiminutionPV());
                     if(getJoueur().getPointsVie()<=0){
-                        test = true;
+
                         if(getJoueur().isRevenant()){
                             getJoueur().setPointsVie(20);
+                            getJoueur().setRevenant(false);
+                        } else {
+                            test = true;
                         }
                     }
                 }
@@ -438,9 +441,7 @@ public class Jeu  implements Serializable {
         }
 
         if(test){
-            if(!getJoueur().isRevenant()){
-                mortJoueur(-1);
-            }
+            mortJoueur(-1);
         }
     }
 

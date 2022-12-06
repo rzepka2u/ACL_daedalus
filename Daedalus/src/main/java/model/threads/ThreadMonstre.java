@@ -114,6 +114,7 @@ public class ThreadMonstre extends Thread implements Serializable {
                                 if(j.prendreDegat(dgts)){
                                     if(j.isRevenant()) {
                                         j.setPointsVie(20);
+                                        j.setRevenant(false);
                                     } else{
                                         j.setPointsVie(0);
                                         this.jeu.mortJoueur(positionInList);

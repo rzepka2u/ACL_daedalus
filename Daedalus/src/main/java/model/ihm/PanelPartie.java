@@ -602,7 +602,6 @@ public class PanelPartie extends JPanel{
              */
             @Override
             public void mouseClicked(MouseEvent e){
-                System.out.println("clique Competence!");
                 // On crée une commande qui fera boire au joueur la potion présente  à l'indice cliqué
                 Commande c = new Commande(Ordre.COMPETENCE, index);
                 fenetre.getJeu().controles(c); // Exécution de la commande dans le moteur du jeu (l'objet Jeu)
@@ -844,6 +843,7 @@ public class PanelPartie extends JPanel{
                 // On crée une nouvelle icône symbolysant une potion contenu dans une case
                 labels[i] = new JLabel(imgPotionPlein);
                 labels[i].setHorizontalAlignment(SwingConstants.CENTER); // On centre l'îcone horizontalement dans le label
+                labels[i].setBorder(BorderFactory.createMatteBorder(0, 12, 0, 12, new Color(33,32,30)));
 
                 // Ajout d'un écouteur sur la sourie
                 labels[i].addMouseListener(new MouseAdapter(){

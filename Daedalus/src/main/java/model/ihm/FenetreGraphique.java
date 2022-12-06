@@ -204,9 +204,9 @@ public class FenetreGraphique extends JFrame {
         this.validate();
     }
 
-    public void afficherPartie(int nbNiveau){
+    public void afficherPartie(int nbNiveau, int[] competences){
         try{
-            afficherPartie(nbNiveau, null);
+            afficherPartie(nbNiveau, competences, null);
         } catch(FileNotFoundException e){}
     }
 
@@ -214,92 +214,7 @@ public class FenetreGraphique extends JFrame {
      * Méthode qui permet de créer et d'afficher le panel de partie
      * @param nbNiveau Le nombre Maximum de niveau pour finir la partie
      */
-    public void afficherPartie(int nbNiveau, String path) throws FileNotFoundException{
-
-        if(path == null){
-            // Création et intialisation du moteur de la partie, l'attribut jeu
-            this.jeu = new Jeu(this, nbNiveau);
-        } else {
-            this.jeu = new Jeu(null, path, nbNiveau);
-        }
-
-
-        // Initialisation d'un nouveau panel de partie, et ajout de celui-ci dans la fenêtre
-        contentPane = new PanelPartie(this);
-        this.setContentPane(contentPane);
-
-
-        // Permettre à la fenêtre de pouvoir obtenir le focus et le demander
-        this.setFocusable(true);
-        this.requestFocus();
-
-        if(ecouteursAdd == false){
-            // Ajout d'un écouteur sur les touches préssées
-            this.addKeyListener(new KeyAdapter(){
-                /**
-                 * Méthode appeler lorsque l'utilisateur enfonce une touche
-                 * @param e L'évenement capté par l'écouteur
-                 */
-                @Override
-                public void keyPressed(KeyEvent e){
-
-                    Commande c;
-                    if(e.getKeyCode() == commandes_deplacement[0]){ // Si la touche est la flèche haut
-                        // Création de la nouvelle commande associée puis réalisation de celle-ci
-                        c = new Commande(Ordre.DEPLACEMENT, Direction.HAUT); // Déplacer le joueur en haut
-                        jeu.controles(c);
-                    } else if(e.getKeyCode() == commandes_deplacement[1]){ // Si la touche est la flèche bas
-                        // Création de la nouvelle commande associée puis réalisation de celle-ci
-                        c = new Commande(Ordre.DEPLACEMENT, Direction.BAS); // Déplacer le joueur en bas
-                        jeu.controles(c);
-                    } else if(e.getKeyCode() == commandes_deplacement[2]){ // Si la touche est la flèche gauche
-                        // Création de la nouvelle commande associée puis réalisation de celle-ci
-                        c = new Commande(Ordre.DEPLACEMENT, Direction.GAUCHE); // Déplacer le joueur à gauche
-                        jeu.controles(c);
-                    } else if(e.getKeyCode() == commandes_deplacement[3]){ // Si la touche est la flèche droite
-                        // Création de la nouvelle commande associée puis réalisation de celle-ci
-                        c = new Commande(Ordre.DEPLACEMENT, Direction.DROITE); // Déplacer le joueur à droite
-                        jeu.controles(c);
-                    } else if(e.getKeyCode() == commande_attaquer){ // Si la touche est la barre espace
-                        // Création de la nouvelle commande associée puis réalisation de celle-ci
-                        c = new Commande(Ordre.ATTAQUE, null); // Attaque de la part du joueur 
-                        jeu.controles(c);
-                    } else if(e.getKeyCode() == commande_ramasser){ // Si la touche est R 
-                        // Création de la nouvelle commande associée puis réalisation de celle-ci
-                        c = new Commande(Ordre.RAMASSER, null); // Ramasser un trésor à proximité
-                        jeu.controles(c);
-                    } else if (e.getKeyCode() == commande_ouvrir){ // Si la touche est O
-                        // Création de la nouvelle commande associée puis réalisation de celle-ci
-                        c = new Commande(Ordre.OUVRIR, null); // Ouvrir un trésor à proximité
-                        jeu.controles(c);
-                    } else if(e.getKeyCode() == commandes_boire[0] || e.getKeyCode() == commandes_boire[1]
-                        || e.getKeyCode() == commandes_boire[2] || e.getKeyCode() == commandes_boire[3]
-                        || e.getKeyCode() == commandes_boire[4]){ 
-                        // Si la touche est entre 1 et 5 inclus du clavier numérique
-                        // Création de la nouvelle commande associée puis réalisation de celle-ci
-                        c = new Commande(Ordre.BOIRE, e.getKeyCode()-KeyEvent.VK_NUMPAD1);
-                        jeu.controles(c);
-                    } else if(e.getKeyCode() == commandes_competence[0] || e.getKeyCode() == commandes_competence[1]
-                    || e.getKeyCode() == commandes_competence[2] || e.getKeyCode() == commandes_competence[3]){ 
-                        c = new Commande(Ordre.COMPETENCE, e.getKeyCode()-KeyEvent.VK_1);
-                        jeu.controles(c);
-                    }
-                }
-            });
-            ecouteursAdd = true;
-        }
-
-        verrouContent = new Object();
-
-        // Création et démarrage du thread qui s'occupe de rafraîchir l'affichage
-        thread = new ThreadAffichage(this);
-        thread.start();
-
-        // Mise à jour de la fenêtre
-        this.validate();
-    }
-
-    public void afficherPartie(int nbNiveau, String path, int[] competences) throws FileNotFoundException{
+    public void afficherPartie(int nbNiveau, int[] competences, String path) throws FileNotFoundException{
 
         if(path == null){
             // Création et intialisation du moteur de la partie, l'attribut jeu
@@ -309,7 +224,6 @@ public class FenetreGraphique extends JFrame {
         }
 
         jeu.getJoueur().setCompetencesSelect(competences);
-
 
         // Initialisation d'un nouveau panel de partie, et ajout de celui-ci dans la fenêtre
         contentPane = new PanelPartie(this);
@@ -593,7 +507,7 @@ public class FenetreGraphique extends JFrame {
         int nbMaxNiveau = jeu.getNbMaxNiveau();
         String path = jeu.getPath();
         try{
-            afficherPartie(nbMaxNiveau, path);
+            afficherPartie(nbMaxNiveau, jeu.getJoueur().getCompetencesSelect(), path);
         } catch(FileNotFoundException e){
             System.out.println("Le fichier voulu n'existe pas!");
         }

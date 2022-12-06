@@ -211,7 +211,7 @@ public class PanelChoixCompetences extends JPanel {
                     } catch (Exception excep) { System.out.println(excep.getMessage()); }
 
                     try{
-                        fenetre.afficherPartie(nbNiveau, path, competancesChoisies);
+                        fenetre.afficherPartie(nbNiveau, competancesChoisies, path);
                     } catch(FileNotFoundException exception){
                         exception.printStackTrace();
                     }

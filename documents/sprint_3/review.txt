@@ -1,0 +1,62 @@
+SPRINT REVIEW : fonctionnalités réalisées et validées (ou pas)
+
+0)
+FONCTIONNALITE : Amélioration et finition de la documentation du projet
+
+PREVU : 
+  - Mise à jour des commentaires et de la Javadoc de tout le projet.
+  - Mise à jour des diagrammes de séquences et de classes.
+
+REALISE :
+  - Les commentaires et la Javadoc du projet à été complétée et mise à jour là ou il le fallait 
+  - Les diagrammes de séquences et de classes ont été mis à jours lorsque nécessaire
+
+
+1)
+FONCTIONNALITE : Création de nouveaux monstres + améliorations du comportement des monstres dans des cas spécifiques 
+
+PREVU : 
+  - Création de quelques nouveaux types de monstres ainsi que leurs propriétés spéciales (si nécessaire suivant le type de monstre).
+  - Implémenter le tracage du joueur par les monstres dans les labyrinthes générés par fichiers (si gros espace de cases vides, ça bug pour le moment).
+
+REALISE : 
+  - Création du monstre archer : celui-ci possède une attaque à distance grâce à son arme qui est un arc 
+  - Création du monstre kamikaze : celui-ci possède à la particularité de posséder une attaque-suicide qu'il ne peut donc utiliser
+    qu'une seule et unique fois car celle-ci le tue, mais en contrepartie inflige de lourds dégâts au joueur
+  - Amélioration du traçage du fantôme qui désormais ignore les murs 
+  - Amélioration du traçage des monstres sur les labyrinthes possédants des gros espaces de cases vides
+
+2)
+FONCTIONNALITE : Créations de nouvelles compétences et implémentation d'un système de choix de compétences au cours du jeu
+
+PREVU :
+  - Création de nouvelles compétences ainsi que leur mécanisme d'utilisation et de régénération.
+  - Implémentation d'un système de choix des compétences.
+
+REALISE : 
+  - 
+
+
+3)
+FONCTIONNALITE : Implémentation d'un système de sauvegarde 
+
+PREVU: 
+  - Système de sauvegarde de l'état d'une partie dans un fichier.
+  - Rendre possible le lancement d'une partie à l'état d'un fichier de sauvegarde.
+
+REALISE : 
+  - 
+
+---
+4)
+FONCTIONNALITE : Système de reset des commandes + améliorations de l'affichage du jeu + ajout d'effets sonores au jeu 
+
+PREVU : 
+  - Possibilité de reset par défaut les commandes choisit.
+  - Gestion de la taille des images des cases d'un labyrinthe (suivant taille de la fenêtre, etc).
+  - Corrections de divers légers bugs toujours présent sur l'interface graphique.
+  - Amélioration du rendu graphique de l'application (encore plus jolie).
+  - Ajout de sons lors de divers actions dans le jeu (si le temps le permet).
+
+REALISE : 
+  - 

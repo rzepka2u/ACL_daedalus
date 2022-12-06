@@ -58,175 +58,17 @@ public class ThreadMonstre extends Thread implements Serializable {
                             py = m.getY();
 
                             if(!(m instanceof Fantome)){
-                            
-                                random = r.nextInt(4);
-                                random = random+1;
-                                boolean haut = false, bas = false, gauche = false, droite = false;
-
-                                if(px-1 >= 0 && px-1 <jeu.getLabyrinthe().getHauteur()){
-                                    haut = jeu.chercherJoueur(px-1, py, 1, Direction.HAUT);
-                                }
-
-                                if(px+1 >= 0 && px+1 < jeu.getLabyrinthe().getHauteur()){
-                                    bas = jeu.chercherJoueur(px+1, py, 1, Direction.BAS);
-                                }
-
-                                if(py-1 >= 0 && py-1 < jeu.getLabyrinthe().getLargeur()){
-                                    gauche = jeu.chercherJoueur(px, py-1, 1, Direction.GAUCHE);
-                                }
-
-                                if(py+1 >= 0 && py+1 < jeu.getLabyrinthe().getLargeur()){
-                                    droite = jeu.chercherJoueur(px, py+1, 1, Direction.DROITE); 
-                                }
-
-                                if(haut){
-                                    px -= 1;
-                                    sens = Direction.HAUT;
-                                } else if(bas){
-                                    sens = Direction.BAS;
-                                    px += 1;
-                                }else if(gauche){
-                                    sens = Direction.GAUCHE;
-                                    py -= 1;
-                                } else if(droite){
-                                    sens = Direction.DROITE;
-                                    py += 1;
-                                } else {
-
-                                    sens = determinerDirectionAlea(m, px, py);
-                                    switch(sens){
-                                        case HAUT:
-                                            px -= 1; 
-                                        break;
-                                        case BAS:
-                                            px += 1; 
-                                        break;
-                                        case GAUCHE:
-                                            py -= 1; 
-                                        break;
-                                        case DROITE:
-                                            py += 1; 
-                                        break;
-                                    }
-                                }
-
+                                sens = determinerDeplacement(px, py, m);
                             } else {
-
-                                int i, cas = -1;
-                                boolean cond = true;
-
-                                for(i=0;i<3 && cond && px-i > 0 && py-i > 0;i++){
-                                    if(j.getX() == m.getX()-i && j.getY() == m.getY()-i){
-                                        cond = false;
-                                        cas = 1;
-                                    }
-                                }
-
-                                for(i=0;i<5 && cond && px-i > 0; i++){
-                                    if(j.getX() == m.getX()-i && j.getY() == m.getY()){
-                                        cond = false;
-                                        cas = 2;
-                                    }
-                                }
-
-                                for(i=0;i<3 && cond && px-i > 0 && py+i < largeur; i++){
-                                    if(j.getX() == m.getX()-i && j.getY() == m.getY()+i){
-                                        cond = false;
-                                        cas = 3;
-                                    }
-                                }
-
-                                for(i=0;i<3 && cond && px+i < hauteur && py-i > 0;i++){
-                                    if(j.getX() == m.getX()+i && j.getY() == m.getY()-i){
-                                        cond = false;
-                                        cas = 4;
-                                    }
-                                }
-
-                                for(i=0;i<5 && cond && px+i < hauteur;i++){
-                                    if(j.getX() == m.getX()+i && j.getY() == m.getY()){
-                                        cond = false;
-                                        cas = 5;
-                                    }
-                                }
-
-                                for(i=0;i<3 && cond && px+i < hauteur && py+i < largeur; i++){
-                                    if(j.getX() == m.getX()+i && j.getY() == m.getY()+i){
-                                        cond = false;
-                                        cas = 6;
-                                    }
-                                }
-
-                                for(i=0;i<5 && cond && py-i > 0;i++){
-                                    if(j.getX() == m.getX() && j.getY() == m.getY()-i){
-                                        cond = false;
-                                        cas = 7;
-                                    }
-                                }
-
-                                for(i=0;i<5 && cond && py+1 < largeur;i++){
-                                    if(j.getX() == m.getX() && j.getY() == m.getY()+i){
-                                        cond = false;
-                                        cas = 8;
-                                    }
-                                }
-
-                                if(cas == -1){
-                                    sens = determinerDirectionAlea(m, px, py);
-                                    switch(sens){
-                                        case HAUT:
-                                            px -= 1; 
-                                        break;
-                                        case BAS:
-                                            px += 1; 
-                                        break;
-                                        case GAUCHE:
-                                            py -= 1; 
-                                        break;
-                                        case DROITE:
-                                            py += 1; 
-                                        break;
-                                    }
-                                } else {
-                                    switch(cas){
-                                        case 1:
-                                            sens = Direction.HAUT;
-                                            px -= 1;
-                                            break;
-                                        case 2:
-                                            sens = Direction.HAUT;
-                                            px -= 1;
-                                            break;
-                                        case 3:
-                                            sens = Direction.HAUT;
-                                            px -= 1;
-                                            break;
-                                        case 4:
-                                            sens = Direction.BAS;
-                                            px += 1;
-                                            break;
-                                        case 5:
-                                            sens = Direction.BAS;
-                                            px += 1;
-                                            break;
-                                        case 6:
-                                            sens = Direction.BAS;
-                                            px += 1;
-                                            break; 
-                                        case 7:
-                                            sens = Direction.GAUCHE;
-                                            py -= 1;
-                                            break;
-                                        case 8:
-                                            sens = Direction.DROITE;
-                                            py += 1;
-                                            break;
-                                        default:
-                                            sens = Direction.BAS;
-                                    }
-                                }
+                                sens = determinerDeplacementFantome(px, py, m, j, hauteur, largeur);
                             }
 
+                            switch(sens){
+                                case HAUT -> px -= 1;
+                                case BAS -> px += 1;
+                                case GAUCHE -> py -= 1;
+                                case DROITE -> py += 1;
+                            }
 
                             if(jeu.getJoueur().getX() == px && jeu.getJoueur().getY() == py){
                                 m.setRegard(sens);
@@ -354,5 +196,126 @@ public class ThreadMonstre extends Thread implements Serializable {
 
     public int getPositionInList() {
         return positionInList;
+    }
+
+    private Direction determinerDeplacement(int px, int py, Entite m){
+        
+        boolean haut = false, bas = false, gauche = false, droite = false;
+        Direction resultat;
+
+        if(px-1 >= 0 && px-1 <jeu.getLabyrinthe().getHauteur()){
+            haut = jeu.chercherJoueur(px-1, py, 1, Direction.HAUT);
+        }
+
+        if(px+1 >= 0 && px+1 < jeu.getLabyrinthe().getHauteur()){
+            bas = jeu.chercherJoueur(px+1, py, 1, Direction.BAS);
+        }
+
+        if(py-1 >= 0 && py-1 < jeu.getLabyrinthe().getLargeur()){
+            gauche = jeu.chercherJoueur(px, py-1, 1, Direction.GAUCHE);
+        }
+
+        if(py+1 >= 0 && py+1 < jeu.getLabyrinthe().getLargeur()){
+            droite = jeu.chercherJoueur(px, py+1, 1, Direction.DROITE); 
+        }
+
+        if(haut){
+            resultat = Direction.HAUT;
+        } else if(bas){
+            resultat = Direction.BAS;
+        }else if(gauche){
+            resultat = Direction.GAUCHE;
+        } else if(droite){
+            resultat = Direction.DROITE;
+        } else {
+            resultat = determinerDirectionAlea(m, px, py);
+        }
+
+        return resultat;
+
+    }
+
+    private Direction determinerDeplacementFantome(int px, int py, Entite m, Entite j, int hauteur, int largeur){
+        
+        int i, cas = -1;
+        boolean cond = true;
+        Direction resultat;
+
+        for(i=0;i<3 && cond && px-i > 0 && py-i > 0;i++){
+            if(j.getX() == m.getX()-i && j.getY() == m.getY()-i){
+                cond = false;
+                cas = 1;
+            }
+        }
+
+        for(i=0;i<5 && cond && px-i > 0; i++){
+            if(j.getX() == m.getX()-i && j.getY() == m.getY()){
+                cond = false;
+                cas = 2;
+            }
+        }
+
+        for(i=0;i<3 && cond && px-i > 0 && py+i < largeur; i++){
+            if(j.getX() == m.getX()-i && j.getY() == m.getY()+i){
+                cond = false;
+                cas = 3;
+            }
+        }
+
+        for(i=0;i<3 && cond && px+i < hauteur && py-i > 0;i++){
+            if(j.getX() == m.getX()+i && j.getY() == m.getY()-i){
+                cond = false;
+                cas = 4;
+            }
+        }
+
+        for(i=0;i<5 && cond && px+i < hauteur;i++){
+            if(j.getX() == m.getX()+i && j.getY() == m.getY()){
+                cond = false;
+                cas = 5;
+            }
+        }
+
+        for(i=0;i<3 && cond && px+i < hauteur && py+i < largeur; i++){
+            if(j.getX() == m.getX()+i && j.getY() == m.getY()+i){
+                cond = false;
+                cas = 6;
+            }
+        }
+
+        for(i=0;i<5 && cond && py-i > 0;i++){
+            if(j.getX() == m.getX() && j.getY() == m.getY()-i){
+                cond = false;
+                cas = 7;
+            }
+        }
+
+        for(i=0;i<5 && cond && py+1 < largeur;i++){
+            if(j.getX() == m.getX() && j.getY() == m.getY()+i){
+                cond = false;
+                cas = 8;
+            }
+        }
+
+        if(cas == -1){
+            
+            resultat = determinerDirectionAlea(m, px, py);
+    
+        } else {
+                                    
+            switch(cas){
+                case 1 -> resultat = Direction.HAUT;
+                case 2 -> resultat = Direction.HAUT;
+                case 3 -> resultat = Direction.HAUT;
+                case 4 -> resultat = Direction.BAS;
+                case 5 -> resultat = Direction.BAS;
+                case 6 -> resultat = Direction.BAS;
+                case 7 -> resultat = Direction.GAUCHE;
+                case 8 -> resultat = Direction.DROITE;
+                default -> resultat = Direction.BAS;
+            }
+        }
+
+        return resultat;
     }
 }

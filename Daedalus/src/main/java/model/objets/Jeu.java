@@ -55,6 +55,7 @@ public class Jeu  implements Serializable {
     public Jeu(FenetreGraphique f, int nbMax, boolean test){
 
         this.nbMaxNiveau = nbMax;
+        this.dossier = false;
         this.nbNiveau = 0;
         this.fenetre = f;
         this.informations = new ArrayList<String>();

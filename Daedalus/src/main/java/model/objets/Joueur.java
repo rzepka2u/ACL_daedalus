@@ -49,6 +49,7 @@ public class Joueur extends Entite {
         inventaire = new ArrayList<Potion>();
         rang = 1;
         competences = new ArrayList<Competence>();
+        competences.add(new Competence(TypeCompetence.REVENANT, 5, 0, 0));
         this.setArme(new Arme());
     }
 
@@ -419,7 +420,7 @@ public class Joueur extends Entite {
     public boolean lancerCompetence(int num) {
         // TODO : ajouter if sur le rang
         // si la compétence est activable et si la compétence num est dans la liste des compétences débloquées
-        if(this.competences.get(num).isActivable() && num < this.competences.size()) {
+        if(num < this.competences.size() && this.competences.get(num).isActivable()) {
             // on regarde quelle est la compétence
             switch(this.competences.get(num).getType()) {
                 // La compétence BERSERKER va infliger 20 PV au joueur et augmenter les dégâts de son arme de 50% pendant 10s

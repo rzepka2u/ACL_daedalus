@@ -5,6 +5,10 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import model.enums.Direction;
 import model.enums.TypeCompetence;
 
@@ -382,6 +386,28 @@ public class Joueur extends Entite {
                     this.seSoigner(this.getArme().getDegats());
                 }
             }
+
+
+            String sound;
+
+            if(this.getArme().getNom().equals("Arc")){
+                sound = "/sounds/arc.wav";
+            } else if(this.getArme().getNom().equals("Sabre")){
+                sound = "/sounds/sabre.wav";
+            } else if(this.getArme().getNom().equals("Bombes")){
+                sound = "/sounds/bombe.wav";
+            } else {
+                sound = "/sounds/epee_bois.wav";
+            }
+
+        
+            try {
+                Clip clip = AudioSystem.getClip();
+                AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource(sound));
+                clip.open(inputStream);
+                clip.start();
+            } catch (Exception e) { System.out.println(e.getMessage()); }
+
         }
         return entitesTouchees;
     }

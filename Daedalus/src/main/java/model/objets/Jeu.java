@@ -401,6 +401,24 @@ public class Jeu  implements Serializable {
             synchronized(verrouInformations){
                 ajouterInfos("Vous avez déclencher une case a éffet "+(ce.getProgressif()? "progressif" : "unique")+" "+(ce.getDiminutionPV()>0?"infligant "+ce.getDiminutionPV():"augmentant "+ce.getAugmentation())+" points de vie!");
             }
+
+            if(ce.getAugmentation()>0){
+
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/case_soin.wav"));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (Exception excep) { System.out.println(excep.getMessage()); }
+
+            } else {
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/case_poison.wav"));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (Exception excep) { System.out.println(excep.getMessage()); }
+            }
         }
 
         if(test){
@@ -501,6 +519,14 @@ public class Jeu  implements Serializable {
         } else if(cmd.getOrdre() == Ordre.OUVRIR){
             int[] poscoffre = etreProcheCaseTresor();
             if(poscoffre[0] != -1 && poscoffre[1] != -1) {
+
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/tresor.wav"));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (Exception excep) { System.out.println(excep.getMessage()); }
+
                 synchronized(labyrinthe.getVerrousCases().get(poscoffre[0]).get(poscoffre[1])){
                     CaseTresor ct = (CaseTresor) labyrinthe.getCase(poscoffre[0], poscoffre[1]);
                     if(!ct.getOuvert()){
@@ -512,6 +538,9 @@ public class Jeu  implements Serializable {
                 }
             }
         } else if(cmd.getOrdre() == Ordre.RAMASSER){
+
+            boolean test = false;
+
             synchronized(verrousEntites.get(0)){
                 int x = getJoueur().getX();
                 int y = getJoueur().getY();
@@ -520,8 +549,11 @@ public class Jeu  implements Serializable {
                     if(this.getLabyrinthe().getCase(x, y) instanceof CaseTresor) {
                         CaseTresor ct = (CaseTresor) this.getLabyrinthe().getCase(x, y);
                         if(ct.getOuvert()) {
+
+
                             // on teste si ce trésor est une arme
                             if(ct.getContenu() instanceof Arme) {
+                                test=true;
                                 Arme temp_a = this.getJoueur().getArme();
                                 Arme nov_a = ((Arme) ct.getContenu());
                                 // pose l'arme par terre
@@ -538,6 +570,7 @@ public class Jeu  implements Serializable {
                                 // on ajoute de l'armure
 
                                 if(this.getJoueur().ramasserArmure((PieceArmure)ct.getContenu())){
+                                    test = true;
                                     labyrinthe.getCases().get(x).set(y, new CaseVide(-1, new Coordonnee(x,y)));
                                     synchronized(verrouInformations){
                                         ajouterInfos("Vous de ramasser une pièce d'amure rapportant "+((PieceArmure)ct.getContenu()).getPointsArmure()+" points d'armure!");
@@ -552,6 +585,7 @@ public class Jeu  implements Serializable {
                             } else if(ct.getContenu() instanceof Potion) {
                                 
                                 if(this.getJoueur().ajouterPotion((Potion)ct.getContenu())){
+                                    test = true;
                                     labyrinthe.getCases().get(x).set(y, new CaseVide(-1, new Coordonnee(x,y)));
                                     synchronized(verrouInformations){
                                         ajouterInfos("Vous venez de ramasser une potion rapportant "+((Potion)ct.getContenu()).getAugmentation()+" points de vie!");
@@ -566,9 +600,27 @@ public class Jeu  implements Serializable {
                     }
                 }
             }
+
+            if(test){
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/ramasser.wav"));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (Exception excep) { System.out.println(excep.getMessage()); }
+            }
+            
         } else if(cmd.getOrdre() == Ordre.BOIRE){
             synchronized(verrousEntites.get(0)){
                 if(this.getJoueur().boirePotion(cmd.getIndice())){
+
+                    try {
+                        Clip clip = AudioSystem.getClip();
+                        AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/boire.wav"));
+                        clip.open(inputStream);
+                        clip.start();
+                    } catch (Exception excep) { System.out.println(excep.getMessage()); }
+
                     synchronized(verrouInformations){
                         ajouterInfos("Vous venez de boire votre potion dans à la place "+cmd.getIndice()+"de l'inventaire.");
                     }
@@ -576,6 +628,14 @@ public class Jeu  implements Serializable {
             }
         } else if(cmd.getOrdre() == Ordre.COMPETENCE) {
             if(this.getJoueur().lancerCompetence(cmd.getIndice())){
+
+                try {
+                    Clip clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/competence.wav"));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (Exception excep) { System.out.println(excep.getMessage()); }
+
                 synchronized(verrouInformations){
                     ajouterInfos("Vous venez d'activer la compétence "+getJoueur().getCompetences().get(cmd.getIndice()).getType().toString()+" du joueur.");
                 }

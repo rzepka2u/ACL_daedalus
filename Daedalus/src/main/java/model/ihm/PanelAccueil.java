@@ -10,6 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
@@ -323,6 +326,13 @@ public class PanelAccueil extends JPanel {
             public void actionPerformed(ActionEvent e){
                 // Si j'ai bien un nombre de niveau renseigné dans le champ prévu et qu'il est > 0
                 if(nbNiveauField.getText().length() != 0 && Integer.valueOf(nbNiveauField.getText()) > 0){ 
+
+                    try {
+                        Clip clip = AudioSystem.getClip();
+                        AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/bouton.wav"));
+                        clip.open(inputStream);
+                        clip.start();
+                    } catch (Exception excep) { System.out.println(excep.getMessage()); }
 
                     if(checkBox.isSelected()){
                         if(!fichierLabel.getText().equals("") &&  !fichierLabel.getText().equals("Choissisez un fichier..")){

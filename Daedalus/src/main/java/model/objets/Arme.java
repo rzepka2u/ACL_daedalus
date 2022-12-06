@@ -48,7 +48,7 @@ public class Arme implements Tresor, Serializable {
             if( Math.random() > 0.5){
                 arme = new Arme("Sabre", 20, 1, ZoneAttaque.ARC_DE_CERCLE); 
             } else {
-                arme = new Arme("Bombe", 13, 2, ZoneAttaque.EN_CARRE);
+                arme = new Arme("Bombes", 13, 2, ZoneAttaque.EN_CARRE);
             }
         }
 

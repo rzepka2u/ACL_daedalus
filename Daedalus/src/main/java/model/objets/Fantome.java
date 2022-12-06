@@ -2,6 +2,10 @@ package model.objets;
 
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import model.enums.Direction;
 
 public class Fantome extends Entite {
@@ -211,6 +215,16 @@ public class Fantome extends Entite {
                 }
                 break;
         }
+
+        if(entitesTouchees.size() > 0){
+            try {
+                Clip clip = AudioSystem.getClip();
+                AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/fantome.wav"));
+                clip.open(inputStream);
+                clip.start();
+            } catch (Exception excep) { System.out.println(excep.getMessage()); }
+        }
+
         return entitesTouchees;
     }
 }

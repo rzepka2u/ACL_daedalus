@@ -1,5 +1,8 @@
 package model.ihm;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,7 +38,7 @@ public class PanelFinJeu extends JPanel {
         // Appel du constructeur de la classe JPanel et définition stratégie de positionnement GridBagLayout
         super(new GridBagLayout());
 
-        System.out.println("PANELFINJEU");
+        String sound;
         GridBagConstraints gc = new GridBagConstraints(); // Nouvel objet pour les contraintes de chaques composants
         this.setBackground(new Color(45,78, 95)); // Définition de la couleur de fond du panel
         
@@ -69,6 +72,19 @@ public class PanelFinJeu extends JPanel {
         // Initialisation et création de l'attribut boutton pour le boutton de relancement de partie
         boutton = createBoutton();
         this.add(boutton, gc); // On ajout l'attribut au panel de fin de jeu avec les contraintes
+
+        if(type){
+            sound = "/sounds/victoire.wav"; 
+        } else {
+            sound = "/sounds/defaite.wav";
+        }
+
+        try {
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource(sound));
+            clip.open(inputStream);
+            clip.start();
+        } catch (Exception excep) { System.out.println(excep.getMessage()); }
     }
 
     /**

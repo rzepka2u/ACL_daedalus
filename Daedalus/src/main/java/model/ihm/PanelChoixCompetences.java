@@ -1,5 +1,8 @@
 package model.ihm;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -107,6 +110,14 @@ public class PanelChoixCompetences extends JPanel {
             checks[i].addActionListener(new ActionListener(){
                 @Override
                 public void actionPerformed(ActionEvent e){
+
+                    try {
+                        Clip clip = AudioSystem.getClip();
+                        AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/checkbox.wav"));
+                        clip.open(inputStream);
+                        clip.start();
+                    } catch (Exception excep) { System.out.println(excep.getMessage()); }
+
                     int cpt=0, j;
                     for(j=0; j<competancesCheckBoxs.length; j++){
                         if(competancesCheckBoxs[j].isSelected()){
@@ -188,6 +199,13 @@ public class PanelChoixCompetences extends JPanel {
                 }
 
                 if(cpt == 4){
+
+                    try {
+                        Clip clip = AudioSystem.getClip();
+                        AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/bouton.wav"));
+                        clip.open(inputStream);
+                        clip.start();
+                    } catch (Exception excep) { System.out.println(excep.getMessage()); }
 
                     try{
                         fenetre.afficherPartie(nbNiveau, path, competancesChoisies);

@@ -51,6 +51,8 @@ public class Joueur extends Entite {
         rang = 1;
         competences = new ArrayList<Competence>();
         this.setArme(new Arme());
+
+       competences.add(new Competence(TypeCompetence.DRAIN_VIE, 4, 10000, 1));
     }
 
     public ArrayList<Potion> getInventaire(){

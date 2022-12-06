@@ -540,6 +540,13 @@ public class Joueur extends Entite {
                     // la compétence n'est plus activable
                     this.competences.get(num).setActivable(false);
                     break;
+
+                    // La compétence TELEPORTATION permet au Joueur de se déplacer de deux cases dans la direction où il regarde
+                    // Utilisable une fois par niveau
+                case TELEPORTATION:
+                    // la compétence n'est plus activable
+                    this.competences.get(num).setActivable(false);
+                    break;
             }
 
             return true;
@@ -578,17 +585,17 @@ public class Joueur extends Entite {
                 competence = new Competence(TypeCompetence.REVENANT, 5, 0, 0);
                 break;
             case 5:
-                competence = new Competence(TypeCompetence.BLOCAGE, nb, nb, nb);
+                competence = new Competence(TypeCompetence.BLOCAGE, 2, 10000, 1);
                 break;
             case 6:
-                competence = new Competence(TypeCompetence.EPINES, nb, nb, nb);
+                competence = new Competence(TypeCompetence.EPINES, 3, 10000, 1);
                 break;
             case 7: 
-                competence = new Competence(TypeCompetence.ANGUILLE, nb, nb, nb);
+                competence = new Competence(TypeCompetence.ANGUILLE, 5, 0, 0);
                 break;
-            /*case 8:
-                competence =
-                break;*/
+            case 8:
+                competence = new Competence(TypeCompetence.TELEPORTATION, 4, 0, 1);
+                break;
             default:
                 competence = null;
         }

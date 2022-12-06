@@ -1,7 +1,5 @@
 package model.threads;
 
-import javax.swing.SwingUtilities;
-
 import model.ihm.FenetreGraphique;
 
 import java.io.Serializable;
@@ -32,7 +30,7 @@ public class ThreadAffichage extends Thread  implements Serializable {
     @Override
     public void run(){
         
-        while(stop == false){
+        while(!stop){
             
             // Attente de 150 milisecondes
             try{

@@ -269,7 +269,7 @@ public class PanelPartie extends JPanel{
                         } else if(cases.get(i).get(j) instanceof CaseTresor){ //Si la case est un trésor
 
                             // Si le trésor est fermé
-                            if(((CaseTresor)cases.get(i).get(j)).getOuvert() == false){
+                            if(!((CaseTresor) cases.get(i).get(j)).getOuvert()){
                                 // Création d'une nouvelle îcone trésor
                                 img = imgTresor;
                             } else { // Si le trésor est ouvert
@@ -329,40 +329,40 @@ public class PanelPartie extends JPanel{
                     // Si l'entitée est le joueur
                     if(e instanceof Joueur){
                         switch (e.getRegard()) {
-                            case HAUT -> {img = imgPersonnageHaut;}
-                            case BAS -> {img = imgPersonnageBas;}
-                            case DROITE -> {img = imgPersonnageDroite;}
-                            case GAUCHE -> {img = imgPersonnageGauche;}
+                            case HAUT -> img = imgPersonnageHaut;
+                            case BAS -> img = imgPersonnageBas;
+                            case DROITE -> img = imgPersonnageDroite;
+                            case GAUCHE -> img = imgPersonnageGauche;
                         }
 
                     } else if(e instanceof Gobelin){ // Si l'entitée est un Gobelin
                         switch (e.getRegard()) {
-                            case HAUT -> {img = imgGobelinHaut;}
-                            case BAS -> {img = imgGobelinBas;}
-                            case DROITE -> {img = imgGobelinDroite;}
-                            case GAUCHE -> {img = imgGobelinGauche;}
+                            case HAUT -> img = imgGobelinHaut;
+                            case BAS -> img = imgGobelinBas;
+                            case DROITE -> img = imgGobelinDroite;
+                            case GAUCHE -> img = imgGobelinGauche;
                         }
                         // Création d'une nouvelle icône gobelin
                     } else if(e instanceof Fantome){ // Si l'enittée est un fantome
                         switch (e.getRegard()) {
-                            case HAUT -> {img = imgFantomeHaut;}
-                            case BAS -> {img = imgFantomeBas;}
-                            case DROITE -> {img = imgFantomeDroite;}
-                            case GAUCHE -> {img = imgFantomeGauche;}
+                            case HAUT -> img = imgFantomeHaut;
+                            case BAS -> img = imgFantomeBas;
+                            case DROITE -> img = imgFantomeDroite;
+                            case GAUCHE -> img = imgFantomeGauche;
                         }
                     } else if(e instanceof Archer){ // Si l'enittée est un Archer
                         switch (e.getRegard()) {
-                            case HAUT -> {img = imgArcherHaut;}
-                            case BAS -> {img = imgArcherBas;}
-                            case DROITE -> {img = imgArcherDroite;}
-                            case GAUCHE -> {img = imgArcherGauche;}
+                            case HAUT -> img = imgArcherHaut;
+                            case BAS -> img = imgArcherBas;
+                            case DROITE -> img = imgArcherDroite;
+                            case GAUCHE -> img = imgArcherGauche;
                         }
                     }else { // Si l'enittée est un kamikaze
                         switch (e.getRegard()) {
-                            case HAUT -> {img = imgKamikazeHaut;}
-                            case BAS -> {img = imgKamikazeBas;}
-                            case DROITE -> {img = imgKamikazeDroite;}
-                            case GAUCHE -> {img = imgKamikazeGauche;}
+                            case HAUT -> img = imgKamikazeHaut;
+                            case BAS -> img = imgKamikazeBas;
+                            case DROITE -> img = imgKamikazeDroite;
+                            case GAUCHE -> img = imgKamikazeGauche;
                         }
                     }
                 }

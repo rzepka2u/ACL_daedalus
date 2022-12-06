@@ -758,7 +758,7 @@ public class FenetreCommandes extends JFrame {
 
     private JTextField[] createCompetencesFields(){
         JTextField[] fields = new JTextField[4];
-        int codes[] = fenetre.getCommandesCompetences();
+        int[] codes = fenetre.getCommandesCompetences();
         
         for(int i=0; i<fields.length; i++){
             fields[i] = new JTextField();

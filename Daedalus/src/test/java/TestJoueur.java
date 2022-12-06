@@ -1,13 +1,10 @@
 import model.cases.*;
 import model.enums.Direction;
 import model.enums.Ordre;
-import model.enums.ZoneAttaque;
-import model.objets.Arme;
 import model.objets.Commande;
 import model.objets.Entite;
 import model.objets.Jeu;
 import model.objets.Joueur;
-import model.objets.PieceArmure;
 import model.objets.Potion;
 
 import java.io.FileNotFoundException;

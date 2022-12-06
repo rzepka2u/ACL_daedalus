@@ -6,13 +6,10 @@ import model.objets.Gobelin;
 import model.objets.Jeu;
 import model.objets.Joueur;
 import model.objets.Kamikaze;
-import model.cases.Case;
-import model.cases.CaseMur;
 import model.enums.Direction;
 
 import java.io.Serializable;
 import java.lang.Thread;
-import java.net.http.HttpClient.Version;
 import java.util.ArrayList;
 import java.util.Random;
 

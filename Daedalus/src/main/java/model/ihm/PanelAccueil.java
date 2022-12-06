@@ -243,9 +243,7 @@ public class PanelAccueil extends JPanel {
     private JCheckBox createCheckBox(){
 
         // Création d'une nouvelle case a cocher
-        JCheckBox checkBox = new JCheckBox();
-        
-        return checkBox;
+        return new JCheckBox();
     }
 
     /**

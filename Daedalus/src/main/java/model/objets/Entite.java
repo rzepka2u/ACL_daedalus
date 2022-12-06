@@ -182,7 +182,6 @@ public abstract class Entite implements Serializable {
     }
 
     public boolean etreMort() {
-        if(this.pointsVie > 0) return true;
-        else return false;
+        return this.pointsVie > 0;
     }
 }

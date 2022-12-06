@@ -234,7 +234,7 @@ public class FenetreGraphique extends JFrame {
         this.setFocusable(true);
         this.requestFocus();
 
-        if(ecouteursAdd == false){
+        if(!ecouteursAdd){
             // Ajout d'un écouteur sur les touches préssées
             this.addKeyListener(new KeyAdapter(){
                 /**
@@ -345,7 +345,7 @@ public class FenetreGraphique extends JFrame {
         this.setFocusable(true);
         this.requestFocus();
 
-        if(ecouteursAdd == false){
+        if(!ecouteursAdd){
             // Ajout d'un écouteur sur les touches préssées
             this.addKeyListener(new KeyAdapter(){
                 /**

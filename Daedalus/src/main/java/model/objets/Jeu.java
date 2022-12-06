@@ -264,7 +264,7 @@ public class Jeu  implements Serializable {
         int i;
         
         if(this.entites != null){
-            for(i=0; i<entites.size() && res == false; i++){
+            for(i=0; i<entites.size() && !res; i++){
                 synchronized(verrousEntites.get(i)){
                     if(entites.get(i) instanceof Gobelin){
                         if(entites.get(i).getX() == x){

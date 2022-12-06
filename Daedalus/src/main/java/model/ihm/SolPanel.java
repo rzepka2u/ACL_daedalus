@@ -9,15 +9,18 @@ import java.io.IOException;
 
 public class SolPanel extends JPanel{
     
-    private BufferedImage imgFond;
+    private static final BufferedImage imgFond;
+
+    static {
+        try {
+            imgFond = ImageIO.read(SolPanel.class.getResource("/assets/sol.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public SolPanel(){
         super();
-        try{
-            imgFond = ImageIO.read(getClass().getResource("/assets/sol.png"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     @Override

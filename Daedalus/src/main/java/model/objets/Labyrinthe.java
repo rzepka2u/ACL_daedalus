@@ -1,7 +1,6 @@
 package model.objets;
 
 import model.cases.*;
-import model.cases.Coordonnee;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -652,22 +651,6 @@ public class Labyrinthe implements Serializable {
 
     public void setVerrousCases(ArrayList<ArrayList<Object>> verrousCases) {
         this.verrousCases = verrousCases;
-    }
-
-    public static void main(String[] args) {
-        Labyrinthe l = new Labyrinthe(20);
-        //System.out.println(l);
-
-        System.out.println("Il y a " + l.compterCasesVides() + " cases vides");
-
-        l.ajouterCasesEffet(5);
-        l.ajouterCasesTresor(5);
-
-        //System.out.println(l);
-
-        System.out.println("Il y a " + l.compterCasesVides() + " cases vides");
-        System.out.println("Il y a " + l.compterCasesEffet() + " cases effet");
-        System.out.println("Il y a " + l.compterCasesTresor() + " cases trésor");
     }
 
 }

@@ -97,6 +97,16 @@ public class PanelPartie extends JPanel{
     private static final ImageIcon imgPotionVide = new ImageIcon(PanelPartie.class.getResource("/assets/potionVide.png"));
     private static final ImageIcon imgInfos = new ImageIcon(PanelPartie.class.getResource("/assets/infos.png"));
 
+    private static final ImageIcon imgCompetence = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/competence.png"));
+    private static final ImageIcon imgBerserker = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/berserker.png"));
+    private static final ImageIcon imgBouclier_magique = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/bouclier_magique.png"));
+    private static final ImageIcon imgDrain_vie = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/drain_vie.png"));
+    private static final ImageIcon imgRevenant = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/revenant.png"));
+    private static final ImageIcon imgBlocage = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/blocage.png"));
+    private static final ImageIcon imgEpines = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/epines.png"));
+    private static final ImageIcon imgAnguilles = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/anguilles.png"));
+    private static final ImageIcon imgTeleportation = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/teleportation.png"));
+
     /**
      * Constructeur par défaut de la classe PanelPartie
      * @param f l'objet FenetreGraphique dans lequelle sera affiché le panel
@@ -259,7 +269,7 @@ public class PanelPartie extends JPanel{
                         } else if(cases.get(i).get(j) instanceof CaseTresor){ //Si la case est un trésor
 
                             // Si le trésor est fermé
-                            if(((CaseTresor)cases.get(i).get(j)).getOuvert() == false){
+                            if(!((CaseTresor) cases.get(i).get(j)).getOuvert()){
                                 // Création d'une nouvelle îcone trésor
                                 img = imgTresor;
                             } else { // Si le trésor est ouvert
@@ -319,40 +329,40 @@ public class PanelPartie extends JPanel{
                     // Si l'entitée est le joueur
                     if(e instanceof Joueur){
                         switch (e.getRegard()) {
-                            case HAUT -> {img = imgPersonnageHaut;}
-                            case BAS -> {img = imgPersonnageBas;}
-                            case DROITE -> {img = imgPersonnageDroite;}
-                            case GAUCHE -> {img = imgPersonnageGauche;}
+                            case HAUT -> img = imgPersonnageHaut;
+                            case BAS -> img = imgPersonnageBas;
+                            case DROITE -> img = imgPersonnageDroite;
+                            case GAUCHE -> img = imgPersonnageGauche;
                         }
 
                     } else if(e instanceof Gobelin){ // Si l'entitée est un Gobelin
                         switch (e.getRegard()) {
-                            case HAUT -> {img = imgGobelinHaut;}
-                            case BAS -> {img = imgGobelinBas;}
-                            case DROITE -> {img = imgGobelinDroite;}
-                            case GAUCHE -> {img = imgGobelinGauche;}
+                            case HAUT -> img = imgGobelinHaut;
+                            case BAS -> img = imgGobelinBas;
+                            case DROITE -> img = imgGobelinDroite;
+                            case GAUCHE -> img = imgGobelinGauche;
                         }
                         // Création d'une nouvelle icône gobelin
                     } else if(e instanceof Fantome){ // Si l'enittée est un fantome
                         switch (e.getRegard()) {
-                            case HAUT -> {img = imgFantomeHaut;}
-                            case BAS -> {img = imgFantomeBas;}
-                            case DROITE -> {img = imgFantomeDroite;}
-                            case GAUCHE -> {img = imgFantomeGauche;}
+                            case HAUT -> img = imgFantomeHaut;
+                            case BAS -> img = imgFantomeBas;
+                            case DROITE -> img = imgFantomeDroite;
+                            case GAUCHE -> img = imgFantomeGauche;
                         }
                     } else if(e instanceof Archer){ // Si l'enittée est un Archer
                         switch (e.getRegard()) {
-                            case HAUT -> {img = imgArcherHaut;}
-                            case BAS -> {img = imgArcherBas;}
-                            case DROITE -> {img = imgArcherDroite;}
-                            case GAUCHE -> {img = imgArcherGauche;}
+                            case HAUT -> img = imgArcherHaut;
+                            case BAS -> img = imgArcherBas;
+                            case DROITE -> img = imgArcherDroite;
+                            case GAUCHE -> img = imgArcherGauche;
                         }
                     }else { // Si l'enittée est un kamikaze
                         switch (e.getRegard()) {
-                            case HAUT -> {img = imgKamikazeHaut;}
-                            case BAS -> {img = imgKamikazeBas;}
-                            case DROITE -> {img = imgKamikazeDroite;}
-                            case GAUCHE -> {img = imgKamikazeGauche;}
+                            case HAUT -> img = imgKamikazeHaut;
+                            case BAS -> img = imgKamikazeBas;
+                            case DROITE -> img = imgKamikazeDroite;
+                            case GAUCHE -> img = imgKamikazeGauche;
                         }
                     }
                 }
@@ -583,7 +593,19 @@ public class PanelPartie extends JPanel{
         JLabel label = new JLabel(type.toString());
 
         // Ajout d'une icône prévu pour les points de vie au texte
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/"+type.toString().toLowerCase()+".png")));
+        //label.setIcon(new ImageIcon(getClass().getResource("/assets/"+type.toString().toLowerCase()+".png")));
+        switch (type.toString().toLowerCase()) {
+            case "berserker" -> label.setIcon(imgBerserker);
+            case "bouclier_magique" -> label.setIcon(imgBouclier_magique);
+            case "drain_vie" -> label.setIcon(imgDrain_vie);
+            case "revenant" -> label.setIcon(imgRevenant);
+            case "blocage" -> label.setIcon(imgBlocage);
+            case "epines" -> label.setIcon(imgEpines);
+            case "anguilles" -> label.setIcon(imgAnguilles);
+            case "teleportation" -> label.setIcon(imgTeleportation);
+            default -> label.setIcon(imgCompetence);
+        }
+
 
         if(activable){
             // Modification de la couleur du texte en vert foncé

@@ -15,7 +15,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-import java.util.InputMismatchException;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -34,6 +33,16 @@ public class PanelChoixCompetences extends JPanel {
     private JButton startButton;
     private int nbNiveau;
     private String path;
+
+    private static final ImageIcon imgCompetence = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/competence.png"));
+    private static final ImageIcon imgBerserker = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/berserker.png"));
+    private static final ImageIcon imgBouclier_magique = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/bouclier_magique.png"));
+    private static final ImageIcon imgDrain_vie = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/drain_vie.png"));
+    private static final ImageIcon imgRevenant = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/revenant.png"));
+    private static final ImageIcon imgBlocage = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/blocage.png"));
+    private static final ImageIcon imgEpines = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/epines.png"));
+    private static final ImageIcon imgAnguilles = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/anguilles.png"));
+    private static final ImageIcon imgTeleportation = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/teleportation.png"));
 
     public PanelChoixCompetences(FenetreGraphique f, int nb, String chemin){
 
@@ -89,7 +98,7 @@ public class PanelChoixCompetences extends JPanel {
 
     private JLabel createInfosLabel(){
         JLabel label = new JLabel("Veuillez sélectionner vos quatre compétences de départ");
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/competence.png")));
+        label.setIcon(imgCompetence);
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setFont(new Font("Serif", Font.PLAIN, 16));
         label.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, label.getBackground()));
@@ -147,28 +156,28 @@ public class PanelChoixCompetences extends JPanel {
         int i;
 
         labels[0] = new JLabel("BERSERKER");
-        labels[0].setIcon(new ImageIcon(getClass().getResource("/assets/berserker.png")));
+        labels[0].setIcon(imgBerserker);
 
         labels[1] = new JLabel("BOUCLIER MAGIQUE");
-        labels[1].setIcon(new ImageIcon(getClass().getResource("/assets/bouclier_magique.png")));
+        labels[1].setIcon(imgBouclier_magique);
 
         labels[2] = new JLabel("DRAIN DE VIE");
-        labels[2].setIcon(new ImageIcon(getClass().getResource("/assets/drain_vie.png")));
+        labels[2].setIcon(imgDrain_vie);
 
         labels[3] = new JLabel("REVENANT");
-        labels[3].setIcon(new ImageIcon(getClass().getResource("/assets/revenant.png")));
+        labels[3].setIcon(imgRevenant);
 
         labels[4] = new JLabel("BLOCAGE");
-        labels[4].setIcon(new ImageIcon(getClass().getResource("/assets/blocage.png")));
+        labels[4].setIcon(imgBlocage);
 
         labels[5] = new JLabel("EPINES");
-        labels[5].setIcon(new ImageIcon(getClass().getResource("/assets/epines.png")));
+        labels[5].setIcon(imgEpines);
 
         labels[6] = new JLabel("ANGUILLES");
-        labels[6].setIcon(new ImageIcon(getClass().getResource("/assets/anguilles.png")));
+        labels[6].setIcon(imgAnguilles);
 
         labels[7] = new JLabel("TELEPORTATION");
-        labels[7].setIcon(new ImageIcon(getClass().getResource("/assets/teleportation.png")));
+        labels[7].setIcon(imgTeleportation);
 
         for(i=0; i<labels.length; i++){
             labels[i].setForeground(new Color(255,255,255));

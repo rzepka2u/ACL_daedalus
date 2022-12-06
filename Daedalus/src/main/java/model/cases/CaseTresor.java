@@ -101,11 +101,7 @@ public class CaseTresor extends Case {
      * @return false ou true suivant si le coffre est ouvert ou non
      */
     public boolean estTraversable() {
-        if (ouvert) {
-            return true;
-        } else {
-            return false;
-        }
+        return ouvert;
     }
 
     public void setContenu(Tresor contenu) {

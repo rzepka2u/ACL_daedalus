@@ -28,6 +28,8 @@ public class PanelFinJeu extends JPanel {
     private JLabel icone; // L'image de la fenêtre
     private JLabel texte; // Le texte de la fenêtre
     private JButton boutton; // Le boutton pour lancer une nouvelle partie
+    private static final ImageIcon imgVictoire = new ImageIcon(PanelFinJeu.class.getResource("/assets/victoire.png"));
+    private static final ImageIcon imgDefaite = new ImageIcon(PanelFinJeu.class.getResource("/assets/defaite.png"));
 
     /**
      * Unique constructeur de la classe PanelFinJeu 
@@ -98,10 +100,10 @@ public class PanelFinJeu extends JPanel {
 
         if(type){ // Si c'est un panel de victoire
             // Ajout de l'icône de victoire prévu à cet effet dans le label
-            label.setIcon(new ImageIcon(getClass().getResource("/assets/victoire.png")));
+            label.setIcon(imgVictoire);
         } else { // Si c'est un panel de défaite
             // Ajout de l'icône de défaite prévu à cet effet dans le label
-            label.setIcon(new ImageIcon(getClass().getResource("/assets/defaite.png")));
+            label.setIcon(imgDefaite);
         }
 
         return label;
@@ -118,7 +120,7 @@ public class PanelFinJeu extends JPanel {
         
         if(type){ // Si le panel est un panel de victoire
             // Ajout du texte commentant la victoire dans le label
-            label.setText("<html><i><b>Vous avez gagner la partie !</b></i></html>");
+            label.setText("<html><i><b>Vous avez gagné la partie !</b></i></html>");
             label.setBackground(new Color(31,141,26)); // Change la couleur de fond à vert
         } else { // Si le panel est un panel de défaite
             // Ajout du texte commentant la défaite dans le label

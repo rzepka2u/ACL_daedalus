@@ -39,7 +39,6 @@ public class TestJeu{
 
     /**
      * Test qui vérifie que le déplacement du joueur est bien prit en compte dans l'affichage
-     * @throws FileNotFoundExeception
      */
     @Test
     public void test_raffraichissmentAffichageLorsqueDeplacementJoueur() {

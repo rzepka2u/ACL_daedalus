@@ -42,6 +42,17 @@ public class FenetreCommandes extends JFrame {
     private JButton boutonValider;
     private JButton boutonReset;
 
+    private static final ImageIcon imgCommandes = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/commandes.png"));
+    private static final ImageIcon imgDeplaceHaut = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/deplace_haut.png"));
+    private static final ImageIcon imgDeplaceBas = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/deplace_bas.png"));
+    private static final ImageIcon imgDeplaceGauche = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/deplace_gauche.png"));
+    private static final ImageIcon imgDeplaceDroite = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/deplace_droite.png"));
+    private static final ImageIcon imgAttaquer = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/attaquer.png"));
+    private static final ImageIcon imgRamasser = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/ramasser.png"));
+    private static final ImageIcon imgOuvrir = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/ouvrir.png"));
+    private static final ImageIcon imgBoire = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/boire.png"));
+    private static final ImageIcon imgCompetence = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/competence.png"));
+
     public FenetreCommandes(FenetreGraphique f){
 
         super("Commandes");
@@ -169,7 +180,7 @@ public class FenetreCommandes extends JFrame {
     private JLabel createTitreLabel(){
 
         JLabel label = new JLabel("<html><span style='font-size:18px;'>  LES COMMANDES DU JEU</span></html>");
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/commandes.png")));
+        label.setIcon(imgCommandes);
         label.setPreferredSize(new Dimension(400,90));
         label.setForeground(new Color(33,32,30));
         label.setHorizontalAlignment(SwingConstants.CENTER);
@@ -349,13 +360,13 @@ public class FenetreCommandes extends JFrame {
         JLabel[] labels = new JLabel[4];
 
         labels[0] = new JLabel("  Deplacement Haut:");
-        labels[0].setIcon(new ImageIcon(getClass().getResource("/assets/deplace_haut.png")));
+        labels[0].setIcon(imgDeplaceHaut);
         labels[1] = new JLabel("  Deplacement Bas:");
-        labels[1].setIcon(new ImageIcon(getClass().getResource("/assets/deplace_bas.png")));
+        labels[1].setIcon(imgDeplaceBas);
         labels[2] = new JLabel("  Deplacement Gauche:");
-        labels[2].setIcon(new ImageIcon(getClass().getResource("/assets/deplace_gauche.png")));
+        labels[2].setIcon(imgDeplaceGauche);
         labels[3] = new JLabel("  Deplacement Droite:");
-        labels[3].setIcon(new ImageIcon(getClass().getResource("/assets/deplace_droite.png")));
+        labels[3].setIcon(imgDeplaceDroite);
 
         for(int i=0; i<labels.length; i++){
             labels[i].setOpaque(true);
@@ -466,7 +477,7 @@ public class FenetreCommandes extends JFrame {
 
     private JLabel createAttaquerLabel(){
         JLabel label = new JLabel("  Attaquer:");
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/attaquer.png")));
+        label.setIcon(imgAttaquer);
         label.setOpaque(true);
         label.setPreferredSize(new Dimension(170,48));
         label.setVerticalAlignment(SwingConstants.CENTER);
@@ -508,7 +519,7 @@ public class FenetreCommandes extends JFrame {
 
     private JLabel createRamasserLabel(){
         JLabel label = new JLabel("  Ramasser trésor:");
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/ramasser.png")));
+        label.setIcon(imgRamasser);
         label.setOpaque(true);
         label.setPreferredSize(new Dimension(170,48));
         label.setVerticalAlignment(SwingConstants.CENTER);
@@ -551,7 +562,7 @@ public class FenetreCommandes extends JFrame {
 
     private JLabel createOuvrirLabel(){
         JLabel label = new JLabel("  Ouvrir trésor:");
-        label.setIcon(new ImageIcon(getClass().getResource("/assets/ouvrir.png")));
+        label.setIcon(imgOuvrir);
         label.setPreferredSize(new Dimension(170,48));
         label.setVerticalAlignment(SwingConstants.CENTER);
         label.setOpaque(true);
@@ -603,7 +614,7 @@ public class FenetreCommandes extends JFrame {
 
         for(int i=0; i<labels.length; i++){
             labels[i].setOpaque(true);
-            labels[i].setIcon(new ImageIcon(getClass().getResource("/assets/boire.png")));
+            labels[i].setIcon(imgBoire);
             labels[i].setPreferredSize(new Dimension(170,48));
             labels[i].setVerticalAlignment(SwingConstants.CENTER);
             labels[i].setBackground(new Color(255,255,255));
@@ -735,7 +746,7 @@ public class FenetreCommandes extends JFrame {
 
         for(int i=0; i<labels.length; i++){
             labels[i].setOpaque(true);
-            labels[i].setIcon(new ImageIcon(getClass().getResource("/assets/competence.png")));
+            labels[i].setIcon(imgCompetence);
             labels[i].setPreferredSize(new Dimension(170,48));
             labels[i].setVerticalAlignment(SwingConstants.CENTER);
             labels[i].setBackground(new Color(255,255,255));
@@ -747,7 +758,7 @@ public class FenetreCommandes extends JFrame {
 
     private JTextField[] createCompetencesFields(){
         JTextField[] fields = new JTextField[4];
-        int codes[] = fenetre.getCommandesCompetences();
+        int[] codes = fenetre.getCommandesCompetences();
         
         for(int i=0; i<fields.length; i++){
             fields[i] = new JTextField();

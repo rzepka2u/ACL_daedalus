@@ -14,6 +14,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import model.threads.ThreadAffichage;
+import model.threads.ThreadMonstre;
+
 public class Menu extends JMenuBar{
     
     private FenetreGraphique fenetre;
@@ -138,6 +141,16 @@ public class Menu extends JMenuBar{
                     "information",
                     JOptionPane.INFORMATION_MESSAGE);
                 } else {
+
+                    int i;
+
+                    fenetre.getThread().arret();
+                    fenetre.getThread().interrupt();
+
+                    for(i=0; i<fenetre.getJeu().getEntites().size()-1; i++){
+                        fenetre.getJeu().getThreads().get(i).arret(true);
+                        fenetre.getJeu().getThreads().get(i).interrupt();
+                    }
                     
                     JFileChooser jfc = new JFileChooser();
                     jfc.setDialogTitle("Choissiez l'endroit de la sauvegarde:");
@@ -157,7 +170,13 @@ public class Menu extends JMenuBar{
                             throw new RuntimeException(ex);
                         }
                     }
-            
+
+                    fenetre.setThread(new ThreadAffichage(fenetre));
+                    fenetre.getThread().start();
+                    for(i=0; i<fenetre.getJeu().getEntites().size()-1; i++){
+                        fenetre.getJeu().getThreads().set(i, new ThreadMonstre(fenetre.getJeu(), i));
+                        fenetre.getJeu().getThreads().get(i).start();
+                    }
                 }
             }
             
@@ -180,6 +199,17 @@ public class Menu extends JMenuBar{
                     "information",
                     JOptionPane.INFORMATION_MESSAGE);
                 } else {
+
+                    int i;
+
+                    fenetre.getThread().arret();
+                    fenetre.getThread().interrupt();
+
+                    for(i=0; i<fenetre.getJeu().getEntites().size()-1; i++){
+                        fenetre.getJeu().getThreads().get(i).arret(true);
+                        fenetre.getJeu().getThreads().get(i).interrupt();
+                    }
+                    
                     int retour = JOptionPane.showConfirmDialog(fenetre, 
                     "Êtes-vous sûr de recommencer la partie?", 
                     "Attention",
@@ -187,6 +217,14 @@ public class Menu extends JMenuBar{
 
                     if(retour == JOptionPane.YES_OPTION){
                         fenetre.redemarrerPartie();
+                    }  else {
+
+                        fenetre.setThread(new ThreadAffichage(fenetre));
+                        fenetre.getThread().start();
+                        for(i=0; i<fenetre.getJeu().getEntites().size()-1; i++){
+                            fenetre.getJeu().getThreads().set(i, new ThreadMonstre(fenetre.getJeu(), i));
+                            fenetre.getJeu().getThreads().get(i).start();
+                        }
                     }
                 }
             }
@@ -210,6 +248,17 @@ public class Menu extends JMenuBar{
                     "information",
                     JOptionPane.INFORMATION_MESSAGE);
                 } else {
+
+                    int i;
+
+                    fenetre.getThread().arret();
+                    fenetre.getThread().interrupt();
+
+                    for(i=0; i<fenetre.getJeu().getEntites().size()-1; i++){
+                        fenetre.getJeu().getThreads().get(i).arret(true);
+                        fenetre.getJeu().getThreads().get(i).interrupt();
+                    }
+
                     int retour = JOptionPane.showConfirmDialog(fenetre, 
                     "Êtes-vous sûr de vouloir quitter la partie?", 
                     "Attention",
@@ -217,6 +266,13 @@ public class Menu extends JMenuBar{
 
                     if(retour == JOptionPane.YES_OPTION){
                         fenetre.quitterPartie();
+                    } else {
+                        fenetre.setThread(new ThreadAffichage(fenetre));
+                        fenetre.getThread().start();
+                        for(i=0; i<fenetre.getJeu().getEntites().size()-1; i++){
+                            fenetre.getJeu().getThreads().set(i, new ThreadMonstre(fenetre.getJeu(), i));
+                            fenetre.getJeu().getThreads().get(i).start();
+                        }
                     }
                 }
             }

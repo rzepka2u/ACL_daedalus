@@ -55,7 +55,7 @@ public class FenetreGraphique extends JFrame {
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Terminer le programme lorsque l'on ferme la fenêtre
         this.setSize(new Dimension(700, 700)); // Modification des dimension de départ de la fenêtre
         this.setLocationRelativeTo(null); // Mise de la fenêtre au milieu de l'écran
-
+        this.verrouContent = new Object();
         FenetreGraphique f = this;
 
         this.addWindowListener(new WindowAdapter(){
@@ -67,8 +67,21 @@ public class FenetreGraphique extends JFrame {
                 JOptionPane.YES_NO_OPTION);
 
                 if(retour == JOptionPane.YES_OPTION){
+
+                    int i;
+
+                    synchronized(verrouContent){
+                        if(f.contentPane instanceof PanelPartie){
+                            thread.arret();
+                            thread.interrupt();
+                            for(i=0; i<f.getJeu().getEntites().size()-1; i++){
+                                f.getJeu().getThreads().get(i).arret();
+                                f.getJeu().getThreads().get(i).interrupt();
+                            }      
+                        }
+                    }
                     f.dispose();
-                }
+                }   
             }
         }); 
 
@@ -123,6 +136,14 @@ public class FenetreGraphique extends JFrame {
      */
     public Jeu getJeu(){
         return this.jeu;
+    }
+
+    public ThreadAffichage getThread(){
+        return this.thread;
+    }
+
+    public void setThread(ThreadAffichage t){
+        this.thread = t;
     }
 
     public Object getVerrouContent(){
@@ -290,8 +311,6 @@ public class FenetreGraphique extends JFrame {
             ecouteursAdd = true;
         }
 
-        verrouContent = new Object();
-
         // Création et démarrage du thread qui s'occupe de rafraîchir l'affichage
         thread = new ThreadAffichage(this);
         thread.start();
@@ -401,8 +420,6 @@ public class FenetreGraphique extends JFrame {
             ecouteursAdd = true;
         }
 
-        verrouContent = new Object();
-
         // Création et démarrage du thread qui s'occupe de rafraîchir l'affichage
         thread = new ThreadAffichage(this);
         thread.start();
@@ -483,20 +500,6 @@ public class FenetreGraphique extends JFrame {
     }
 
     public void redemarrerPartie(){
-
-        if(thread != null){
-            thread.arret();
-            thread.interrupt();
-            thread = null;
-        }
-
-        ArrayList<ThreadMonstre> monstres = jeu.getThreads();
-
-        while(monstres.size()>0){
-            monstres.get(0).arret();
-            monstres.get(0).interrupt();
-            monstres.remove(monstres.get(0));
-        }
 
         int nbMaxNiveau = jeu.getNbMaxNiveau();
         String path = jeu.getPath();

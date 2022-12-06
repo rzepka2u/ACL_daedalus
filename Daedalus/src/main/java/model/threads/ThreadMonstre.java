@@ -18,12 +18,14 @@ public class ThreadMonstre extends Thread implements Serializable {
     private int positionInList;
     private Jeu jeu;
     private boolean stop;
+    private boolean pause;
 
     public ThreadMonstre(Jeu j, int pos){
         super();
         jeu = j;
         positionInList = pos;
         stop = false;
+        pause = false;
     }
 
     public void run(){
@@ -134,20 +136,27 @@ public class ThreadMonstre extends Thread implements Serializable {
 
         } while(!stop);
 
-        synchronized(jeu.getVerrousEntites().get(positionInList+1)){
-            synchronized(jeu.getVerrouInformations()){
-                Entite e = jeu.getEntites().get(positionInList+1);
-                jeu.ajouterInfos("Le "+ (e instanceof Gobelin? "Gobelin" : "Fantôme")+ " position ("+e.getX()+","+e.getY()+") est mort!" );
+        if(!pause){
+            synchronized(jeu.getVerrousEntites().get(positionInList+1)){
+                synchronized(jeu.getVerrouInformations()){
+                    Entite e = jeu.getEntites().get(positionInList+1);
+                    jeu.ajouterInfos("Le "+ (e instanceof Gobelin? "Gobelin" : "Fantôme")+ " position ("+e.getX()+","+e.getY()+") est mort!" );
+                }
             }
-        }
 
-        synchronized (jeu.getVerrousEntites().get(0)) {
-            jeu.getJoueur().gagnerExperience(2000);
+            synchronized (jeu.getVerrousEntites().get(0)) {
+                jeu.getJoueur().gagnerExperience(2000);
+            }
         }
     }
 
     public void arret(){
-        stop=true;
+        arret(false);
+    }
+
+    public void arret(boolean p){
+        this.stop=true;
+        this.pause = p;
     }
 
     private Direction determinerDirectionAlea(Entite m, int x, int y){

@@ -563,7 +563,7 @@ public class PanelPartie extends JPanel{
 
     private JLabel createDefaultCompetenceLabel(){
 
-        JLabel label = new JLabel("  Vous n'avez pas encore obtenu de compétances.");
+        JLabel label = new JLabel("  Vous n'avez pas encore débloqué des compétences.");
         label.setIcon(new ImageIcon(getClass().getResource("/assets/competence_vide.png")));
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setVerticalAlignment(SwingConstants.CENTER);

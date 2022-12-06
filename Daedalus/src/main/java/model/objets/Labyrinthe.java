@@ -549,10 +549,11 @@ public class Labyrinthe implements Serializable {
      * @param noNiveau numéro du niveau
      */
     public void ajouterCasesEffet(int noNiveau) {
-        int nbAAjouter = (int) (Math.random() * (((this.compterCasesVides() * 0.6) * noNiveau) / 10) + 1);
-
+        if (noNiveau == 0) noNiveau = 1;
+        int casesInitialementVides = this.compterCasesVides();
+        int nbAAjouter = 2 + (int) (Math.random() * ((casesInitialementVides * 0.8) * noNiveau) / 100);
         // Tout d'abord il faut limiter le nombre de cases spéciales sur le labyrinthe, pour ne pas surcharger l'algorithme
-        if (nbAAjouter > 2 * this.taille / 3) nbAAjouter = 2 * this.taille / 3;
+        if (nbAAjouter > casesInitialementVides / 20) nbAAjouter = casesInitialementVides / 20;
 
         // Il faut ensuite déterminer quelles seront les cases à changer
         ArrayList<Case> casesConcernees = calculerCasesSpeciales(true, nbAAjouter);
@@ -579,10 +580,10 @@ public class Labyrinthe implements Serializable {
      */
     public void ajouterCasesTresor(int noNiveau) {
         if (noNiveau == 0) noNiveau = 1;
-        int nbAAjouter = noNiveau + (int) (Math.random() * this.compterCasesVides() * noNiveau * 0.015);
-
+        int casesInitialementVides = this.compterCasesVides();
+        int nbAAjouter = 1 + (int) (Math.random() * casesInitialementVides * noNiveau * 0.009);
         // Tout d'abord il faut limiter le nombre de cases spéciales sur le labyrinthe, pour ne pas surcharger l'algorithme
-        if (nbAAjouter > this.taille / 3) nbAAjouter = this.taille / 3;
+        if (nbAAjouter > casesInitialementVides / 25) nbAAjouter = casesInitialementVides / 25;
 
         // Il faut ensuite déterminer quelles seront les cases à changer
         ArrayList<Case> casesConcernees = calculerCasesSpeciales(false, nbAAjouter);
@@ -654,20 +655,17 @@ public class Labyrinthe implements Serializable {
     public static void main(String[] args) {
         Labyrinthe l = new Labyrinthe(20);
         //System.out.println(l);
-        //System.out.println(l.compterCasesVides());
 
-        //System.out.println("Ajout des cases à effet et des trésors\n");
+        System.out.println("Il y a " + l.compterCasesVides() + " cases vides");
 
-        //l.ajouterCasesEffet(1);
-        l.ajouterCasesTresor(100);
+        l.ajouterCasesEffet(5);
+        l.ajouterCasesTresor(5);
 
-        System.out.println(l);
+        //System.out.println(l);
 
         System.out.println("Il y a " + l.compterCasesVides() + " cases vides");
         System.out.println("Il y a " + l.compterCasesEffet() + " cases effet");
         System.out.println("Il y a " + l.compterCasesTresor() + " cases trésor");
-
-
     }
 
 }

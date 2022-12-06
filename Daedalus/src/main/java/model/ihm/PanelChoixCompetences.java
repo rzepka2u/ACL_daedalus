@@ -189,9 +189,8 @@ public class PanelChoixCompetences extends JPanel {
 
                 if(cpt == 4){
 
-                    fenetre.setCompetancesSelect(competancesChoisies);
                     try{
-                        fenetre.afficherPartie(nbNiveau, path);
+                        fenetre.afficherPartie(nbNiveau, path, competancesChoisies);
                     } catch(FileNotFoundException exception){
                         exception.printStackTrace();
                     }

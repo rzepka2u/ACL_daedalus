@@ -31,6 +31,7 @@ public class Joueur extends Entite {
     private ArrayList<Competence> competences;
 
     private boolean drain, revenant, blocage, epines, anguille;
+    private int[] competencesSelect;
 
 
     /**
@@ -65,6 +66,14 @@ public class Joueur extends Entite {
 
     public int getNB_PA_MAX(){
         return NB_PA_MAX;
+    }
+
+    public int[] getCompetencesSelect(){
+        return this.competencesSelect;
+    }
+
+    public void setCompetencesSelect(int[] competences){
+        this.competencesSelect = competences;
     }
 
     /**
@@ -145,11 +154,11 @@ public class Joueur extends Entite {
             NB_PV_MAX += 10;
             this.seSoigner(10);
             NB_PA_MAX += 10;
-            //TAILLE_INVENTAIRE += 1; 
-            if(this.rang == 2) ajouterCompetence(new Competence(TypeCompetence.BERSERKER, 2, 10000, 0));
-            if(this.rang == 3) ajouterCompetence(new Competence(TypeCompetence.BOUCLIER_MAGIQUE, 3, 0, 2));
-            if(this.rang == 4) ajouterCompetence(new Competence(TypeCompetence.DRAIN_VIE, 4, 10000, 1));
-            if(this.rang == 5) ajouterCompetence(new Competence(TypeCompetence.REVENANT, 5, 0, 0));
+            
+            if(this.rang == 2) ajouterCompetence(competencesSelect[0]);
+            if(this.rang == 4) ajouterCompetence(competencesSelect[1]);
+            if(this.rang == 6) ajouterCompetence(competencesSelect[2]);
+            if(this.rang == 8) ajouterCompetence(competencesSelect[3]);
         }
     }
 
@@ -525,8 +534,40 @@ public class Joueur extends Entite {
      * Ajoute la compétence c à la liste des compétences débloquées par le joueur
      * @param c compétence qui vient d'être débloquée par le joueur
      */
-    public void ajouterCompetence(Competence c) {
-        this.competences.add(c);
+    public void ajouterCompetence(int nb) {
+
+        Competence competence;
+
+        switch(nb){
+            case 1:
+                competence = new Competence(TypeCompetence.BERSERKER, 2, 10000, 0);
+                break;
+            case 2:
+                competence = new Competence(TypeCompetence.BOUCLIER_MAGIQUE, 3, 0, 2);
+                break;
+            case 3:
+                competence = new Competence(TypeCompetence.DRAIN_VIE, 4, 10000, 1);
+                break;
+            case 4:
+                competence = new Competence(TypeCompetence.REVENANT, 5, 0, 0);
+                break;
+            case 5:
+                competence = new Competence(TypeCompetence.BLOCAGE, nb, nb, nb);
+                break;
+            case 6:
+                competence = new Competence(TypeCompetence.EPINES, nb, nb, nb);
+                break;
+            case 7: 
+                competence = new Competence(TypeCompetence.ANGUILLE, nb, nb, nb);
+                break;
+            /*case 8:
+                competence =
+                break;*/
+            default:
+                competence = null;
+        }
+
+        this.competences.add(competence);
     }
 
     /**

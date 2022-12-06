@@ -19,6 +19,10 @@ import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 /** 
 * La classe qui représente le moteur du jeu
 */
@@ -38,7 +42,6 @@ public class Jeu  implements Serializable {
     private ArrayList<String> informations;
     private transient Object verrouInformations;
     private String path;
-
     private boolean dossier;
 
     public Jeu(FenetreGraphique f, int nbMax){
@@ -56,7 +59,6 @@ public class Jeu  implements Serializable {
         this.informations = new ArrayList<String>();
         this.verrouInformations = new Object();
         this.path = null;
-
         //Initialisation du labyrinthe avec le labyrinthe par défaut
         this.labyrinthe = new Labyrinthe(DIMENSION_LABYRINTHE);
         labyrinthe.ajouterCasesEffet(nbNiveau);
@@ -100,7 +102,6 @@ public class Jeu  implements Serializable {
         this.path = path;
         this.informations = new ArrayList<String>();
         this.verrouInformations = new Object();
-
         this.dossier = dossier;
 
         //Initialisation du labyrinthe via fichier texte 
@@ -185,6 +186,7 @@ public class Jeu  implements Serializable {
     }
 
     public void setNbNiveau(int x){ nbNiveau = x; }
+
 
     /**
      * Détermine la case de départ du joueur aléatoirement
@@ -461,6 +463,12 @@ public class Jeu  implements Serializable {
         if(cmd.getOrdre() == Ordre.DEPLACEMENT){
             switch(deplacerJoueur(cmd.getDirection())){
                 case 2: 
+                    try {
+                        Clip clip = AudioSystem.getClip();
+                        AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/sounds/porte.wav"));
+                        clip.open(inputStream);
+                        clip.start();
+                    } catch (Exception e) { System.out.println(e.getMessage()); }
                     changerNiveau();
                     break;
                 case 3:

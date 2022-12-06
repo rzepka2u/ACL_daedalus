@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
  * Class permettant l'exécution du moteur de jeu
  */
 public class Main {
-
 	public static void main(String[] args) throws InterruptedException, FileNotFoundException {
 		
         try{

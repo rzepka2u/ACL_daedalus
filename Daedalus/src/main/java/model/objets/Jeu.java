@@ -188,6 +188,10 @@ public class Jeu  implements Serializable {
         return nbMaxNiveau;
     }
 
+    public boolean getDossier(){
+        return dossier;
+    }
+
     public void setNbNiveau(int x){ nbNiveau = x; }
 
 

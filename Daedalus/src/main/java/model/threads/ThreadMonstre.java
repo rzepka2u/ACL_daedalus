@@ -12,6 +12,7 @@ import model.enums.Direction;
 
 import java.io.Serializable;
 import java.lang.Thread;
+import java.net.http.HttpClient.Version;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,19 +21,17 @@ public class ThreadMonstre extends Thread implements Serializable {
     private int positionInList;
     private Jeu jeu;
     private boolean stop;
-    private boolean joueurtrouve;
 
     public ThreadMonstre(Jeu j, int pos){
         super();
         jeu = j;
         positionInList = pos;
         stop = false;
-        joueurtrouve = false;
     }
 
     public void run(){
 
-        int px,py, pv, random;
+        int px,py;
         Direction sens;
         Entite m;
         Joueur j;
@@ -49,8 +48,8 @@ public class ThreadMonstre extends Thread implements Serializable {
             if(!stop){
                 synchronized(jeu.getVerrousEntites().get(0)){
                     synchronized(jeu.getVerrousEntites().get(positionInList+1)){
+                        
                         m = jeu.getEntites().get(positionInList+1);
-                        pv = m.getPointsVie();
                         j = jeu.getJoueur();
                         
                         if(m.attaquer(jeu.getEntites(), null).size() == 0){
@@ -58,11 +57,16 @@ public class ThreadMonstre extends Thread implements Serializable {
                             px = m.getX();
                             py = m.getY();
 
-                            if(!(m instanceof Fantome)){
-                                sens = determinerDeplacement(px, py, m);
-                            } else {
+                            if(m instanceof Fantome){
                                 sens = determinerDeplacementFantome(px, py, m, j, hauteur, largeur);
-                            }
+                            } else {
+
+                                if(!jeu.getDossier()){
+                                    sens = determinerDeplacement(px, py, m);
+                                } else {
+                                    sens = determinerDeplacementDossier(px, py, m, j, hauteur, largeur);
+                                }
+                            } 
 
                             switch(sens){
                                 case HAUT -> px -= 1;
@@ -241,18 +245,34 @@ public class ThreadMonstre extends Thread implements Serializable {
 
     }
 
-    private Direction determinerDeplacementFantome(int px, int py, Entite m, Entite j, int hauteur, int largeur){
+    private int chercherJoueurSansMur(int px, int py, Entite m, Entite j, int hauteur, int largeur){
         
         int i, cas = -1;
         boolean cond = true;
-        Direction resultat;
 
-        for(i=0;i<3 && cond && px-i > 0 && py-i > 0;i++){
-            if(j.getX() == m.getX()-i && j.getY() == m.getY()-i){
-                cond = false;
-                cas = 1;
-            }
+        // HAUT GAUCHE
+
+        if(j.getX() == m.getX()-4 && j.getY() == m.getY()-1){ 
+            cond = false; 
+            cas = 1;
         }
+
+        if(cond && j.getX() == m.getX()-3 && (j.getY() == m.getY()-1 || j.getY() == m.getY()-2)){ 
+            cond = false; 
+            cas = 1;
+        }
+
+        if(cond && j.getX() == m.getX()-2 && (j.getY() == m.getY()-1 || j.getY() == m.getY()-2 || j.getY() == m.getY()-3)){ 
+            cond = false; 
+            cas = 1;
+        }
+
+        if(cond && j.getX() == m.getX()-1 && (j.getY() == m.getY()-1 || j.getY() == m.getY()-2 || j.getY() == m.getY()-3 || j.getY() == m.getY()-4 )){ 
+            cond = false; 
+            cas = 1;
+        }
+
+        // HAUT
 
         for(i=0;i<5 && cond && px-i > 0; i++){
             if(j.getX() == m.getX()-i && j.getY() == m.getY()){
@@ -261,19 +281,52 @@ public class ThreadMonstre extends Thread implements Serializable {
             }
         }
 
-        for(i=0;i<3 && cond && px-i > 0 && py+i < largeur; i++){
-            if(j.getX() == m.getX()-i && j.getY() == m.getY()+i){
-                cond = false;
-                cas = 3;
-            }
+        // HAUT DROIT
+
+
+        if(cond && j.getX() == m.getX()-4 && j.getY() == m.getY()+1){ 
+            cond = false; 
+            cas = 3;
         }
 
-        for(i=0;i<3 && cond && px+i < hauteur && py-i > 0;i++){
-            if(j.getX() == m.getX()+i && j.getY() == m.getY()-i){
-                cond = false;
-                cas = 4;
-            }
+        if(cond && j.getX() == m.getX()-3 && (j.getY() == m.getY()+1 || j.getY() == m.getY()+2)){ 
+            cond = false; 
+            cas = 3;
         }
+
+        if(cond && j.getX() == m.getX()-2 && (j.getY() == m.getY()+1 || j.getY() == m.getY()+2 || j.getY() == m.getY()-3)){ 
+            cond = false; 
+            cas = 3;
+        }
+
+        if(cond && j.getX() == m.getX()-1 && (j.getY() == m.getY()+1 || j.getY() == m.getY()-2 || j.getY() == m.getY()+3 || j.getY() == m.getY()+4 )){ 
+            cond = false; 
+            cas = 3;
+        }
+
+        // BAS GAUCHE
+
+        if(cond && j.getX() == m.getX()+4 && j.getY() == m.getY()-1){ 
+            cond = false; 
+            cas = 4;
+        }
+
+        if(cond && j.getX() == m.getX()+3 && (j.getY() == m.getY()-1 || j.getY() == m.getY()-2)){ 
+            cond = false; 
+            cas = 4;
+        }
+
+        if(cond && j.getX() == m.getX()+2 && (j.getY() == m.getY()-1 || j.getY() == m.getY()-2 || j.getY() == m.getY()-3)){ 
+            cond = false; 
+            cas = 4;
+        }
+
+        if(cond && j.getX() == m.getX()+1 && (j.getY() == m.getY()-1 || j.getY() == m.getY()-2 || j.getY() == m.getY()-3 || j.getY() == m.getY()-4 )){ 
+            cond = false; 
+            cas = 4;
+        }
+
+        // BAS
 
         for(i=0;i<5 && cond && px+i < hauteur;i++){
             if(j.getX() == m.getX()+i && j.getY() == m.getY()){
@@ -282,12 +335,29 @@ public class ThreadMonstre extends Thread implements Serializable {
             }
         }
 
-        for(i=0;i<3 && cond && px+i < hauteur && py+i < largeur; i++){
-            if(j.getX() == m.getX()+i && j.getY() == m.getY()+i){
-                cond = false;
-                cas = 6;
-            }
+        // BAS DROITE
+
+        if(cond && j.getX() == m.getX()+4 && j.getY() == m.getY()-1){ 
+            cond = false; 
+            cas = 6;
         }
+
+        if(cond && j.getX() == m.getX()+3 && (j.getY() == m.getY()+1 || j.getY() == m.getY()+2)){ 
+            cond = false; 
+            cas = 6;
+        }
+
+        if(cond && j.getX() == m.getX()+2 && (j.getY() == m.getY()+1 || j.getY() == m.getY()+2 || j.getY() == m.getY()+3)){ 
+            cond = false; 
+            cas = 6;
+        }
+
+        if(cond && j.getX() == m.getX()+1 && (j.getY() == m.getY()+1 || j.getY() == m.getY()+2 || j.getY() == m.getY()+3 || j.getY() == m.getY()+4 )){ 
+            cond = false; 
+            cas = 6;
+        }
+
+        // GAUCHE /  DROITE
 
         for(i=0;i<5 && cond && py-i > 0;i++){
             if(j.getX() == m.getX() && j.getY() == m.getY()-i){
@@ -302,6 +372,16 @@ public class ThreadMonstre extends Thread implements Serializable {
                 cas = 8;
             }
         }
+
+        return cas;
+    }
+
+    private Direction determinerDeplacementFantome(int px, int py, Entite m, Entite j, int hauteur, int largeur){
+        
+        int cas;
+        Direction resultat;
+
+        cas = chercherJoueurSansMur(px, py, m, j, hauteur, largeur);
 
         if(cas == -1){
             
@@ -323,5 +403,76 @@ public class ThreadMonstre extends Thread implements Serializable {
         }
 
         return resultat;
+    }
+
+    private Direction determinerDeplacementDossier(int px, int py, Entite m, Entite j, int hauteur, int largeur){
+        
+        int cas;
+        Direction resultat;
+
+        cas = chercherJoueurSansMur(px, py, m, j, hauteur, largeur);
+        
+        if(cas == -1){
+            
+            resultat = determinerDirectionAlea(m, px, py);
+    
+        } else {
+
+            int pjx = j.getX();
+            int pjy = j.getY();
+
+            if(caseAccessibleSansMur(px, py, pjx, pjy, cas, 0)){
+            
+                switch(cas){
+                    case 1 -> resultat = Direction.HAUT;
+                    case 2 -> resultat = Direction.HAUT;
+                    case 3 -> resultat = Direction.HAUT;
+                    case 4 -> resultat = Direction.BAS;
+                    case 5 -> resultat = Direction.BAS;
+                    case 6 -> resultat = Direction.BAS;
+                    case 7 -> resultat = Direction.GAUCHE;
+                    case 8 -> resultat = Direction.DROITE;
+                    default -> resultat = Direction.BAS;
+                }
+            } else {
+                resultat = determinerDirectionAlea(m, px, py);
+            }
+        }   
+
+        return resultat;
+    }
+
+    private boolean caseAccessibleSansMur(int px, int py, int pjx, int pjy, int cas, int cpt){
+
+        if(px == pjx && py == pjy){
+            return true;
+        }
+
+        if(cpt>5){
+            return false;
+        }
+
+        if(!jeu.validerDeplacement(px, py)){
+            return false;
+        }
+
+        if(cas == 1){
+            return caseAccessibleSansMur(px-1, py, pjx, pjy, cas, cpt+1) || caseAccessibleSansMur(px, py-1, pjx, pjy, cas, cpt+1);
+        } else if(cas == 2){
+            return caseAccessibleSansMur(px-1, py, pjx, pjy, cas, cpt+1);
+        } else if(cas == 3){
+            return caseAccessibleSansMur(px-1, py, pjx, pjy, cas, cpt+1) || caseAccessibleSansMur(px, py+1, pjx, pjy, cas, cpt+1);      
+        } else if(cas == 4){
+            return caseAccessibleSansMur(px+1, py, pjx, pjy, cas, cpt+1) || caseAccessibleSansMur(px, py-1, pjx, pjy, cas, cpt+1);  
+        } else if(cas == 5){
+            return caseAccessibleSansMur(px+1, py, pjx, pjy, cas, cpt+1);  
+        } else if(cas == 6){
+            return caseAccessibleSansMur(px+1, py, pjx, pjy, cas, cpt+1) || caseAccessibleSansMur(px, py+1, pjx, pjy, cas, cpt+1);  
+        } else if(cas == 7){
+            return caseAccessibleSansMur(px, py-1, pjx, pjy, cas, cpt+1);  
+        } else {
+            return caseAccessibleSansMur(px, py+1, pjx, pjy, cas, cpt+1);  
+        }
+
     }
 }

@@ -52,7 +52,6 @@ public class Joueur extends Entite {
         inventaire = new ArrayList<Potion>();
         rang = 1;
         competences = new ArrayList<Competence>();
-        competences.add(new Competence(TypeCompetence.REVENANT, 5, 0, 0));
         this.setArme(new Arme());
     }
 

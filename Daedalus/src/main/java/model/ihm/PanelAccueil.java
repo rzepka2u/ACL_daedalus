@@ -50,7 +50,6 @@ public class PanelAccueil extends JPanel {
     private JButton startButton; // Le button permettant de lancer la partie
     private JButton lireSaveButton; // Le button permettant de lire un fichier de sauvegarde
 
-
     /**
      * Constructeur par défaut de la classe PanelAccueil
      * @param f l'objet FenetreGraphique dans lequel sera inclus le nouveau panel

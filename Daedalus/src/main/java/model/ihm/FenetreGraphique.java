@@ -281,7 +281,7 @@ public class FenetreGraphique extends JFrame {
                         jeu.controles(c);
                     } else if(e.getKeyCode() == commandes_competence[0] || e.getKeyCode() == commandes_competence[1]
                     || e.getKeyCode() == commandes_competence[2] || e.getKeyCode() == commandes_competence[3]){ 
-                        c = new Commande(Ordre.COMPETENCE, jeu.getJoueur().getCompetencesSelect()[e.getKeyCode()-KeyEvent.VK_1]);
+                        c = new Commande(Ordre.COMPETENCE, e.getKeyCode()-KeyEvent.VK_1);
                         jeu.controles(c);
                     }
                 }
@@ -368,7 +368,7 @@ public class FenetreGraphique extends JFrame {
                         jeu.controles(c);
                     } else if(e.getKeyCode() == commandes_competence[0] || e.getKeyCode() == commandes_competence[1]
                     || e.getKeyCode() == commandes_competence[2] || e.getKeyCode() == commandes_competence[3]){ 
-                        c = new Commande(Ordre.COMPETENCE, jeu.getJoueur().getCompetencesSelect()[e.getKeyCode()-KeyEvent.VK_1]);
+                        c = new Commande(Ordre.COMPETENCE, e.getKeyCode()-KeyEvent.VK_1);
                         jeu.controles(c);
                     }
                 }

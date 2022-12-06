@@ -5,6 +5,7 @@ import model.objets.Fantome;
 import model.objets.Gobelin;
 import model.objets.Jeu;
 import model.objets.Joueur;
+import model.objets.Kamikaze;
 import model.cases.Case;
 import model.cases.CaseMur;
 import model.enums.Direction;
@@ -119,6 +120,11 @@ public class ThreadMonstre extends Thread implements Serializable {
                             
                             synchronized(jeu.getVerrouInformations()){
                                 jeu.ajouterInfos("Le "+ (m instanceof Gobelin? "Gobelin" : "Fantôme")+ " position ("+m.getX()+","+m.getY()+") vous a attribué "+dgts+" de dégats!" );
+                            }
+
+                            if(m instanceof Kamikaze) {
+                                m.setPointsVie(0);
+                                this.arret();
                             }
                         }
                     }

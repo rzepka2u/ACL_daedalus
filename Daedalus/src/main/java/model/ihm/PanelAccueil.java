@@ -196,7 +196,7 @@ public class PanelAccueil extends JPanel {
      */
     private JLabel createNbNiveauLabel(){
 
-        JLabel label = new JLabel("  Choissiez un nombre de niveau:  "); // Création d'un nouveau JLabel avec le texte
+        JLabel label = new JLabel("  Définir un nombre de niveaux à faire : "); // Création d'un nouveau JLabel avec le texte
         
         //Ajout d'une bordure blanche (pour créer une marge intérieure)
         label.setBorder(BorderFactory.createMatteBorder(7,  10,  7,  10, new Color(255,255,255)));
@@ -252,7 +252,7 @@ public class PanelAccueil extends JPanel {
      */
     private JLabel createLabelFichier(){
 
-        JLabel label = new JLabel("  Chossisez un fichier.."); // Création d'un nouveau JLabel avec le texte
+        JLabel label = new JLabel("  Choix d'un dossier de génération :"); // Création d'un nouveau JLabel avec le texte
         // Ajout d'une bordure blanche (pour créer une marge intérieure)
         label.setBorder(BorderFactory.createMatteBorder(7,  10,  7,  10, new Color(255,255,255)));
 
@@ -290,7 +290,7 @@ public class PanelAccueil extends JPanel {
                     checkBox.setSelected(true);
                 }
                 JFileChooser jfc = new JFileChooser();
-                jfc.setDialogTitle("Choissiez le dossier contenant vos fichiers de labyrinthe: ");
+                jfc.setDialogTitle("Choisissez le dossier contenant vos fichiers de labyrinthe");
                 jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
                 int returnValue = jfc.showSaveDialog(null);
@@ -335,7 +335,7 @@ public class PanelAccueil extends JPanel {
                     } catch (Exception excep) { System.out.println(excep.getMessage()); }
 
                     if(checkBox.isSelected()){
-                        if(!fichierLabel.getText().equals("") &&  !fichierLabel.getText().equals("Choissisez un fichier..")){
+                        if(!fichierLabel.getText().equals("") &&  !fichierLabel.getText().equals("Choisissez un dossier source pour le plateau de jeu")){
                             fenetre.afficherChoixCompetances(Integer.valueOf(nbNiveauField.getText()), fichierLabel.getText());
                         }
                     } else {
@@ -386,7 +386,7 @@ public class PanelAccueil extends JPanel {
             public void actionPerformed(ActionEvent e){
                 
                 JFileChooser jfc = new JFileChooser();
-                jfc.setDialogTitle("Choissiez le fichier de sauvegarde:");
+                jfc.setDialogTitle("Choisissez le fichier de sauvegarde");
                 jfc.setAcceptAllFileFilterUsed(false);
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(".bin", "bin");
                 jfc.addChoosableFileFilter(filter);

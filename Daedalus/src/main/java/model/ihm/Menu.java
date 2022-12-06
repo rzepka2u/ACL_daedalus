@@ -140,7 +140,7 @@ public class Menu extends JMenuBar{
                 } else {
                     
                     JFileChooser jfc = new JFileChooser();
-                    jfc.setDialogTitle("Choissiez l'endroit de la sauvegarde:");
+                    jfc.setDialogTitle("Choisissez l'endroit de la sauvegarde :");
                     jfc.setAcceptAllFileFilterUsed(false);
                     FileNameExtensionFilter filter = new FileNameExtensionFilter(".bin", "bin");
                     jfc.addChoosableFileFilter(filter);
@@ -148,11 +148,9 @@ public class Menu extends JMenuBar{
                     int returnValue = jfc.showSaveDialog(null);
                     if (returnValue == JFileChooser.APPROVE_OPTION) {
 
-                        // object File = jfc.getSelectedFile();
                         try {
                             ObjectOutputStream oos =  new ObjectOutputStream(new FileOutputStream(jfc.getSelectedFile()+".bin"));
                             oos.writeObject(fenetre.getJeu());
-                            System.out.println("Ecriture dans le fichier : " + jfc.getSelectedFile());
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }

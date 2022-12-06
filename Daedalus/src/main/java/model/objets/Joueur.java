@@ -162,11 +162,14 @@ public class Joueur extends Entite {
             NB_PV_MAX += 10;
             this.seSoigner(10);
             NB_PA_MAX += 10;
-            
-            if(this.rang == 2) ajouterCompetence(competencesSelect[0]);
-            if(this.rang == 4) ajouterCompetence(competencesSelect[1]);
-            if(this.rang == 6) ajouterCompetence(competencesSelect[2]);
-            if(this.rang == 8) ajouterCompetence(competencesSelect[3]);
+
+            if(competencesSelect != null){
+                
+                if(this.rang == 2) ajouterCompetence(competencesSelect[0]);
+                if(this.rang == 4) ajouterCompetence(competencesSelect[1]);
+                if(this.rang == 6) ajouterCompetence(competencesSelect[2]);
+                if(this.rang == 8) ajouterCompetence(competencesSelect[3]);
+            }
         }
     }
 

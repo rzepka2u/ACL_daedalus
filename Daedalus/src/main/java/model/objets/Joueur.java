@@ -578,28 +578,28 @@ public class Joueur extends Entite {
         Competence competence;
 
         switch(nb){
-            case 1:
+            case 0:
                 competence = new Competence(TypeCompetence.BERSERKER, 2, 10000, 0);
                 break;
-            case 2:
+            case 1:
                 competence = new Competence(TypeCompetence.BOUCLIER_MAGIQUE, 3, 0, 2);
                 break;
-            case 3:
+            case 2:
                 competence = new Competence(TypeCompetence.DRAIN_VIE, 4, 10000, 1);
                 break;
-            case 4:
+            case 3:
                 competence = new Competence(TypeCompetence.REVENANT, 5, 0, 0);
                 break;
-            case 5:
+            case 4:
                 competence = new Competence(TypeCompetence.BLOCAGE, 2, 10000, 1);
                 break;
-            case 6:
+            case 5:
                 competence = new Competence(TypeCompetence.EPINES, 3, 10000, 1);
                 break;
-            case 7: 
+            case 6: 
                 competence = new Competence(TypeCompetence.ANGUILLE, 5, 0, 0);
                 break;
-            case 8:
+            case 7:
                 competence = new Competence(TypeCompetence.TELEPORTATION, 4, 0, 1);
                 break;
             default:

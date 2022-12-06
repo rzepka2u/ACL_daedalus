@@ -420,19 +420,62 @@ public class ThreadMonstre extends Thread implements Serializable {
 
             int pjx = j.getX();
             int pjy = j.getY();
+            Direction sens;
 
             if(caseAccessibleSansMur(px, py, pjx, pjy, cas, 0)){
             
                 switch(cas){
-                    case 1 -> resultat = Direction.HAUT;
-                    case 2 -> resultat = Direction.HAUT;
-                    case 3 -> resultat = Direction.HAUT;
-                    case 4 -> resultat = Direction.BAS;
-                    case 5 -> resultat = Direction.BAS;
-                    case 6 -> resultat = Direction.BAS;
-                    case 7 -> resultat = Direction.GAUCHE;
-                    case 8 -> resultat = Direction.DROITE;
-                    default -> resultat = Direction.BAS;
+                    case 1: 
+
+                        if(caseAccessibleSansMur(px-1, py, pjx, pjy, cas, 1)){
+                            resultat = Direction.HAUT;
+                        } else {
+                            resultat = Direction.GAUCHE;
+                        }
+                       
+                        break;
+
+                    case 2:
+                        resultat = Direction.HAUT;
+                        break;
+                    case 3:
+
+                        if(caseAccessibleSansMur(px-1, py, pjx, pjy, cas, 1)){
+                            resultat = Direction.HAUT;
+                        } else {
+                            resultat = Direction.DROITE;
+                        }
+
+                        break;
+                    case 4:
+
+                        if(caseAccessibleSansMur(px+1, py, pjx, pjy, cas, 1)){
+                            resultat = Direction.BAS;
+                        } else {
+                            resultat = Direction.GAUCHE;
+                        }
+
+                        break;
+                    case 5:
+                        resultat = Direction.BAS;
+                        break;
+                    case 6:
+
+                        if(caseAccessibleSansMur(px+1, py, pjx, pjy, cas, 1)){
+                            resultat = Direction.BAS;
+                        } else {
+                            resultat = Direction.GAUCHE;
+                        }
+
+                        break;
+                    case 7:
+                        resultat = Direction.GAUCHE;
+                        break;
+                    case 8:
+                        resultat = Direction.DROITE;
+                        break;
+                    default:
+                        resultat = Direction.BAS;
                 }
             } else {
                 resultat = determinerDirectionAlea(m, px, py);
@@ -476,3 +519,5 @@ public class ThreadMonstre extends Thread implements Serializable {
 
     }
 }
+
+//  C:\Users\33603\Desktop\COURS_MASTER\ACL\ACL_daedalus\Daedalus\src\main\resources\niveaux

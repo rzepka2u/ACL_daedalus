@@ -1,0 +1,107 @@
+@startuml
+
+title "Compétence Bouclier Magique - Sequence Diagram"
+
+actor player as player
+== Au Préalable:\n Création et déroulement d'une partie ... ==
+loop While jeu non fini
+	activate player
+	player -> Jeu : controles(cmd)
+	deactivate player
+	opt cmd est le lancement de la compétence 1
+		activate Jeu
+		Jeu -> Joueur : lancerCompetence(1)
+		deactivate Jeu
+		activate Joueur
+		Joueur -> Competence: getRangMinimal()
+		deactivate Joueur
+		activate Competence
+		Joueur <-- Competence: rang
+		deactivate Competence
+		activate Joueur
+		opt le rang du joueur est supérieur ou égal rang minimal
+			Joueur -> Competence: getType()
+			deactivate Joueur
+			activate Competence
+			Joueur <-- Competence: type
+			deactivate Competence
+			activate Joueur
+			opt le type de la compétance est Berserker
+                Joueur-> Competence: getActivable
+                deactivate Joueur
+                activate Competence
+                Joueur <-- Competence: true or false
+                deactivate Competence
+                activate Joueur
+                opt la competance est activable
+                    Joueur -> Joueur: newPts = getPointsArmure()+25
+                    Joueur -> Joueur : setPointsArmure(newPts)
+                    Joueur -> Competence: setActivable(false)
+                    deactivate Joueur
+                    activate Competence
+                    activate Jeu
+                end
+                deactivate Competence
+            end
+		end
+	end
+    opt cmd est un déplacement
+        Jeu -> Joueur: getX()
+        deactivate Jeu
+        activate Joueur
+        Jeu <-- Joueur: x
+        deactivate Joueur
+        activate Jeu
+        Jeu -> Joueur: getY()
+        deactivate Jeu
+        activate Joueur
+        Jeu <-- Joueur: y
+        deactivate Joueur
+        activate Jeu
+        Jeu-> Labyrinthe: getCase(x,y)
+        deactivate Jeu
+        activate Labyrinthe
+        Jeu <-- Labyrinthe: c
+        deactivate Labyrinthe
+        activate Jeu
+        opt c est une case de sortie
+            Jeu-> Joueur: getCompetences
+            deactivate Jeu
+            activate Joueur
+            Jeu <-- Joueur: comps
+            deactivate Joueur
+            activate Jeu
+            loop for comp in comps
+                opt comp is BLOCAGE
+                    Jeu -> Competence: getDurationNiveau()
+                    deactivate Jeu
+                    activate Competence
+                    Jeu <-- Competence: h
+                    deactivate Competence
+                    activate Jeu
+                    alt h > 1
+                        Jeu -> Competence: setDurationNiveau(h-1)
+                        activate Competence
+                        deactivate Competence
+                    else h == 1
+                        Jeu -> Competence: setActivable(true)
+                        activate Competence
+                        deactivate Competence
+                        Jeu -> Competence: getDureeNiveauDeBase()
+                        deactivate Jeu
+                        activate Competence
+                        Jeu <-- Competence: i
+                        deactivate Competence
+                        activate Jeu
+                        Jeu -> Competence: setDureationNiveau(i)
+                        deactivate Jeu
+                        activate Competence
+                        deactivate Competence
+                    end
+                end
+            end 
+        end
+
+    end
+end
+@enduml

@@ -1,0 +1,100 @@
+@startuml
+
+title "Sauvegarder une partie - Diagram Sequence"
+
+actor player as player
+
+== Au Préalable:\n Création et déroulement d'une partie ... ==
+
+activate player
+player -> Menu: click item menu sauvegarder
+deactivate player
+activate Menu
+Menu -> FenetreGraphique: getJeu()
+deactivate Menu
+activate FenetreGraphique
+Menu <-- FenetreGraphique: j
+deactivate FenetreGraphique
+activate Menu
+
+alt j == null
+    Menu -> JOptionPane: showInternalMessageDialog()
+    activate JOptionPane
+    deactivate JOptionPane
+else j != null
+
+    create JFileChooser
+    Menu -> JFileChooser: new jfc
+    Menu -> JFileChooser: jfc.setDialogTitle()
+    activate JFileChooser
+    deactivate JFileChooser
+    Menu -> JFileChooser: jfc.setAcceptAllFileFilterUsed()
+    activate JFileChooser
+    deactivate JFileChooser
+    create FileNameExtensionFilter
+    Menu -> FileNameExtensionFilter: fnef = new FileNameExtensionFilter()
+    Menu -> JFileChooser: jfc. addChoosableFileFilter(fnef)
+    activate JFileChooser
+    deactivate JFileChooser
+    Menu -> JFileChooser: jfc.showSaveDialog()
+    deactivate Menu
+    activate JFileChooser
+    Menu <-- JFileChooser: retour
+    deactivate JFileChooser
+    activate Menu
+    opt retour est conforme au type de fichier attendu
+        create FileOutputStream
+        Menu -> FileOutputStream: fos = new FileOutputSteam(retour)
+        create ObjectOutputStream
+        Menu -> ObjectOutputStream: oos = new ObjectOutputStream(fos)
+        Menu -> ObjectOutputStream: oos.writeObject(j)
+        deactivate Menu
+    end
+end
+
+== Plus tard lors de la réouverture de l'application.. == 
+
+activate player
+player -> PanelAccueil: click bouton lire sauvegarde
+deactivate player
+activate PanelAccueil
+create JFileChooser
+PanelAccueil -> JFileChooser: new jfc
+PanelAccueil -> JFileChooser: jfc.setDialogTitle()
+activate JFileChooser
+deactivate JFileChooser
+PanelAccueil -> JFileChooser: jfc.setAcceptAllFileFilterUsed()
+activate JFileChooser
+deactivate JFileChooser
+create FileNameExtensionFilter
+PanelAccueil -> FileNameExtensionFilter: fnef = new FileNameExtensionFilter()
+PanelAccueil -> JFileChooser: jfc. addChoosableFileFilter(fnef)
+activate JFileChooser
+deactivate JFileChooser
+PanelAccueil -> JFileChooser: jfc.showSaveDialog()
+deactivate PanelAccueil
+activate JFileChooser
+PanelAccueil <-- JFileChooser: retour
+deactivate JFileChooser
+activate PanelAccueil
+opt retour est conforme au type de fichier attendu
+    create FileInputStream
+    PanelAccueil -> FileInputStream: fis = new FileInputStream(retour)
+    create ObjectInputStream
+    PanelAccueil -> ObjectInputStream: ois = new ObjectInputStream(fis)
+    PanelAccueil -> ObjectInputStream: ois.readObject()
+    deactivate PanelAccueil
+    activate ObjectInputStream
+    PanelAccueil <-- ObjectInputStream: (Jeu) jeu
+    deactivate ObjectInputStream
+    activate PanelAccueil
+    PanelAccueil -> FenetreGraphique: afficherPartie(jeu)
+    deactivate PanelAccueil
+    activate FenetreGraphique
+    deactivate FenetreGraphique
+end
+
+== Déroulement de partie habituel.. ==
+
+
+@enduml

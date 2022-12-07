@@ -682,7 +682,8 @@ public class Jeu  implements Serializable {
                             }
                             break;
                     }
-                    if(!(!(this.getLabyrinthe().getCase(x,y) instanceof CaseMur) || !emplacementOccupe(x,y))) {
+                    if(!(this.getLabyrinthe().getCase(x,y) instanceof CaseMur) || emplacementOccupe(x,y)) {
+                        System.out.println("le yes");
                         placerJoueurSurCase(x,y);
                     }
                 }

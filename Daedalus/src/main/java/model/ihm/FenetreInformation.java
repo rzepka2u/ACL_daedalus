@@ -14,16 +14,39 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
+
+/**
+ * Classe qui représente les fenêtre d'affichage d'informations dans l'application (règles et copyright)
+ */
 public class FenetreInformation extends JFrame {
 
+    /**
+     * Le titre de la fenêtre
+     */
     private JLabel titreLabel;
-    private JLabel textHTMLabel;
-    private JPanel contentPane;
 
+    /**
+     * Le texte contenu de la fenêtre en HTML 
+     */
+    private JLabel textHTMLabel;
+
+    /**
+     * Le panel qui contient les éléments de la fenêtre
+     */
+    private JPanel contentPane;
+    
+    // Constantes de la classe contenant les images utilisées dans les instances de cette classe
+    // (pour éviter la relecture à chaque mise à jour de l'affichage)
     private static final ImageIcon imgRegles = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/regles.png"));
     private static final ImageIcon imgCopyright = new ImageIcon(PanelChoixCompetences.class.getResource("/assets/copyright.png"));
 
+    /**
+     * Constructeur par défaut de la classe FenetreInformations
+     * @param isRegles true si fenêtre de règle, false si fenêtre de copyright
+     */
     public FenetreInformation(boolean isRegles){
+
+        // Appel au constructeur de la classe mère
         super("Informations");
 
         this.setVisible(true); // Rendre la fenêtre visible
@@ -31,44 +54,71 @@ public class FenetreInformation extends JFrame {
         this.setSize(new Dimension(750, 500)); // Modification des dimension de départ de la fenêtre
         this.setLocationRelativeTo(null); // Mise de la fenêtre au milieu de l'écran
         
+        // Initialisation de l'attribut contentPane 
         this.contentPane = (JPanel) this.getContentPane();
 
+        // Création du texte du titre de la page
         titreLabel = createTitreLabel(isRegles);
+        
+        // Ajout du texte contenant le titre de la page au nord du panel de la fenêtre
         contentPane.add(titreLabel, BorderLayout.NORTH);
+
+        // Modification de la couleur de fond
         this.contentPane.setBackground(new Color(33,32,30));
 
+        // Création d'un nouveau panel avec la stratégie de positionnement GridBagLayout
         JPanel panel = new JPanel(new GridBagLayout());
+
+        // Création d'un nouveau panel "scrollable" qui contient le panel GridBagLayout
         JScrollPane scrol = new JScrollPane(panel);
+
+        // Ajout du panel "scrollable" au centre du panel de la fenetre
         contentPane.add(scrol, BorderLayout.CENTER);
         
+        // Création d'un nouvelle objet pour les contraintes de positionnement
         GridBagConstraints gc = new GridBagConstraints();
 
-        gc.gridx = 0;
-        gc.gridy = 0;
-        gc.weightx = 1;
-        gc.weighty = 1;
-        gc.anchor = GridBagConstraints.CENTER;
-        gc.fill = GridBagConstraints.NONE;
+
+        // Initialisation des contraintes pour le prochain élément à insérer dans la grille
+        gc.gridx = 0; // Sa position x dans le tableau (abscisses)
+        gc.gridy = 0; // Sa position y dans le tableau (ordonnées)
+        gc.weightx = 1; // Son poids dans la taille totale en abscisses
+        gc.weighty = 1; // Son poids dans la taille totale en ordonnées
+        gc.anchor = GridBagConstraints.CENTER; // On l'ancre au centre de la case
+        gc.fill = GridBagConstraints.NONE; // L'élément n'essaye pas de remplir la place inoccupé
         
+        // On crée le texte du contenu de la page et on l'ajoute au panel GridBagLayout avec les contraintes associées
         textHTMLabel = createTextHTMLLabel(isRegles);
         panel.add(textHTMLabel, gc);
     }
 
+    /**
+     * Méthode qui permet de créer le texte du titre de la fenetre
+     * @param isRegles true si fenêtre de règle, false si fenêtre de copyright
+     * @return le texte correctement instancié et contenant le titre de la fenêtre
+     */
     private JLabel createTitreLabel(boolean isRegles){
 
+        // Création d'un nouveau texte vide
         JLabel label = new JLabel();
 
+        // Si c'est la page de règle
         if(isRegles){
+            // Ajout du titre et de l'icon des règles
             label.setText("<html><span style='font-size:18px;'>LES REGLES DU JEU</span></html>");
             label.setIcon(imgRegles);
-        } else {
+        } else { // Sinon c'est la page de copyright
+            // Ajout du titre et de l'icon du copyright
             label.setText("<html><span style='font-size:18px;'>COPYRIGHT DE L'APPLICATION</span></html>");
-            label.setIcon(imgRegles);
+            label.setIcon(imgCopyright);
         }
 
         
+        // Change la couleur du texte
         label.setForeground(new Color(255,255,255));
+        // On centre le texte horizontalement dans la zone de texte
         label.setHorizontalAlignment(SwingConstants.CENTER);
+        // On centre le texte verticalement dans la zone de texte
         label.setVerticalAlignment(SwingConstants.CENTER);
         // Ajout d'une bordure de 10 pixels (pour créer une marge interne)
         label.setBorder(BorderFactory.createMatteBorder(15, 15, 15, 15, new Color(33,32,30)));
@@ -76,22 +126,38 @@ public class FenetreInformation extends JFrame {
         return label;
     }
 
+    /**
+     * Méthode qui permet de créer le texte du contenu de la fenetre
+     * @param isRegles true si fenêtre de règle, false si fenêtre de copyright
+     * @return le texte correctement instancié et contenant les informations de la fenêtre
+     */
     private JLabel createTextHTMLLabel(boolean isRegles){
+
+        // Création d'un nouveau texte vide
         JLabel label = new JLabel();
         
+
+        // Si c'est la page des règles
         if(isRegles){
+            // Ajout du texte des règles et d'une taille préférentielle
             label.setText(textRegles());
             label.setPreferredSize(new Dimension(640,800));
-        } else {
+        } else { // Sinon, c'est la page du copyright
+            // Ajout du texte du copyright et d'une taille préférentielle
             label.setText(textCopyright());
             label.setPreferredSize(new Dimension(640,350));
         }
 
+        // On centre le texte horizontalement dans la zone de texte
         label.setHorizontalAlignment(SwingConstants.CENTER);
 
         return label;
     }
 
+    /**
+     * Méthode qui permet de récupérer le texte des informations de la page des règles en format HTML  
+     * @return l'objet String contenant le HTML
+     */
     private String textRegles(){
 
         return 
@@ -142,6 +208,10 @@ public class FenetreInformation extends JFrame {
 
     }
 
+    /**
+     * Méthode qui permet de récupérer le texte des informations de la page du copyritght en format HTML  
+     * @return l'objet String contenant le HTML
+     */
     private String textCopyright(){
         return 
         

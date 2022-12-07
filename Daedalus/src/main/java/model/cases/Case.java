@@ -92,9 +92,16 @@ public abstract class Case implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
+        // Si la référence est identique, les objets sont égaux
         if (this == o) return true;
+        
+        // Sinon, si o est null, ou que la classe de this est différente de la classe de o, les objets ne sont pas égaux.
         if (o == null || getClass() != o.getClass()) return false;
+
+        // On convertit l'objet o en Case
         Case aCase = (Case) o;
+
+        // Les objets sont égaux seulement si leurs coordonées sont égales.
         return Objects.equals(coord, aCase.coord);
     }
 

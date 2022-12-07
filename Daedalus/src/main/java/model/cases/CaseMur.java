@@ -22,7 +22,11 @@ public class CaseMur extends Case {
      * @param coord coordonnee de la case
      */
     public CaseMur(int id, Coordonnee coord) {
+
+        // Appel du constructeur de la classe mère
         super(coord.getX(), coord.getY());
+
+        // Initialisation des attributs
         this.id = id;
         this.c = '#';
     }
@@ -50,6 +54,7 @@ public class CaseMur extends Case {
 
     /**
      * methode get type (ici CaseMur)
+     * @return "CaseMur"
      */
     @Override
     public String getType() {
@@ -77,6 +82,7 @@ public class CaseMur extends Case {
 
     /**
      * methode get charactere
+     *  @return this.c
      */
     @Override
     public char getChar() {

@@ -20,26 +20,49 @@ import model.tresors.Potion;
 
 public class Joueur extends Entite {
 
-    // serialVersionUID pour la sauvegarde
+    /**
+     *  serialVersionUID pour la sauvegarde
+     */
     private final long serialVersionUID = 2641088547673365950L;
 
-    // Nombre de pa maximum du joueur évoluant au fil de la partie et des rangs gagnés
+    /**
+     * Nombre de pa maximum des objets joueurs, évoluant au fil de la partie et des rangs gagnés
+     */
     protected static int NB_PA_MAX = 50;
-    // Nombre d'objets maximum que l'inventaire peut contenir 
+
+    /**
+     *  Nombre d'objets maximum que les objets joueurs peuvent contenir dans l'inventaire 
+     */
     protected static int TAILLE_INVENTAIRE = 5;
 
-    // indique où regarde le joueur (vers le haut, bas,..)
+    /**
+     *  L'inventaire de potions du joueur
+     */
     private ArrayList<Potion> inventaire;
 
-    // points d'expériences du joueur 
+    /**
+     *  Les points d'expériences du joueur 
+     */
     private double experience;
-    // niveau du joueur : augmente avec l'expérience
+
+    /**
+     *  Le niveau du joueur: augmente avec l'expérience
+     */
     private int rang;
 
-    // Liste des compétences du personnage
+    /**
+     * Liste des compétences débloquées du joueur
+     */
     private ArrayList<Competence> competences;
 
+    /**
+     * Les booléens qui déterminent si les compétences sont activées
+     */
     private boolean drain, revenant, blocage, epines, anguille;
+
+    /**
+     * Les compétences choisies lors du panel de choix
+     */
     private int[] competencesSelect;
 
 
@@ -50,7 +73,11 @@ public class Joueur extends Entite {
      * @return l'objet Joueur correctement instancié
      */
     public Joueur(int px, int py) {
+
+        // Appel du constructeur de la classe mère
         super(px, py, NB_PV_START, NB_PA_START, Direction.BAS);
+
+        // Initialisation des attributs
         inventaire = new ArrayList<Potion>();
         rang = 1;
         competences = new ArrayList<Competence>();
@@ -58,38 +85,69 @@ public class Joueur extends Entite {
 
     }
 
+    /**
+     * Getter pour l'attribut inventaire
+     * @return this.inventaire
+     */
     public ArrayList<Potion> getInventaire(){
         return inventaire;
     }
 
+    /**
+     * Getter pour l'attribut experience
+     * @return this.experience
+     */
     public double getExperience(){
         return experience;
     }
 
+    /**
+     * Getter pour l'attribut rang
+     * @return this.rang
+     */
     public int getRang(){
         return rang;
     }
 
+    /**
+     * Getter pour l'attribut NB_PV_MAX
+     * @return this.NB_PV_MAX
+     */
     public int getNB_PV_MAX(){
         return NB_PV_MAX;
     }
 
+    /**
+     * Getter pour l'attribut NB_PA_MAX
+     * @return this.NB_PA_MAX
+     */
     public int getNB_PA_MAX(){
         return NB_PA_MAX;
     }
 
+    /**
+     * Getter sur l'attribut competencesSelect
+     * @return this.competencesSelect
+     */
     public int[] getCompetencesSelect(){
         return this.competencesSelect;
     }
 
+    /**
+     * Setter sur l'attribut competencesSelect
+     * @param competences le nouveau tableau qui représente les compétences selectionnées
+     */
     public void setCompetencesSelect(int[] competences){
         this.competencesSelect = competences;
     }
 
     /**
      * Méthode permattant d'ajouter une potion dans l'inventaire du joueur en respectant la taille limite de son inventaire
+     * @param p la nouvelle potion à ajouter
+     * @return true si la potion est bien ajoutée, false si inventaire plein
      */
     public boolean ajouterPotion(Potion p) {
+
         if(this.inventaire.size() < TAILLE_INVENTAIRE) {
             this.inventaire.add(p);
             return true;
@@ -98,12 +156,22 @@ public class Joueur extends Entite {
         return false;
     }
 
+    /**
+     * Méthode permettant de ramasser une pièce d'armure
+     * @param p la pièce d'armure à ramasser
+     * @return true si la pièce a bien été ramassée, false si les points d'amures déjà au max
+     */
     public boolean ramasserArmure(PieceArmure p){
+
+        // Si les points d'amures ne sont pas déjà au max
         if(this.getPointsArmure() < NB_PA_MAX){
 
+            // On ajoute les points de la pièce d'armure à l'armure du joueur
             this.setPointsArmure(this.getPointsArmure()+p.getPointsArmure());
 
+            // Si le nouveau nombre de points d'amure dépasse le maximum
             if(this.getPointsArmure() > NB_PA_MAX){
+                // On mets le nombre de points d'armure au maximum
                 this.setPointsArmure(NB_PA_MAX);
             }
 
@@ -115,11 +183,19 @@ public class Joueur extends Entite {
 
     /**
      * Méthode permettant au joueur de boire une potion et de récupérer un certain montant de points de vie 
+     * @param indice l'indice de l'emplacement de la position à boire dans la liste inventaire 
+     * @return true une potion a bien été bu, false si pas de potion à cette emplacement de l'inventaire
      */
     public boolean boirePotion(int indice) {
-        if(inventaire.size() >= indice+1) {
+
+        // Si l'indice correspond à un emplacement occupé de l'inventaire
+        if(inventaire.size() > indice) {
+            
+            // On soigne le joueur du nombre de points de vie donné par la potion
             this.seSoigner(this.inventaire.get(indice).getAugmentation());
+            // On retire la potion de l'inventaire
             this.inventaire.remove(indice);
+            
             return true;
         }
 
@@ -143,10 +219,16 @@ public class Joueur extends Entite {
      * @return la quantité d'expérience nécessaire 
      */
     public double calculerRangSuivant() {
+
+        // Déclaration de la variable nécessaire
         double xp = 10000;
+
+        // pour chanque rang jusqu'à celui actuel de joueur
         for(int i = 1; i < this.rang; i++) {
+            // On ajoute 50% d'xp en plus
             xp = xp*1.5;
         }
+
         return xp;
     }
 
@@ -157,16 +239,28 @@ public class Joueur extends Entite {
      * @param xp : montant d'expérience gagné par le joueur
      */
     public void gagnerExperience(double xp) {
+
+        // On ajoute l'xp obtenu à l'attribut experience du joueur
         this.experience += xp;
+
+        // Si l'experience dépasse celle requise pour incrémenter le niveau
         if(this.experience >= calculerRangSuivant()) {
+            
+            // On retire le nombre d'experience pour passer le niveau 
             this.experience = (this.experience + xp) - calculerRangSuivant();
+            // On augmente le rang du joueur
             this.rang++;
+            // On augmente le maximum de points de vie atteignable de 10
             NB_PV_MAX += 10;
+            // Le joueur gagne 10 points de vie
             this.seSoigner(10);
+            // On augmente le maximum de points d'armures atteignable de 10
             NB_PA_MAX += 10;
 
+            // Si les compétences choisient avec le panel ne sont pas null (c'est le cas dans les tests)
             if(competencesSelect != null){
                 
+                // Ajout des quatres compétences choisient tous les deux niveaux
                 if(this.rang == 2) ajouterCompetence(competencesSelect[0]);
                 if(this.rang == 4) ajouterCompetence(competencesSelect[1]);
                 if(this.rang == 6) ajouterCompetence(competencesSelect[2]);
@@ -175,20 +269,40 @@ public class Joueur extends Entite {
         }
     }
 
+    /**
+     * Méthode qui permet de savoir si des monstres sont à portée d'attaque
+     * @param entites objet ArrayList<Entite> contenant les entites du jeu
+     * @param verrous objet ArrayList<Object> contenant les verrous intrasectes pour les entites du jeu
+     * @return ArrayList<Entite> contenant les monstres touchées
+     */
     @Override
     public ArrayList<Entite> attaquer(ArrayList<Entite> entites, ArrayList<Object> verrous) {
+
+        // Déclaration et initialisation de la liste de retour
         ArrayList<Entite> entitesTouchees = new ArrayList<Entite>();
+
+        // Section critique, on verrouille le verrou appartenant au joueur
         synchronized(verrous.get(0)){
+
+            // On récupère la portée de l'arme du joueur
             int portee = this.getArme().getPortee();
+
             // on traite chaque cas de zone d'attaque
             switch (this.getArme().getZone()) {
+
+                // Si l'arme a une zone d'attaque de type CASE_DEVANT
                 case CASE_DEVANT :
+
+                    // On étudie la direction du regard du joueur
                     switch (this.getRegard()) {
                         
+                        // S'il regarde vers le haut
                         case HAUT :
+                            // Pour toutes les entités du jeu
                             for(Entite ent : entites) {
-                                // on teste si l'entité se situe sur les cases au dessus du joueur qui sont dans l'attaque
+                               // Section critique, on verrouille le verrou appartenant à l'entité
                                 synchronized(verrous.get(entites.indexOf(ent)+1)){
+                                    // on teste si l'entité se situe sur les cases au dessus du joueur qui sont dans l'attaque
                                     for(int i = 1; i <= portee; i++) {             
                                         if(ent.getX() == this.getX()-i && ent.getY() == this.getY() && ent.getPointsVie() > 0) {
                                             // si oui on l'ajoute aux entités touchées
@@ -198,9 +312,12 @@ public class Joueur extends Entite {
                                 }
                             }
                         break;
-
+                        
+                        // S'il regarde en bas
                         case BAS:
+                            // Pour toutes les entités du jeu
                             for(Entite ent : entites) {
+                                // Section critique, on verrouille le verrou appartenant à l'entité
                                 synchronized(verrous.get(entites.indexOf(ent)+1)){
                                     // on teste si l'entité se situe sur les cases en dessous du joueur qui sont dans l'attaque
                                     for(int i = 1; i <= portee; i++) {                        
@@ -212,9 +329,12 @@ public class Joueur extends Entite {
                                 }
                             }    
                         break;
-
+                        
+                        // S'il regarde à droite
                         case DROITE:
+                            // Pour toutes les entités du jeu
                             for(Entite ent : entites) {
+                                // Section critique, on verrouille le verrou appartenant à l'entité
                                 synchronized(verrous.get(entites.indexOf(ent)+1)){
                                     // on teste si l'entité se situe sur les cases à droite du joueur qui sont dans l'attaque
                                     for(int i = 1; i <= portee; i++) {            
@@ -227,8 +347,11 @@ public class Joueur extends Entite {
                             }    
                         break;
 
+                        // S'il regarde à gauche
                         case GAUCHE:
+                            // Pour toutes les entités du jeu
                             for(Entite ent : entites) {
+                                // Section critique, on verrouille le verrou appartenant à l'entité
                                 synchronized(verrous.get(entites.indexOf(ent)+1)){
                                     // on teste si l'entité se situe sur les cases à gauche du joueur qui sont dans l'attaque
                                     for(int i = 1; i <= portee; i++) {      
@@ -242,13 +365,22 @@ public class Joueur extends Entite {
                         
                         break;
                     }
-                    break;
-
+                break;
+                
+                // Si l'arme a une zone d'attaque de type ARC_DE_CERCLE
                 case ARC_DE_CERCLE:
+
+                    // On étudie le regard du joueur
                     switch (this.getRegard()) {
+
+                        // S'il regarde vers le haut
                         case HAUT :
+                            // Pour toutes les entités du jeus
                             for(Entite ent: entites) {
+
+                                // Section critique, on verrouille le verrou appartenant à l'entité
                                 synchronized(verrous.get(entites.indexOf(ent))){
+                                    // Boucle sur la portée de l'arme
                                     for(int i = 1; i <= portee; i++) {
                                         // l'entité se situe dans les cases en haut à gauche du joueur
                                         if(ent.getX() == this.getX()-i && ent.getY() == this.getY()-i && ent.getPointsVie() > 0) {
@@ -267,11 +399,15 @@ public class Joueur extends Entite {
                                     }
                                 }
                             }
-                            break;
+                        break;
 
+                        // S'il regarde en bas
                         case BAS:
+                            // Pour toutes les entités du jeu
                             for(Entite ent: entites) {
+                                // Section critique, on verouille le verrou appartenant à l'entité
                                 synchronized(verrous.get(entites.indexOf(ent))){
+                                    // Boucle sur la portée de l'arme
                                     for (int i = 1; i <= portee; i++) {
                                         // l'entité se situe dans les cases en bas à gauche du joueur
                                         if(ent.getX() == this.getX()+i && ent.getY() == this.getY()-i && ent.getPointsVie() > 0) {
@@ -290,11 +426,15 @@ public class Joueur extends Entite {
                                     }
                                 }
                             }
-                            break;
-
+                        break;
+                        
+                        // S'il regarde à droite
                         case DROITE:
+                            // Pour toutes les entités du jeu
                             for(Entite ent: entites) {
+                                // Section critique, on verrouille le verrou appartenant à l'entité
                                 synchronized(verrous.get(entites.indexOf(ent))){
+                                    // Boucle sur la portée de l'arme
                                     for (int i = 1; i <= portee; i++) {
                                         // l'entité se situe dans les cases en haut à gauche du joueur
                                         if(ent.getX() == this.getX()-i && ent.getY() == this.getY()-i && ent.getPointsVie() > 0) {
@@ -313,12 +453,17 @@ public class Joueur extends Entite {
                                     }
                                 }
                             }
-                            break;
-
+                        break;
+                        
+                        // S'il regarde à gauche
                         case GAUCHE:
+                            // Pour toutes les entités du jeu
                             for(Entite ent: entites) {
+                                // Section critique, on verrouille le verrou appartenant à l'entité
                                 synchronized(verrous.get(entites.indexOf(ent))){
+                                    // Boucle sur la portée de l'arme
                                     for (int i = 1; i <= portee; i++) {
+
                                         // l'entité se situe dans les cases en haut à droite du joueur
                                         if(ent.getX() == this.getX()-i && ent.getY() == this.getY()+i && ent.getPointsVie() > 0) {
                                             entitesTouchees.add(ent);
@@ -337,13 +482,17 @@ public class Joueur extends Entite {
                                 
                                 }
                             }
-                            break;
+                        break;
                     }
-                    break;
+                break;
 
+                // Si l'arme a une zone d'attaque de type EN_CARRE
                 case EN_CARRE:
+                    // Pour toutes les entités du jeu
                     for(Entite ent : entites) {
+                        // Section critique, on vérouille le vérrou appartenant à l'entité
                         synchronized(verrous.get(entites.indexOf(ent))){
+                            // Boucle sur la portée de l'arme
                             for(int i = 1; i <= portee; i++) {
                                 // l'entité se situe dans les cases au dessus du joueur
                                 if(ent.getX() == this.getX()-i && ent.getY() == this.getY() && ent.getPointsVie() > 0) {
@@ -387,8 +536,9 @@ public class Joueur extends Entite {
                             }
                         }
                     }
-                    break;
+                break;
             }
+
             // si la compétence de drain de vie est activée on récupère des pv pour chaque attaque réussie
             if(!entitesTouchees.isEmpty() && this.drain) {
                 for(Entite e : entitesTouchees) {
@@ -396,20 +546,21 @@ public class Joueur extends Entite {
                 }
             }
 
-
+            // Déclaration d'une variable contenant le chemin vers le fichier son
             String sound;
 
+            // Si l'arme est l'Arc
             if(this.getArme().getNom().equals("Arc")){
-                sound = "/sounds/arc.wav";
-            } else if(this.getArme().getNom().equals("Sabre")){
-                sound = "/sounds/sabre.wav";
-            } else if(this.getArme().getNom().equals("Bombes")){
-                sound = "/sounds/bombe.wav";
-            } else {
-                sound = "/sounds/epee_bois.wav";
+                sound = "/sounds/arc.wav"; // Sond prend la valeur du chemin vers le fichier son de l'arc
+            } else if(this.getArme().getNom().equals("Sabre")){ // Si l'arme est le Sabre
+                sound = "/sounds/sabre.wav"; // Sond prend la valeur du chemin vers le fichier son de du sabre
+            } else if(this.getArme().getNom().equals("Bombes")){ // Si l'amre est les Bombes
+                sound = "/sounds/bombe.wav"; // Sond prend la valeur du chemin vers le fichier son de la bombe
+            } else { // Si l'arme est l'épée en bois
+                sound = "/sounds/epee_bois.wav"; // Sond prend la valeur du chemin vers le fichier son de l'épée en bois
             }
 
-        
+            // On lit et déclenche le son qui se trouve au chemin contenu dans la variable sound
             try {
                 Clip clip = AudioSystem.getClip();
                 AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource(sound));
@@ -418,15 +569,17 @@ public class Joueur extends Entite {
             } catch (Exception e) { System.out.println(e.getMessage()); }
 
         }
+
         return entitesTouchees;
     }
 
     /**
-     * Lance la compétence numéro num du joueur
-     * @param num numéro de la compétence à effectuer
+     * Méthode qui lance une des compétences du joueur
+     * @param num l'indice de la compétence à délcencher dans la liste de compétence du joueur
+     * @return true si une compétence a bien été déclenchée, false sinon
      */
     public boolean lancerCompetence(int num) {
-        // TODO : ajouter if sur le rang
+ 
         // si la compétence est activable et si la compétence num est dans la liste des compétences débloquées
         if(num < this.competences.size() && this.competences.get(num).isActivable()) {
             // on regarde quelle est la compétence
@@ -441,7 +594,11 @@ public class Joueur extends Entite {
                     this.getArme().setDegats(dgts + dgts/2);
                     // La compétence n'est plus activable
                     this.competences.get(num).setActivable(false);
+
+                    // Création d'un timer
                     Timer t = new Timer();
+
+                    // Ajout d'une action au bout du temps de recharge (via le timer)
                     t.schedule(
                             new java.util.TimerTask() {
                                 @Override
@@ -456,7 +613,7 @@ public class Joueur extends Entite {
                             },
                             competences.get(num).getTempsRecharge()
                     );
-                    break;
+                break;
 
                 // La compétence BOUCLIER MAGIQUE octroie 25 points d'armure supplémentaires au joueur
                 // cependant ils ne pourront pas être récupérés après avoir subi des dégâts
@@ -466,7 +623,7 @@ public class Joueur extends Entite {
                     this.setPointsArmure(this.getPointsArmure()+25);
                     // La compétence n'est plus disponible
                     this.competences.get(num).setActivable(false);
-                    break;
+                break;
 
                 // La compétence DRAIN DE VIE va soigner le joueur le montant de dégâts qu'il a infligé pendant une période de 10s
                 // Cette compétence peut s'activer une seule fois par niveau
@@ -475,7 +632,11 @@ public class Joueur extends Entite {
                     this.drain = true;
                     // La compétence n'est plus activable
                     this.competences.get(num).setActivable(false);
+
+                    // Création d'un timer
                     Timer t1 = new Timer();
+
+                    // Ajout d'un action au bout du temps de recharge (via le timer)
                     t1.schedule(
                             new java.util.TimerTask() {
                                 @Override
@@ -488,7 +649,7 @@ public class Joueur extends Entite {
                             },
                             competences.get(num).getTempsRecharge()
                     );
-                    break;
+                break;
 
                 // La compétence REVENANT permet de revenir à la vie avec 20PV, cette compétence n'est utilisable qu'une fois par partie
                 case REVENANT:
@@ -496,16 +657,21 @@ public class Joueur extends Entite {
                     this.revenant = true;
                     // la compétence n'est plus activable
                     this.competences.get(num).setActivable(false);
-                    break;
+                break;
 
-                    // La compétence BLOCAGE va permettre au Joueur de subir un quart de dégâts en moins pendant 10s
-                    // Utilisable une seule fois par niveau
+                // La compétence BLOCAGE va permettre au Joueur de subir un quart de dégâts en moins pendant 10s
+                // Utilisable une seule fois par niveau
                 case BLOCAGE:
+                    
                     // On indique que la compétence est active pour pouvoir réduire les dégâts lors de l'attaque réussie d'un monstre
                     this.blocage = true;
                     // la compétence n'est plus activable
                     this.competences.get(num).setActivable(false);
+                    
+                    // Création d'un timer
                     Timer t2 = new Timer();
+
+                    // Ajout d'une action au bout du temps de recharge (via le timer)
                     t2.schedule(
                             new java.util.TimerTask() {
                                 @Override
@@ -518,16 +684,20 @@ public class Joueur extends Entite {
                             },
                             competences.get(num).getTempsRecharge()
                     );
-                    break;
+                break;
 
-                    // La compétence EPINES va permettre d'infliger au Monstre qui attaque le joueur 25% des dégâts de l'attaque subie pendant 10s
-                    // Utilisable une seule fois par niveau
+                // La compétence EPINES va permettre d'infliger au Monstre qui attaque le joueur 25% des dégâts de l'attaque subie pendant 10s
+                // Utilisable une seule fois par niveau
                 case EPINES:
                     // On indique que la compétence est active pour pouvoir soigner le Joueur lors de l'attaque réussie d'un monstre
                     this.epines = true;
                     // la compétence n'est plus activable
                     this.competences.get(num).setActivable(false);
+                    
+                    // Création d'un nouveau timer
                     Timer t3 = new Timer();
+
+                    // Ajout d'une action au bout du temps de recharge (via le timer)
                     t3.schedule(
                             new java.util.TimerTask() {
                                 @Override
@@ -540,9 +710,9 @@ public class Joueur extends Entite {
                             },
                             competences.get(num).getTempsRecharge()
                     );
-                    break;
+                break;
 
-                    // La compétence passive ANGUILLE permet d'octroyer au Joueur une chance de 10% d'esquiver une attaque subie
+                // La compétence passive ANGUILLE permet d'octroyer au Joueur une chance de 10% d'esquiver une attaque subie
                 case ANGUILLE:
                     // On indique que la compétence est active pour pouvoir faire le test lors de l'attaque réussie d'un monstre
                     this.anguille = true;
@@ -550,8 +720,8 @@ public class Joueur extends Entite {
                     this.competences.get(num).setActivable(false);
                     break;
 
-                    // La compétence TELEPORTATION permet au Joueur de se déplacer de deux cases dans la direction où il regarde
-                    // Utilisable une fois par niveau
+                // La compétence TELEPORTATION permet au Joueur de se déplacer de deux cases dans la direction où il regarde
+                // Utilisable une fois par niveau
                 case TELEPORTATION:
                     // la compétence n'est plus activable
                     this.competences.get(num).setActivable(false);
@@ -573,13 +743,15 @@ public class Joueur extends Entite {
     }
 
     /**
-     * Ajoute la compétence c à la liste des compétences débloquées par le joueur
-     * @param nb compétence qui vient d'être débloquée par le joueur
+     * Ajoute une compétence à la liste des compétences débloquées par le joueur
+     * @param nb compétence qui vient d'être débloquée par le joueur (1 à 8, dans l'ordre du panel de choix des compétences)
      */
     public void ajouterCompetence(int nb) {
 
+        // Déclaration de la nouvelle compétence à créer
         Competence competence;
 
+        // Création de la nouvelle compétence
         switch(nb){
             case 0:
                 competence = new Competence(TypeCompetence.BERSERKER, 2, 10000, 0);
@@ -609,6 +781,7 @@ public class Joueur extends Entite {
                 competence = null;
         }
 
+        // On ajoute la nouvelle competence crée à la liste des competences du joueur
         this.competences.add(competence);
     }
 
@@ -628,6 +801,10 @@ public class Joueur extends Entite {
         this.revenant = revenant;
     }
 
+    /**
+     * Getter sur l'attribut blocage du joueur
+     * @return this.blocage
+     */
     public boolean isBlocage() {
         return blocage;
     }
@@ -637,10 +814,13 @@ public class Joueur extends Entite {
      * @param pv le montant de soin à attribuer
      */
     public void seSoigner(int pv) {
+
         // Si l'ajout va dépasser le nombre max de PV
         if(this.getPointsVie()+pv > NB_PV_MAX) {
+            // On set les points de vie au nombre de points de vie max
             this.setPointsVie(NB_PV_MAX);
-        } else {
+        } else { // Sinon
+            // On set les points de vie avec la valeur des points de vie actuels + ceux que l'on doit attribuer
             this.setPointsVie(this.getPointsVie()+pv);
         }
     }
@@ -651,21 +831,37 @@ public class Joueur extends Entite {
      * @param pa : montant de points d'armure à récupérer
      */
     public void recupererPA(int pa) {
+
+        // Si l'ajout va dépasse le nombre max de PA
         if(this.getPointsArmure()+pa > NB_PA_MAX) {
+            // On set les points d'armure au nombre de points d'armure max
             this.setPointsArmure(NB_PA_MAX);
-        } else {
+        } else {// Sinon
+            // on set les points d'armure avec la valeur des points d'armures actuels + ceux que l'on doit attribuer
             this.setPointsArmure(this.getPointsArmure()+pa);
         }
     }
 
+    /**
+     * Getter sur l'attribut epines du joueur
+     * @return this.epines
+     */
     public boolean isEpines() {
         return epines;
     }
 
+    /**
+     * Getter sur l'attribut anguille du joueur
+     * @return this.anguille
+     */
     public boolean isAnguille() {
         return anguille;
     }
 
+    /**
+     * Permet de représenter l'objet joueur sous la forme d'un objet String
+     * @return "J"
+     */
     @Override
     public String toString(){
         return "J";

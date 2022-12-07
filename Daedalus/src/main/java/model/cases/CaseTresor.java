@@ -29,16 +29,23 @@ public class CaseTresor extends Case {
      * @param coord coordonnee de la case
      * @param t     le contenu du trésor (Potion, Arme ou PieceArmure)
      */
-
-
     public CaseTresor(int id, Coordonnee coord, Tresor t) {
+
+        // Appel au constructeur de la classe mère
         super(coord.getX(), coord.getY());
+
+        // Initialisation des attributs
         this.id = id;
-        //this.c = '?';
         ouvert = false;
         contenu = t;
+
+        // Si le trésor contient une arme, le caractère est A
         if (t instanceof Arme) this.c = 'A';
+
+        // Sinon, si le trésor contient une potion, le caractère est P
         else if (t instanceof Potion) this.c = 'P';
+
+        // Sinon, le caractère est W (pièce d'armure)
         else this.c = 'W';
     }
 
@@ -64,6 +71,7 @@ public class CaseTresor extends Case {
 
     /**
      * methode get type (ici CaseTresor)
+     * @return "CaseTresor"
      */
     @Override
     public String getType() {
@@ -90,6 +98,7 @@ public class CaseTresor extends Case {
 
     /**
      * Méthode qui permet d'ouvrir un coffre à trésor
+     * @return true
      */
     public void ouvrirTresor() {
         this.ouvert = true;
@@ -104,6 +113,10 @@ public class CaseTresor extends Case {
         return ouvert;
     }
 
+    /**
+     * Setter sur l'attribut contenu
+     * @param contenu Le nouvel objet Tresor que contiendra la case
+     */
     public void setContenu(Tresor contenu) {
         this.contenu = contenu;
     }
@@ -120,6 +133,7 @@ public class CaseTresor extends Case {
 
     /**
      * methode get charactere
+     * @return this.c
      */
     @Override
     public char getChar() {

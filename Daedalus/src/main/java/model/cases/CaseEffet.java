@@ -13,6 +13,7 @@ public class CaseEffet extends Case {
      * Le nombre de points de vie à diminuer
      */
     private final int diminutionPV;
+
     /**
      * Si la diminution / augmentation est progressive ou instantanée
      */
@@ -38,12 +39,16 @@ public class CaseEffet extends Case {
      * @param p     le boolean indiquant si l'effet est progressif ou non
      */
     public CaseEffet(int id, Coordonnee coord, int a, int d, boolean p) {
+
+        // Appel du constructeur de la classe mère
         super(coord.getX(), coord.getY());
+
+        // Initialisation des attributs
         this.id = id;
         this.augmentationPV = a;
         this.diminutionPV = d;
         this.c = '£';
-        progressif = p;
+        this.progressif = p;
     }
 
     /**
@@ -68,6 +73,7 @@ public class CaseEffet extends Case {
 
     /**
      * methode get type (ici CaseEffet)
+     * @return "CaseEffet"
      */
     @Override
     public String getType() {
@@ -124,6 +130,7 @@ public class CaseEffet extends Case {
 
     /**
      * methode get charactere
+     * @return this.c
      */
     @Override
     public char getChar() {

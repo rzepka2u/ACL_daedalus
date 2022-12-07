@@ -22,7 +22,11 @@ public class CaseDepart extends Case {
      * @param coord coordonnee de la case
      */
     public CaseDepart(int id, Coordonnee coord) {
+
+        // Appelle du constructeur de la classe mère
         super(coord.getX(), coord.getY());
+
+        // Initialisation des attributs
         this.id = id;
         this.c = 'D';
     }
@@ -49,6 +53,7 @@ public class CaseDepart extends Case {
 
     /**
      * methode get type (ici CaseDepart)
+     * @return "CaseDepart"
      */
     @Override
     public String getType() {
@@ -76,6 +81,7 @@ public class CaseDepart extends Case {
 
     /**
      * methode get caractere
+     * @return this.c
      */
     @Override
     public char getChar() {

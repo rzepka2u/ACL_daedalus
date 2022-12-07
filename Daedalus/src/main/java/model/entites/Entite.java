@@ -5,25 +5,47 @@ import java.util.ArrayList;
 import model.enums.Direction;
 import model.tresors.Arme;
 
+
+/**
+ * Représente une entité dans le jeu
+ */
 public abstract class Entite implements Serializable {
 
-    protected static final int NB_PV_START = 100;
-    protected static final int NB_PA_START = 50;
+    // Attributs constants de classe     
+    protected static final int NB_PV_START = 100; // Nombre de points de vie de démarrage (si non renseigné)
+    protected static final int NB_PA_START = 50; // Nombre de points d'armure de démarrage (si non renseigné)
+
     // Nombre de points de vie maximum du joueur évoluant au fil de la partie et des rangs gagnés
-    protected static int NB_PV_MAX = 100;
+    protected static int NB_PV_MAX = 100; 
+    
     /**
-     * Coordonnees de l'entite
+     * Coordonnee x de l'entite
      */
     private int x;
+
+    /**
+     * Coordonnee y de l'entite
+     */
     private int y;
 
     /**
-     * Points de vie et d'armure de l'entité
+     * Points de vie de l'entite
      */
     private int pointsVie;
+
+    /**
+     * Points d'armure de l'entite
+     */
     private int pointsArmure;
 
+    /**
+     * L'arme de l'entite
+     */
     private Arme arme;
+
+    /**
+     * La direction du regard de l'entite
+     */
     private Direction regard;
 
 
@@ -44,10 +66,18 @@ public abstract class Entite implements Serializable {
         this.arme = null;
     }
 
+    /**
+     * Getter sur l'attribut regard
+     * @return this.regard
+     */
     public Direction getRegard(){
         return regard;
     }
 
+    /**
+     * Setter sur l'attribut regard
+     * @param sens La nouvelle direction du regard
+     */
     public void setRegard(Direction sens){
         regard = sens;
     }
@@ -66,24 +96,31 @@ public abstract class Entite implements Serializable {
      * @return true si l'entité meurt à la suite de l'attaque
      */
     public boolean prendreDegat(int retrait) {
+
+        // Déclaration et initialisation d'un booléen pour tester la mort
         boolean mort = false;
+
         // si les dégats sont supérieurs au cumul d'armure et vie
         if(this.pointsVie + this.pointsArmure - retrait <= 0) {
+            
             mort = true;
-        } else {
-            // si les dégats sont inférieurs au cumul d'armure et vie
-            // s'il n'y a pas d'armure
+        
+        } else { // si les dégats sont inférieurs au cumul d'armure et vie
+            
+            // S'il n'y a pas d'armure
             if(this.pointsArmure == 0) {
+
                 // on retire des pv
                 this.pointsVie -= retrait;
-            } else {
-                // sinon
+
+            } else { // S'il y a de l'armure
+                
                 // si l'armure peut encaisser tous les dégâts
                 if(this.pointsArmure >= retrait) {
-                    // on retire des pv
+                    // on retire les points d'amures
                     this.pointsArmure -= retrait;
-                } else {
-                    // sinon
+                } else { // Si l'armure ne peut pas encaisser tous les dégats 
+                    
                     // on soustrait les pts d'armure au retrait
                     retrait -= pointsArmure;
                     // l'armure est brisée
@@ -94,13 +131,15 @@ public abstract class Entite implements Serializable {
             }
 
         }
+
         return mort;
     }
 
     /**
-     *
+     * Méthode qui permet de savoir si le joueur est à portée d'attaque
      * @param entites liste des entités présentes dans le labyrinthe
-     * @return la liste des entités touchées par l'attaque
+     * @param verrous liste des verrous de synchronisation pour les entites 
+     * @return la liste contenant le joueur s'il est touché par l'attaque, liste vide sinon.
      */
     public abstract ArrayList<Entite> attaquer(ArrayList<Entite> entites, ArrayList<Object> verrous);
 
@@ -129,6 +168,10 @@ public abstract class Entite implements Serializable {
         return this.pointsVie;
     }
 
+    /**
+     * Setter sur les points de vie de l'entité
+     * @param pointsVie le nouveau nombre de points de vie
+     */
     public void setPointsVie(int pointsVie) {
         this.pointsVie = pointsVie;
     }
@@ -141,6 +184,10 @@ public abstract class Entite implements Serializable {
         return this.pointsArmure;
     }
 
+    /**
+     * Setter sur les points d'armure de l'entité
+     * @param pointsArmure le nouveau nombre de points d'armure
+     */
     public void setPointsArmure(int pointsArmure) {
         this.pointsArmure = pointsArmure;
     }
@@ -177,11 +224,22 @@ public abstract class Entite implements Serializable {
         this.x = x;
     }
 
+
+    /**
+     * Méthode qui permet d'ajouter des points de vie à l'entité
+     * @param effet le nombre de points de vie à ajouter
+     */
     public void modifierPV(int effet) {
+
+        // On ajoute l'effet seulement si le résultat ne dépasse pas le nombre de points de vie max
         if(pointsVie + effet <= NB_PV_MAX)
-        pointsVie += effet;
+            pointsVie += effet;
     }
 
+    /**
+     * Méthode qui permet de savoir si l'entité est morte
+     * @return true si l'entité est morte, false sinon
+     */
     public boolean etreMort() {
         return this.pointsVie > 0;
     }

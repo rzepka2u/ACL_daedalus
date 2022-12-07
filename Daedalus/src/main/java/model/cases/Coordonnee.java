@@ -2,6 +2,10 @@ package model.cases;
 
 import java.io.Serializable;
 
+
+/**
+ * Represente les coordonnées d'une case
+ */
 public class Coordonnee implements Serializable {
 
     /**
@@ -58,6 +62,7 @@ public class Coordonnee implements Serializable {
 
     /**
      * methode affichage de la coordonnée
+     * @return Objet String représentant l'objet Coordonnee
      */
     public String toString() {
         return ("Coordonnée : (" + this.x + ", " + this.y + ").");

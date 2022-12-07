@@ -22,7 +22,11 @@ public class CaseVide extends Case {
      * @param coord coordonnee de la case
      */
     public CaseVide(int id, Coordonnee coord) {
+
+        // Appel au constructeur de la classe mère
         super(coord.getX(), coord.getY());
+
+        // Initialisation des attributs
         this.id = id;
         this.c = '.';
     }
@@ -49,6 +53,7 @@ public class CaseVide extends Case {
 
     /**
      * methode get type (ici CaseVide)
+     * @return "CaseVide"
      */
     @Override
     public String getType() {
@@ -76,6 +81,7 @@ public class CaseVide extends Case {
 
     /**
      * methode get charactere
+     * @return this.c
      */
     @Override
     public char getChar() {

@@ -90,7 +90,7 @@ public class TestMonstre {
      * Test qui vérifie que le déplacement du monstre s'effectue bien
      * @throws FileNotFoundException
      */
-    //@Test
+    @Test
     public void test_attaqueMonstre(){
 
         int pa;
@@ -116,11 +116,11 @@ public class TestMonstre {
         }
 
         // attaque
-        e.attaquer(jeu.getEntites(), jeu.getVerrousEntites());
+        ArrayList<Entite> res = e.attaquer(jeu.getEntites(), jeu.getVerrousEntites());
 
-        synchronized(jeu.getVerrousEntites().get(1)){
+        synchronized(jeu.getVerrousEntites().get(0)){
             // Test
-            assertTrue("Le joueur devrait avoir reçu un coup "+jeu.getJoueur().getPointsArmure()+", "+jeu.getJoueur().getPointsVie(), jeu.getJoueur().getPointsArmure() < pa);
+            assertTrue("Le joueur devrait être dans les entités touchées", res.size() > 0);
         }
     }
 

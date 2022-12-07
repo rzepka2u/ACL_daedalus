@@ -1,0 +1,91 @@
+@startuml Pick up Treasure / Sequence Diagram
+
+title "Ramasser un trésor - Sequence Diagram"
+
+actor player as player
+
+== Au Préalable:\n Création et déroulement d'une partie ... ==
+
+activate player
+loop While jeu non fini
+	player -> Jeu : controles(cmd)
+	deactivate player
+	opt cmd est l'ouverture d'un coffre
+		activate Jeu
+        Jeu -> Joueur: getX()
+        deactivate Jeu
+        activate Joueur
+        Jeu <-- Joueur: x
+        deactivate Joueur
+        activate Jeu
+        Jeu -> Joueur: getY()
+        deactivate Jeu
+        activate Joueur
+        Jeu <-- Joueur: y
+        deactivate Joueur
+        activate Jeu
+        Jeu -> Labyrinthe: getCase(x,y)
+        deactivate Jeu
+        activate Labyrinthe
+        Jeu <-- Labyrinthe: Case c
+        deactivate Labyrinthe
+        activate Jeu
+        opt c instance de la classe CaseTresor
+            Jeu -> CaseTresor: c.getOuvert()
+            deactivate Jeu
+            activate CaseTresor
+            Jeu <-- CaseTresor: true or false
+            deactivate CaseTresor
+            activate Jeu
+            opt le trésor de la case est ouvert
+                Jeu -> CaseTresor: c.getContenu()
+                deactivate Jeu
+                activate CaseTresor
+                Jeu <-- CaseTresor: Tresor t
+                deactivate CaseTresor
+                activate Jeu
+                alt t instance de la classe Arme
+                    Jeu -> Joueur: getArme()
+                    deactivate Jeu
+                    activate Joueur
+                    Jeu <-- Joueur: ancienneArme
+                    deactivate Joueur
+                    activate Jeu
+                    Jeu -> CaseTresor: c.setContenu(ancienneArme)
+                    activate CaseTresor
+                    deactivate CaseTresor
+                    Jeu -> Joueur: setArme(t) 
+                    activate Joueur
+                    deactivate Joueur
+                else t n'est pas une intance de la classe Arme
+                    alt t instance de la classe PieceArmure
+                        Jeu -> Joueur: getPointsArmure()
+                        deactivate Jeu
+                        activate Joueur
+                        Jeu <-- Joueur: pa
+                        deactivate Joueur
+                        activate Jeu
+                        opt si pa est inférieure au nombre de points max
+                            Jeu -> Joueur: ramasserArmure(t)
+                            activate Joueur
+                            deactivate Joueur
+                        end
+                    else t instance de la classe Potion
+                        Jeu -> Joueur: getInventaire()
+                        deactivate Jeu
+                        activate Joueur
+                        Jeu <-- Joueur: inventaire
+                        deactivate Joueur
+                        activate Jeu
+                        opt il reste de la place dans l' inventaire 
+                            Jeu -> Joueur: ajouterPotion(t)
+                            deactivate Jeu
+                            activate Joueur
+                        end
+                        deactivate Joueur
+                    end
+                end
+            end
+        end
+    end
+end

@@ -1,0 +1,309 @@
+@startuml "Diagram Class IHM"
+
+  class JPanel{}
+  class JFrame{}
+  class Thread{}
+  class JMenuBar{}
+
+  namespace objets #DDDDDD {
+    class Jeu{}
+  }
+
+  namespace IHM #DDDDDD {
+
+    class FenetreGraphique {
+      - menuBar: JMenuBar
+      - contentPane: JPanel
+      - verrouContent: Object
+      - thread: ThreadAffichage
+      - jeu: Jeu
+      - commandes_deplacement: int[]
+      - commande_attaquer: int
+      - commande_ouvrir: int
+      - commande_ramasser: int 
+      - commandes_boire: int[]
+      - commandes_competence: int[]
+      - ecouteursAdd: boolean
+      + FenetreGraphique()
+      + initialiserCommandes(): void
+      + getJeu(): Jeu
+      + getThread(): ThreadAffichage
+      + setThread(t: ThreadAffichage): void 
+      + getVerrouContent(): Object
+      + getCommandesDeplacements: int[]
+      + setCmdDeplacementHaut(int c): void
+      + setCmdDeplacementBas(int c): void
+      + setCmdDeplacementGauche(int c): void
+      + setCmdDeplacementDroite(int c): void
+      + getCommandeAttaquer(): int
+      + setCmdAttaquer(int c): void
+      + getCommandeOuvrir(): int
+      + setCommandeOuvrir(int c): void
+      + getCommandeRamasser(): int 
+      + setCommandeRamasser(int c): void
+      + getCommandesBoirePotions(): int[]
+      + setCommandesBoirePotions(p1: int, p2: int, p3: int, p4: int, p5: int): void
+      + getCommandesCompetences(): int[]
+      + setCommandesCompetences(c1: int, c2: int, c3: int, c4: int): void
+      + afficherChoixCompetances(nbNiveau: int, path: String): void
+      + afficherPartie(nbNiveau:int): void
+      + afficherPartie(nbNiveau:int, path:String)
+      + afficherVueFin(boolean result): void
+      + raffraichirPartie(): void
+      + redemarrerPartie(): void
+    }
+
+    class PanelAccueil {
+      - fenetre: FenetreGraphique
+      - centerPanel: JPanel
+      - topLabel: JLabel
+      - bottomLabel: JLabel
+      - nbNiveauLabel: JLabel
+      - nbNiveauField: JTextField
+      - checkbox: JCheckBox
+      - fichierLabel: JLabel
+      - fichierButton: JButton
+      - startButton: JButton
+      - lireSaveButton: JButton 
+      # {static} imgLaby: ImageIcon
+      # {static} imgNiveaux: ImageIcon
+      # {static} imgDossier: ImageIcon
+      + PanelAccueil(f: FenetreGraphique)
+      - createCenterPanel(): JPanel
+      - createtopLabel(): JLabel
+      - createNbNiveauLabel(): JLabel
+      - createNbNiveau(): JTextField
+      - createCheckBox(): JCheckBox
+      - createLabelFichier(): JLabel
+      - createButtonFichier(): JButton
+      - createstartButton(): JButton  
+      - createTextBottom(): JLabel  
+      - createLireSaveButton(): JButton
+    }
+
+    class PanelPartie {
+      - fenetre: FenetreGraphique
+      - labyPanel: JPanel
+      - hudPanel: JPanel
+      - infosPanel: JPanel
+      - nameJeuLabel: JLabel
+      - casesLabels: ArrayList<ArrayList<JLabel>>
+      - hudLabel: JLabel
+      - vieLabel: JLabel
+      - armureLabel: JLabel
+      - potionTitreLabel: JLabel
+      - potionLabels: JLabel[]
+      - decriptionPotionLabel: JLabel
+      - infosTitreLabel: JLabel
+      - infosLabels: JLabel[]
+      # {static} imgSortie: ImageIcon
+      # {static} imgDepart: ImageIcon
+      # {static} imgTresor: ImageIcon
+      # {static} imgPotion: ImageIcon
+      # {static} imgArme: ImageIcon
+      # {static} imgArmure: ImageIcon
+      # {static} imgSoin: ImageIcon
+      # {static} imgPoison: ImageIcon
+      # {static} imgTransparent: ImageIcon
+      # {static} imgPersonnageHaut: ImageIcon
+      # {static} imgPersonnageBas: ImageIcon
+      # {static} imgPersonnageGauche: ImageIcon
+      # {static} imgPersonnageDroite: ImageIcon
+      # {static} imgGobelinHaut: ImageIcon
+      # {static} imgGobelinBas: ImageIcon
+      # {static} imgGobelinGauche: ImageIcon
+      # {static} imgGobelinDroite: ImageIcon
+      # {static} imgFantomeHaut: ImageIcon
+      # {static} imgFantomeBas: ImageIcon
+      # {static} imgFantomeGauche: ImageIcon
+      # {static} imgFantomeDroite: ImageIcon
+      # {static} imgArcherHaut: ImageIcon
+      # {static} imgArcherBas: ImageIcon
+      # {static} imgArcherGauche: ImageIcon
+      # {static} imgArcherDroite: ImageIcon
+      # {static} imgKamikazeHaut: ImageIcon
+      # {static} imgKamikazeBas: ImageIcon
+      # {static} imgKamikazeGauche: ImageIcon
+      # {static} imgKamikazeDroite: ImageIcon
+      # {static} imgCompetenceVide: ImageIcon
+      # {static} imgRang: ImageIcon
+      # {static} imgXp: ImageIcon
+      # {static} imgPointsVie: ImageIcon
+      # {static} imgArmureHud: ImageIcon
+      # {static} imgArmeHud: ImageIcon
+      # {static} imgPotionHud: ImageIcon
+      # {static} imgPotionPlein: ImageIcon
+      # {static} imgPotionVide: ImageIcon
+      # {static} imgInfos: ImageIcon
+      # {static} imgCompetence: ImageIcon
+      # {static} imgBerserker: ImageIcon
+      # {static} imgBouclier_magique: ImageIcon
+      # {static} imgDrain_vie: ImageIcon
+      # {static} imgRevenant: ImageIcon
+      # {static} imgBlocage: ImageIcon
+      # {static} imgEpines: ImageIcon
+      # {static} imgAnguilles: ImageIcon
+      # {static} imgTeleportation: ImageIcon
+      + PanelPartie(f:FenetreGraphique)
+      + PanelPartie(f:FenetreGraphique, descriptionPotion:JLabel)
+      + getDescriptionPotion(): JLabel
+      - createLabyPanel(cases:ArrayList<ArrayList<Case>>): JPanel
+      - createHudPanel(descriptionPotion:JLabel): JPanel
+      - createInfosPanel(): JPanel
+      - createNameJeuLabel(): JLabel
+      - createHudLabel(): JLabel
+      - createVieLabel(): JLabel
+      - createArmureLabel(): JLabel
+      - createArmeLabel(): JLabel
+      - createPotionTitreLabel(): JLabel
+      - createPotionLabels(oanel:JPanel, gc:GridBagConstraints): JLabel[]
+      - createInfosTitreLabel(): JLabel
+      - createInfosLabels(): JLabel[]
+    }
+
+    class PanelFinJeu {
+      - fenetre: FenetreGraphique
+      - type: boolean
+      - icone: JLabel
+      - texte: JLabel
+      - boutton: JButton
+      # {static} imgVictoire: ImageIcon
+      # {static} imgDefaite: ImageIcon
+      + PanelFinJeu(f:FenetreGraphique, result:boolean)
+      - createIcone(): JLabel
+      - createTexte(): JLabel
+      - createBoutton(): JButton
+    }
+
+    class SolPanel {
+      # {static} imgFond: BufferedImage
+      + SolPanel()
+      - paintComponent(g: Graphics): void
+    }
+
+    class MurPanel {
+      # {static} imgFond: BufferedImage
+      + SolPanel()
+      - paintComponent(g: Graphics): void
+    }
+
+    class Menu {
+      - control: JMenu
+      - aide: JMenu
+      - informations: JMenu
+      - redemarrer: JMenuItem
+      - quitter: JMenuItem
+      - regles: JMenuItem
+      - commandes: JMenuItem
+      - copyright: JMenuItem
+      + Menu(f: FenetreGraphique): 
+      - createControl(): JMenu
+      - createAide(): JMenu
+      - createInformations(): JMenu
+      - createRedemarrer(): JMenuItem
+      - createQuitter(): JMenuItem
+      - createRegles(): JMenuItem
+      - createCommandes(): JMenuItem
+      - createCopyright(): JMenuItem
+    }
+
+    class FenetreInformation{
+      - titreLabel: JLabel
+      - textHTMLabel: JLabel
+      - contentPane: JPanel 
+      # {static} imgRegles: ImageIcon
+      # {static} imgCopyright: ImageIcon
+      + FenetreInfos(isRegles: boolean)
+      - createTitreLabel(isRegles: boolean): JLabel
+      - createTextHTMLLabel(isRegles: boolean): JLabel
+      - textRegles(): String
+      - textCopyright(): String
+    }
+
+    class FenetreCommandes{
+      - centerPanel: JPanel
+      - titreLabel: JLabel
+      - deplacementsLabels: JLabel[]
+      - deplacementsFields: JTextField[]
+      - attaquerLabel: JLabel
+      - attaquerField: JTextField
+      - ramasserLabel: JLabel
+      - ramasserField: JTextField
+      - ouvrirLabel: JLabel
+      - ouvrirField: JTextField
+      - BoirePotionLabel: JLabel
+      - BoirePotionField: JTextField
+      - competencesLabels: JLabel[]
+      - competencesFields: JTextField[]
+      - boutonValider: JButton
+      - boutonReset: JButton
+      # {static} imgCommandes: ImageIcon
+      # {static} imgDeplaceHaut: ImageIcon
+      # {static} imgDeplaceBas: ImageIcon
+      # {static} imgDeplaceGauche: ImageIcon
+      # {static} imgDeplaceDroite: ImageIcon
+      # {static} imgAttaquer: ImageIcon
+      # {static} imgRamasser: ImageIcon
+      # {static} imgBoire: ImageIcon
+      # {static} imgOuvrir: ImageIcon
+      # {static} imgCompetence: ImageIcon
+      + FenetreCommandes(f: FenetreGraphique)
+      - createTitreLabel(): JLabel
+      - createDeplacementsLabels(): JLabel[]
+      - createDeplacementsFiels(): JTextField[]
+      - createAttaquerLabel(): JLabel
+      - createAttaquerField(): JTextField
+      - createRamasserLabel(): JLabel
+      - createRamasserField(): JTextField
+      - createOuvrirLabel(): JLabel
+      - createOuvrirField(): JTextField
+      - createBoirePotionLabel(): JLabel
+      - createBoirePotionField(): JTextField
+      - createCompetencesLabels(): JLabel[]
+      - createCompetencesFields(): JTextField[]
+      - createBoutonReset(panel: JPanel, gc: GridBagConstraints): JButton
+      - createBoutonValider(panel: JPanel, gc: GridBagConstraints): JButton
+      - codeOfString(s: String): int 
+    }
+  } 
+
+  namespace threads #DDDDDD {
+    class ThreadAffichage {
+      - fenetre: FenetreGraphique
+      - stop: boolean
+      + ThreadAffichage(f:FenetreGraphique): 
+      + run(): void
+      + arret(): void
+    }
+  }
+
+  namespace objets #DDDDDD{
+    class Commande{}
+  }
+
+  IHM.FenetreGraphique --|> JFrame
+  IHM.FenetreCommandes --|> JFrame
+  IHM.FenetreInformation --|> JFrame
+  JPanel <|-- IHM.PanelAccueil
+  JPanel <|-- IHM.PanelPartie
+  JPanel <|-- IHM.PanelFinJeu
+  JPanel <|-- IHM.SolPanel
+  JPanel <|-- IHM.MurPanel
+  JMenuBar <|-- IHM.Menu
+  Thread <|-- threads.ThreadAffichage
+
+  IHM.FenetreInformation "*" <-[dashed]- "1" IHM.FenetreGraphique: "use"
+  IHM.FenetreCommandes "*" -[dashed]> "1" IHM.FenetreGraphique: "use"
+
+  IHM.PanelAccueil "*" --- "1" IHM.FenetreGraphique
+  IHM.PanelPartie "*" --- "1" IHM.FenetreGraphique
+  IHM.PanelFinJeu "*" --- "1" IHM.FenetreGraphique
+  threads.ThreadAffichage "*" --- "1" IHM.FenetreGraphique
+  objets.Jeu "*" --- "1" IHM.FenetreGraphique
+
+  IHM.Menu "1" --* "1" IHM.FenetreGraphique
+
+  IHM.FenetreGraphique "1" -[dashed]-> "*" objets.Commande: "use" 
+  IHM.PanelPartie "1" -[dashed]-> "*" objets.Commande: "use"
+
+@enduml

@@ -1,0 +1,90 @@
+@startuml "Movement on effect box Sequence - Diagram"
+
+title "Déplacement sur case à effet - Sequence Diagram"
+
+actor player as player
+== Au Préalable:\n Création et déroulement d'une partie ... ==
+loop While jeu non fini
+	player -> Jeu : controles(cmd)
+	opt cmd est un déplacement dans une des quatres directions
+		activate Jeu
+		Jeu -> Jeu : deplacerJoueur(direction)
+                Jeu -> Joueur : seDeplacer(px, py)
+                activate Joueur
+                deactivate Joueur
+                Jeu -> Joueur: getX()
+                deactivate Jeu
+                activate Joueur
+                Jeu <-- Joueur: x
+                deactivate Joueur
+                activate Jeu
+                Jeu -> Joueur: getY()
+                deactivate Jeu
+                activate Joueur
+                Jeu <-- Joueur: y
+                deactivate Joueur
+                activate Jeu
+                Jeu -> Labyrinthe: getCase(x,y)
+                deactivate Jeu
+                activate Labyrinthe
+                Jeu <-- Labyrinthe: c
+                deactivate Labyrinthe
+                activate Jeu
+		opt c instance of CaseEffet
+                        Jeu -> CaseEffet : getProgessif()
+                        deactivate Jeu
+                        activate CaseEffet
+                        alt case à effet immédiat (non progressif)
+				CaseEffet --> Jeu : false
+                                activate Jeu
+                                Jeu -> Joueur : modifierPV(nombre)
+                                deactivate Jeu
+                                activate Joueur 
+                                Joueur -> Joueur : pointsVie = pv + effet case
+                                deactivate Joueur
+                                activate Jeu
+                                Jeu -> Joueur: getPointsVie()
+                                deactivate Jeu
+                                activate Joueur
+                                Jeu <-- Joueur: ptsVie
+                                deactivate Joueur
+                                activate Jeu
+                                opt ptsVie < 1
+                                        Jeu -> Jeu: mortJoueur()
+                                        deactivate Jeu
+                                end 
+                                deactivate Joueur
+			else case à effet progressif
+				CaseEffet --> Jeu : true
+                                deactivate CaseEffet
+                                activate Jeu
+                                create ThreadCaseEffet
+                                Jeu -> ThreadCaseEffet: new
+                                Jeu -> ThreadCaseEffet : run()
+                                deactivate Jeu
+                                activate ThreadCaseEffet
+                                loop Tant que le nombre de coup de l'effet n'est pas complètement atteint et que le joueur n'est pas mort
+                                      ThreadCaseEffet -> Joueur : modifierPV(nombre)
+                                      activate Joueur
+                                      Joueur -> Joueur : pointsVie = pvActuels + pv
+                                      deactivate Joueur
+                                      ThreadCaseEffet -> Joueur: getPointsVie()
+                                      deactivate ThreadCaseEffet
+                                      activate Joueur
+                                      ThreadCaseEffet <-- Joueur: ptsVie
+                                      deactivate Joueur
+                                      activate ThreadCaseEffet
+                                      opt ptsVie < 1 
+                                        ThreadCaseEffet -> Jeu: mortJoeur()
+                                        activate Jeu
+                                        deactivate Jeu
+                                      end
+                                      ThreadCaseEffet -> Thread : sleep(x secondes)
+                                end
+				destroy ThreadCaseEffet
+			end
+		end
+
+	end
+end
+@enduml

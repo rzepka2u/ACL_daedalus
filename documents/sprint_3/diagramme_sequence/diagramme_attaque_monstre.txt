@@ -1,0 +1,65 @@
+@startuml Attack Monstre - Sequence Diagram
+
+title "Attaque d'un monstre - Sequence Diagram"
+
+== Au Préalable:\n Création et déroulement d'une partie ... ==
+
+activate ThreadMonstre
+loop boucle principal du thread (while joueur vivant & monstre vivant & labyrinthe non détruit)
+    ThreadMonstre -> Thread: sleep(1000)
+    ThreadMonstre -> Jeu: getEntites()
+    deactivate ThreadMonstre
+    activate Jeu
+    ThreadMonstre <-- Jeu: entites
+    deactivate Jeu
+    activate ThreadMonstre
+    ThreadMonstre -> Jeu: getVerrousEntites()
+    deactivate ThreadMonstre
+    activate Jeu
+    ThreadMonstre <-- Jeu: verrousEntites
+    deactivate Jeu
+    activate ThreadMonstre
+    ThreadMonstre -> Monstre : attaquer(entites, verrousEntites)
+    deactivate ThreadMonstre
+    activate Monstre
+    Monstre -> Arme : getPortee()
+    deactivate Monstre
+    activate Arme
+    Arme --> Monstre : portee
+    deactivate Arme
+    activate Monstre
+    Monstre -> Arme : getZone()
+    deactivate Monstre
+    activate Arme
+    Arme --> Monstre : zone
+    deactivate Arme
+    activate Monstre
+    ThreadMonstre <-- Monstre : lAttaquees
+    note right: Liste des entites touchées
+    deactivate Monstre
+    activate ThreadMonstre
+    opt lAttaquees.size() == 1 (le joueur est à portée de d'attaque)
+
+        ThreadMonstre -> Monstre: getArme()
+        deactivate ThreadMonstre
+        activate Monstre
+        ThreadMonstre <-- Monstre: arme
+        deactivate Monstre
+        activate ThreadMonstre
+        ThreadMonstre -> Arme: getDegats()
+        deactivate ThreadMonstre
+        activate Arme
+        ThreadMonstre <-- Arme: degats
+        deactivate Arme
+        activate ThreadMonstre
+        ThreadMonstre -> Joueur: prendreDegats(degats)
+        deactivate ThreadMonstre
+        activate Joueur
+        Joueur -> Joueur: PointsVie = pvActuel-degats
+        ThreadMonstre <-- Joueur: true si joueur mort, false sinon
+        opt Joueur mort
+            ThreadMonstre -> Jeu: mortJoueur()
+        end
+    end
+end
+@enduml

@@ -1,0 +1,203 @@
+@startuml "Diagram Class Labyrinthe"
+
+
+namespace objets #DDDDDD {
+    class Labyrinthe {
+        - cases: ArrayList<ArrayList<Case>>
+        - verrousCases: ArrayList<Object>>
+        - grilleAlea: Case[][]
+        - hauteur: int
+        - largeur: int
+        - taille: int
+        + Labyrinthe() 
+        + Labyrinthe(dimension:int) 
+        + Labyrinthe(path:String) 
+        + getCase(x:int, y:int): Case
+        + getCases(): ArrayList<ArrayList<Case>>
+        + getVerrousCases(): ArrayList<ArrayList<Object>>
+        + setVerrousCases(verrousCases: ArrayList<ArrayList<Object>>): void
+        + getLargeur(): int
+        + getHauteur(): int
+        + setCaseXY(x:int, y:int, c:Case): void
+        + genererDepuisEntiers(casesTemplate:int[][]): void
+        - initialiserGrillePourLabyrintheAleatoire(): void
+        - creerCheminLabyrintheAleatoire(): void
+        - rechercherCoordonnee(type:String, id:int): Coordonnee
+        - obtenirGroupeDeCasesVides(id:int): ArrayList<Coordonnee>
+        - convertirFormatAleaEnInt(): int[][]
+        + initialiserPourTest(): void
+        + ajouterCasesEffet(noNiveau:int): void
+        + ajouterCasesTresor(noNiveau:int): void
+        + compterCasesVides(): int
+        + compterCasesEffet(): int
+        + toString(): String
+    }
+
+    class Coordonnee{
+        - x: int
+        - y: int
+        + Coordonnee(x:int, y:int)
+        + getX(): int
+        + getY(): int
+        + setX(x:int): void
+        + setY(y:int): void
+        + toString(): String
+    }
+}
+
+namespace cases #DDDDDD{
+
+    abstract Case <<abstract>>{
+        - coord: Coordonnee
+        + Case(x:int, y:int)
+        + {abstract} getId(): int
+        + {abstract} setId(a:int): void
+        + {abstract} getType(): String
+        + getX(): int
+        + getY(): int
+        + {abstract} getChar(): char
+        + {abstract} setChar(a:char): void
+        + {abstract} estTraversable(): boolean
+        + equals(o: Object): boolean
+        + hashCode(): int 
+    }
+
+    class CaseDepart{
+        - id: int
+        - c: char
+        + CaseDepart(id:int, coord:Coordonnee)
+        + getId(): int
+        + setId(id:int): void
+        + getType(): String
+        + getChar(): char
+        + setChar(a:char): void
+        + estTraversable(): boolean
+    }
+
+    class CaseEffet{
+        - augmentationPV: int
+        - diminutionPV: int
+        - progressif: boolean
+        - id: int
+        - c: char
+        + CaseEffet(id:int, coord:Coordonnee, a:int, d:int, p:boolean)
+        + getId(): int
+        + setId(id:int): void
+        + getType(): String
+        + getChar(): char
+        + setChar(a:char): void
+        + getAugmentationPV(): int
+        + getDiminutionPV(): int
+        + getProgressif(): boolean
+        + estTraversable(): boolean
+    }
+
+    class CaseMur {
+        - id: int
+        - c: char
+        + CaseMur(id:int, coord:Coordonnee)
+        + getId(): int
+        + setId(id:int): void
+        + getType(): String
+        + getChar(): char
+        + setChar(a:char): void
+        + estTraversable(): boolean
+    }
+
+    class CaseSortie {
+        - id: int
+        - c: char
+        + CaseSortie(id:int, coord:Coordonnee)
+        + getId(): int
+        + setId(id:int): void
+        + getType(): String
+        + getChar(): char
+        + setChar(a:char): void
+        + estTraversable(): boolean
+    }
+
+    class CaseTresor {
+        - ouvert: boolean
+        - contenu: Tresor
+        - id: int
+        - c: char
+        + CaseTresor(id:int, coord:Coordonnee, t:Tresor)
+        + getId(): int
+        + setId(id:int): void
+        + getType(): String
+        + getOuvert(): boolean
+        + getContenu(): Tresor
+        + setContenu(contenu:Tresor): void
+        + getChar(): char
+        + setChar(a:char): void
+        + ouvrirTresor(): void
+        + estTraversable(): boolean
+    }
+
+    class CaseVide {
+        - id: int
+        - c: char
+        + CaseVide(id:int, coord:Coordonnee)
+        + getId(): int
+        + setId(id:int): void
+        + getType(): String
+        + getChar(): char
+        + setChar(a:char): void
+        + estTraversable(): boolean
+    }
+
+
+}
+
+namespace tresors #DDDDDD {
+    interface Tresor <<interface>>{
+        + toString(): String
+    }
+
+        class Arme {
+            - nom: String
+            - degats: int
+            - portee: int
+            - zone: ZoneAttaque
+            + Arme()
+            + Arme(nom:String, degats:int, portee:int, zone:ZoneAttaque)
+            + {static} ArmeAlea(): Arme
+            + getNom(): String
+            + getDegats(): int
+            + setDegats(deg:int): void
+            + getPortee(): int
+            + getZone(): ZoneAttaque
+            + updateDegats(deg:int): void
+        }
+
+        class Potion {
+            - augmentationPV: int
+            + Potion(aug:int)
+            + getAugmentation(): int
+        }
+
+        class PieceArmure {
+            - pointsArmure: int
+            + PieceArmure(pointsArmure:int)
+            + getPointsArmure(): int 
+        }
+
+
+}
+
+cases.Case <|-- cases.CaseDepart
+cases.Case <|-- cases.CaseVide
+cases.Case <|-- cases.CaseSortie
+cases.Case <|-- cases.CaseMur
+cases.Case <|-- cases.CaseEffet
+cases.Case <|-- cases.CaseTresor
+
+tresors.Tresor ^-[dashed]- tresors.Arme
+tresors.Tresor ^-[dashed]- tresors.Potion
+tresors.Tresor ^-[dashed]- tresors.PieceArmure
+
+objets.Coordonnee "1*" --* "1..*" cases.Case
+cases.CaseTresor "1" *-- "1" tresors.Tresor
+objets.Labyrinthe "1" *-- "1..*" cases.Case
+
+@enduml

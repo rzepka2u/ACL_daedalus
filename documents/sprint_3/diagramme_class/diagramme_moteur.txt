@@ -1,0 +1,135 @@
+@startuml "Diagram Class Motor"
+
+    class Thread{}
+
+    namespace threads #DDDDDD{
+        class ThreadEffet{
+            - jeu: Jeu
+            - augmentation: int
+            - diminution: int
+            - nbCoups: int
+            + ThreadEffet(j:Jeu, aug:int, dim:int, nbc:int)
+            + run(): void
+        }
+
+        class ThreadMonstre{
+            - positionInList: int
+            - jeu: Jeu
+            - stop: boolean
+            - pause: boolean
+            + ThreadMonstre(j:Jeu, pos:int)
+            + run(): void
+        }
+    }    
+
+    namespace objets #DDDDDD {
+        class Jeu{
+            # serialVersionUID 
+            - nbMaxNiveau:int
+            - DIMENSION_LABYRINTHE: int
+            - fenetre: FenetreGraphique
+            - labyrinthe: Labyrinthe
+            - entites: ArrayList<Entite>
+            - verrousEntites: ArrayList<Object>
+            - threads: ArrayList<ThreadMonstre>
+            - threadsEffet: ArrayList<ThreadEffet>
+            - nbNiveau: int
+            - informations: ArrayList<String>
+            - verrouInformations: Object
+            - path: String
+            - dossier: boolean
+            + Jeu(f:FenetreGraphique, nbMax:int)
+            + Jeu(f:FenetreGraphique, nbMax:int, test:boolean)
+            + Jeu(f:FenetreGraphique, path:String, nbMax:int)
+            + Jeu(f:FenetreGraphique, path:String, nbMax:int, test:boolean)
+            + Jeu(f:FenetreGraphique, path:String, nbMax:int, test:boolean, tresorEffet:boolean, dossier: boolean)
+            + getLabyrinthe(): Labyrinthe
+            + getJoueur(): Joueur
+            + getEntites(): ArrayList<Entite>
+            + getVerrousEntites(): ArrayList<Object>
+            + getInformations(): ArrayList<String>
+            + getVerrouInformations(): Object
+            + getThreads(): ArrayList<ThreadMonstre>
+            + getNbNiveau(): int
+            + getPath(): String
+            + getDossier(): boolean
+            + getNbMaxNiveau(): int
+            + getPathFichierAlea(): String
+            + setNbNiveau(nb: int): void
+            + setFenetre(fenetre: FenetreGraphique): void
+            + setVerrousEntites(verrousEntite: ArrayList<Object>): void
+            + setVerrouInformations(verrouInformations: Object): void
+            - determinerDepart(l:Labyrinthe): int[]
+            + emplacementOcuppee(x:int, y:int): boolean
+            + placerJoueurSurCase(x:int, y:int): void
+            + deplacerJoueur(sens: Direction): int
+            + chercherJoueur(x: int, y: int, compteur: int, casePrecedente: Direction): boolean
+            + validerDeplacement(px:int, py:int): boolean
+            + etreSurSortie(px:int, py:int): boolean
+            + etreSurCaseEffet(px:int, py:int): boolean
+            + appliquerEffetCase(): void
+            + etreProcheCaseTresor(): int[]
+            + controles(cmd: Commande)
+            + changerNiveau(): void
+            + createNewEntites(): void
+            + mortJoueur(): void
+            + ajouterInfos(infos:String): void
+            + augmenterXPJoueur(): void
+            + toString(): String 
+        }
+
+        class Commande{
+            - ordre: Ordre
+            - sens: Direction
+            - indice: int
+            + Commande(ordre:Ordre, sens:Direction)
+            + Commande(ordre:Ordre, indice:int)
+            + getOrdre(): Ordre
+            + getSens(): Direction
+            + getIndice(): int
+        }
+
+        class Labyrinthe{}
+    }
+
+    namespace ihm #DDDDDD {
+
+        class FenetreGraphique{}
+    }
+
+    namespace enums #DDDDDD {
+        enum Direction <<enumeration>>{}
+
+        enum Ordre <<enumeration>>{
+            DEPLACEMENT
+            ATTAQUE
+            BOIRE
+            OUVRIR
+            RAMASSER
+            UTILISER_COMPETANCE
+        }
+    }
+
+    namespace entites #DDDDDD{
+        abstract Entite <<abstract>>{}
+    }
+
+
+    Thread <|-- threads.ThreadEffet
+    Thread <|-- threads.ThreadMonstre
+
+    threads.ThreadEffet "*" --- "1" objets.Jeu
+    threads.ThreadMonstre "*" --- "1" objets.Jeu
+    objets.Jeu "1" --- "1" ihm.FenetreGraphique
+
+    objets.Jeu "1" o-- "1..*" entites.Entite
+    objets.Jeu "1" *-- "1" objets.Labyrinthe
+
+    objets.Jeu "1" -[dashed]-> "*" objets.Commande: "use"
+
+    objets.Commande "1" *-- "1" enums.Direction
+    objets.Commande "1" *-- "1" enums.Ordre
+
+
+
+@enduml
